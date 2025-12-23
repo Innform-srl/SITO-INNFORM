@@ -9,9 +9,12 @@ import {
   getCourseById,
   getCourseByCode,
   getCourseBySlug,
+  getCourseLessons,
+  getCourseLessonsBySlug,
   invalidateCache,
+  invalidateLessonsCache,
 } from '../services/public-courses-api';
-import { CoursePublicData, CoursesQueryParams } from '../types/courses-public';
+import { CoursePublicData, CoursesQueryParams, NextLesson } from '../types/courses-public';
 
 interface UseCoursesOptions {
   category?: string;
@@ -211,11 +214,111 @@ export function usePublicCourse(options: UseCourseOptions): UseCourseResult {
 export function useInvalidateCoursesCache() {
   return useCallback(() => {
     invalidateCache();
+    invalidateLessonsCache();
   }, []);
+}
+
+// ============================================
+// HOOK CALENDARIO LEZIONI
+// ============================================
+
+interface UseCourseLessonsOptions {
+  courseId?: string;       // ID UUID del corso
+  slug?: string;           // Website slug (alternativa a courseId)
+  editionId?: string;      // ID UUID edizione (opzionale)
+  pollingInterval?: number;
+  enabled?: boolean;
+}
+
+interface UseCourseLessonsResult {
+  lessons: NextLesson[];
+  loading: boolean;
+  error: string | null;
+  refetch: () => Promise<void>;
+  lastUpdated: Date | null;
+}
+
+/**
+ * Hook per ottenere il calendario completo delle lezioni di un corso
+ * Usa courseId o slug per identificare il corso
+ */
+export function useCourseLessons(options: UseCourseLessonsOptions): UseCourseLessonsResult {
+  const {
+    courseId,
+    slug,
+    editionId,
+    pollingInterval = 60000,
+    enabled = true,
+  } = options;
+
+  const [lessons, setLessons] = useState<NextLesson[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
+
+  const fetchLessons = useCallback(async (forceRefresh = false) => {
+    if (!enabled || (!courseId && !slug)) {
+      setLoading(false);
+      return;
+    }
+
+    try {
+      setError(null);
+      if (!lastUpdated) setLoading(true);
+
+      let result: NextLesson[] = [];
+
+      if (courseId) {
+        result = await getCourseLessons(courseId, editionId, forceRefresh);
+      } else if (slug) {
+        result = await getCourseLessonsBySlug(slug, forceRefresh);
+      }
+
+      // Debug: verifica quante lezioni arrivano dall'API
+      console.log('[useCourseLessons] Lezioni ricevute dall\'API:', result?.length, result);
+
+      setLessons(result);
+      setLastUpdated(new Date());
+
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Errore nel recupero delle lezioni');
+    } finally {
+      setLoading(false);
+    }
+  }, [courseId, slug, editionId, enabled, lastUpdated]);
+
+  // Fetch iniziale
+  useEffect(() => {
+    fetchLessons();
+  }, [fetchLessons]);
+
+  // Polling
+  useEffect(() => {
+    if (!enabled || pollingInterval <= 0) return;
+
+    const interval = setInterval(() => {
+      fetchLessons(true);
+    }, pollingInterval);
+
+    return () => clearInterval(interval);
+  }, [enabled, pollingInterval, fetchLessons]);
+
+  const refetch = useCallback(async () => {
+    await fetchLessons(true);
+  }, [fetchLessons]);
+
+  return {
+    lessons,
+    loading,
+    error,
+    refetch,
+    lastUpdated,
+  };
 }
 
 export default {
   usePublicCourses,
   usePublicCourse,
+  useCourseLessons,
   useInvalidateCoursesCache,
 };

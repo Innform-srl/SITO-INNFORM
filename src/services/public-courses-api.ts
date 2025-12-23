@@ -9,10 +9,12 @@ import {
   CoursePublicData,
   CoursesApiResponse,
   CoursesQueryParams,
+  NextLesson,
 } from '../types/courses-public';
 
-// URL base dell'API pubblica
+// URL base delle API pubbliche
 const API_BASE = 'https://ikjqbmjyjuhkwtdvxjai.supabase.co/functions/v1/public-courses-api';
+const LESSONS_API_BASE = 'https://ikjqbmjyjuhkwtdvxjai.supabase.co/functions/v1/public-lessons-api';
 
 // Supabase anon key per autenticazione API pubblica
 // La chiave viene letta da VITE_SUPABASE_ANON_KEY nel .env
@@ -273,13 +275,136 @@ export function getOccupancyPercent(course: CoursePublicData): number {
   return Math.round((course.enrolled_count / course.max_participants) * 100);
 }
 
+// ============================================
+// API CALENDARIO LEZIONI
+// ============================================
+
+interface LessonsApiResponse {
+  success: boolean;
+  data: NextLesson[] | null;
+  error?: string;
+  meta: {
+    total: number;
+    course_id?: string;
+    edition_id?: string;
+    timestamp: string;
+  };
+}
+
+// Cache per lezioni
+const lessonsCache = new Map<string, { data: LessonsApiResponse; timestamp: number }>();
+
+// Flag per abilitare API lezioni
+// Endpoint public-lessons-api attivo dal 23/12/2025 (v5.1)
+const LESSONS_API_ENABLED = true;
+
+/**
+ * Recupera il calendario completo delle lezioni per un corso o edizione
+ * @param courseId - ID UUID del corso
+ * @param editionId - ID UUID dell'edizione (opzionale)
+ * @param forceRefresh - Forza refresh cache
+ *
+ * NOTA: L'endpoint public-lessons-api deve essere creato su EduPlan.
+ * Impostare LESSONS_API_ENABLED = true quando l'endpoint sarà disponibile.
+ */
+export async function getCourseLessons(
+  courseId: string,
+  editionId?: string,
+  forceRefresh = false
+): Promise<NextLesson[]> {
+  // API lezioni non ancora disponibile - ritorna array vuoto senza chiamate
+  if (!LESSONS_API_ENABLED) {
+    return [];
+  }
+
+  const cacheKey = `lessons:${courseId}:${editionId || 'all'}`;
+
+  // Controlla cache
+  if (!forceRefresh) {
+    const cached = lessonsCache.get(cacheKey);
+    if (cached && Date.now() - cached.timestamp < CONFIG.CACHE_TIME) {
+      log('Lezioni da cache');
+      return cached.data.data || [];
+    }
+  }
+
+  try {
+    const url = new URL(LESSONS_API_BASE);
+    url.searchParams.set('course_id', courseId);
+    if (editionId) {
+      url.searchParams.set('edition_id', editionId);
+    }
+
+    log(`Fetch lezioni: ${url.toString()}`);
+
+    const response = await fetch(url.toString(), {
+      headers: {
+        'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+        'apikey': SUPABASE_ANON_KEY,
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+    }
+
+    const data: LessonsApiResponse = await response.json();
+
+    if (!data.success) {
+      throw new Error(data.error || 'Errore API lezioni');
+    }
+
+    // Salva in cache
+    lessonsCache.set(cacheKey, { data, timestamp: Date.now() });
+
+    log('Lezioni ricevute:', data.meta);
+    return data.data || [];
+
+  } catch (error) {
+    log('Errore fetch lezioni:', error);
+    // In caso di errore, ritorna array vuoto
+    return [];
+  }
+}
+
+/**
+ * Recupera lezioni per slug corso
+ * @param slug - Website slug del corso
+ * @param forceRefresh - Forza refresh cache
+ */
+export async function getCourseLessonsBySlug(
+  slug: string,
+  forceRefresh = false
+): Promise<NextLesson[]> {
+  // Prima recupera il corso per ottenere l'ID
+  const course = await getCourseBySlug(slug, forceRefresh);
+  if (!course) {
+    log('Corso non trovato per slug:', slug);
+    return [];
+  }
+
+  return getCourseLessons(course.id, undefined, forceRefresh);
+}
+
+/**
+ * Invalida cache lezioni
+ */
+export function invalidateLessonsCache(): void {
+  lessonsCache.clear();
+  log('Cache lezioni invalidata');
+}
+
 // Export default
 export default {
   getCourses,
   getCourseById,
   getCourseByCode,
   getCourseBySlug,
+  getCourseLessons,
+  getCourseLessonsBySlug,
   invalidateCache,
+  invalidateLessonsCache,
   formatDateIT,
   formatPriceEUR,
   getOccupancyPercent,

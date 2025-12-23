@@ -1,46 +1,62 @@
 # Guida Agente Sito Innform
 
-**Versione Corrente: 4.5 | Data: 22 Dicembre 2025**
+**Versione Corrente: 5.2 | Data: 23 Dicembre 2025**
 
 ---
 
-## AZIONE RICHIESTA
+## BUG DA CORREGGERE
 
-**Mostra le informazioni del coordinatore.** L'API ora restituisce il campo `coordinator` con nome, email e telefono quando il coordinatore e' stato pubblicato.
+**Il calendario mostra solo 4 lezioni invece di 9.** L'API restituisce correttamente tutte le 9 lezioni, ma il sito ne visualizza solo alcune.
 
-### Cosa e' cambiato (v4.5)
-L'API ora restituisce un nuovo campo `coordinator`:
-```json
-{
-  "coordinator": {
-    "name": "Maria Sansone",
-    "email": "ma.78.sans@gmail.com",
-    "phone": "3314264530"
-  }
-}
+### Problema riscontrato
+
+- API restituisce: **9 lezioni** (verificato)
+- Sito mostra: **4 lezioni** (23 Feb, 2 Mar, 20 Mar, 21 Mar)
+- Mancano: 4 Mar, 9 Mar, 16 Mar, 18 Mar, 22 Mar 2026
+
+### Possibili cause da verificare
+
+1. **Limite hardcoded** - Controllare se c'e' un `.slice(0, 4)` o limite nel componente
+2. **Filtro date** - Verificare se vengono filtrate solo alcune date
+3. **Raggruppamento errato** - Controllare la logica di raggruppamento per mese
+
+### Dove cercare
+
+```
+src/components/LessonCalendar.tsx
+src/hooks/useCourseLessons.ts
 ```
 
-**Il coordinatore viene mostrato SOLO se l'admin ha cliccato "Pubblica" nell'app EduPlan.**
+### Test API
 
-### Come mostrare il coordinatore sul sito
-
-Aggiungi una sezione "Coordinatore" o "Referente" nella pagina del corso:
-
-```html
-<!-- Esempio HTML -->
-<div class="coordinator-section">
-  <h3>Coordinatore del Corso</h3>
-  <p><strong>Nome:</strong> Maria Sansone</p>
-  <p><strong>Email:</strong> <a href="mailto:ma.78.sans@gmail.com">ma.78.sans@gmail.com</a></p>
-  <p><strong>Telefono:</strong> <a href="tel:3314264530">331 426 4530</a></p>
-</div>
+```bash
+curl -X GET \
+  'https://ikjqbmjyjuhkwtdvxjai.supabase.co/functions/v1/public-lessons-api?course_id=0abdc976-9998-4b4b-80b8-2810a7cd768e' \
+  -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...'
 ```
 
-**IMPORTANTE:** Mostra questa sezione SOLO se `coordinator` non e' `null`.
+Risposta attesa: `"meta": { "total": 9, ... }`
 
 ---
 
 ## CHANGELOG
+
+### v5.2 (23 Dicembre 2025)
+- BUG SEGNALATO: Il sito mostra solo 4 lezioni su 9
+- L'API funziona correttamente (restituisce tutte le 9 lezioni)
+- Il problema e' nel codice frontend del sito
+- DA FIXARE: Verificare componente LessonCalendar
+
+### v5.1 (23 Dicembre 2025)
+- COMPLETATO: Endpoint `public-lessons-api` creato e deployato
+- L'endpoint usa la tabella `lessons` esistente (non `course_lessons`)
+- Il campo `title` usa il campo `notes` della lezione
+- Il campo `description` mostra l'aula/location della lezione
+
+### v5.0 (23 Dicembre 2025)
+- NUOVO: Supporto Calendario Lezioni nel sito
+- NUOVO: Componente `LessonCalendar` con design moderno
+- NUOVO: Hook `useCourseLessons` per polling automatico
 
 ### v4.5 (22 Dicembre 2025)
 - NUOVO: Campo `coordinator` con nome, email e telefono del coordinatore
@@ -52,34 +68,87 @@ Aggiungi una sezione "Coordinatore" o "Referente" nella pagina del corso:
 - Le iscrizioni senza `edition_id` vengono assegnate all'unica edizione disponibile
 - Il sito puo' usare indifferentemente i dati corso o edizione
 
-### v4.3 (20 Dicembre 2025)
-- BUG CRITICO: Il sito mostrava 18 invece di 16 posti
-
-### v4.2 (20 Dicembre 2025)
-- L'API e' gia' corretta, non suggerire fix lato EduPlan
-
 ---
 
-## API
+## API ENDPOINTS
 
-**Corsi:**
+### Corsi
 ```
 GET https://ikjqbmjyjuhkwtdvxjai.supabase.co/functions/v1/public-courses-api
 ```
 
-**Percorsi:**
+### Percorsi
 ```
 GET https://ikjqbmjyjuhkwtdvxjai.supabase.co/functions/v1/public-paths-api
 ```
 
-**Header:**
+### Lezioni (ATTIVO)
+```
+GET https://ikjqbmjyjuhkwtdvxjai.supabase.co/functions/v1/public-lessons-api
+```
+
+**Header (per tutti gli endpoint):**
 ```
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlranFibWp5anVoa3d0ZHZ4amFpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjEwMzc4MDksImV4cCI6MjA3NjYxMzgwOX0.6MqvODmDE27UtnTXgI7ZiZF1th5q4QVVxwVu_2czBcs
 ```
 
 ---
 
-## STRUTTURA RISPOSTA API
+## ENDPOINT LEZIONI - DOCUMENTAZIONE
+
+### Parametri
+
+| Parametro | Tipo | Obbligatorio | Descrizione |
+|-----------|------|--------------|-------------|
+| `course_id` | string (UUID) | Si | ID del corso |
+| `edition_id` | string (UUID) | No | Filtra per edizione specifica |
+
+### Esempio chiamata
+
+```bash
+curl -X GET \
+  'https://ikjqbmjyjuhkwtdvxjai.supabase.co/functions/v1/public-lessons-api?course_id=0abdc976-9998-4b4b-80b8-2810a7cd768e' \
+  -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...'
+```
+
+### Risposta (TUTTE LE 9 LEZIONI)
+
+```json
+{
+  "success": true,
+  "data": [
+    { "date": "2026-02-23", "start_time": "15:30", "end_time": "20:30", "title": "Lezione", "description": "Aula: ONLINE" },
+    { "date": "2026-03-02", "start_time": "15:30", "end_time": "20:30", "title": "Lezione", "description": "Aula: ONLINE" },
+    { "date": "2026-03-04", "start_time": "15:30", "end_time": "20:30", "title": "Lezione", "description": "Aula: ONLINE" },
+    { "date": "2026-03-09", "start_time": "15:30", "end_time": "20:30", "title": "Lezione", "description": "Aula: ONLINE" },
+    { "date": "2026-03-16", "start_time": "15:30", "end_time": "20:30", "title": "Lezione", "description": "Aula: ONLINE" },
+    { "date": "2026-03-18", "start_time": "15:30", "end_time": "20:30", "title": "Lezione", "description": "Aula: ONLINE" },
+    { "date": "2026-03-20", "start_time": "15:00", "end_time": "20:00", "title": "Lezione", "description": "Aula: AULA 1 + Laboratorio" },
+    { "date": "2026-03-21", "start_time": "09:00", "end_time": "18:00", "title": "Fasce: 09:00-13:00, 14:00-18:00", "description": "Aula: AULA 1 + Laboratorio" },
+    { "date": "2026-03-22", "start_time": "09:00", "end_time": "18:00", "title": "Fasce: 09:00-13:00, 14:00-18:00", "description": "Aula: AULA 1 + Laboratorio" }
+  ],
+  "meta": {
+    "total": 9,
+    "course_id": "0abdc976-9998-4b4b-80b8-2810a7cd768e",
+    "edition_id": null,
+    "timestamp": "2025-12-23T17:31:12.227Z"
+  }
+}
+```
+
+### Struttura Lezione
+
+| Campo | Tipo | Descrizione |
+|-------|------|-------------|
+| `date` | string | Data lezione (YYYY-MM-DD) |
+| `start_time` | string | Ora inizio (HH:MM) |
+| `end_time` | string | Ora fine (HH:MM) |
+| `title` | string | Titolo (dal campo `notes` o "Lezione" se vuoto) |
+| `description` | string | Aula/location (es. "Aula: ONLINE") o null |
+
+---
+
+## STRUTTURA RISPOSTA API CORSI
 
 ```json
 {
@@ -138,7 +207,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZ
 | `enrollment_deadline` | string | Scadenza iscrizioni |
 | `is_enrollments_open` | boolean | Iscrizioni aperte |
 | `teacher` | object | Docente (se assegnato) |
-| `coordinator` | object | **NUOVO** Coordinatore pubblicato |
+| `coordinator` | object | Coordinatore pubblicato |
 | `badges` | object | Badge da mostrare |
 | `editions` | array | Lista edizioni |
 
@@ -196,8 +265,8 @@ Telefono: 331 426 4530
 
 ## ESEMPIO CODICE JAVASCRIPT
 
+### Fetch corso
 ```javascript
-// Fetch corso
 const response = await fetch(API_URL + '?code=CDSA', {
   headers: { 'Authorization': 'Bearer ' + API_KEY }
 });
@@ -211,6 +280,24 @@ if (course.coordinator) {
 }
 ```
 
+### Fetch lezioni
+```javascript
+const LESSONS_API_URL = 'https://ikjqbmjyjuhkwtdvxjai.supabase.co/functions/v1/public-lessons-api';
+
+const response = await fetch(LESSONS_API_URL + '?course_id=' + courseId, {
+  headers: { 'Authorization': 'Bearer ' + API_KEY }
+});
+const { data: lessons, meta } = await response.json();
+
+console.log(`Totale lezioni: ${meta.total}`);
+lessons.forEach(lesson => {
+  console.log(`${lesson.date} ${lesson.start_time}-${lesson.end_time}: ${lesson.title}`);
+  if (lesson.description) {
+    console.log(`  ${lesson.description}`);
+  }
+});
+```
+
 ---
 
 ## NOTE TECNICHE
@@ -219,6 +306,19 @@ if (course.coordinator) {
 - CORS: abilitato per tutti i domini
 - Header Authorization: obbligatorio
 - Il coordinatore appare solo dopo che l'admin clicca "Pubblica" in EduPlan
+- Il calendario lezioni appare automaticamente quando `lessons.length > 0`
+- Le lezioni vengono ordinate per data e orario (ascendente)
+- Solo le lezioni con status "scheduled" vengono restituite
+
+---
+
+## CHECKLIST CALENDARIO LEZIONI
+
+1. [x] ~~Creare tabella `course_lessons` su Supabase~~ - Usa tabella `lessons` esistente
+2. [x] Creare Edge Function `public-lessons-api` - COMPLETATO 23/12/2025
+3. [x] Testare endpoint con parametro `course_id` - FUNZIONANTE
+4. [ ] Impostare `LESSONS_API_ENABLED = true` nel sito
+5. [ ] Verificare visualizzazione calendario nelle pagine corso
 
 ---
 

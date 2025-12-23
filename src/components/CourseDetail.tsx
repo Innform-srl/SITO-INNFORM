@@ -11,7 +11,8 @@ import { ImageWithFallback } from './figma/ImageWithFallback';
 import { CourseCarousel } from './CourseCarousel';
 import { EnrollmentForm } from './EduPlanForms';
 // Integrazione dati live EduPlan
-import { usePublicCourse, useInvalidateCoursesCache } from '../hooks/usePublicCourses';
+import { usePublicCourse, useInvalidateCoursesCache, useCourseLessons } from '../hooks/usePublicCourses';
+import { LessonCalendar } from './LessonCalendar';
 import {
   CourseBadgesDisplay,
   CourseAvailability,
@@ -391,7 +392,7 @@ const coursesData: Record<string, Course> = {
   'sistema-educativo-infanzia': {
     id: 'sistema-educativo-infanzia',
     title: 'Tecnico del Sistema Educativo per la Prima Infanzia',
-    description: 'Target: Bambini da 0 a 36 mesi. Progettazione e gestione di attività educative, ludiche, di socializzazione. Monitoraggio della salute e situazioni di disagio relazionale. Applicazione delle procedure di cura. Osservazione e documentazione delle esperienze educative. Gestione dei rapporti con i genitori.',
+    description: 'Progettazione di attività educative e ludiche, monitoraggio della salute e del benessere, applicazione delle procedure di cura e gestione dei rapporti con i genitori.',
     duration: '600 ore',
     type: 'Programma GOL',
     gradient: 'from-pink-600 via-pink-500 to-rose-500',
@@ -741,6 +742,16 @@ export function CourseDetail() {
 
   // Stato per l'edizione selezionata nelle tab
   const [selectedEdition, setSelectedEdition] = useState<CourseEdition | null>(null);
+
+  // Hook per calendario lezioni - NON passare editionId per mostrare TUTTE le lezioni del corso
+  const {
+    lessons,
+  } = useCourseLessons({
+    courseId: liveData?.id,
+    // editionId rimosso intenzionalmente - il calendario mostra tutte le lezioni del corso
+    pollingInterval: 60000,
+    enabled: !!liveData?.id,
+  });
 
   // Calcola edizioni ordinate (stessa logica di EditionsList)
   const sortedEditions = useMemo(() => {
@@ -1123,11 +1134,12 @@ export function CourseDetail() {
         </section>
       )}
 
+
       {/* Main Content Grid */}
       <section className="py-20 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-3 gap-12">
-            
+
             {/* Left Content (2/3) */}
             <div className="lg:col-span-2 space-y-12">
 
@@ -1214,6 +1226,15 @@ export function CourseDetail() {
                   ))}
                 </div>
               </div>
+
+              {/* Calendario Lezioni - mostrato solo se ci sono lezioni programmate */}
+              {lessons && lessons.length > 0 && (
+                <LessonCalendar
+                  lessons={lessons}
+                  gradient={course.gradient}
+                  bgGradient={course.bgGradient}
+                />
+              )}
 
               {/* Internship Partners */}
               {course.internshipPartners && (

@@ -72,7 +72,11 @@ export interface NextLesson {
   start_time: string;  // HH:MM:SS
   end_time: string;    // HH:MM:SS
   title: string;       // Titolo/note lezione
+  description?: string; // Descrizione opzionale della lezione
 }
+
+// Lezione per calendario completo (alias per chiarezza)
+export type CourseLesson = NextLesson;
 
 // Docente
 export interface CourseTeacher {
