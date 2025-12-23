@@ -51,13 +51,13 @@ export function Hero() {
   }, []);
 
   return (
-    <section className="relative min-h-screen flex items-center overflow-hidden bg-gradient-to-br from-purple-900 via-purple-700 to-pink-600">
+    <section className="relative min-h-screen flex items-center overflow-hidden" style={{background: 'linear-gradient(135deg, #9300FF 0%, #9A05FF 50%, #FF0083 100%)'}}>
       {/* Animated Background Elements */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute top-0 left-0 w-full h-full">
-          <div className="absolute top-20 left-10 w-96 h-96 bg-purple-400 rounded-full mix-blend-overlay filter blur-3xl opacity-70 animate-blob"></div>
-          <div className="absolute top-40 right-10 w-96 h-96 bg-pink-400 rounded-full mix-blend-overlay filter blur-3xl opacity-70 animate-blob animation-delay-2000"></div>
-          <div className="absolute -bottom-20 left-1/3 w-96 h-96 bg-blue-400 rounded-full mix-blend-overlay filter blur-3xl opacity-70 animate-blob animation-delay-4000"></div>
+          <div className="absolute top-[18px] left-[50px] w-[418px] h-[418px] rounded-full opacity-70 animate-blob" style={{background: '#C27AFF', filter: 'blur(64px)'}}></div>
+          <div className="absolute top-[162px] right-[50px] w-[382px] h-[382px] rounded-full opacity-70 animate-blob animation-delay-2000" style={{background: '#FB64B6', filter: 'blur(64px)'}}></div>
+          <div className="absolute bottom-[100px] left-1/3 w-[346px] h-[346px] rounded-full opacity-70 animate-blob animation-delay-4000" style={{background: '#51A2FF', filter: 'blur(64px)'}}></div>
         </div>
         
         {/* Floating Particles */}
@@ -86,12 +86,16 @@ export function Hero() {
               <span className="text-sm">Centro Formazione Accreditato</span>
             </div>
 
-            <h1 className="md:text-5xl lg:text-6xl leading-tight text-[96px] font-[Alata] text-[rgb(255,255,255)] font-bold not-italic font-normal">
-              Innovazione{' '}
-              <span className="block bg-gradient-to-r from-yellow-200 via-pink-200 to-purple-200 bg-clip-text text-transparent text-[96px]">
-                Formazione
+            <div style={{width: 576, height: 195, position: 'relative'}}>
+              <span style={{color: 'white', fontSize: 96, fontFamily: 'Alata', fontWeight: 400, lineHeight: '75px', wordWrap: 'break-word', textShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)'}}>
+                Innovazione
               </span>
-            </h1>
+              <div style={{width: 576, height: 120, left: 0, top: 75, position: 'absolute'}}>
+                <span style={{color: 'white', fontSize: 96, fontFamily: 'Alata', fontWeight: 400, lineHeight: '120px', wordWrap: 'break-word', textShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)'}}>
+                  Formazione
+                </span>
+              </div>
+            </div>
 
             <p className="text-lg md:text-xl text-[rgb(255,255,255)] leading-relaxed max-w-xl font-[Alata]">
               Trasforma la tua carriera con i nostri corsi certificati. Master, qualifiche professionali e programmi GOL accreditati dalla Regione Basilicata.
