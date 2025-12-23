@@ -107,7 +107,7 @@ export function Hero() {
                 <div className="flex items-center justify-center mb-2">
                   <Users className="text-pink-300" size={20} />
                 </div>
-                <div className="text-2xl mb-1 font-bold">9.257+</div>
+                <div className="text-2xl mb-1 font-bold">673+</div>
                 <div className="text-sm text-purple-200">Studenti</div>
               </div>
               <div className="text-center">
