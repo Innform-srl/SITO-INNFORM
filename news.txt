@@ -1,0 +1,711 @@
+<div data-layer="Sito Web Aziendale" className="SitoWebAziendale w-[1678px] h-[2010px] relative bg-white">
+  <div data-layer="App" className="App w-[1678.29px] h-[2009.71px] left-0 top-0 absolute bg-white">
+    <div data-layer="NewsPage" className="Newspage w-[1280px] h-[1308.57px] px-8 left-[199.14px] top-[96px] absolute bg-gray-50 inline-flex flex-col justify-start items-start gap-12">
+      <div data-layer="Container" className="Container self-stretch h-32 relative">
+        <div data-layer="Heading 1" className="Heading1 w-[1216px] h-12 left-0 top-0 absolute">
+          <div data-layer="News & Eventi" className="NewsEventi left-[441.51px] top-[-5px] absolute text-center justify-start text-gray-900 text-5xl font-bold font-['Arial'] leading-[48px]">News & Eventi</div>
+        </div>
+        <div data-layer="Paragraph" className="Paragraph w-[672px] h-14 left-[272px] top-[72px] absolute">
+          <div data-layer="Tutte le novità, gli aggiornamenti e le opportunit" className="TutteLeNovitGliAggiornamentiELeOpportunit w-[590px] left-[41.49px] top-[-2.43px] absolute text-center justify-start text-gray-600 text-xl font-normal font-['Arial'] leading-7">Tutte le novità, gli aggiornamenti e le opportunità dal mondo della formazione Innform</div>
+        </div>
+      </div>
+      <div data-layer="Container" className="Container self-stretch h-20 relative bg-white rounded-2xl shadow-[0px_1px_2px_-1px_rgba(0,0,0,0.10)] shadow-[0px_1px_3px_0px_rgba(0,0,0,0.10)] outline outline-[0.57px] outline-offset-[-0.57px] outline-gray-100">
+        <div data-layer="Container" className="Container w-[613.96px] h-9 left-[16.57px] top-[19.14px] absolute inline-flex justify-start items-start gap-2 overflow-hidden">
+          <div data-layer="Button" className="Button w-16 h-9 relative bg-purple-600 rounded-full shadow-[0px_2px_4px_-2px_rgba(0,0,0,0.10)] shadow-md">
+            <div data-layer="Tutti" className="Tutti left-[15px] top-[6.57px] absolute text-center justify-start text-white text-sm font-bold font-['Arial'] leading-5">Tutti</div>
+          </div>
+          <div data-layer="Button" className="Button w-16 h-9 relative bg-gray-100 rounded-full">
+            <div data-layer="Eventi" className="Eventi left-[14px] top-[6.57px] absolute text-center justify-start text-gray-600 text-sm font-bold font-['Arial'] leading-5">Eventi</div>
+          </div>
+          <div data-layer="Button" className="Button w-16 h-9 relative bg-gray-100 rounded-full">
+            <div data-layer="Bandi" className="Bandi left-[15px] top-[6.57px] absolute text-center justify-start text-gray-600 text-sm font-bold font-['Arial'] leading-5">Bandi</div>
+          </div>
+          <div data-layer="Button" className="Button w-24 h-9 relative bg-gray-100 rounded-full">
+            <div data-layer="Workshop" className="Workshop left-[15px] top-[6.57px] absolute text-center justify-start text-gray-600 text-sm font-bold font-['Arial'] leading-5">Workshop</div>
+          </div>
+          <div data-layer="Button" className="Button w-24 h-9 relative bg-gray-100 rounded-full">
+            <div data-layer="Strutture" className="Strutture left-[14px] top-[6.57px] absolute text-center justify-start text-gray-600 text-sm font-bold font-['Arial'] leading-5">Strutture</div>
+          </div>
+          <div data-layer="Button" className="Button w-20 h-9 relative bg-gray-100 rounded-full">
+            <div data-layer="Lavoro" className="Lavoro left-[14px] top-[6.57px] absolute text-center justify-start text-gray-600 text-sm font-bold font-['Arial'] leading-5">Lavoro</div>
+          </div>
+          <div data-layer="Button" className="Button w-28 h-9 relative bg-gray-100 rounded-full">
+            <div data-layer="Formazione" className="Formazione left-[14px] top-[6.57px] absolute text-center justify-start text-gray-600 text-sm font-bold font-['Arial'] leading-5">Formazione</div>
+          </div>
+        </div>
+        <div data-layer="Container" className="Container w-72 h-10 left-[911.43px] top-[16.57px] absolute">
+          <div data-layer="Text Input" className="TextInput w-72 h-10 pl-10 pr-4 py-2 left-0 top-0 absolute rounded-[10px] outline outline-[0.57px] outline-offset-[-0.57px] outline-gray-200 inline-flex justify-start items-center overflow-hidden">
+            <div data-layer="Cerca news..." className="CercaNews justify-start text-neutral-950/50 text-base font-normal font-['Arial']">Cerca news...</div>
+          </div>
+          <div data-svg-wrapper data-layer="Icon" className="Icon left-[12px] top-[11.57px] absolute">
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M15.75 15.75L12.495 12.495" stroke="#99A1AF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M8.25 14.25C11.5637 14.25 14.25 11.5637 14.25 8.25C14.25 4.93629 11.5637 2.25 8.25 2.25C4.93629 2.25 2.25 4.93629 2.25 8.25C2.25 11.5637 4.93629 14.25 8.25 14.25Z" stroke="#99A1AF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+      <div data-layer="Container" className="Container self-stretch h-[1018.29px] relative">
+        <div data-layer="Article" className="Article w-96 h-[493.14px] left-0 top-0 absolute bg-white rounded-2xl shadow-[0px_4px_6px_-4px_rgba(0,0,0,0.10)] shadow-lg outline outline-[0.57px] outline-offset-[-0.57px] outline-gray-100 overflow-hidden">
+          <div data-layer="Container" className="Container w-96 h-64 pl-6 py-6 left-[0.57px] top-[224.57px] absolute inline-flex flex-col justify-start items-start gap-3">
+            <div data-layer="Container" className="Container w-80 h-5 inline-flex justify-start items-center gap-2">
+              <div data-svg-wrapper data-layer="Icon" className="Icon relative">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <g clip-path="url(#clip0_1_36)">
+                <path d="M5.33334 1.33331V3.99998" stroke="#6A7282" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M10.6667 1.33331V3.99998" stroke="#6A7282" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M12.6667 2.66669H3.33333C2.59695 2.66669 2 3.26364 2 4.00002V13.3334C2 14.0697 2.59695 14.6667 3.33333 14.6667H12.6667C13.403 14.6667 14 14.0697 14 13.3334V4.00002C14 3.26364 13.403 2.66669 12.6667 2.66669Z" stroke="#6A7282" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M2 6.66669H14" stroke="#6A7282" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
+                </g>
+                <defs>
+                <clipPath id="clip0_1_36">
+                <rect width="16" height="16" fill="white"/>
+                </clipPath>
+                </defs>
+                </svg>
+              </div>
+              <div data-layer="Text" className="Text w-24 h-5 relative">
+                <div data-layer="15 Maggio 2025" className="Maggio2025 left-0 top-[-1.43px] absolute justify-start text-gray-500 text-sm font-normal font-['Arial'] leading-5">15 Maggio 2025</div>
+              </div>
+            </div>
+            <div data-layer="Heading 3" className="Heading3 w-80 h-14 relative">
+              <div data-layer="Open Day: Scopri i nuovi Master 2025" className="OpenDayScopriINuoviMaster2025 w-72 left-0 top-[-2.43px] absolute justify-start text-gray-900 text-xl font-bold font-['Arial'] leading-7">Open Day: Scopri i nuovi Master 2025</div>
+            </div>
+            <div data-layer="Paragraph" className="Paragraph w-80 flex-1 relative overflow-hidden">
+              <div data-layer="Vieni a conoscere la nostra offerta formativa. Un'" className="VieniAConoscereLaNostraOffertaFormativaUn w-80 left-0 top-[-1.86px] absolute justify-start text-gray-600 text-base font-normal font-['Arial'] leading-6">Vieni a conoscere la nostra offerta formativa. Un'occasione unica per visitare i laboratori, incontrare i docenti e orientarti nella scelta del tuo futuro professionale.</div>
+            </div>
+            <div data-layer="Link" className="Link w-80 h-6 relative">
+              <div data-layer="Leggi tutto" className="LeggiTutto left-0 top-[-1.86px] absolute justify-start text-purple-600 text-base font-bold font-['Arial'] leading-6">Leggi tutto</div>
+              <div data-svg-wrapper data-layer="Icon" className="Icon left-[88.32px] top-[3px] absolute">
+                <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M3.75 9H14.25" stroke="#9810FA" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M9 3.75L14.25 9L9 14.25" stroke="#9810FA" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+            </div>
+          </div>
+          <div data-layer="Container" className="Container w-96 h-56 left-[0.57px] top-[0.57px] absolute overflow-hidden">
+            <div data-layer="Image (Open Day: Scopri i nuovi Master 2025)" className="ImageOpenDayScopriINuoviMaster2025 w-96 h-56 left-0 top-0 absolute" />
+            <div data-layer="Container" className="Container w-20 h-7 left-[16px] top-[16px] absolute bg-white/90 rounded-[10px]">
+              <div data-svg-wrapper data-layer="Icon" className="Icon left-[12px] top-[7px] absolute">
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <g clip-path="url(#clip0_1_55)">
+                <path d="M7.34182 1.50849C7.12308 1.28968 6.82638 1.16672 6.51699 1.16666H2.33332C2.0239 1.16666 1.72716 1.28957 1.50837 1.50837C1.28957 1.72716 1.16666 2.0239 1.16666 2.33332V6.51699C1.16672 6.82638 1.28968 7.12308 1.50849 7.34182L6.58582 12.4192C6.85096 12.6826 7.20955 12.8305 7.58332 12.8305C7.9571 12.8305 8.31569 12.6826 8.58082 12.4192L12.4192 8.58082C12.6826 8.31569 12.8305 7.9571 12.8305 7.58332C12.8305 7.20955 12.6826 6.85096 12.4192 6.58582L7.34182 1.50849Z" stroke="#9810FA" stroke-width="1.16667" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M4.37501 4.66668C4.53609 4.66668 4.66668 4.53609 4.66668 4.37501C4.66668 4.21393 4.53609 4.08334 4.37501 4.08334C4.21393 4.08334 4.08334 4.21393 4.08334 4.37501C4.08334 4.53609 4.21393 4.66668 4.37501 4.66668Z" fill="#9810FA" stroke="#9810FA" stroke-width="1.16667" stroke-linecap="round" stroke-linejoin="round"/>
+                </g>
+                <defs>
+                <clipPath id="clip0_1_55">
+                <rect width="14" height="14" fill="white"/>
+                </clipPath>
+                </defs>
+                </svg>
+              </div>
+              <div data-layer="Eventi" className="Eventi left-[30px] top-[2.57px] absolute justify-start text-purple-600 text-sm font-bold font-['Arial'] leading-5">Eventi</div>
+            </div>
+          </div>
+        </div>
+        <div data-layer="Article" className="Article w-96 h-[493.14px] left-[416px] top-0 absolute bg-white rounded-2xl shadow-[0px_4px_6px_-4px_rgba(0,0,0,0.10)] shadow-lg outline outline-[0.57px] outline-offset-[-0.57px] outline-gray-100 overflow-hidden">
+          <div data-layer="Container" className="Container w-96 h-64 pl-6 py-6 left-[0.57px] top-[224.57px] absolute inline-flex flex-col justify-start items-start gap-3">
+            <div data-layer="Container" className="Container w-80 h-5 inline-flex justify-start items-center gap-2">
+              <div data-svg-wrapper data-layer="Icon" className="Icon relative">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <g clip-path="url(#clip0_1_62)">
+                <path d="M5.33331 1.33331V3.99998" stroke="#6A7282" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M10.6667 1.33331V3.99998" stroke="#6A7282" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M12.6667 2.66669H3.33333C2.59695 2.66669 2 3.26364 2 4.00002V13.3334C2 14.0697 2.59695 14.6667 3.33333 14.6667H12.6667C13.403 14.6667 14 14.0697 14 13.3334V4.00002C14 3.26364 13.403 2.66669 12.6667 2.66669Z" stroke="#6A7282" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M2 6.66669H14" stroke="#6A7282" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
+                </g>
+                <defs>
+                <clipPath id="clip0_1_62">
+                <rect width="16" height="16" fill="white"/>
+                </clipPath>
+                </defs>
+                </svg>
+              </div>
+              <div data-layer="Text" className="Text w-24 h-5 relative">
+                <div data-layer="10 Maggio 2025" className="Maggio2025 left-0 top-[-1.43px] absolute justify-start text-gray-500 text-sm font-normal font-['Arial'] leading-5">10 Maggio 2025</div>
+              </div>
+            </div>
+            <div data-layer="Heading 3" className="Heading3 w-80 h-14 relative">
+              <div data-layer="Nuove Borse di Studio per il Programma GOL" className="NuoveBorseDiStudioPerIlProgrammaGol w-64 left-0 top-[-2.43px] absolute justify-start text-gray-900 text-xl font-bold font-['Arial'] leading-7">Nuove Borse di Studio per il Programma GOL</div>
+            </div>
+            <div data-layer="Paragraph" className="Paragraph w-80 flex-1 relative overflow-hidden">
+              <div data-layer="Sono aperti i termini per presentare domanda di ad" className="SonoApertiITerminiPerPresentareDomandaDiAd w-80 left-0 top-[-1.86px] absolute justify-start text-gray-600 text-base font-normal font-['Arial'] leading-6">Sono aperti i termini per presentare domanda di adesione al Programma GOL. Scopri i requisiti per accedere ai corsi gratuiti e alle indennità di frequenza.</div>
+            </div>
+            <div data-layer="Link" className="Link w-80 h-6 relative">
+              <div data-layer="Leggi tutto" className="LeggiTutto left-0 top-[-1.86px] absolute justify-start text-purple-600 text-base font-bold font-['Arial'] leading-6">Leggi tutto</div>
+              <div data-svg-wrapper data-layer="Icon" className="Icon left-[88.32px] top-[3px] absolute">
+                <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M3.75 9H14.25" stroke="#9810FA" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M9 3.75L14.25 9L9 14.25" stroke="#9810FA" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+            </div>
+          </div>
+          <div data-layer="Container" className="Container w-96 h-56 left-[0.57px] top-[0.57px] absolute overflow-hidden">
+            <div data-layer="Image (Nuove Borse di Studio per il Programma GOL)" className="ImageNuoveBorseDiStudioPerIlProgrammaGol w-96 h-56 left-0 top-0 absolute" />
+            <div data-layer="Container" className="Container w-20 h-7 left-[16px] top-[16px] absolute bg-white/90 rounded-[10px]">
+              <div data-svg-wrapper data-layer="Icon" className="Icon left-[12px] top-[7px] absolute">
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <g clip-path="url(#clip0_1_81)">
+                <path d="M7.34185 1.50849C7.12311 1.28968 6.82641 1.16672 6.51702 1.16666H2.33335C2.02393 1.16666 1.72719 1.28957 1.5084 1.50837C1.2896 1.72716 1.16669 2.0239 1.16669 2.33332V6.51699C1.16675 6.82638 1.28971 7.12308 1.50852 7.34182L6.58585 12.4192C6.85099 12.6826 7.20958 12.8305 7.58335 12.8305C7.95713 12.8305 8.31572 12.6826 8.58085 12.4192L12.4192 8.58082C12.6826 8.31569 12.8305 7.9571 12.8305 7.58332C12.8305 7.20955 12.6826 6.85096 12.4192 6.58582L7.34185 1.50849Z" stroke="#9810FA" stroke-width="1.16667" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M4.37498 4.66668C4.53606 4.66668 4.66665 4.53609 4.66665 4.37501C4.66665 4.21393 4.53606 4.08334 4.37498 4.08334C4.2139 4.08334 4.08331 4.21393 4.08331 4.37501C4.08331 4.53609 4.2139 4.66668 4.37498 4.66668Z" fill="#9810FA" stroke="#9810FA" stroke-width="1.16667" stroke-linecap="round" stroke-linejoin="round"/>
+                </g>
+                <defs>
+                <clipPath id="clip0_1_81">
+                <rect width="14" height="14" fill="white"/>
+                </clipPath>
+                </defs>
+                </svg>
+              </div>
+              <div data-layer="Bandi" className="Bandi left-[30px] top-[2.57px] absolute justify-start text-purple-600 text-sm font-bold font-['Arial'] leading-5">Bandi</div>
+            </div>
+          </div>
+        </div>
+        <div data-layer="Article" className="Article w-96 h-[493.14px] left-[832px] top-0 absolute bg-white rounded-2xl shadow-[0px_4px_6px_-4px_rgba(0,0,0,0.10)] shadow-lg outline outline-[0.57px] outline-offset-[-0.57px] outline-gray-100 overflow-hidden">
+          <div data-layer="Container" className="Container w-96 h-64 pl-6 py-6 left-[0.57px] top-[224.57px] absolute inline-flex flex-col justify-start items-start gap-3">
+            <div data-layer="Container" className="Container w-80 h-5 inline-flex justify-start items-center gap-2">
+              <div data-svg-wrapper data-layer="Icon" className="Icon relative">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <g clip-path="url(#clip0_1_88)">
+                <path d="M5.33337 1.33331V3.99998" stroke="#6A7282" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M10.6666 1.33331V3.99998" stroke="#6A7282" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M12.6667 2.66669H3.33333C2.59695 2.66669 2 3.26364 2 4.00002V13.3334C2 14.0697 2.59695 14.6667 3.33333 14.6667H12.6667C13.403 14.6667 14 14.0697 14 13.3334V4.00002C14 3.26364 13.403 2.66669 12.6667 2.66669Z" stroke="#6A7282" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M2 6.66669H14" stroke="#6A7282" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
+                </g>
+                <defs>
+                <clipPath id="clip0_1_88">
+                <rect width="16" height="16" fill="white"/>
+                </clipPath>
+                </defs>
+                </svg>
+              </div>
+              <div data-layer="Text" className="Text w-24 h-5 relative">
+                <div data-layer="05 Maggio 2025" className="Maggio2025 left-0 top-[-1.43px] absolute justify-start text-gray-500 text-sm font-normal font-['Arial'] leading-5">05 Maggio 2025</div>
+              </div>
+            </div>
+            <div data-layer="Heading 3" className="Heading3 w-80 h-14 relative">
+              <div data-layer="Workshop: L'Innovazione nell'Agroalimentare" className="WorkshopLInnovazioneNellAgroalimentare w-60 left-0 top-[-2.43px] absolute justify-start text-gray-900 text-xl font-bold font-['Arial'] leading-7">Workshop: L'Innovazione nell'Agroalimentare</div>
+            </div>
+            <div data-layer="Paragraph" className="Paragraph w-80 flex-1 relative overflow-hidden">
+              <div data-layer="Un seminario tecnico dedicato alle nuove tecnologi" className="UnSeminarioTecnicoDedicatoAlleNuoveTecnologi w-80 left-0 top-[-1.86px] absolute justify-start text-gray-600 text-base font-normal font-['Arial'] leading-6">Un seminario tecnico dedicato alle nuove tecnologie di analisi e controllo qualità nel settore alimentare. Interverranno esperti del settore e rappresentanti aziendali.</div>
+            </div>
+            <div data-layer="Link" className="Link w-80 h-6 relative">
+              <div data-layer="Leggi tutto" className="LeggiTutto left-0 top-[-1.86px] absolute justify-start text-purple-600 text-base font-bold font-['Arial'] leading-6">Leggi tutto</div>
+              <div data-svg-wrapper data-layer="Icon" className="Icon left-[88.32px] top-[3px] absolute">
+                <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M3.75 9H14.25" stroke="#9810FA" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M9 3.75L14.25 9L9 14.25" stroke="#9810FA" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+            </div>
+          </div>
+          <div data-layer="Container" className="Container w-96 h-56 left-[0.57px] top-[0.57px] absolute overflow-hidden">
+            <div data-layer="Image (Workshop: L'Innovazione nell'Agroalimentare)" className="ImageWorkshopLInnovazioneNellAgroalimentare w-96 h-56 left-0 top-0 absolute" />
+            <div data-layer="Container" className="Container w-28 h-7 left-[16px] top-[16px] absolute bg-white/90 rounded-[10px]">
+              <div data-svg-wrapper data-layer="Icon" className="Icon left-[12px] top-[7px] absolute">
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <g clip-path="url(#clip0_1_107)">
+                <path d="M7.34179 1.50849C7.12305 1.28968 6.82635 1.16672 6.51696 1.16666H2.33329C2.02387 1.16666 1.72713 1.28957 1.50833 1.50837C1.28954 1.72716 1.16663 2.0239 1.16663 2.33332V6.51699C1.16669 6.82638 1.28965 7.12308 1.50846 7.34182L6.58579 12.4192C6.85093 12.6826 7.20952 12.8305 7.58329 12.8305C7.95707 12.8305 8.31566 12.6826 8.58079 12.4192L12.4191 8.58082C12.6826 8.31569 12.8305 7.9571 12.8305 7.58332C12.8305 7.20955 12.6826 6.85096 12.4191 6.58582L7.34179 1.50849Z" stroke="#9810FA" stroke-width="1.16667" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M4.37504 4.66668C4.53612 4.66668 4.66671 4.53609 4.66671 4.37501C4.66671 4.21393 4.53612 4.08334 4.37504 4.08334C4.21396 4.08334 4.08337 4.21393 4.08337 4.37501C4.08337 4.53609 4.21396 4.66668 4.37504 4.66668Z" fill="#9810FA" stroke="#9810FA" stroke-width="1.16667" stroke-linecap="round" stroke-linejoin="round"/>
+                </g>
+                <defs>
+                <clipPath id="clip0_1_107">
+                <rect width="14" height="14" fill="white"/>
+                </clipPath>
+                </defs>
+                </svg>
+              </div>
+              <div data-layer="Workshop" className="Workshop left-[30px] top-[2.57px] absolute justify-start text-purple-600 text-sm font-bold font-['Arial'] leading-5">Workshop</div>
+            </div>
+          </div>
+        </div>
+        <div data-layer="Article" className="Article w-96 h-[493.14px] left-0 top-[525.14px] absolute bg-white rounded-2xl shadow-[0px_4px_6px_-4px_rgba(0,0,0,0.10)] shadow-lg outline outline-[0.57px] outline-offset-[-0.57px] outline-gray-100 overflow-hidden">
+          <div data-layer="Container" className="Container w-96 h-64 pl-6 py-6 left-[0.57px] top-[224.57px] absolute inline-flex flex-col justify-start items-start gap-3">
+            <div data-layer="Container" className="Container w-80 h-5 inline-flex justify-start items-center gap-2">
+              <div data-svg-wrapper data-layer="Icon" className="Icon relative">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M5.33334 1.33337V4.00004" stroke="#6A7282" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M10.6667 1.33337V4.00004" stroke="#6A7282" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M12.6667 2.66663H3.33333C2.59695 2.66663 2 3.26358 2 3.99996V13.3333C2 14.0697 2.59695 14.6666 3.33333 14.6666H12.6667C13.403 14.6666 14 14.0697 14 13.3333V3.99996C14 3.26358 13.403 2.66663 12.6667 2.66663Z" stroke="#6A7282" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M2 6.66663H14" stroke="#6A7282" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+              <div data-layer="Text" className="Text w-24 h-5 relative">
+                <div data-layer="28 Aprile 2025" className="Aprile2025 left-0 top-[-1.43px] absolute justify-start text-gray-500 text-sm font-normal font-['Arial'] leading-5">28 Aprile 2025</div>
+              </div>
+            </div>
+            <div data-layer="Heading 3" className="Heading3 w-80 h-14 relative">
+              <div data-layer="Inaugurazione Nuovo Laboratorio Multimediale" className="InaugurazioneNuovoLaboratorioMultimediale w-80 left-0 top-[-2.43px] absolute justify-start text-gray-900 text-xl font-bold font-['Arial'] leading-7">Inaugurazione Nuovo Laboratorio Multimediale</div>
+            </div>
+            <div data-layer="Paragraph" className="Paragraph w-80 flex-1 relative overflow-hidden">
+              <div data-layer="Taglio del nastro per la nuova aula 4.0, dotata di" className="TaglioDelNastroPerLaNuovaAula40DotataDi w-80 left-0 top-[-1.86px] absolute justify-start text-gray-600 text-base font-normal font-['Arial'] leading-6">Taglio del nastro per la nuova aula 4.0, dotata di postazioni Mac di ultima generazione e software professionali per la grafica e il montaggio video.</div>
+            </div>
+            <div data-layer="Link" className="Link w-80 h-6 relative">
+              <div data-layer="Leggi tutto" className="LeggiTutto left-0 top-[-1.86px] absolute justify-start text-purple-600 text-base font-bold font-['Arial'] leading-6">Leggi tutto</div>
+              <div data-svg-wrapper data-layer="Icon" className="Icon left-[88.32px] top-[3px] absolute">
+                <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M3.75 9H14.25" stroke="#9810FA" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M9 3.75L14.25 9L9 14.25" stroke="#9810FA" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+            </div>
+          </div>
+          <div data-layer="Container" className="Container w-96 h-56 left-[0.57px] top-[0.57px] absolute overflow-hidden">
+            <div data-layer="Image (Inaugurazione Nuovo Laboratorio Multimediale)" className="ImageInaugurazioneNuovoLaboratorioMultimediale w-96 h-56 left-0 top-0 absolute" />
+            <div data-layer="Container" className="Container w-24 h-7 left-[16px] top-[16px] absolute bg-white/90 rounded-[10px]">
+              <div data-svg-wrapper data-layer="Icon" className="Icon left-[12px] top-[7px] absolute">
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <g clip-path="url(#clip0_1_133)">
+                <path d="M7.34182 1.50852C7.12308 1.28971 6.82638 1.16675 6.51699 1.16669H2.33332C2.0239 1.16669 1.72716 1.2896 1.50837 1.5084C1.28957 1.72719 1.16666 2.02393 1.16666 2.33335V6.51702C1.16672 6.82641 1.28968 7.12311 1.50849 7.34185L6.58582 12.4192C6.85096 12.6826 7.20955 12.8305 7.58332 12.8305C7.9571 12.8305 8.31569 12.6826 8.58082 12.4192L12.4192 8.58085C12.6826 8.31572 12.8305 7.95713 12.8305 7.58335C12.8305 7.20958 12.6826 6.85099 12.4192 6.58585L7.34182 1.50852Z" stroke="#9810FA" stroke-width="1.16667" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M4.37501 4.66665C4.53609 4.66665 4.66668 4.53606 4.66668 4.37498C4.66668 4.2139 4.53609 4.08331 4.37501 4.08331C4.21393 4.08331 4.08334 4.2139 4.08334 4.37498C4.08334 4.53606 4.21393 4.66665 4.37501 4.66665Z" fill="#9810FA" stroke="#9810FA" stroke-width="1.16667" stroke-linecap="round" stroke-linejoin="round"/>
+                </g>
+                <defs>
+                <clipPath id="clip0_1_133">
+                <rect width="14" height="14" fill="white"/>
+                </clipPath>
+                </defs>
+                </svg>
+              </div>
+              <div data-layer="Strutture" className="Strutture left-[30px] top-[2.57px] absolute justify-start text-purple-600 text-sm font-bold font-['Arial'] leading-5">Strutture</div>
+            </div>
+          </div>
+        </div>
+        <div data-layer="Article" className="Article w-96 h-[493.14px] left-[416px] top-[525.14px] absolute bg-white rounded-2xl shadow-[0px_4px_6px_-4px_rgba(0,0,0,0.10)] shadow-lg outline outline-[0.57px] outline-offset-[-0.57px] outline-gray-100 overflow-hidden">
+          <div data-layer="Container" className="Container w-96 h-64 pl-6 py-6 left-[0.57px] top-[224.57px] absolute inline-flex flex-col justify-start items-start gap-3">
+            <div data-layer="Container" className="Container w-80 h-5 inline-flex justify-start items-center gap-2">
+              <div data-svg-wrapper data-layer="Icon" className="Icon relative">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M5.33331 1.33337V4.00004" stroke="#6A7282" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M10.6667 1.33337V4.00004" stroke="#6A7282" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M12.6667 2.66663H3.33333C2.59695 2.66663 2 3.26358 2 3.99996V13.3333C2 14.0697 2.59695 14.6666 3.33333 14.6666H12.6667C13.403 14.6666 14 14.0697 14 13.3333V3.99996C14 3.26358 13.403 2.66663 12.6667 2.66663Z" stroke="#6A7282" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M2 6.66663H14" stroke="#6A7282" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+              <div data-layer="Text" className="Text w-24 h-5 relative">
+                <div data-layer="20 Aprile 2025" className="Aprile2025 left-0 top-[-1.43px] absolute justify-start text-gray-500 text-sm font-normal font-['Arial'] leading-5">20 Aprile 2025</div>
+              </div>
+            </div>
+            <div data-layer="Heading 3" className="Heading3 w-80 h-14 relative">
+              <div data-layer="Partnership con Aziende Locali per Stage" className="PartnershipConAziendeLocaliPerStage w-80 left-0 top-[-2.43px] absolute justify-start text-gray-900 text-xl font-bold font-['Arial'] leading-7">Partnership con Aziende Locali per Stage</div>
+            </div>
+            <div data-layer="Paragraph" className="Paragraph w-80 flex-1 relative overflow-hidden">
+              <div data-layer="Siglato un importante accordo con 10 nuove aziende" className="SiglatoUnImportanteAccordoCon10NuoveAziende w-80 left-0 top-[-1.86px] absolute justify-start text-gray-600 text-base font-normal font-['Arial'] leading-6">Siglato un importante accordo con 10 nuove aziende del territorio lucano per l'attivazione di tirocini formativi retribuiti post-diploma.</div>
+            </div>
+            <div data-layer="Link" className="Link w-80 h-6 relative">
+              <div data-layer="Leggi tutto" className="LeggiTutto left-0 top-[-1.86px] absolute justify-start text-purple-600 text-base font-bold font-['Arial'] leading-6">Leggi tutto</div>
+              <div data-svg-wrapper data-layer="Icon" className="Icon left-[88.32px] top-[3px] absolute">
+                <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M3.75 9H14.25" stroke="#9810FA" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M9 3.75L14.25 9L9 14.25" stroke="#9810FA" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+            </div>
+          </div>
+          <div data-layer="Container" className="Container w-96 h-56 left-[0.57px] top-[0.57px] absolute overflow-hidden">
+            <div data-layer="Image (Partnership con Aziende Locali per Stage)" className="ImagePartnershipConAziendeLocaliPerStage w-96 h-56 left-0 top-0 absolute" />
+            <div data-layer="Container" className="Container w-20 h-7 left-[16px] top-[16px] absolute bg-white/90 rounded-[10px]">
+              <div data-svg-wrapper data-layer="Icon" className="Icon left-[12px] top-[7px] absolute">
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <g clip-path="url(#clip0_1_159)">
+                <path d="M7.34185 1.50852C7.12311 1.28971 6.82641 1.16675 6.51702 1.16669H2.33335C2.02393 1.16669 1.72719 1.2896 1.5084 1.5084C1.2896 1.72719 1.16669 2.02393 1.16669 2.33335V6.51702C1.16675 6.82641 1.28971 7.12311 1.50852 7.34185L6.58585 12.4192C6.85099 12.6826 7.20958 12.8305 7.58335 12.8305C7.95713 12.8305 8.31572 12.6826 8.58085 12.4192L12.4192 8.58085C12.6826 8.31572 12.8305 7.95713 12.8305 7.58335C12.8305 7.20958 12.6826 6.85099 12.4192 6.58585L7.34185 1.50852Z" stroke="#9810FA" stroke-width="1.16667" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M4.37498 4.66665C4.53606 4.66665 4.66665 4.53606 4.66665 4.37498C4.66665 4.2139 4.53606 4.08331 4.37498 4.08331C4.2139 4.08331 4.08331 4.2139 4.08331 4.37498C4.08331 4.53606 4.2139 4.66665 4.37498 4.66665Z" fill="#9810FA" stroke="#9810FA" stroke-width="1.16667" stroke-linecap="round" stroke-linejoin="round"/>
+                </g>
+                <defs>
+                <clipPath id="clip0_1_159">
+                <rect width="14" height="14" fill="white"/>
+                </clipPath>
+                </defs>
+                </svg>
+              </div>
+              <div data-layer="Lavoro" className="Lavoro left-[30px] top-[2.57px] absolute justify-start text-purple-600 text-sm font-bold font-['Arial'] leading-5">Lavoro</div>
+            </div>
+          </div>
+        </div>
+        <div data-layer="Article" className="Article w-96 h-[493.14px] left-[832px] top-[525.14px] absolute bg-white rounded-2xl shadow-[0px_4px_6px_-4px_rgba(0,0,0,0.10)] shadow-lg outline outline-[0.57px] outline-offset-[-0.57px] outline-gray-100 overflow-hidden">
+          <div data-layer="Container" className="Container w-96 h-64 pl-6 py-6 left-[0.57px] top-[224.57px] absolute inline-flex flex-col justify-start items-start gap-3">
+            <div data-layer="Container" className="Container w-80 h-5 inline-flex justify-start items-center gap-2">
+              <div data-svg-wrapper data-layer="Icon" className="Icon relative">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M5.33337 1.33337V4.00004" stroke="#6A7282" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M10.6666 1.33337V4.00004" stroke="#6A7282" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M12.6667 2.66663H3.33333C2.59695 2.66663 2 3.26358 2 3.99996V13.3333C2 14.0697 2.59695 14.6666 3.33333 14.6666H12.6667C13.403 14.6666 14 14.0697 14 13.3333V3.99996C14 3.26358 13.403 2.66663 12.6667 2.66663Z" stroke="#6A7282" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M2 6.66663H14" stroke="#6A7282" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+              <div data-layer="Text" className="Text w-24 h-5 relative">
+                <div data-layer="12 Aprile 2025" className="Aprile2025 left-0 top-[-1.43px] absolute justify-start text-gray-500 text-sm font-normal font-['Arial'] leading-5">12 Aprile 2025</div>
+              </div>
+            </div>
+            <div data-layer="Heading 3" className="Heading3 w-80 h-14 relative">
+              <div data-layer="Corso di Inglese Tecnico per Professionisti" className="CorsoDiIngleseTecnicoPerProfessionisti w-64 left-0 top-[-2.43px] absolute justify-start text-gray-900 text-xl font-bold font-['Arial'] leading-7">Corso di Inglese Tecnico per Professionisti</div>
+            </div>
+            <div data-layer="Paragraph" className="Paragraph w-80 flex-1 relative overflow-hidden">
+              <div data-layer="Al via le iscrizioni per il nuovo modulo di Busine" className="AlViaLeIscrizioniPerIlNuovoModuloDiBusine w-72 left-0 top-[-1.86px] absolute justify-start text-gray-600 text-base font-normal font-['Arial'] leading-6">Al via le iscrizioni per il nuovo modulo di Business English, pensato per chi vuole internazionalizzare la propria carriera o azienda.</div>
+            </div>
+            <div data-layer="Link" className="Link w-80 h-6 relative">
+              <div data-layer="Leggi tutto" className="LeggiTutto left-0 top-[-1.86px] absolute justify-start text-purple-600 text-base font-bold font-['Arial'] leading-6">Leggi tutto</div>
+              <div data-svg-wrapper data-layer="Icon" className="Icon left-[88.32px] top-[3px] absolute">
+                <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M3.75 9H14.25" stroke="#9810FA" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M9 3.75L14.25 9L9 14.25" stroke="#9810FA" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+            </div>
+          </div>
+          <div data-layer="Container" className="Container w-96 h-56 left-[0.57px] top-[0.57px] absolute overflow-hidden">
+            <div data-layer="Image (Corso di Inglese Tecnico per Professionisti)" className="ImageCorsoDiIngleseTecnicoPerProfessionisti w-96 h-56 left-0 top-0 absolute" />
+            <div data-layer="Container" className="Container w-28 h-7 left-[16px] top-[16px] absolute bg-white/90 rounded-[10px]">
+              <div data-svg-wrapper data-layer="Icon" className="Icon left-[12px] top-[7px] absolute">
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <g clip-path="url(#clip0_1_185)">
+                <path d="M7.34179 1.50852C7.12305 1.28971 6.82635 1.16675 6.51696 1.16669H2.33329C2.02387 1.16669 1.72713 1.2896 1.50833 1.5084C1.28954 1.72719 1.16663 2.02393 1.16663 2.33335V6.51702C1.16669 6.82641 1.28965 7.12311 1.50846 7.34185L6.58579 12.4192C6.85093 12.6826 7.20952 12.8305 7.58329 12.8305C7.95707 12.8305 8.31566 12.6826 8.58079 12.4192L12.4191 8.58085C12.6826 8.31572 12.8305 7.95713 12.8305 7.58335C12.8305 7.20958 12.6826 6.85099 12.4191 6.58585L7.34179 1.50852Z" stroke="#9810FA" stroke-width="1.16667" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M4.37504 4.66665C4.53612 4.66665 4.66671 4.53606 4.66671 4.37498C4.66671 4.2139 4.53612 4.08331 4.37504 4.08331C4.21396 4.08331 4.08337 4.2139 4.08337 4.37498C4.08337 4.53606 4.21396 4.66665 4.37504 4.66665Z" fill="#9810FA" stroke="#9810FA" stroke-width="1.16667" stroke-linecap="round" stroke-linejoin="round"/>
+                </g>
+                <defs>
+                <clipPath id="clip0_1_185">
+                <rect width="14" height="14" fill="white"/>
+                </clipPath>
+                </defs>
+                </svg>
+              </div>
+              <div data-layer="Formazione" className="Formazione left-[30px] top-[2.57px] absolute justify-start text-purple-600 text-sm font-bold font-['Arial'] leading-5">Formazione</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div data-layer="Footer" className="Footer w-[1678.29px] h-[541.14px] left-0 top-[1468.57px] absolute bg-gradient-to-br from-gray-900 via-purple-900 to-gray-900 overflow-hidden">
+      <div data-layer="Container" className="Container w-[1678.29px] h-[541.14px] left-0 top-0 absolute opacity-10">
+        <div data-layer="Container" className="Container w-96 h-96 left-0 top-0 absolute bg-purple-600 rounded-full blur-3xl" />
+        <div data-layer="Container" className="Container w-96 h-96 left-[1294.29px] top-[157.14px] absolute bg-pink-600 rounded-full blur-3xl" />
+      </div>
+      <div data-layer="Container" className="Container w-[1280px] h-[541.14px] px-8 pt-16 left-[199.14px] top-0 absolute inline-flex flex-col justify-start items-start gap-12">
+        <div data-layer="Container" className="Container self-stretch h-44 inline-flex flex-col justify-start items-start">
+          <div data-layer="Container" className="Container self-stretch h-44 inline-flex flex-col justify-start items-start gap-6">
+            <div data-layer="Container" className="Container self-stretch h-10 relative">
+              <div data-layer="Text" className="Text w-8 h-12 left-0 top-[-4px] absolute inline-flex justify-start items-start">
+                <div data-layer="In" className="In justify-start text-black/0 text-4xl font-bold font-['Arial'] leading-10">In</div>
+              </div>
+              <div data-layer="Text" className="Text w-5 h-12 left-[33.19px] top-[-4px] absolute inline-flex justify-start items-start">
+                <div data-layer="n" className="N justify-start text-black/0 text-4xl font-bold font-['Arial'] leading-10">n</div>
+              </div>
+              <div data-layer="Text" className="Text w-20 h-12 left-[54.97px] top-[-4px] absolute inline-flex justify-start items-start">
+                <div data-layer="form" className="Form justify-start text-black/0 text-4xl font-bold font-['Arial'] leading-10">form</div>
+              </div>
+            </div>
+            <div data-layer="Paragraph" className="Paragraph self-stretch h-12 relative">
+              <div data-layer="Formazione professionale di eccellenza nel settore" className="FormazioneProfessionaleDiEccellenzaNelSettore w-48 left-0 top-[-1.71px] absolute justify-start text-gray-300 text-base font-normal font-['Arial'] leading-6">Formazione professionale di eccellenza nel settore</div>
+            </div>
+            <div data-layer="Container" className="Container self-stretch h-10 inline-flex justify-start items-start gap-4">
+              <div data-layer="Link" className="Link w-10 h-10 bg-white/10 rounded-full flex justify-center items-center">
+                <div data-svg-wrapper data-layer="Icon" className="Icon relative">
+                  <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <g clip-path="url(#clip0_1_207)">
+                  <path d="M13.3333 6.66663C14.6594 6.66663 15.9312 7.19341 16.8689 8.13109C17.8065 9.06877 18.3333 10.3405 18.3333 11.6666V17.5H15V11.6666C15 11.2246 14.8244 10.8007 14.5118 10.4881C14.1993 10.1756 13.7754 9.99996 13.3333 9.99996C12.8913 9.99996 12.4674 10.1756 12.1548 10.4881C11.8423 10.8007 11.6667 11.2246 11.6667 11.6666V17.5H8.33333V11.6666C8.33333 10.3405 8.86011 9.06877 9.79779 8.13109C10.7355 7.19341 12.0072 6.66663 13.3333 6.66663Z" stroke="white" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M5.00001 7.5H1.66667V17.5H5.00001V7.5Z" stroke="white" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M3.33334 4.99996C4.25381 4.99996 5.00001 4.25377 5.00001 3.33329C5.00001 2.41282 4.25381 1.66663 3.33334 1.66663C2.41286 1.66663 1.66667 2.41282 1.66667 3.33329C1.66667 4.25377 2.41286 4.99996 3.33334 4.99996Z" stroke="white" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/>
+                  </g>
+                  <defs>
+                  <clipPath id="clip0_1_207">
+                  <rect width="20" height="20" fill="white"/>
+                  </clipPath>
+                  </defs>
+                  </svg>
+                </div>
+              </div>
+              <div data-layer="Link" className="Link w-10 h-10 bg-white/10 rounded-full flex justify-center items-center">
+                <div data-svg-wrapper data-layer="Icon" className="Icon relative">
+                  <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M15 1.66663H12.5C11.3949 1.66663 10.3351 2.10561 9.55373 2.88701C8.77233 3.66842 8.33334 4.72822 8.33334 5.83329V8.33329H5.83334V11.6666H8.33334V18.3333H11.6667V11.6666H14.1667L15 8.33329H11.6667V5.83329C11.6667 5.61228 11.7545 5.40032 11.9108 5.24404C12.067 5.08776 12.279 4.99996 12.5 4.99996H15V1.66663Z" stroke="white" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </div>
+              </div>
+              <div data-layer="Link" className="Link w-10 h-10 bg-white/10 rounded-full flex justify-center items-center">
+                <div data-svg-wrapper data-layer="Icon" className="Icon relative">
+                  <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <g clip-path="url(#clip0_1_215)">
+                  <path d="M14.1667 1.66663H5.83332C3.53214 1.66663 1.66666 3.53211 1.66666 5.83329V14.1666C1.66666 16.4678 3.53214 18.3333 5.83332 18.3333H14.1667C16.4678 18.3333 18.3333 16.4678 18.3333 14.1666V5.83329C18.3333 3.53211 16.4678 1.66663 14.1667 1.66663Z" stroke="white" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M13.3333 9.47501C13.4362 10.1685 13.3177 10.8769 12.9948 11.4992C12.6719 12.1215 12.161 12.6262 11.5347 12.9414C10.9084 13.2566 10.1987 13.3663 9.5065 13.255C8.81428 13.1436 8.17481 12.8167 7.67904 12.321C7.18327 11.8252 6.85645 11.1857 6.74507 10.4935C6.63368 9.8013 6.7434 9.09159 7.05862 8.46532C7.37383 7.83905 7.8785 7.32812 8.50083 7.00521C9.12316 6.68229 9.83147 6.56383 10.525 6.66667C11.2324 6.77158 11.8874 7.10123 12.3931 7.60693C12.8988 8.11263 13.2284 8.76757 13.3333 9.47501Z" stroke="white" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M14.5833 5.41663H14.5917" stroke="white" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/>
+                  </g>
+                  <defs>
+                  <clipPath id="clip0_1_215">
+                  <rect width="20" height="20" fill="white"/>
+                  </clipPath>
+                  </defs>
+                  </svg>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div data-layer="Container" className="Container self-stretch h-44 inline-flex flex-col justify-start items-start gap-6">
+            <div data-layer="Heading 4" className="Heading4 self-stretch h-7 relative">
+              <div data-layer="Corsi" className="Corsi left-0 top-[-1.29px] absolute justify-start text-black/0 text-lg font-bold font-['Arial'] leading-7">Corsi</div>
+            </div>
+            <div data-layer="List" className="List self-stretch h-32 flex flex-col justify-start items-start gap-3">
+              <div data-layer="List Item" className="ListItem self-stretch h-6 relative">
+                <div data-layer="Link" className="Link w-24 h-6 left-0 top-0 absolute">
+                  <div data-layer="Master Tecnici" className="MasterTecnici left-0 top-[-1.86px] absolute justify-start text-gray-300 text-base font-normal font-['Arial'] leading-6">Master Tecnici</div>
+                </div>
+              </div>
+              <div data-layer="List Item" className="ListItem self-stretch h-6 relative">
+                <div data-layer="Link" className="Link w-32 h-6 left-0 top-0 absolute">
+                  <div data-layer="Corsi Professionali" className="CorsiProfessionali left-0 top-[-1.86px] absolute justify-start text-gray-300 text-base font-normal font-['Arial'] leading-6">Corsi Professionali</div>
+                </div>
+              </div>
+              <div data-layer="List Item" className="ListItem self-stretch h-6 relative">
+                <div data-layer="Link" className="Link w-24 h-6 left-0 top-0 absolute">
+                  <div data-layer="Certificazioni" className="Certificazioni left-0 top-[-1.86px] absolute justify-start text-gray-300 text-base font-normal font-['Arial'] leading-6">Certificazioni</div>
+                </div>
+              </div>
+              <div data-layer="List Item" className="ListItem self-stretch h-6 relative">
+                <div data-layer="Link" className="Link w-28 h-6 left-0 top-0 absolute">
+                  <div data-layer="Alta Formazione" className="AltaFormazione left-0 top-[-1.86px] absolute justify-start text-gray-300 text-base font-normal font-['Arial'] leading-6">Alta Formazione</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div data-layer="Container" className="Container self-stretch h-44 inline-flex flex-col justify-start items-start gap-6">
+            <div data-layer="Heading 4" className="Heading4 self-stretch h-7 relative">
+              <div data-layer="Programmi" className="Programmi left-0 top-[-1.29px] absolute justify-start text-black/0 text-lg font-bold font-['Arial'] leading-7">Programmi</div>
+            </div>
+            <div data-layer="List" className="List self-stretch h-32 flex flex-col justify-start items-start gap-3">
+              <div data-layer="List Item" className="ListItem self-stretch h-6 relative">
+                <div data-layer="Link" className="Link w-36 h-6 left-0 top-0 absolute">
+                  <div data-layer="Progetto TI.ABILITO" className="ProgettoTiAbilito left-0 top-[-1.86px] absolute justify-start text-gray-300 text-base font-normal font-['Arial'] leading-6">Progetto TI.ABILITO</div>
+                </div>
+              </div>
+              <div data-layer="List Item" className="ListItem self-stretch h-6 relative">
+                <div data-layer="Link" className="Link w-28 h-6 left-0 top-0 absolute">
+                  <div data-layer="Progetto Segni" className="ProgettoSegni left-0 top-[-1.86px] absolute justify-start text-gray-300 text-base font-normal font-['Arial'] leading-6">Progetto Segni</div>
+                </div>
+              </div>
+              <div data-layer="List Item" className="ListItem self-stretch h-6 relative">
+                <div data-layer="Link" className="Link w-28 h-6 left-0 top-0 absolute">
+                  <div data-layer="Programma GOL" className="ProgrammaGol left-0 top-[-1.86px] absolute justify-start text-gray-300 text-base font-normal font-['Arial'] leading-6">Programma GOL</div>
+                </div>
+              </div>
+              <div data-layer="List Item" className="ListItem self-stretch h-6 relative">
+                <div data-layer="Link" className="Link w-16 h-6 left-0 top-0 absolute">
+                  <div data-layer="Chi Siamo" className="ChiSiamo left-0 top-[-1.86px] absolute justify-start text-gray-300 text-base font-normal font-['Arial'] leading-6">Chi Siamo</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div data-layer="Container" className="Container self-stretch h-44 inline-flex flex-col justify-start items-start gap-6">
+            <div data-layer="Heading 4" className="Heading4 self-stretch h-7 relative">
+              <div data-layer="Contatti" className="Contatti left-0 top-[-1.29px] absolute justify-start text-black/0 text-lg font-bold font-['Arial'] leading-7">Contatti</div>
+            </div>
+            <div data-layer="List" className="List self-stretch h-32 flex flex-col justify-start items-start gap-4">
+              <div data-layer="List Item" className="ListItem self-stretch h-6 relative">
+                <div data-svg-wrapper data-layer="Icon" className="Icon left-0 top-[4px] absolute">
+                  <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <g clip-path="url(#clip0_1_256)">
+                  <path d="M16.5 5.25L9.75675 9.54525C9.52792 9.67816 9.268 9.74817 9.00338 9.74817C8.73875 9.74817 8.47883 9.67816 8.25 9.54525L1.5 5.25" stroke="#C27AFF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M15 3H3C2.17157 3 1.5 3.67157 1.5 4.5V13.5C1.5 14.3284 2.17157 15 3 15H15C15.8284 15 16.5 14.3284 16.5 13.5V4.5C16.5 3.67157 15.8284 3 15 3Z" stroke="#C27AFF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  </g>
+                  <defs>
+                  <clipPath id="clip0_1_256">
+                  <rect width="18" height="18" fill="white"/>
+                  </clipPath>
+                  </defs>
+                  </svg>
+                </div>
+                <div data-layer="Text" className="Text w-44 h-6 left-[30px] top-0 absolute">
+                  <div data-layer="formazione@innform.eu" className="FormazioneInnformEu left-0 top-[-1.86px] absolute justify-start text-gray-300 text-base font-normal font-['Arial'] leading-6">formazione@innform.eu</div>
+                </div>
+              </div>
+              <div data-layer="List Item" className="ListItem self-stretch h-6 relative">
+                <div data-svg-wrapper data-layer="Icon" className="Icon left-0 top-[4px] absolute">
+                  <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <g clip-path="url(#clip0_1_262)">
+                  <path d="M10.374 12.426C10.5289 12.4971 10.7034 12.5134 10.8688 12.4721C11.0341 12.4308 11.1805 12.3344 11.2838 12.1987L11.55 11.85C11.6897 11.6637 11.8709 11.5125 12.0792 11.4084C12.2875 11.3042 12.5171 11.25 12.75 11.25H15C15.3978 11.25 15.7794 11.408 16.0607 11.6893C16.342 11.9706 16.5 12.3522 16.5 12.75V15C16.5 15.3978 16.342 15.7794 16.0607 16.0607C15.7794 16.342 15.3978 16.5 15 16.5C11.4196 16.5 7.9858 15.0777 5.45406 12.5459C2.92232 10.0142 1.5 6.58042 1.5 3C1.5 2.60218 1.65804 2.22064 1.93934 1.93934C2.22064 1.65804 2.60218 1.5 3 1.5H5.25C5.64782 1.5 6.02936 1.65804 6.31066 1.93934C6.59196 2.22064 6.75 2.60218 6.75 3V5.25C6.75 5.48287 6.69578 5.71254 6.59164 5.92082C6.4875 6.1291 6.33629 6.31028 6.15 6.45L5.799 6.71325C5.66131 6.81838 5.56426 6.96794 5.52434 7.13651C5.48442 7.30509 5.50409 7.48228 5.58 7.638C6.60501 9.7199 8.29082 11.4036 10.374 12.426Z" stroke="#FB64B6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  </g>
+                  <defs>
+                  <clipPath id="clip0_1_262">
+                  <rect width="18" height="18" fill="white"/>
+                  </clipPath>
+                  </defs>
+                  </svg>
+                </div>
+                <div data-layer="Text" className="Text w-24 h-6 left-[30px] top-0 absolute">
+                  <div data-layer="0971.473968" className="473968 left-0 top-[-1.86px] absolute justify-start text-gray-300 text-base font-normal font-['Arial'] leading-6">0971.473968</div>
+                </div>
+              </div>
+              <div data-layer="List Item" className="ListItem self-stretch h-12 relative">
+                <div data-svg-wrapper data-layer="Icon" className="Icon left-0 top-[4px] absolute">
+                  <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M15 7.5C15 11.2448 10.8457 15.1447 9.45075 16.3492C9.32079 16.447 9.1626 16.4998 9 16.4998C8.8374 16.4998 8.67921 16.447 8.54925 16.3492C7.15425 15.1447 3 11.2448 3 7.5C3 5.9087 3.63214 4.38258 4.75736 3.25736C5.88258 2.13214 7.4087 1.5 9 1.5C10.5913 1.5 12.1174 2.13214 13.2426 3.25736C14.3679 4.38258 15 5.9087 15 7.5Z" stroke="#51A2FF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M9 9.75C10.2426 9.75 11.25 8.74264 11.25 7.5C11.25 6.25736 10.2426 5.25 9 5.25C7.75736 5.25 6.75 6.25736 6.75 7.5C6.75 8.74264 7.75736 9.75 9 9.75Z" stroke="#51A2FF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </div>
+                <div data-layer="Text" className="Text w-36 h-12 left-[30px] top-0 absolute">
+                  <div data-layer="Via della Chimica, 87" className="ViaDellaChimica87 left-0 top-[-1.86px] absolute justify-start text-gray-300 text-base font-normal font-['Arial'] leading-6">Via della Chimica, 87</div>
+                  <div data-layer="Line Break" className="LineBreak w-0 h-5 left-[145.53px] top-[1.14px] absolute" />
+                  <div data-layer="85100 Potenza" className="Potenza left-0 top-[22.14px] absolute justify-start text-gray-300 text-base font-normal font-['Arial'] leading-6">85100 Potenza</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div data-layer="Container" className="Container self-stretch h-32 pt-8 border-t-[0.57px] border-white/10 flex flex-col justify-start items-start gap-6">
+          <div data-layer="Heading 5" className="Heading5 self-stretch h-5 relative">
+            <div data-layer="Certificazioni e Accreditamenti" className="CertificazioniEAccreditamenti left-[472.27px] top-[-1.43px] absolute text-center justify-start text-gray-400 text-sm font-normal font-['Arial'] uppercase leading-5 tracking-wide">Certificazioni e Accreditamenti</div>
+          </div>
+          <div data-layer="Container" className="Container self-stretch h-5 relative">
+            <div data-layer="Container" className="Container w-72 h-5 left-[127.79px] top-0 absolute inline-flex justify-start items-center gap-2">
+              <div data-svg-wrapper data-layer="Icon" className="Icon relative">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <g clip-path="url(#clip0_1_279)">
+                <path d="M10.318 8.59338L11.328 14.2774C11.3393 14.3443 11.3299 14.4131 11.3011 14.4746C11.2722 14.536 11.2253 14.5872 11.1666 14.6212C11.1079 14.6553 11.0402 14.6706 10.9725 14.6652C10.9049 14.6597 10.8405 14.6338 10.788 14.5907L8.40132 12.7994C8.2861 12.7133 8.14614 12.6668 8.00232 12.6668C7.8585 12.6668 7.71854 12.7133 7.60332 12.7994L5.21265 14.5901C5.1602 14.633 5.0959 14.6589 5.02832 14.6644C4.96074 14.6699 4.8931 14.6546 4.83443 14.6206C4.77576 14.5867 4.72884 14.5356 4.69993 14.4743C4.67103 14.4129 4.66151 14.3443 4.67265 14.2774L5.68199 8.59338" stroke="#05DF72" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M8 9.33337C10.2091 9.33337 12 7.54251 12 5.33337C12 3.12424 10.2091 1.33337 8 1.33337C5.79086 1.33337 4 3.12424 4 5.33337C4 7.54251 5.79086 9.33337 8 9.33337Z" stroke="#05DF72" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
+                </g>
+                <defs>
+                <clipPath id="clip0_1_279">
+                <rect width="16" height="16" fill="white"/>
+                </clipPath>
+                </defs>
+                </svg>
+              </div>
+              <div data-layer="Text" className="Text flex-1 h-5 relative">
+                <div data-layer="Accreditamento Regione Basilicata (dal 2007)" className="AccreditamentoRegioneBasilicataDal2007 left-0 top-[-1.43px] absolute justify-start text-gray-300 text-sm font-normal font-['Arial'] leading-5">Accreditamento Regione Basilicata (dal 2007)</div>
+              </div>
+            </div>
+            <div data-layer="Container" className="Container w-24 h-5 left-[461.52px] top-0 absolute inline-flex justify-start items-center gap-2">
+              <div data-svg-wrapper data-layer="Icon" className="Icon relative">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <g clip-path="url(#clip0_1_285)">
+                <path d="M10.318 8.59338L11.328 14.2774C11.3393 14.3443 11.3299 14.4131 11.3011 14.4746C11.2723 14.536 11.2253 14.5872 11.1666 14.6212C11.1079 14.6553 11.0402 14.6706 10.9726 14.6652C10.9049 14.6597 10.8405 14.6338 10.788 14.5907L8.40135 12.7994C8.28613 12.7133 8.14617 12.6668 8.00235 12.6668C7.85853 12.6668 7.71857 12.7133 7.60335 12.7994L5.21268 14.5901C5.16023 14.633 5.09593 14.6589 5.02835 14.6644C4.96077 14.6699 4.89313 14.6546 4.83446 14.6206C4.77579 14.5867 4.72887 14.5356 4.69996 14.4743C4.67106 14.4129 4.66154 14.3443 4.67268 14.2774L5.68202 8.59338" stroke="#51A2FF" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M8 9.33337C10.2091 9.33337 12 7.54251 12 5.33337C12 3.12424 10.2091 1.33337 8 1.33337C5.79086 1.33337 4 3.12424 4 5.33337C4 7.54251 5.79086 9.33337 8 9.33337Z" stroke="#51A2FF" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
+                </g>
+                <defs>
+                <clipPath id="clip0_1_285">
+                <rect width="16" height="16" fill="white"/>
+                </clipPath>
+                </defs>
+                </svg>
+              </div>
+              <div data-layer="Text" className="Text w-20 h-5 relative">
+                <div data-layer="Pekit Expert" className="PekitExpert left-0 top-[-1.43px] absolute justify-start text-gray-300 text-sm font-normal font-['Arial'] leading-5">Pekit Expert</div>
+              </div>
+            </div>
+            <div data-layer="Container" className="Container w-40 h-5 left-[589.77px] top-0 absolute inline-flex justify-start items-center gap-2">
+              <div data-svg-wrapper data-layer="Icon" className="Icon relative">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <g clip-path="url(#clip0_1_291)">
+                <path d="M10.318 8.59338L11.328 14.2774C11.3393 14.3443 11.3299 14.4131 11.3011 14.4746C11.2723 14.536 11.2253 14.5872 11.1666 14.6212C11.1079 14.6553 11.0402 14.6706 10.9726 14.6652C10.9049 14.6597 10.8405 14.6338 10.788 14.5907L8.40135 12.7994C8.28613 12.7133 8.14617 12.6668 8.00235 12.6668C7.85853 12.6668 7.71857 12.7133 7.60335 12.7994L5.21268 14.5901C5.16023 14.633 5.09593 14.6589 5.02835 14.6644C4.96077 14.6699 4.89313 14.6546 4.83446 14.6206C4.77579 14.5867 4.72887 14.5356 4.69996 14.4743C4.67106 14.4129 4.66154 14.3443 4.67268 14.2774L5.68202 8.59338" stroke="#FDC700" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M8 9.33337C10.2091 9.33337 12 7.54251 12 5.33337C12 3.12424 10.2091 1.33337 8 1.33337C5.79086 1.33337 4 3.12424 4 5.33337C4 7.54251 5.79086 9.33337 8 9.33337Z" stroke="#FDC700" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
+                </g>
+                <defs>
+                <clipPath id="clip0_1_291">
+                <rect width="16" height="16" fill="white"/>
+                </clipPath>
+                </defs>
+                </svg>
+              </div>
+              <div data-layer="Text" className="Text flex-1 h-5 relative">
+                <div data-layer="Qualità Certificata ISO" className="QualitCertificataIso left-0 top-[-1.43px] absolute justify-start text-gray-300 text-sm font-normal font-['Arial'] leading-5">Qualità Certificata ISO</div>
+              </div>
+            </div>
+            <div data-layer="Container" className="Container w-80 h-5 left-[781.63px] top-0 absolute inline-flex justify-start items-center gap-2">
+              <div data-svg-wrapper data-layer="Icon" className="Icon relative">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <g clip-path="url(#clip0_1_297)">
+                <path d="M10.318 8.59338L11.328 14.2774C11.3393 14.3443 11.3299 14.4131 11.3011 14.4746C11.2723 14.536 11.2253 14.5872 11.1666 14.6212C11.1079 14.6553 11.0402 14.6706 10.9726 14.6652C10.9049 14.6597 10.8405 14.6338 10.788 14.5907L8.40135 12.7994C8.28613 12.7133 8.14617 12.6668 8.00235 12.6668C7.85853 12.6668 7.71857 12.7133 7.60335 12.7994L5.21268 14.5901C5.16023 14.633 5.09593 14.6589 5.02835 14.6644C4.96077 14.6699 4.89313 14.6546 4.83446 14.6206C4.77579 14.5867 4.72887 14.5356 4.69996 14.4743C4.67106 14.4129 4.66154 14.3443 4.67268 14.2774L5.68202 8.59338" stroke="#C27AFF" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M8 9.33337C10.2091 9.33337 12 7.54251 12 5.33337C12 3.12424 10.2091 1.33337 8 1.33337C5.79086 1.33337 4 3.12424 4 5.33337C4 7.54251 5.79086 9.33337 8 9.33337Z" stroke="#C27AFF" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
+                </g>
+                <defs>
+                <clipPath id="clip0_1_297">
+                <rect width="16" height="16" fill="white"/>
+                </clipPath>
+                </defs>
+                </svg>
+              </div>
+              <div data-layer="Text" className="Text flex-1 h-5 relative">
+                <div data-layer="Referente Fondo Interprofessionale Fonarcom" className="ReferenteFondoInterprofessionaleFonarcom left-0 top-[-1.43px] absolute justify-start text-gray-300 text-sm font-normal font-['Arial'] leading-5">Referente Fondo Interprofessionale Fonarcom</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div data-layer="Container" className="Container self-stretch h-14 pt-8 border-t-[0.57px] border-white/10 flex flex-col justify-start items-start">
+          <div data-layer="Container" className="Container self-stretch h-5 inline-flex justify-between items-center">
+            <div data-layer="Paragraph" className="Paragraph w-60 h-5 relative">
+              <div data-layer="© 2025 Innform. Tutti i diritti riservati." className="2025InnformTuttiIDirittiRiservati left-0 top-[-1.43px] absolute justify-start text-gray-400 text-sm font-normal font-['Arial'] leading-5">© 2025 Innform. Tutti i diritti riservati.</div>
+            </div>
+            <div data-layer="Container" className="Container w-80 h-5 flex justify-start items-start gap-6">
+              <div data-layer="Link" className="Link w-20 h-5 relative">
+                <div data-layer="Privacy Policy" className="PrivacyPolicy left-0 top-[-1.43px] absolute justify-start text-gray-400 text-sm font-normal font-['Arial'] leading-5">Privacy Policy</div>
+              </div>
+              <div data-layer="Link" className="Link w-20 h-5 relative">
+                <div data-layer="Cookie Policy" className="CookiePolicy left-0 top-[-1.43px] absolute justify-start text-gray-400 text-sm font-normal font-['Arial'] leading-5">Cookie Policy</div>
+              </div>
+              <div data-layer="Link" className="Link w-32 h-5 relative">
+                <div data-layer="Termini e Condizioni" className="TerminiECondizioni left-0 top-[-1.43px] absolute justify-start text-gray-400 text-sm font-normal font-['Arial'] leading-5">Termini e Condizioni</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div data-layer="Header" className="Header w-[1678.29px] h-24 px-56 left-0 top-0 absolute bg-white shadow-[0px_4px_6px_-4px_rgba(0,0,0,0.10)] shadow-lg inline-flex flex-col justify-start items-start">
+    <div data-layer="Container" className="Container self-stretch h-24 inline-flex justify-between items-center">
+      <div data-layer="Link" className="Link w-36 h-16 flex justify-start items-center gap-4">
+        <img data-layer="Header" className="Header flex-1 h-16 relative rounded-2xl" src="https://placehold.co/132x64" />
+        <div data-layer="Header" className="Header w-0 h-0" />
+      </div>
+      <div data-layer="Navigation" className="Navigation w-[854.35px] h-10 relative bg-red-600/0">
+        <div data-layer="Link" className="Link w-28 h-10 left-[739.76px] top-0 absolute bg-gradient-to-r from-purple-600 to-pink-600 rounded-full">
+          <div data-layer="Inizia Ora" className="IniziaOra left-[24px] top-[6.14px] absolute justify-start text-white text-base font-normal font-['Arial'] leading-6">Inizia Ora</div>
+        </div>
+        <div data-layer="Link" className="Link w-20 h-10 left-0 top-0 absolute">
+          <div data-layer="Home" className="Home left-[16px] top-[6.14px] absolute justify-start text-gray-700 text-base font-normal font-['Arial'] leading-6">Home</div>
+          <div data-layer="Header" className="Header w-0 h-0.5 left-0 top-[38px] absolute bg-gradient-to-r from-purple-600 to-pink-600" />
+        </div>
+        <div data-layer="Container" className="Container w-28 h-10 left-[78.88px] top-0 absolute">
+          <div data-layer="Button" className="Button w-28 h-10 left-0 top-0 absolute">
+            <div data-layer="Percorsi" className="Percorsi left-[15px] top-[6.14px] absolute text-center justify-start text-gray-700 text-base font-normal font-['Arial'] leading-6">Percorsi</div>
+            <div data-svg-wrapper data-layer="Icon" className="Icon left-[75.29px] top-[12px] absolute">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M4 6L8 10L12 6" stroke="#364153" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+        <div data-layer="Link" className="Link w-32 h-10 left-[190.18px] top-0 absolute">
+          <div data-layer="Certificazioni" className="Certificazioni left-[16px] top-[6.14px] absolute justify-start text-gray-700 text-base font-normal font-['Arial'] leading-6">Certificazioni</div>
+          <div data-layer="Header" className="Header w-0 h-0.5 left-0 top-[38px] absolute bg-gradient-to-r from-purple-600 to-pink-600" />
+        </div>
+        <div data-layer="Container" className="Container w-32 h-10 left-[317.14px] top-0 absolute">
+          <div data-layer="Button" className="Button w-32 h-10 left-0 top-0 absolute">
+            <div data-layer="Chi Siamo" className="ChiSiamo left-[14px] top-[6.14px] absolute text-center justify-start text-gray-700 text-base font-normal font-['Arial'] leading-6">Chi Siamo</div>
+            <div data-svg-wrapper data-layer="Icon" className="Icon left-[90.89px] top-[12px] absolute">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M4 6L8 10L12 6" stroke="#364153" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+        <div data-layer="Container" className="Container w-28 h-10 left-[444.04px] top-0 absolute">
+          <div data-layer="Button" className="Button w-28 h-10 left-0 top-0 absolute">
+            <div data-layer="Progetti" className="Progetti left-[16px] top-[6.14px] absolute text-center justify-start text-gray-700 text-base font-normal font-['Arial'] leading-6">Progetti</div>
+            <div data-svg-wrapper data-layer="Icon" className="Icon left-[76.41px] top-[12px] absolute">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M4 6L8 10L12 6" stroke="#364153" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+        <div data-layer="Link" className="Link w-16 h-10 left-[556.45px] top-0 absolute">
+          <div data-layer="News" className="News left-[16px] top-[6.14px] absolute justify-start text-gray-700 text-base font-normal font-['Arial'] leading-6">News</div>
+          <div data-layer="Header" className="Header w-0 h-0.5 left-0 top-[38px] absolute bg-gradient-to-r from-purple-600 to-pink-600" />
+        </div>
+        <div data-layer="Link" className="Link w-24 h-10 left-[631.13px] top-0 absolute">
+          <div data-layer="Contatti" className="Contatti left-[16px] top-[6.14px] absolute justify-start text-gray-700 text-base font-normal font-['Arial'] leading-6">Contatti</div>
+          <div data-layer="Text" className="Text w-0 h-0.5 left-0 top-[38px] absolute bg-gradient-to-r from-purple-600 to-pink-600" />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

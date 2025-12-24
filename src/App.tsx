@@ -9,7 +9,6 @@ import { Contact } from './components/Contact';
 import { Footer } from './components/Footer';
 import { Testimonials } from './components/Testimonials';
 import { Services } from './components/Services';
-import { News } from './components/News';
 import { CourseDetail } from './components/CourseDetail';
 import { ProgramDetail } from './components/ProgramDetail';
 
@@ -36,7 +35,6 @@ function HomePage() {
       <Programs />
       <About />
       <Services />
-      <News />
       <Testimonials />
       <Contact />
       <Footer />

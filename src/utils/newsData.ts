@@ -54,7 +54,7 @@ export const newsItems = [
   {
     id: 2,
     title: "Online il Bando T.I. ABILITO: aperte le selezioni",
-    date: "16 Dicembre 2024",
+    date: "16 Dicembre 2025",
     category: "Bandi",
     image: "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzdHVkZW50JTIwc2Nob2xhcnNoaXB8ZW58MXx8fHwxNzY1NTUxMDQ0fDA&ixlib=rb-4.1.0&q=80&w=1080",
     excerpt: "Sono aperte le selezioni per il corso di alfabetizzazione informatica nell'ambito del progetto T.I. ABILITO. Scopri come partecipare e i requisiti richiesti.",

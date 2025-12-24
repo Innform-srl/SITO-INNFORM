@@ -1,54 +1,44 @@
 import React, { useState, useEffect } from 'react';
-import { ArrowRight, Sparkles, Award, Users, BookOpen, Microscope, LayoutTemplate, Clock, CheckCircle } from 'lucide-react';
+import { ArrowRight, Sparkles, Award, Users, BookOpen, Newspaper, CheckCircle } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { newsItems } from '../utils/newsData';
 
 export function Hero() {
   const [currentSlide, setCurrentSlide] = useState(0);
 
-  const slides = [
-    {
-      title: 'Tecnico Analisi Alimentari',
-      subtitle: 'Master Tecnico',
-      description: 'Specializzati nel controllo qualità chimico e microbiologico per laboratori e aziende.',
-      details: ['400 Ore', 'Stage Incluso', 'Alta Qualifica'],
-      icon: Microscope,
-      gradient: 'from-purple-600 to-pink-500',
-      bg: 'bg-purple-50'
-    },
-    {
-      title: 'Master Editoria',
-      subtitle: 'IV Edizione',
-      description: 'Dalla carta al digitale: impara a gestire l\'intero processo editoriale e comunicativo.',
-      details: ['600 Ore', 'Project Work', 'Placement'],
-      icon: BookOpen,
-      gradient: 'from-blue-600 to-cyan-500',
-      bg: 'bg-blue-50'
-    },
-    {
-      title: 'Interior Design',
-      subtitle: 'Master',
-      description: 'Progetta spazi innovativi unendo stile, funzionalità e sostenibilità ambientale.',
-      details: ['Software 3D', 'Laboratorio', 'Portfolio'],
-      icon: LayoutTemplate,
-      gradient: 'from-orange-600 to-yellow-500',
-      bg: 'bg-orange-50'
-    },
-    {
-      title: 'Safety Manager',
-      subtitle: 'Esperto Sicurezza',
-      description: 'Diventa il riferimento aziendale per la sicurezza (HSE) e la gestione dei rischi.',
-      details: ['Qualifica RSPP', 'Normativa', 'Audit'],
-      icon: Award,
-      gradient: 'from-emerald-600 to-green-500',
-      bg: 'bg-emerald-50'
+  // Filtra le news dell'ultimo mese
+  const oneMonthAgo = new Date();
+  oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
+
+  const recentNews = newsItems.filter(item => {
+    // Parsing della data italiana (es: "2 Dicembre 2025")
+    const months: { [key: string]: number } = {
+      'gennaio': 0, 'febbraio': 1, 'marzo': 2, 'aprile': 3,
+      'maggio': 4, 'giugno': 5, 'luglio': 6, 'agosto': 7,
+      'settembre': 8, 'ottobre': 9, 'novembre': 10, 'dicembre': 11
+    };
+    const parts = item.date.toLowerCase().split(' ');
+    if (parts.length === 3) {
+      const day = parseInt(parts[0]);
+      const month = months[parts[1]];
+      const year = parseInt(parts[2]);
+      if (!isNaN(day) && month !== undefined && !isNaN(year)) {
+        const newsDate = new Date(year, month, day);
+        return newsDate >= oneMonthAgo;
+      }
     }
-  ];
+    return true; // Se non riesce a parsare, include la news
+  });
+
+  // Usa le news filtrate (minimo 1, massimo 4)
+  const slides = recentNews.length > 0 ? recentNews.slice(0, 4) : newsItems.slice(0, 1);
 
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % slides.length);
-    }, 5000);
+    }, 10000); // 10 secondi
     return () => clearInterval(timer);
-  }, []);
+  }, [slides.length]);
 
   return (
     <section className="relative min-h-screen flex items-center overflow-hidden" style={{background: 'linear-gradient(135deg, #9300FF 0%, #9A05FF 50%, #FF0083 100%)'}}>
@@ -166,12 +156,11 @@ export function Hero() {
             
             <div className="relative w-full max-w-sm h-full max-h-[450px]">
               {slides.map((slide, index) => {
-                const Icon = slide.icon;
                 const isActive = index === currentSlide;
                 // Calculate position for stacking effect
                 let positionClass = 'opacity-0 scale-90 translate-x-12 pointer-events-none';
                 let zIndex = 0;
-                
+
                 if (isActive) {
                   positionClass = 'opacity-100 scale-100 translate-x-0 pointer-events-auto';
                   zIndex = 20;
@@ -184,41 +173,55 @@ export function Hero() {
                 }
 
                 return (
-                  <div 
-                    key={index}
+                  <div
+                    key={slide.id}
                     className={`absolute inset-0 transition-all duration-700 ease-in-out ${positionClass}`}
                     style={{ zIndex }}
                   >
                     <div className="bg-white/95 backdrop-blur-xl rounded-3xl p-8 shadow-2xl border border-white/20 h-full flex flex-col justify-between">
                       <div>
                         <div className="flex justify-between items-start mb-6">
-                            <div className={`inline-block p-4 rounded-2xl bg-gradient-to-br ${slide.gradient} shadow-lg`}>
-                              <Icon className="text-white" size={32} />
+                            <div className="inline-block p-4 rounded-2xl bg-gradient-to-br from-red-600 to-red-500 shadow-lg">
+                              <Newspaper className="text-white" size={32} />
                             </div>
                             <span className="bg-gray-100 text-gray-600 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wide border border-gray-200">
-                                {slide.subtitle}
+                                NEWS
                             </span>
                         </div>
-                        
-                        <h3 className="text-2xl font-bold text-gray-900 mb-3 leading-tight">{slide.title}</h3>
-                        <p className="text-gray-600 text-sm mb-6 leading-relaxed">{slide.description}</p>
-                        
+
+                        <h3 className="text-2xl font-bold text-gray-900 mb-3 leading-tight line-clamp-2">{slide.title}</h3>
+                        <p className="text-gray-600 text-sm mb-6 leading-relaxed line-clamp-3">{slide.excerpt}</p>
+
                         <div className="space-y-2">
-                            {slide.details.map((detail, i) => (
-                                <div key={i} className="flex items-center gap-2 text-sm text-gray-700">
-                                    <CheckCircle size={16} className="text-purple-600 flex-shrink-0" />
-                                    <span>{detail}</span>
-                                </div>
-                            ))}
+                            <div className="flex items-center gap-2 text-sm text-gray-700">
+                                <CheckCircle size={16} className="text-purple-600 flex-shrink-0" />
+                                <span>{slide.date}</span>
+                            </div>
+                            <div className="flex items-center gap-2 text-sm text-gray-700">
+                                <CheckCircle size={16} className="text-purple-600 flex-shrink-0" />
+                                <span>News</span>
+                            </div>
+                            <div className="flex items-center gap-2 text-sm text-gray-700">
+                                <CheckCircle size={16} className="text-purple-600 flex-shrink-0" />
+                                <span>Leggi</span>
+                            </div>
                         </div>
                       </div>
-                      
-                      <div className="pt-6 border-t border-gray-100 mt-4">
+
+                      <div className="pt-4 border-t border-gray-100">
                         <div className="flex items-center justify-between">
-                          <span className="text-xs font-semibold text-purple-600 uppercase tracking-wide">Iscrizioni aperte</span>
-                          <button className={`w-12 h-12 rounded-full bg-gradient-to-r ${slide.gradient} flex items-center justify-center text-white shadow-lg hover:scale-110 transition-transform`}>
+                          <Link
+                            to={`/news/${slide.id}`}
+                            className="text-xs font-semibold text-purple-600 uppercase tracking-wide hover:text-purple-700 transition-colors"
+                          >
+                            Leggi Articolo
+                          </Link>
+                          <Link
+                            to={`/news/${slide.id}`}
+                            className="w-12 h-12 rounded-full bg-gradient-to-r from-red-600 to-red-500 flex items-center justify-center text-white shadow-lg hover:scale-110 transition-transform"
+                          >
                             <ArrowRight size={24} />
-                          </button>
+                          </Link>
                         </div>
                       </div>
                     </div>
