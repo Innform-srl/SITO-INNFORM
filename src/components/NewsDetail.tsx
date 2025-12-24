@@ -64,7 +64,54 @@ export function NewsDetail() {
                 />
               </div>
 
-              <div className="prose prose-lg max-w-none text-gray-600 prose-headings:text-gray-900 prose-headings:font-bold prose-p:leading-relaxed prose-a:text-purple-600 hover:prose-a:text-purple-500 prose-img:rounded-xl prose-li:marker:text-purple-600">
+              <div
+                className="prose prose-lg max-w-none
+                  text-gray-700
+                  prose-headings:text-gray-900
+                  prose-headings:font-bold
+                  prose-headings:mt-10
+                  prose-headings:mb-4
+                  prose-h3:text-2xl
+                  prose-h3:border-l-4
+                  prose-h3:border-purple-500
+                  prose-h3:pl-4
+                  prose-p:leading-relaxed
+                  prose-p:mb-6
+                  prose-p:text-[17px]
+                  prose-a:text-purple-600
+                  prose-a:font-semibold
+                  prose-a:underline
+                  prose-a:underline-offset-2
+                  hover:prose-a:text-purple-500
+                  prose-img:rounded-xl
+                  prose-ul:my-6
+                  prose-ul:space-y-3
+                  prose-li:text-[17px]
+                  prose-li:leading-relaxed
+                  prose-li:marker:text-purple-500
+                  prose-li:pl-2
+                  prose-strong:text-gray-900
+                  prose-strong:font-semibold
+                  [&_.lead]:text-xl
+                  [&_.lead]:text-gray-600
+                  [&_.lead]:leading-relaxed
+                  [&_.lead]:mb-8
+                  [&_.lead]:font-normal
+                  [&_.cta-link]:inline-flex
+                  [&_.cta-link]:items-center
+                  [&_.cta-link]:gap-2
+                  [&_.cta-link]:bg-purple-600
+                  [&_.cta-link]:text-white
+                  [&_.cta-link]:px-6
+                  [&_.cta-link]:py-3
+                  [&_.cta-link]:rounded-xl
+                  [&_.cta-link]:font-semibold
+                  [&_.cta-link]:no-underline
+                  [&_.cta-link]:mt-6
+                  [&_.cta-link]:hover:bg-purple-700
+                  [&_.cta-link]:transition-colors
+                "
+              >
                 <div dangerouslySetInnerHTML={{ __html: newsItem.content || '' }} />
               </div>
 
