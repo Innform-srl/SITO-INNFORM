@@ -81,7 +81,7 @@ export function Header() {
         { label: "Progetto Segni", href: "/progetti/segni" }
       ]
     },
-    { label: "News", href: "/#news" },
+    { label: "News", href: "/news" },
     { label: "Contatti", href: "/#contatti" },
   ];
 
