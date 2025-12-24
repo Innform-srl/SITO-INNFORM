@@ -27,12 +27,12 @@ export function Header() {
 
   const menuItems = [
     { label: "Home", href: "/" },
-    { 
-      label: "Percorsi", 
+    {
+      label: "Percorsi",
       href: "/#corsi",
       dropdown: [
-        { 
-          label: "Master", 
+        {
+          label: "Master",
           href: "/#corsi",
           children: [
             { label: "Analisi Alimentari e Ambientali", href: "/corsi/tecnico-analisi-alimentari" },
@@ -62,6 +62,14 @@ export function Header() {
         }
       ]
     },
+    {
+      label: "Progetti",
+      href: "#",
+      dropdown: [
+        { label: "Progetto Ti Abilito", href: "/progetti/ti-abilito" },
+        { label: "Progetto Segni", href: "/progetti/segni" }
+      ]
+    },
     { label: "Certificazioni", href: "/chi-siamo/qualita" },
     {
       label: "Chi Siamo",
@@ -71,14 +79,6 @@ export function Header() {
         { label: "Visione e Missione", href: "/chi-siamo/visione-missione" },
         { label: "Dove Siamo", href: "/chi-siamo/dove-siamo" },
         { label: "Qualità Certificata", href: "/chi-siamo/qualita" }
-      ]
-    },
-    {
-      label: "Progetti",
-      href: "#",
-      dropdown: [
-        { label: "Progetto Ti Abilito", href: "/progetti/ti-abilito" },
-        { label: "Progetto Segni", href: "/progetti/segni" }
       ]
     },
     { label: "News", href: "/news" },

@@ -3,7 +3,7 @@ import { Users, Award, BookOpen, TrendingUp, CheckCircle, Sparkles } from 'lucid
 
 export function About() {
   const stats = [
-    { icon: Users, value: '9.257+', label: 'Studenti Formati', color: 'from-purple-600 to-purple-400' },
+    { icon: Users, value: '673+', label: 'Studenti Formati', color: 'from-purple-600 to-purple-400' },
     { icon: Award, value: '50+', label: 'Corsi Certificati', color: 'from-pink-600 to-pink-400' },
     { icon: BookOpen, value: '18+', label: 'Anni di Esperienza', color: 'from-blue-600 to-blue-400' },
     { icon: TrendingUp, value: '95%', label: 'Tasso di Successo', color: 'from-green-600 to-green-400' },

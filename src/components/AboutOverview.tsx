@@ -51,7 +51,7 @@ export function AboutOverview() {
                 <div className="w-14 h-14 bg-pink-100 rounded-2xl flex items-center justify-center mb-4">
                   <Users className="text-pink-600" size={32} />
                 </div>
-                <div className="text-4xl font-bold text-gray-900 mb-2">9.257+</div>
+                <div className="text-4xl font-bold text-gray-900 mb-2">673+</div>
                 <div className="text-gray-600 font-medium">Studenti Formati</div>
               </div>
               
