@@ -76,7 +76,7 @@ export function Hero() {
               <span className="text-sm">Centro Formazione Accreditato</span>
             </div>
 
-            <div style={{width: 576, height: 195, position: 'relative'}}>
+            <h1 style={{width: 576, height: 195, position: 'relative'}}>
               <span style={{color: 'white', fontSize: 96, fontFamily: 'Alata', fontWeight: 400, lineHeight: '75px', wordWrap: 'break-word', textShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)'}}>
                 Innovazione
               </span>
@@ -85,7 +85,7 @@ export function Hero() {
                   Formazione
                 </span>
               </div>
-            </div>
+            </h1>
 
             <p className="text-lg md:text-xl text-[rgb(255,255,255)] leading-relaxed max-w-xl font-[Alata]">
               Trasforma la tua carriera con i nostri corsi certificati. Master, qualifiche professionali e programmi GOL accreditati dalla Regione Basilicata.
@@ -120,12 +120,10 @@ export function Hero() {
             <div className="flex flex-wrap gap-4">
               <a
                 href="#corsi"
-                className="group relative inline-flex items-center gap-2 bg-white text-purple-700 px-6 py-3 rounded-full overflow-hidden transition-all duration-300 hover:shadow-2xl hover:shadow-white/20 hover:scale-105"
+                className="group inline-flex items-center gap-2 bg-white text-purple-700 px-6 py-3 rounded-full transition-all duration-300 hover:shadow-2xl hover:shadow-white/20 hover:scale-105"
               >
-                <span className="relative z-10 font-medium">Esplora i Corsi</span>
-                <ArrowRight className="relative z-10 group-hover:translate-x-1 transition-transform" size={18} />
-                <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-pink-600 opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                <span className="relative z-10 group-hover:text-white transition-colors">Esplora i Corsi</span>
+                <span className="font-medium">Esplora i Corsi</span>
+                <ArrowRight className="group-hover:translate-x-1 transition-transform" size={18} />
               </a>
               
               <a

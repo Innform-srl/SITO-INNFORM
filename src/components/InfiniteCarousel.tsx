@@ -5,9 +5,10 @@ interface InfiniteCarouselProps {
   images: string[];
   speed?: number;
   direction?: 'left' | 'right';
+  altPrefix?: string;
 }
 
-export function InfiniteCarousel({ images, speed = 30, direction = 'left' }: InfiniteCarouselProps) {
+export function InfiniteCarousel({ images, speed = 30, direction = 'left', altPrefix = "Sessione di formazione Innform" }: InfiniteCarouselProps) {
   const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -61,7 +62,7 @@ export function InfiniteCarousel({ images, speed = 30, direction = 'left' }: Inf
           >
             <ImageWithFallback
               src={image}
-              alt={`Gallery image ${index + 1}`}
+              alt={`${altPrefix} - Foto ${(index % images.length) + 1}`}
               className="w-full h-full object-cover"
             />
           </div>

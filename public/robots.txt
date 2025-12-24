@@ -1,0 +1,22 @@
+# Robots.txt for Innform
+# https://www.innform.eu
+
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://www.innform.eu/sitemap.xml
+
+# Crawl-delay (optional, for politeness)
+Crawl-delay: 1
+
+# Disallow admin/private areas (if any)
+Disallow: /api/
+Disallow: /_internal/
+
+# Allow search engines to index all public content
+Allow: /news/
+Allow: /corsi/
+Allow: /programmi/
+Allow: /chi-siamo/
+Allow: /progetti/

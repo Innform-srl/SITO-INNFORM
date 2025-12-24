@@ -11,6 +11,7 @@ import { Testimonials } from './components/Testimonials';
 import { Services } from './components/Services';
 import { CourseDetail } from './components/CourseDetail';
 import { ProgramDetail } from './components/ProgramDetail';
+import { Layout } from './components/Layout';
 
 import { NewsPage } from './components/NewsPage';
 import { NewsDetail } from './components/NewsDetail';
@@ -50,90 +51,68 @@ export default function App() {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/news" element={
-            <>
-              <Header />
+            <Layout>
               <NewsPage />
-              <Footer />
-            </>
+            </Layout>
           } />
           <Route path="/news/:newsId" element={
-            <>
-              <Header />
+            <Layout>
               <NewsDetail />
-              <Footer />
-            </>
+            </Layout>
           } />
-          
+
           {/* Chi Siamo Routes */}
           <Route path="/chi-siamo/panoramica" element={
-            <>
-              <Header />
+            <Layout>
               <AboutOverview />
-              <Footer />
-            </>
+            </Layout>
           } />
           <Route path="/chi-siamo/visione-missione" element={
-            <>
-              <Header />
+            <Layout>
               <AboutVision />
-              <Footer />
-            </>
+            </Layout>
           } />
           <Route path="/chi-siamo/dove-siamo" element={
-            <>
-              <Header />
+            <Layout>
               <AboutLocation />
-              <Footer />
-            </>
+            </Layout>
           } />
           <Route path="/chi-siamo/qualita" element={
-            <>
-              <Header />
+            <Layout>
               <AboutQuality />
-              <Footer />
-            </>
+            </Layout>
           } />
 
           <Route path="/corsi/:courseId" element={
-            <>
-              <Header />
+            <Layout>
               <CourseDetail />
               <Contact />
-              <Footer />
-            </>
+            </Layout>
           } />
           <Route path="/programmi/:programId" element={
-            <>
-              <Header />
+            <Layout>
               <ProgramDetail />
               <Contact />
-              <Footer />
-            </>
+            </Layout>
           } />
           {/* Route per pre-iscrizione a programmi GOL/Master */}
           <Route path="/iscrizione/:slug" element={
-            <>
-              <Header />
+            <Layout>
               <ProgramEnrollment />
-              <Footer />
-            </>
+            </Layout>
           } />
 
           {/* Projects Routes */}
           <Route path="/progetti/ti-abilito" element={
-            <>
-              <Header />
+            <Layout>
               <ProjectTiAbilito />
               <Contact />
-              <Footer />
-            </>
+            </Layout>
           } />
           <Route path="/progetti/segni" element={
-            <>
-              <Header />
+            <Layout>
               <ProjectSegni />
-              <Footer />
-            </>
+            </Layout>
           } />
         </Routes>
       </div>

@@ -10,6 +10,7 @@ import {
 import { ImageWithFallback } from './figma/ImageWithFallback';
 import { CourseCarousel } from './CourseCarousel';
 import { EnrollmentForm } from './EduPlanForms';
+import { SEOHead, CourseSchema, FAQSchema } from './SEOHead';
 // Integrazione dati live EduPlan
 import { usePublicCourse, useInvalidateCoursesCache, useCourseLessons } from '../hooks/usePublicCourses';
 import { LessonCalendar } from './LessonCalendar';
@@ -814,7 +815,37 @@ export function CourseDetail() {
     );
   }
 
+  // Estrai prezzo numerico per schema
+  const priceNumber = displayData.price
+    ? parseFloat(displayData.price.replace(/[^0-9.,]/g, '').replace(',', '.'))
+    : undefined;
+
   return (
+    <>
+      {/* SEO Meta Tags dinamici */}
+      <SEOHead
+        title={course.title}
+        description={course.description.substring(0, 160)}
+        image={course.heroImage}
+        url={`/corsi/${courseId}`}
+      />
+
+      {/* Course Schema per Google */}
+      <CourseSchema
+        name={course.title}
+        description={course.description}
+        duration={course.duration}
+        educationalLevel={course.type}
+        url={`/corsi/${courseId}`}
+        image={course.heroImage}
+        price={priceNumber && !isNaN(priceNumber) ? priceNumber : undefined}
+      />
+
+      {/* FAQ Schema per rich snippets */}
+      {course.faq && course.faq.length > 0 && (
+        <FAQSchema items={course.faq} />
+      )}
+
     <div className="bg-white">
       {/* Hero Section */}
       <section className="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden">
@@ -1592,5 +1623,6 @@ export function CourseDetail() {
         </div>
       </section>
     </div>
+    </>
   );
 }

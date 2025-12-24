@@ -5,9 +5,10 @@ import { ImageWithFallback } from './figma/ImageWithFallback';
 interface CourseCarouselProps {
   images: string[];
   autoPlayInterval?: number;
+  title?: string;
 }
 
-export function CourseCarousel({ images, autoPlayInterval = 5000 }: CourseCarouselProps) {
+export function CourseCarousel({ images, autoPlayInterval = 5000, title = "Corso di formazione professionale" }: CourseCarouselProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
 
@@ -52,8 +53,9 @@ export function CourseCarousel({ images, autoPlayInterval = 5000 }: CourseCarous
             <div key={index} className="min-w-full relative">
               <ImageWithFallback
                 src={image}
-                alt={`Slide ${index + 1}`}
+                alt={`${title} - Immagine ${index + 1} di ${images.length}`}
                 className="w-full h-[500px] object-cover"
+                lazy={index !== 0}
               />
               {/* Gradient Overlay */}
               <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>

@@ -2,16 +2,34 @@ import React, { useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { Calendar, Tag, ArrowLeft, Share2, ArrowRight } from 'lucide-react';
 import { newsItems } from '../utils/newsData';
+import { SEOHead, NewsArticleSchema } from './SEOHead';
+
+// Helper per convertire data italiana in ISO
+function parseItalianDate(dateStr: string): string {
+  const months: { [key: string]: string } = {
+    'gennaio': '01', 'febbraio': '02', 'marzo': '03', 'aprile': '04',
+    'maggio': '05', 'giugno': '06', 'luglio': '07', 'agosto': '08',
+    'settembre': '09', 'ottobre': '10', 'novembre': '11', 'dicembre': '12'
+  };
+  const parts = dateStr.toLowerCase().split(' ');
+  if (parts.length === 3) {
+    const day = parts[0].padStart(2, '0');
+    const month = months[parts[1]] || '01';
+    const year = parts[2];
+    return `${year}-${month}-${day}`;
+  }
+  return new Date().toISOString().split('T')[0];
+}
 
 export function NewsDetail() {
   const { newsId } = useParams();
   const currentId = Number(newsId);
   const newsItem = newsItems.find(item => item.id === currentId);
-  
+
   const currentIndex = newsItems.findIndex(item => item.id === currentId);
-  const prevItem = currentIndex < newsItems.length - 1 ? newsItems[currentIndex + 1] : null; 
-  const nextItem = currentIndex > 0 ? newsItems[currentIndex - 1] : null; 
-  
+  const prevItem = currentIndex < newsItems.length - 1 ? newsItems[currentIndex + 1] : null;
+  const nextItem = currentIndex > 0 ? newsItems[currentIndex - 1] : null;
+
   const otherNews = newsItems.filter(item => item.id !== currentId).slice(0, 4);
 
   useEffect(() => {
@@ -27,7 +45,31 @@ export function NewsDetail() {
     );
   }
 
+  const isoDate = parseItalianDate(newsItem.date);
+
   return (
+    <>
+      {/* SEO Meta Tags dinamici */}
+      <SEOHead
+        title={newsItem.title}
+        description={newsItem.excerpt}
+        image={newsItem.image}
+        url={`/news/${newsItem.id}`}
+        type="article"
+        publishedTime={isoDate}
+        section={newsItem.category}
+        tags={[newsItem.category, 'formazione', 'Innform']}
+      />
+
+      {/* NewsArticle Schema per Google */}
+      <NewsArticleSchema
+        title={newsItem.title}
+        description={newsItem.excerpt}
+        image={newsItem.image}
+        datePublished={isoDate}
+        url={`/news/${newsItem.id}`}
+      />
+
     <div className="pt-24 pb-16 bg-gray-50 min-h-screen">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <Link to="/news" className="inline-flex items-center gap-2 text-gray-500 hover:text-purple-600 mb-8 transition-colors font-medium">
@@ -228,5 +270,6 @@ export function NewsDetail() {
         </div>
       </div>
     </div>
+    </>
   );
 }
