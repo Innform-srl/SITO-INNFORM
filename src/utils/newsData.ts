@@ -6,7 +6,7 @@ export const newsItems = [
     category: "Corsi",
     image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxmYW1pbHklMjBjb21wdXRlciUyMGxlYXJuaW5nfGVufDF8fHx8MTc2NTU1MTA0NHww&ixlib=rb-4.1.0&q=80&w=1080",
     excerpt: "Nuovo bando per il corso gratuito di Alfabetizzazione Informatica e Tecnologie Assistive. 20 ore di formazione per famiglie del Marmo Platano Melandro. Scadenza domande: 16 Gennaio 2026.",
-    link: "/progetti/ti-abilito",
+    link: "/progetti/ti-abilito#alfabetizzazione",
     content: `
       <p class="lead">È aperto il nuovo bando per il corso <strong>Alfabetizzazione Informatica e Tecnologie Assistive</strong> nell'ambito del progetto T.I. ABILITO. Un'opportunità formativa completamente <strong>gratuita</strong> per le famiglie residenti nei Comuni del Marmo Platano Melandro.</p>
 
@@ -48,7 +48,7 @@ export const newsItems = [
       <p>Il progetto "Tecnologia e Intelligenza Artificiale per la cura, l'inclusione e la corretta comunicazione della disabilità" è stato selezionato da <strong>Con i Bambini</strong> nell'ambito del Fondo per il contrasto della povertà educativa minorile. L'obiettivo è sperimentare percorsi inclusivi per oltre 100 minori con disabilità attraverso l'uso delle nuove tecnologie.</p>
 
       <p style="margin-top: 24px;">Per scaricare il bando, il modulo domanda e tutte le informazioni:</p>
-      <p><a href="/progetti/ti-abilito" class="cta-link" style="display: inline-block; background-color: #2563eb; color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: bold;">Vai alla pagina del progetto →</a></p>
+      <p><a href="/progetti/ti-abilito#alfabetizzazione" class="cta-link" style="display: inline-block; background-color: #2563eb; color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: bold;">Vai alla pagina del progetto →</a></p>
     `
   },
   {
@@ -110,7 +110,7 @@ export const newsItems = [
     category: "Bandi",
     image: "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzdHVkZW50JTIwc2Nob2xhcnNoaXB8ZW58MXx8fHwxNzY1NTUxMDQ0fDA&ixlib=rb-4.1.0&q=80&w=1080",
     excerpt: "Aperto il nuovo bando per il corso gratuito di Alfabetizzazione Informatica e Tecnologie Assistive. 20 ore di formazione per massimo 15 famiglie del Marmo Platano Melandro. Scadenza: 16 Gennaio 2026.",
-    link: "/progetti/ti-abilito",
+    link: "/progetti/ti-abilito#alfabetizzazione",
     content: `
       <p class="lead">Sono ufficialmente aperte le iscrizioni al nuovo corso di <strong>Alfabetizzazione Informatica e Tecnologie Assistive</strong> nell'ambito del progetto T.I. ABILITO. Un'opportunità formativa completamente <strong>gratuita</strong> dedicata alle famiglie del territorio.</p>
 
@@ -143,7 +143,7 @@ export const newsItems = [
 
       <h3>Documentazione</h3>
       <p>Il bando completo e il modulo domanda sono disponibili sulla pagina dedicata al progetto:</p>
-      <p><a href="/progetti/ti-abilito" class="cta-link" style="display: inline-block; background-color: #2563eb; color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: bold;">Scarica il bando e candidati ora →</a></p>
+      <p><a href="/progetti/ti-abilito#alfabetizzazione" class="cta-link" style="display: inline-block; background-color: #2563eb; color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: bold;">Scarica il bando e candidati ora →</a></p>
     `
   },
   {
