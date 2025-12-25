@@ -110,32 +110,32 @@ export const newsItems = [
     category: "Bandi",
     image: "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzdHVkZW50JTIwc2Nob2xhcnNoaXB8ZW58MXx8fHwxNzY1NTUxMDQ0fDA&ixlib=rb-4.1.0&q=80&w=1080",
     excerpt: "Aperto il nuovo bando per il corso gratuito di Alfabetizzazione Informatica e Tecnologie Assistive. 20 ore di formazione per massimo 15 famiglie del Marmo Platano Melandro. Scadenza: 16 Gennaio 2026.",
-    link: "/progetti/ti-abilito#alfabetizzazione",
+    link: "/progetti/ti-abilito",
     content: `
       <p class="lead">Sono ufficialmente aperte le iscrizioni al nuovo corso di <strong>Alfabetizzazione Informatica e Tecnologie Assistive</strong> nell'ambito del progetto T.I. ABILITO. Un'opportunità formativa completamente <strong>gratuita</strong> dedicata alle famiglie del territorio.</p>
 
       <h3>Dettagli del corso</h3>
-      <ul>
-        <li><strong>Contenuti:</strong> Alfabetizzazione informatica e Tecnologie Assistive</li>
-        <li><strong>Durata:</strong> 20 ore complessive</li>
-        <li><strong>Periodo:</strong> Febbraio 2026</li>
-        <li><strong>Costo:</strong> GRATUITO</li>
+      <ul style="list-style-type: disc; margin-left: 20px; margin-bottom: 16px;">
+        <li style="margin-bottom: 8px;"><strong>Contenuti:</strong> Alfabetizzazione informatica e Tecnologie Assistive</li>
+        <li style="margin-bottom: 8px;"><strong>Durata:</strong> 20 ore complessive</li>
+        <li style="margin-bottom: 8px;"><strong>Periodo:</strong> Febbraio 2026</li>
+        <li style="margin-bottom: 8px;"><strong>Costo:</strong> GRATUITO</li>
       </ul>
 
       <h3>Chi può partecipare</h3>
       <p>Il corso è riservato a <strong>massimo 15 famiglie</strong> che rispondono ai seguenti requisiti:</p>
-      <ul>
-        <li><strong>Residenza:</strong> Nei Comuni del Marmo Platano Melandro</li>
-        <li><strong>Composizione familiare:</strong> Famiglie con almeno un figlio con disabilità (partecipante o futuro partecipante al progetto)</li>
-        <li><strong>Partecipazione:</strong> È richiesta la presenza di almeno un genitore</li>
+      <ul style="list-style-type: disc; margin-left: 20px; margin-bottom: 16px;">
+        <li style="margin-bottom: 8px;"><strong>Residenza:</strong> Nei Comuni del Marmo Platano Melandro</li>
+        <li style="margin-bottom: 8px;"><strong>Composizione familiare:</strong> Famiglie con almeno un figlio con disabilità (partecipante o futuro partecipante al progetto)</li>
+        <li style="margin-bottom: 8px;"><strong>Partecipazione:</strong> È richiesta la presenza di almeno un genitore</li>
       </ul>
 
       <h3>Come candidarsi</h3>
       <p>Per presentare la propria candidatura è necessario:</p>
-      <ol>
-        <li>Scaricare il <strong>Bando Completo</strong> dalla pagina del progetto</li>
-        <li>Compilare il <strong>Modulo Domanda</strong> in tutte le sue parti</li>
-        <li>Inviare la documentazione a: <strong>tiabilito@gmail.com</strong></li>
+      <ol style="list-style-type: decimal; margin-left: 20px; margin-bottom: 16px;">
+        <li style="margin-bottom: 8px;">Scaricare il <strong>Bando Completo</strong> dalla pagina del progetto</li>
+        <li style="margin-bottom: 8px;">Compilare il <strong>Modulo Domanda</strong> in tutte le sue parti</li>
+        <li style="margin-bottom: 8px;">Inviare la documentazione a: <a href="mailto:tiabilito@gmail.com" style="color: #2563eb; font-weight: bold; text-decoration: underline;">tiabilito@gmail.com</a></li>
       </ol>
 
       <h3>Scadenza</h3>
@@ -143,7 +143,7 @@ export const newsItems = [
 
       <h3>Documentazione</h3>
       <p>Il bando completo e il modulo domanda sono disponibili sulla pagina dedicata al progetto:</p>
-      <p><a href="/progetti/ti-abilito#alfabetizzazione" class="cta-link">Scarica il bando e candidati ora →</a></p>
+      <p><a href="/progetti/ti-abilito" class="cta-link" style="display: inline-block; background-color: #2563eb; color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: bold;">Scarica il bando e candidati ora →</a></p>
     `
   },
   {
