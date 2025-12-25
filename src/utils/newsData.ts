@@ -6,49 +6,49 @@ export const newsItems = [
     category: "Corsi",
     image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxmYW1pbHklMjBjb21wdXRlciUyMGxlYXJuaW5nfGVufDF8fHx8MTc2NTU1MTA0NHww&ixlib=rb-4.1.0&q=80&w=1080",
     excerpt: "Nuovo bando per il corso gratuito di Alfabetizzazione Informatica e Tecnologie Assistive. 20 ore di formazione per famiglie del Marmo Platano Melandro. Scadenza domande: 16 Gennaio 2026.",
-    link: "/progetti/ti-abilito#alfabetizzazione",
+    link: "/progetti/ti-abilito",
     content: `
       <p class="lead">È aperto il nuovo bando per il corso <strong>Alfabetizzazione Informatica e Tecnologie Assistive</strong> nell'ambito del progetto T.I. ABILITO. Un'opportunità formativa completamente <strong>gratuita</strong> per le famiglie residenti nei Comuni del Marmo Platano Melandro.</p>
 
       <h3>Cosa offre il corso</h3>
       <p>Il percorso formativo di <strong>20 ore complessive</strong> fornirà competenze digitali fondamentali e introdurrà alle tecnologie assistive per l'inclusione:</p>
-      <ul>
-        <li><strong>Alfabetizzazione informatica:</strong> Utilizzo del computer, navigazione internet, posta elettronica</li>
-        <li><strong>Tecnologie assistive:</strong> Strumenti digitali per l'autonomia e l'inclusione</li>
-        <li><strong>Comunicazione digitale:</strong> App e software per la comunicazione aumentativa</li>
-        <li><strong>Sicurezza online:</strong> Protezione dei dati e navigazione sicura</li>
+      <ul style="list-style-type: disc; margin-left: 20px; margin-bottom: 16px;">
+        <li style="margin-bottom: 8px;"><strong>Alfabetizzazione informatica:</strong> Utilizzo del computer, navigazione internet, posta elettronica</li>
+        <li style="margin-bottom: 8px;"><strong>Tecnologie assistive:</strong> Strumenti digitali per l'autonomia e l'inclusione</li>
+        <li style="margin-bottom: 8px;"><strong>Comunicazione digitale:</strong> App e software per la comunicazione aumentativa</li>
+        <li style="margin-bottom: 8px;"><strong>Sicurezza online:</strong> Protezione dei dati e navigazione sicura</li>
       </ul>
 
       <h3>Informazioni pratiche</h3>
-      <ul>
-        <li><strong>Durata:</strong> 20 ore complessive</li>
-        <li><strong>Periodo:</strong> Febbraio 2026</li>
-        <li><strong>Costo:</strong> GRATUITO</li>
-        <li><strong>Posti disponibili:</strong> Massimo 15 famiglie</li>
-        <li><strong>Scadenza domande:</strong> 16 Gennaio 2026</li>
+      <ul style="list-style-type: disc; margin-left: 20px; margin-bottom: 16px;">
+        <li style="margin-bottom: 8px;"><strong>Durata:</strong> 20 ore complessive</li>
+        <li style="margin-bottom: 8px;"><strong>Periodo:</strong> Febbraio 2026</li>
+        <li style="margin-bottom: 8px;"><strong>Costo:</strong> GRATUITO</li>
+        <li style="margin-bottom: 8px;"><strong>Posti disponibili:</strong> Massimo 15 famiglie</li>
+        <li style="margin-bottom: 8px;"><strong>Scadenza domande:</strong> 16 Gennaio 2026</li>
       </ul>
 
       <h3>Chi può partecipare</h3>
       <p>Il corso è riservato a:</p>
-      <ul>
-        <li><strong>Famiglie residenti</strong> nei Comuni del Marmo Platano Melandro</li>
-        <li><strong>Famiglie con almeno un figlio con disabilità</strong> (partecipante o futuro partecipante al progetto)</li>
-        <li><strong>È richiesta la presenza di almeno un genitore</strong> durante le attività formative</li>
+      <ul style="list-style-type: disc; margin-left: 20px; margin-bottom: 16px;">
+        <li style="margin-bottom: 8px;"><strong>Famiglie residenti</strong> nei Comuni del Marmo Platano Melandro</li>
+        <li style="margin-bottom: 8px;"><strong>Famiglie con almeno un figlio con disabilità</strong> (partecipante o futuro partecipante al progetto)</li>
+        <li style="margin-bottom: 8px;"><strong>È richiesta la presenza di almeno un genitore</strong> durante le attività formative</li>
       </ul>
 
       <h3>Come candidarsi</h3>
       <p>Per partecipare alle selezioni è necessario:</p>
-      <ul>
-        <li><strong>Scaricare il bando completo</strong> dalla pagina del progetto</li>
-        <li><strong>Compilare il modulo domanda</strong> in tutte le sue parti</li>
-        <li><strong>Inviare la documentazione</strong> entro il 16 Gennaio 2026 a: <strong>tiabilito@gmail.com</strong></li>
+      <ul style="list-style-type: disc; margin-left: 20px; margin-bottom: 16px;">
+        <li style="margin-bottom: 8px;"><strong>Scaricare il bando completo</strong> dalla pagina del progetto</li>
+        <li style="margin-bottom: 8px;"><strong>Compilare il modulo domanda</strong> in tutte le sue parti</li>
+        <li style="margin-bottom: 8px;"><strong>Inviare la documentazione</strong> entro il 16 Gennaio 2026 a: <a href="mailto:tiabilito@gmail.com" style="color: #2563eb; font-weight: bold; text-decoration: underline;">tiabilito@gmail.com</a></li>
       </ul>
 
       <h3>Il Progetto T.I. ABILITO</h3>
       <p>Il progetto "Tecnologia e Intelligenza Artificiale per la cura, l'inclusione e la corretta comunicazione della disabilità" è stato selezionato da <strong>Con i Bambini</strong> nell'ambito del Fondo per il contrasto della povertà educativa minorile. L'obiettivo è sperimentare percorsi inclusivi per oltre 100 minori con disabilità attraverso l'uso delle nuove tecnologie.</p>
 
-      <p>Per scaricare il bando, il modulo domanda e tutte le informazioni:</p>
-      <p><a href="/progetti/ti-abilito#alfabetizzazione" class="cta-link">Vai alla pagina del progetto →</a></p>
+      <p style="margin-top: 24px;">Per scaricare il bando, il modulo domanda e tutte le informazioni:</p>
+      <p><a href="/progetti/ti-abilito" class="cta-link" style="display: inline-block; background-color: #2563eb; color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: bold;">Vai alla pagina del progetto →</a></p>
     `
   },
   {
