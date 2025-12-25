@@ -22,10 +22,10 @@ const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY || '';
 
 // Configurazione
 const CONFIG = {
-  DEBUG: true,
+  DEBUG: false, // Disabilitato in produzione per ridurre overhead
   RETRY_COUNT: 3,
   RETRY_DELAY_BASE: 1000, // ms, exponential backoff
-  CACHE_TIME: 60000, // 60 secondi (come da header Cache-Control)
+  CACHE_TIME: 600000, // 10 minuti - riduce chiamate a Supabase e egress
 };
 
 // Cache semplice in memoria

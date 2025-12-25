@@ -1,6 +1,58 @@
 export const newsItems = [
   {
     id: 1,
+    title: "Corso Gratuito Alfabetizzazione Informatica: iscrizioni aperte per famiglie",
+    date: "20 Dicembre 2025",
+    category: "Corsi",
+    image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxmYW1pbHklMjBjb21wdXRlciUyMGxlYXJuaW5nfGVufDF8fHx8MTc2NTU1MTA0NHww&ixlib=rb-4.1.0&q=80&w=1080",
+    excerpt: "Nuovo bando per il corso gratuito di Alfabetizzazione Informatica e Tecnologie Assistive. 20 ore di formazione per famiglie del Marmo Platano Melandro. Scadenza domande: 16 Gennaio 2026.",
+    link: "/progetti/ti-abilito#alfabetizzazione",
+    content: `
+      <p class="lead">È aperto il nuovo bando per il corso <strong>Alfabetizzazione Informatica e Tecnologie Assistive</strong> nell'ambito del progetto T.I. ABILITO. Un'opportunità formativa completamente <strong>gratuita</strong> per le famiglie residenti nei Comuni del Marmo Platano Melandro.</p>
+
+      <h3>Cosa offre il corso</h3>
+      <p>Il percorso formativo di <strong>20 ore complessive</strong> fornirà competenze digitali fondamentali e introdurrà alle tecnologie assistive per l'inclusione:</p>
+      <ul>
+        <li><strong>Alfabetizzazione informatica:</strong> Utilizzo del computer, navigazione internet, posta elettronica</li>
+        <li><strong>Tecnologie assistive:</strong> Strumenti digitali per l'autonomia e l'inclusione</li>
+        <li><strong>Comunicazione digitale:</strong> App e software per la comunicazione aumentativa</li>
+        <li><strong>Sicurezza online:</strong> Protezione dei dati e navigazione sicura</li>
+      </ul>
+
+      <h3>Informazioni pratiche</h3>
+      <ul>
+        <li><strong>Durata:</strong> 20 ore complessive</li>
+        <li><strong>Periodo:</strong> Febbraio 2026</li>
+        <li><strong>Costo:</strong> GRATUITO</li>
+        <li><strong>Posti disponibili:</strong> Massimo 15 famiglie</li>
+        <li><strong>Scadenza domande:</strong> 16 Gennaio 2026</li>
+      </ul>
+
+      <h3>Chi può partecipare</h3>
+      <p>Il corso è riservato a:</p>
+      <ul>
+        <li><strong>Famiglie residenti</strong> nei Comuni del Marmo Platano Melandro</li>
+        <li><strong>Famiglie con almeno un figlio con disabilità</strong> (partecipante o futuro partecipante al progetto)</li>
+        <li><strong>È richiesta la presenza di almeno un genitore</strong> durante le attività formative</li>
+      </ul>
+
+      <h3>Come candidarsi</h3>
+      <p>Per partecipare alle selezioni è necessario:</p>
+      <ul>
+        <li><strong>Scaricare il bando completo</strong> dalla pagina del progetto</li>
+        <li><strong>Compilare il modulo domanda</strong> in tutte le sue parti</li>
+        <li><strong>Inviare la documentazione</strong> entro il 16 Gennaio 2026 a: <strong>tiabilito@gmail.com</strong></li>
+      </ul>
+
+      <h3>Il Progetto T.I. ABILITO</h3>
+      <p>Il progetto "Tecnologia e Intelligenza Artificiale per la cura, l'inclusione e la corretta comunicazione della disabilità" è stato selezionato da <strong>Con i Bambini</strong> nell'ambito del Fondo per il contrasto della povertà educativa minorile. L'obiettivo è sperimentare percorsi inclusivi per oltre 100 minori con disabilità attraverso l'uso delle nuove tecnologie.</p>
+
+      <p>Per scaricare il bando, il modulo domanda e tutte le informazioni:</p>
+      <p><a href="/progetti/ti-abilito#alfabetizzazione" class="cta-link">Vai alla pagina del progetto →</a></p>
+    `
+  },
+  {
+    id: 2,
     title: "Nuovo Corso: Specializzazione Guide Turistiche per Non Vedenti",
     date: "2 Dicembre 2025",
     category: "Corsi",
@@ -52,44 +104,50 @@ export const newsItems = [
     `
   },
   {
-    id: 2,
-    title: "Online il Bando T.I. ABILITO: aperte le selezioni",
-    date: "16 Dicembre 2025",
+    id: 3,
+    title: "Alfabetizzazione Informatica: nuovo bando con iscrizioni aperte",
+    date: "25 Dicembre 2025",
     category: "Bandi",
     image: "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzdHVkZW50JTIwc2Nob2xhcnNoaXB8ZW58MXx8fHwxNzY1NTUxMDQ0fDA&ixlib=rb-4.1.0&q=80&w=1080",
-    excerpt: "Sono aperte le selezioni per il corso di alfabetizzazione informatica nell'ambito del progetto T.I. ABILITO. Scopri come partecipare e i requisiti richiesti.",
-    link: "https://www.innform.eu/online-il-bando-t-i-abilito-aperte-le-selezioni-per-il-corso-di-alfabetizzazione-informatica/",
+    excerpt: "Aperto il nuovo bando per il corso gratuito di Alfabetizzazione Informatica e Tecnologie Assistive. 20 ore di formazione per massimo 15 famiglie del Marmo Platano Melandro. Scadenza: 16 Gennaio 2026.",
+    link: "/progetti/ti-abilito#alfabetizzazione",
     content: `
-      <p class="lead">È online il nuovo bando del progetto <strong>T.I. ABILITO</strong> per il corso di alfabetizzazione informatica. Le selezioni sono ufficialmente aperte e rappresentano un'opportunità formativa gratuita per i residenti in Basilicata.</p>
+      <p class="lead">Sono ufficialmente aperte le iscrizioni al nuovo corso di <strong>Alfabetizzazione Informatica e Tecnologie Assistive</strong> nell'ambito del progetto T.I. ABILITO. Un'opportunità formativa completamente <strong>gratuita</strong> dedicata alle famiglie del territorio.</p>
 
-      <h3>Il Progetto T.I. ABILITO</h3>
-      <p>T.I. ABILITO è un progetto finanziato che mira a fornire competenze digitali di base a chi desidera migliorare le proprie capacità nell'uso del computer e degli strumenti informatici. Il corso è completamente gratuito per i partecipanti selezionati.</p>
-
-      <h3>Come partecipare</h3>
-      <p>Per partecipare alle selezioni è necessario:</p>
+      <h3>Dettagli del corso</h3>
       <ul>
-        <li><strong>Verificare i requisiti:</strong> Consultare il bando per i criteri di ammissibilità</li>
-        <li><strong>Compilare la domanda:</strong> Seguire le istruzioni indicate nel bando ufficiale</li>
-        <li><strong>Rispettare le scadenze:</strong> Presentare la documentazione entro i termini previsti</li>
+        <li><strong>Contenuti:</strong> Alfabetizzazione informatica e Tecnologie Assistive</li>
+        <li><strong>Durata:</strong> 20 ore complessive</li>
+        <li><strong>Periodo:</strong> Febbraio 2026</li>
+        <li><strong>Costo:</strong> GRATUITO</li>
       </ul>
 
-      <h3>Contenuti del corso</h3>
-      <p>Il percorso formativo copre le competenze digitali fondamentali:</p>
+      <h3>Chi può partecipare</h3>
+      <p>Il corso è riservato a <strong>massimo 15 famiglie</strong> che rispondono ai seguenti requisiti:</p>
       <ul>
-        <li>Utilizzo del computer e del sistema operativo</li>
-        <li>Navigazione internet e ricerca informazioni</li>
-        <li>Posta elettronica e comunicazione digitale</li>
-        <li>Elaborazione testi e fogli di calcolo</li>
-        <li>Sicurezza informatica di base</li>
+        <li><strong>Residenza:</strong> Nei Comuni del Marmo Platano Melandro</li>
+        <li><strong>Composizione familiare:</strong> Famiglie con almeno un figlio con disabilità (partecipante o futuro partecipante al progetto)</li>
+        <li><strong>Partecipazione:</strong> È richiesta la presenza di almeno un genitore</li>
       </ul>
 
-      <h3>Maggiori informazioni</h3>
-      <p>Per tutti i dettagli, requisiti e modalità di iscrizione, consulta il bando completo e scopri tutte le opportunità del progetto:</p>
-      <p><a href="/progetti/ti-abilito" class="cta-link">Scopri il Progetto T.I. ABILITO →</a></p>
+      <h3>Come candidarsi</h3>
+      <p>Per presentare la propria candidatura è necessario:</p>
+      <ol>
+        <li>Scaricare il <strong>Bando Completo</strong> dalla pagina del progetto</li>
+        <li>Compilare il <strong>Modulo Domanda</strong> in tutte le sue parti</li>
+        <li>Inviare la documentazione a: <strong>tiabilito@gmail.com</strong></li>
+      </ol>
+
+      <h3>Scadenza</h3>
+      <p>Le domande devono essere inviate entro e non oltre il <strong>16 Gennaio 2026</strong>.</p>
+
+      <h3>Documentazione</h3>
+      <p>Il bando completo e il modulo domanda sono disponibili sulla pagina dedicata al progetto:</p>
+      <p><a href="/progetti/ti-abilito#alfabetizzazione" class="cta-link">Scarica il bando e candidati ora →</a></p>
     `
   },
   {
-    id: 3,
+    id: 4,
     title: "Pubblicato elenco convocazioni corso ASACOM",
     date: "9 Novembre 2024",
     category: "Avvisi",
@@ -119,7 +177,7 @@ export const newsItems = [
     `
   },
   {
-    id: 4,
+    id: 5,
     title: "Pubblicata la graduatoria ammessi ASACOM",
     date: "1 Novembre 2024",
     category: "Graduatorie",
