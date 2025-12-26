@@ -25,7 +25,7 @@ const CONFIG = {
   DEBUG: false, // Disabilitato in produzione per ridurre overhead
   RETRY_COUNT: 3,
   RETRY_DELAY_BASE: 1000, // ms, exponential backoff
-  CACHE_TIME: 600000, // 10 minuti - riduce chiamate a Supabase e egress
+  CACHE_TIME: 300000, // 5 minuti - compromesso tra reattività e risparmio egress
 };
 
 // Cache semplice in memoria
