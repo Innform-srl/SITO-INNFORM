@@ -51,13 +51,13 @@ export function usePublicCourses(options: UseCoursesOptions = {}): UseCoursesRes
   const [total, setTotal] = useState(0);
   const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
 
-  const fetchCourses = useCallback(async (forceRefresh = false) => {
+  const fetchCourses = useCallback(async (forceRefresh = false, isInitial = false) => {
     if (!enabled) return;
 
     try {
       setError(null);
-      // Non mostrare loading se e' un refresh in background
-      if (!lastUpdated) setLoading(true);
+      // Mostra loading solo al primo caricamento
+      if (isInitial) setLoading(true);
 
       const response = await getCourses({
         category,
@@ -78,11 +78,11 @@ export function usePublicCourses(options: UseCoursesOptions = {}): UseCoursesRes
     } finally {
       setLoading(false);
     }
-  }, [category, type, limit, enabled, lastUpdated]);
+  }, [category, type, limit, enabled]);
 
   // Fetch iniziale
   useEffect(() => {
-    fetchCourses();
+    fetchCourses(false, true);
   }, [fetchCourses]);
 
   // Polling automatico
@@ -145,7 +145,7 @@ export function usePublicCourse(options: UseCourseOptions): UseCourseResult {
   const [error, setError] = useState<string | null>(null);
   const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
 
-  const fetchCourse = useCallback(async (forceRefresh = false) => {
+  const fetchCourse = useCallback(async (forceRefresh = false, isInitial = false) => {
     if (!enabled || (!id && !slug && !code)) {
       setLoading(false);
       return;
@@ -153,7 +153,7 @@ export function usePublicCourse(options: UseCourseOptions): UseCourseResult {
 
     try {
       setError(null);
-      if (!lastUpdated) setLoading(true);
+      if (isInitial) setLoading(true);
 
       let result: CoursePublicData | null = null;
 
@@ -177,11 +177,11 @@ export function usePublicCourse(options: UseCourseOptions): UseCourseResult {
     } finally {
       setLoading(false);
     }
-  }, [id, slug, code, enabled, lastUpdated]);
+  }, [id, slug, code, enabled]);
 
   // Fetch iniziale
   useEffect(() => {
-    fetchCourse();
+    fetchCourse(false, true);
   }, [fetchCourse]);
 
   // Polling
@@ -256,7 +256,7 @@ export function useCourseLessons(options: UseCourseLessonsOptions): UseCourseLes
   const [error, setError] = useState<string | null>(null);
   const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
 
-  const fetchLessons = useCallback(async (forceRefresh = false) => {
+  const fetchLessons = useCallback(async (forceRefresh = false, isInitial = false) => {
     if (!enabled || (!courseId && !slug)) {
       setLoading(false);
       return;
@@ -264,7 +264,7 @@ export function useCourseLessons(options: UseCourseLessonsOptions): UseCourseLes
 
     try {
       setError(null);
-      if (!lastUpdated) setLoading(true);
+      if (isInitial) setLoading(true);
 
       let result: NextLesson[] = [];
 
@@ -274,9 +274,6 @@ export function useCourseLessons(options: UseCourseLessonsOptions): UseCourseLes
         result = await getCourseLessonsBySlug(slug, forceRefresh);
       }
 
-      // Debug: verifica quante lezioni arrivano dall'API
-      console.log('[useCourseLessons] Lezioni ricevute dall\'API:', result?.length, result);
-
       setLessons(result);
       setLastUpdated(new Date());
 
@@ -285,11 +282,11 @@ export function useCourseLessons(options: UseCourseLessonsOptions): UseCourseLes
     } finally {
       setLoading(false);
     }
-  }, [courseId, slug, editionId, enabled, lastUpdated]);
+  }, [courseId, slug, editionId, enabled]);
 
   // Fetch iniziale
   useEffect(() => {
-    fetchLessons();
+    fetchLessons(false, true);
   }, [fetchLessons]);
 
   // Polling

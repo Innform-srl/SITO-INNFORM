@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Microscope, Droplet, FlaskConical, BookOpen, ChevronLeft, ChevronRight, Clock, Award, TrendingUp, Users, Settings, AlertTriangle, ShoppingBag, Megaphone, Croissant, Eye, Filter, GraduationCap, Target, LayoutGrid, Layers } from 'lucide-react';
+import { Microscope, Droplet, FlaskConical, BookOpen, ChevronLeft, ChevronRight, Clock, Award, TrendingUp, Users, Settings, AlertTriangle, ShoppingBag, Megaphone, Croissant, Eye, Filter, GraduationCap, Target, LayoutGrid, Layers, Monitor } from 'lucide-react';
 
 type FilterType = 'tutti' | 'master' | 'gol' | 'specializzazione';
 type ViewMode = 'carousel' | 'grid';
@@ -153,6 +153,20 @@ export function Courses() {
       bgGradient: 'from-amber-50 to-yellow-50',
       solidColor: '#d97706',
       gradientCSS: 'linear-gradient(90deg, #D97706 0%, #F59E0B 50%, #FBBF24 100%)',
+    },
+    {
+      id: 'competenze-digitali',
+      title: 'Competenze Digitali',
+      description: 'Upskilling per acquisire competenze digitali essenziali: utilizzo del computer, navigazione internet, strumenti di produttività e comunicazione digitale.',
+      duration: '60 ore',
+      type: 'GOL Upskilling',
+      category: 'gol',
+      icon: Monitor,
+      skills: ['Utilizzo PC', 'Navigazione Web', 'Office', 'Comunicazione Digitale'],
+      gradient: 'from-blue-600 via-blue-500 to-cyan-500',
+      bgGradient: 'from-blue-50 to-cyan-50',
+      solidColor: '#2563eb',
+      gradientCSS: 'linear-gradient(90deg, #2563EB 0%, #3B82F6 50%, #06B6D4 100%)',
     },
     // Specializzazione Guide Turistiche
     {

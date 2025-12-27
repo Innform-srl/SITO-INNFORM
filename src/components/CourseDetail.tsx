@@ -615,6 +615,62 @@ const coursesData: Record<string, Course> = {
     ],
     internshipPartners: []
   },
+  'competenze-digitali': {
+    id: 'competenze-digitali',
+    title: 'Competenze Digitali',
+    description: 'Il corso offre un percorso formativo per acquisire competenze digitali essenziali per il mondo del lavoro moderno. I partecipanti impareranno a utilizzare il computer, navigare in internet, gestire strumenti di produttività e comunicare efficacemente tramite canali digitali.',
+    duration: '60 ore',
+    type: 'Programma GOL (Upskilling)',
+    gradient: 'from-blue-600 via-blue-500 to-cyan-500',
+    bgGradient: 'from-blue-50 to-cyan-50',
+    icon: 'Monitor',
+    skills: ['Utilizzo PC', 'Navigazione Web', 'Suite Office', 'Email e PEC', 'Comunicazione Digitale', 'Sicurezza Online'],
+    price: 'Gratuito (GOL)',
+    startDate: 'Iscrizioni aperte',
+    location: 'Potenza',
+    heroImage: 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&q=80&w=1080',
+    carouselImages: [
+      'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&q=80&w=1080',
+      'https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&q=80&w=1080'
+    ],
+    statsImage: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=1080',
+    labImage: 'https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&q=80&w=1080',
+    stats: {
+      employmentRate: 'N/A',
+      satisfaction: 'N/A',
+      avgSalary: 'Variabile',
+      partnerships: '20+'
+    },
+    modules: [
+      {
+        title: 'Fondamenti Informatica',
+        hours: '20 ore',
+        topics: ['Uso del computer', 'Sistema operativo', 'Gestione file e cartelle', 'Sicurezza informatica di base']
+      },
+      {
+        title: 'Produttività Digitale',
+        hours: '20 ore',
+        topics: ['Elaborazione testi', 'Fogli di calcolo', 'Presentazioni', 'Strumenti cloud']
+      },
+      {
+        title: 'Comunicazione Online',
+        hours: '20 ore',
+        topics: ['Navigazione web', 'Email e PEC', 'Social media', 'Collaborazione digitale']
+      }
+    ],
+    outcomes: ['Utilizzo autonomo del computer', 'Gestione documenti digitali', 'Comunicazione professionale via email', 'Navigazione sicura in internet', 'Uso strumenti di produttività'],
+    careers: ['Impiegato amministrativo', 'Addetto segreteria', 'Operatore data entry', 'Assistente digitale'],
+    requirements: ['Diploma', 'Disoccupati iscritti GOL (Upskilling)', 'Residenti in Basilicata'],
+    certifications: ['Attestato di frequenza con profitto (Programma GOL)'],
+    teachers: [
+      { name: 'Esperti Informatica', role: 'Formatori Senior', description: 'Professionisti del settore IT e formazione digitale' }
+    ],
+    faq: [
+      { question: 'Chi può partecipare?', answer: 'Diplomati disoccupati residenti in Basilicata, profilati Upskilling nel Programma GOL.' },
+      { question: 'È necessaria esperienza pregressa?', answer: 'No, il corso parte dalle basi ed è adatto anche a chi ha poca familiarità con il computer.' }
+    ],
+    internshipPartners: []
+  },
   'corso-di-specializzazione-alle-guide-turistiche': {
     id: 'corso-di-specializzazione-alle-guide-turistiche',
     title: 'Corso di Specializzazione alle Guide Turistiche',
@@ -723,7 +779,7 @@ const coursesData: Record<string, Course> = {
 export function CourseDetail() {
   const { courseId } = useParams();
 
-  // Use generic fallback if course not found
+  // Dati statici del corso (se configurato)
   const course = courseId ? coursesData[courseId] : null;
 
   // Dati live da EduPlan API (cerca per slug = courseId)
@@ -805,8 +861,8 @@ export function CourseDetail() {
         <p className="text-gray-600 mb-8 max-w-md">
           Ci dispiace, ma il corso che stai cercando non sembra esistere o è stato rimosso.
         </p>
-        <Link 
-          to="/#corsi" 
+        <Link
+          to="/#corsi"
           className="bg-purple-600 text-white px-8 py-3 rounded-xl hover:bg-purple-700 transition-colors font-semibold"
         >
           Torna ai Corsi

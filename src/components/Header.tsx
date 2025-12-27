@@ -7,6 +7,7 @@ export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
+  const [activeSubmenu, setActiveSubmenu] = useState<string | null>(null);
   const location = useLocation();
 
   const getHref = (path: string) => {
@@ -50,7 +51,8 @@ export function Header() {
             { label: "Operatore della Tornitura", href: "/corsi/operatore-tornitura", badge: "Reskilling" },
             { label: "Operatore H2S e Sicurezza", href: "/corsi/operatore-h2s", badge: "Reskilling" },
             { label: "Pubblicità e Comunicazione Digitale", href: "/corsi/pubblicita-comunicazione", badge: "Upskilling" },
-            { label: "Operatore Panificazione e Paste", href: "/corsi/operatore-panificazione", badge: "Reskilling" }
+            { label: "Operatore Panificazione e Paste", href: "/corsi/operatore-panificazione", badge: "Reskilling" },
+            { label: "Competenze Digitali", href: "/corsi/competenze-digitali", badge: "Upskilling" }
           ]
         },
         {
@@ -123,38 +125,25 @@ export function Header() {
                       {item.label}
                       <ChevronDown size={16} className="transition-transform group-hover:rotate-180" />
                     </button>
-                    <div className="absolute left-0 mt-0 w-64 bg-white rounded-xl shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 border border-gray-100 py-2">
+                    <div
+                      className="absolute left-0 mt-0 w-64 bg-white rounded-xl shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 border border-gray-100 py-2"
+                    >
                       {item.dropdown.map((subItem) => (
-                        <div key={subItem.label}>
+                        <div
+                          key={subItem.label}
+                          className="relative"
+                          onMouseEnter={() => subItem.children && setActiveSubmenu(subItem.label)}
+                          onMouseLeave={(e) => {
+                            const relatedTarget = e.relatedTarget as HTMLElement;
+                            if (!relatedTarget?.closest('.submenu-panel')) {
+                              setActiveSubmenu(null);
+                            }
+                          }}
+                        >
                           {subItem.children ? (
-                            <div className="relative group/nested">
-                              <div className="flex items-center justify-between px-4 py-3 text-sm text-gray-700 hover:bg-purple-50 hover:text-purple-600 transition-colors cursor-pointer">
-                                <span className="font-semibold">{subItem.label}</span>
-                                <ChevronRight size={14} />
-                              </div>
-                              
-                              <div className="absolute left-full top-0 ml-1 w-72 bg-white rounded-xl shadow-xl opacity-0 invisible group-hover/nested:opacity-100 group-hover/nested:visible transition-all duration-300 transform translate-x-2 group-hover/nested:translate-x-0 border border-gray-100 py-2">
-                                {subItem.children.map((childItem) => (
-                                  <Link
-                                    key={childItem.label}
-                                    to={childItem.href}
-                                    className="flex items-center justify-between px-4 py-2 text-sm text-gray-600 hover:text-purple-600 hover:bg-purple-50 transition-colors"
-                                  >
-                                    <span>{childItem.label}</span>
-                                    {'badge' in childItem && childItem.badge && (
-                                      <span
-                                        className="ml-1.5 px-2 py-0.5 text-[6px] font-medium rounded-full whitespace-nowrap"
-                                        style={{
-                                          backgroundColor: childItem.badge === 'Upskilling' ? '#eff6ff' : '#fefce8',
-                                          color: childItem.badge === 'Upskilling' ? '#3b82f6' : '#ca8a04'
-                                        }}
-                                      >
-                                        {childItem.badge}
-                                      </span>
-                                    )}
-                                  </Link>
-                                ))}
-                              </div>
+                            <div className={`flex items-center justify-between px-4 py-3 text-sm text-gray-700 hover:bg-purple-50 hover:text-purple-600 transition-colors cursor-pointer ${activeSubmenu === subItem.label ? 'bg-purple-50 text-purple-600' : ''}`}>
+                              <span className="font-semibold">{subItem.label}</span>
+                              <ChevronRight size={14} />
                             </div>
                           ) : (
                             <Link
@@ -163,6 +152,34 @@ export function Header() {
                             >
                               <span className="font-semibold">{subItem.label}</span>
                             </Link>
+                          )}
+                          {subItem.children && activeSubmenu === subItem.label && (
+                            <div
+                              className="submenu-panel absolute left-full top-0 -ml-1 w-72 bg-white rounded-xl shadow-xl border border-gray-100 py-2 z-50"
+                              onMouseLeave={() => setActiveSubmenu(null)}
+                            >
+                              <div className="absolute left-0 top-0 w-2 h-full -translate-x-full" />
+                              {subItem.children.map((childItem) => (
+                                <Link
+                                  key={childItem.label}
+                                  to={childItem.href}
+                                  className="flex items-center justify-between px-4 py-2 text-sm text-gray-600 hover:text-purple-600 hover:bg-purple-50 transition-colors"
+                                >
+                                  <span>{childItem.label}</span>
+                                  {'badge' in childItem && childItem.badge && (
+                                    <span
+                                      className="ml-1.5 px-2 py-0.5 text-[10px] font-medium rounded-full whitespace-nowrap"
+                                      style={{
+                                        backgroundColor: childItem.badge === 'Upskilling' ? '#eff6ff' : '#fefce8',
+                                        color: childItem.badge === 'Upskilling' ? '#3b82f6' : '#ca8a04'
+                                      }}
+                                    >
+                                      {childItem.badge}
+                                    </span>
+                                  )}
+                                </Link>
+                              ))}
+                            </div>
                           )}
                         </div>
                       ))}
