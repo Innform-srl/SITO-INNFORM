@@ -1,6 +1,286 @@
 # Guida Agente Sito Innform
 
-**Versione Corrente: 6.0 | Data: 27 Dicembre 2025**
+**Versione Corrente: 6.5 | Data: 27 Dicembre 2025 | Ora: 19:00**
+
+---
+
+## ✅ CORSI DINAMICI AL 100% - IMPLEMENTATO (v6.5)
+
+### Cosa è stato fatto
+
+Il sito ora mostra **automaticamente** i corsi pubblicati su EduPlan, senza richiedere dati statici in `coursesData`.
+
+**File modificato:** `src/components/CourseDetail.tsx`
+
+### Come funziona ora
+
+```javascript
+// 1. Dati statici (opzionali, per personalizzazioni)
+const staticCourse = coursesData[slug];
+
+// 2. Dati live da API (fonte primaria)
+const { course: liveData, loading } = usePublicCourse({ slug });
+
+// 3. Combina: API primario, statico per extras
+const course = useMemo(() => {
+  if (!staticCourse && !liveData) return null;
+  if (!liveData) return staticCourse;
+
+  // Merge: liveData sovrascrive, staticCourse per extras (immagini, FAQ, moduli)
+  return {
+    title: liveData.title,
+    description: liveData.description,
+    duration: `${liveData.duration_hours} ore`,
+    price: liveData.price > 0 ? `€${liveData.price}` : 'Contattaci',
+    // ... dati da API
+
+    // Extras da staticCourse (se disponibili)
+    heroImage: staticCourse?.heroImage || defaultImage,
+    modules: staticCourse?.modules || [],
+    faq: staticCourse?.faq || [],
+  };
+}, [staticCourse, liveData]);
+
+// 4. Loading state per corsi solo API
+if (!course && loading) {
+  return <Loading />; // Spinner mentre carica
+}
+
+// 5. Errore solo se né API né statico hanno dati
+if (!course) {
+  return <NotFound />;
+}
+```
+
+### Vantaggi implementati
+
+1. **Zero interventi manuali** - I nuovi corsi appaiono automaticamente
+2. **Sincronizzazione reale** - Il sito è sempre allineato con EduPlan
+3. **Dati statici opzionali** - `coursesData` serve solo per personalizzazioni extra
+4. **Loading state** - Spinner durante il caricamento per corsi solo API
+
+### Esempio: Corso AI
+
+Il corso "Corso AI" (slug: `corso-ai`) ora è visibile:
+- **URL:** `innform.eu/corsi/corso-ai`
+- **Dati da API:** titolo, descrizione, durata, prezzo, data, posti
+- **Stile default:** gradient viola/rosa, immagine placeholder
+
+### Per aggiungere personalizzazioni (opzionale)
+
+Se vuoi aggiungere immagini custom, FAQ o moduli a un corso, aggiungi una entry in `coursesData`:
+
+```javascript
+'corso-ai': {
+  // Solo i campi extra che vuoi personalizzare
+  heroImage: '/images/corso-ai-hero.jpg',
+  carouselImages: [...],
+  modules: [...],
+  faq: [...],
+}
+```
+
+---
+
+## ✅ SLUG AUTO-GENERATI (v6.3 - 27/12/2025)
+
+### Cosa è stato implementato
+
+EduPlan ora genera **automaticamente** gli slug dal nome del corso/progetto:
+
+- **Nessuna selezione manuale**: Lo slug viene creato in tempo reale dal nome
+- **Campo di sola lettura**: L'utente non può modificare lo slug (è un dato tecnico)
+- **Sempre presente**: Ogni corso/progetto ha sempre uno slug per la comunicazione
+
+### Come funziona
+
+Quando l'utente inserisce il nome:
+```
+Nome corso: "Corso AI e Machine Learning"
+Slug generato: "corso-ai-e-machine-learning"
+URL finale: innform.eu/corsi/corso-ai-e-machine-learning
+```
+
+La trasformazione:
+1. Converte in minuscolo
+2. Rimuove accenti (es. "à" → "a")
+3. Rimuove caratteri speciali
+4. Sostituisce spazi con trattini
+5. Rimuove trattini multipli
+
+### Per l'agente del sito
+
+Quando viene creato un nuovo corso/progetto su EduPlan:
+
+1. L'agente EduPlan comunicherà automaticamente lo slug generato
+2. L'agente del sito deve:
+   - Aggiungere i dati statici in `CourseDetail.tsx` con la chiave uguale allo slug
+   - Fare commit e push su GitHub
+   - Attendere il deploy Vercel (2-3 minuti)
+3. Dopo il deploy, comunicare all'agente EduPlan che può pubblicare il corso
+
+### Vantaggi rispetto a v6.2
+
+- **Zero input manuale**: L'utente non deve mai toccare lo slug
+- **Consistenza garantita**: Tutti gli slug seguono lo stesso formato
+- **Meno errori**: Nessuna possibilità di selezionare lo slug sbagliato
+
+---
+
+## 📋 ISTRUZIONI PER L'AGENTE DEL SITO INNFORM.EU
+
+### Quando ricevi un nuovo corso/progetto da EduPlan
+
+L'agente EduPlan ti comunicherà:
+1. **Nome del corso** (es. "Corso AI e Machine Learning")
+2. **Slug generato** (es. `corso-ai-e-machine-learning`)
+3. **Dati del corso** (descrizione, durata, prezzo, date, ecc.)
+
+### Cosa devi fare
+
+#### 1. Aggiungere i dati statici in `CourseDetail.tsx`
+
+Apri il file `src/components/CourseDetail.tsx` e aggiungi una nuova entry nell'oggetto `coursesData`:
+
+```javascript
+// Aggiungi alla fine dell'oggetto coursesData
+'corso-ai-e-machine-learning': {
+  id: 'corso-ai-e-machine-learning',
+  title: 'Corso AI e Machine Learning',
+  type: 'Formazione Professionale',
+  duration: '40 ore',
+  price: '€500',
+  location: 'Online',
+  description: 'Descrizione del corso...',
+  image: '/images/courses/ai-ml.jpg',  // Opzionale
+  highlights: [
+    'Fondamenti di Machine Learning',
+    'Reti Neurali e Deep Learning',
+    'Progetti pratici con Python'
+  ],
+  modules: [
+    { title: 'Modulo 1: Introduzione', duration: '8 ore' },
+    { title: 'Modulo 2: Algoritmi ML', duration: '16 ore' },
+    { title: 'Modulo 3: Progetti Pratici', duration: '16 ore' }
+  ],
+  requirements: [
+    'Conoscenza base di programmazione',
+    'Familiarità con Python (consigliata)'
+  ],
+  targetAudience: [
+    'Sviluppatori software',
+    'Data analysts',
+    'Professionisti IT'
+  ]
+}
+```
+
+#### 2. (Opzionale) Aggiungere stile personalizzato in `Courses.tsx`
+
+Se il corso deve avere uno stile visivo particolare nella homepage, aggiungi in `courseStylesMap`:
+
+```javascript
+'corso-ai-e-machine-learning': {
+  gradient: 'from-purple-500 to-indigo-600',
+  icon: '🤖',
+  badge: 'NUOVO'
+}
+```
+
+#### 3. Commit e push
+
+```bash
+git add .
+git commit -m "Aggiunto corso: Corso AI e Machine Learning"
+git push origin main
+```
+
+#### 4. Attendere il deploy Vercel
+
+Il deploy automatico impiega 2-3 minuti. Verifica che la pagina sia accessibile:
+- `https://innform.eu/corsi/corso-ai-e-machine-learning`
+
+#### 5. Comunicare all'agente EduPlan
+
+Conferma che il corso è stato aggiunto e la pagina è online.
+
+### Struttura dati richiesta
+
+| Campo | Tipo | Obbligatorio | Descrizione |
+|-------|------|--------------|-------------|
+| `id` | string | ✅ | Deve corrispondere allo slug |
+| `title` | string | ✅ | Nome del corso |
+| `type` | string | ✅ | Categoria (es. "Programma GOL", "Master") |
+| `duration` | string | ✅ | Durata (es. "40 ore") |
+| `price` | string | ✅ | Prezzo (es. "€500" o "Gratuito (GOL)") |
+| `location` | string | ✅ | Sede (es. "Potenza", "Online") |
+| `description` | string | ✅ | Descrizione breve |
+| `image` | string | ❌ | Path immagine (default disponibile) |
+| `highlights` | array | ❌ | Punti chiave del corso |
+| `modules` | array | ❌ | Programma didattico |
+| `requirements` | array | ❌ | Requisiti di accesso |
+| `targetAudience` | array | ❌ | A chi è rivolto |
+
+### Percorsi formativi (progetti)
+
+Per i percorsi formativi, lo slug viene usato per il menu "Percorsi":
+- URL: `innform.eu/percorsi/{slug}`
+- Menu: Header.tsx usa `public-paths-api` per caricare i percorsi dinamicamente
+
+I percorsi vengono mostrati automaticamente se:
+- `is_learning_path = true`
+- `is_published_on_website = true`
+
+---
+
+## ⚠️ PROBLEMA SLUG - RISOLUZIONE DEFINITIVA (v6.1 - 27/12/2025 14:30)
+
+### Il problema
+
+Il sito ha un file `CourseDetail.tsx` con **dati statici di presentazione** (immagini, bullet points, FAQ, ecc.) per ogni corso. Questi dati sono indicizzati per `website_slug`.
+
+Se lo slug nel database EduPlan NON corrisponde ESATTAMENTE a quello nel sito, la pagina del corso mostra **"Corso non trovato"**.
+
+### ✅ SLUGS CORRETTI - TABELLA DEFINITIVA
+
+Questi sono gli slug che DEVONO essere usati nel database EduPlan (campo `website_slug`):
+
+| Corso | Slug Corretto (website_slug) |
+|-------|------------------------------|
+| Tecnico Analisi Alimentari | `tecnico-analisi-alimentari` |
+| Editoria e Comunicazione | `editoria-e-comunicazione` |
+| Master Safety | `master-safety` |
+| Interior Design | `interior-design` |
+| Tecnico Esperto Sviluppo Turistico | `tecnico-esperto-per-lo-sviluppo-turistico-territoriale` |
+| Sistema Educativo Infanzia | `sistema-educativo-infanzia` |
+| Operatore Tornitura | `operatore-tornitura` |
+| Operatore H2S e Sicurezza | `operatore-h2s-e-sicurezza` |
+| Pubblicità e Comunicazione | `pubblicita-comunicazione` |
+| Operatore Panificazione | `operatore-della-panificazione-e-della-produzione-di-paste` |
+| Competenze Digitali | `competenze-digitali` |
+| Specializzazione Guide Turistiche | `corso-di-specializzazione-alle-guide-turistiche` |
+| Alfabetizzazione Digitale | `alfabetizzazione-digitale-per-utenti-maturi` |
+
+### 🔧 AZIONE RICHIESTA AGENTE EDUPLAN
+
+Prima di pubblicare un corso sul sito, **VERIFICARE** che il campo `website_slug` nella tabella `courses` corrisponda ESATTAMENTE a uno degli slug nella lista sopra.
+
+**Query di verifica:**
+```sql
+SELECT code, title, website_slug
+FROM courses
+WHERE status IN ('published', 'active')
+ORDER BY code;
+```
+
+**Se uno slug non corrisponde:**
+1. Aggiornare il campo `website_slug` nel database EduPlan
+2. OPPURE comunicare all'agente del sito per aggiungere il nuovo slug a `CourseDetail.tsx`
+
+### Per nuovi corsi
+
+1. **Opzione A (Consigliata):** Comunicare all'agente del sito lo slug PRIMA di pubblicare
+2. **Opzione B:** Usare lo slug generato e comunicarlo per aggiungere i dati di presentazione
 
 ---
 
@@ -421,6 +701,46 @@ Risposta attesa: `"meta": { "total": 9, ... }`
 
 ## CHANGELOG
 
+### v6.4 (27 Dicembre 2025)
+- **RICHIESTA PRIORITARIA:** Rendere il sito 100% dinamico per i corsi
+- **PROBLEMA:** Nuovi corsi mostrano "Corso non trovato" anche se l'API funziona
+- **SOLUZIONE RICHIESTA:** Modificare `CourseDetail.tsx` per usare solo dati API
+- **CORSO IN ATTESA:** "Corso AI" (slug: `corso-ai`) pubblicato ma non visibile
+
+### v6.3 (27 Dicembre 2025)
+- **SEMPLIFICATO:** Slug ora auto-generato dal nome (nessuna selezione manuale)
+- **RIMOSSO:** Dropdown con lista slug predefiniti (non più necessario)
+- **RIMOSSO:** Campo di input per slug personalizzato
+- **AGGIUNTO:** Campo read-only che mostra lo slug generato automaticamente
+- **MODIFICATO:** CourseModal.tsx - slug auto-generato dal campo `name`
+- **MODIFICATO:** EditCourseModal.tsx - slug auto-generato dal campo `title`
+- **MODIFICATO:** ProjectModal.tsx - slug auto-generato dal campo `name`
+- **FUNZIONE:** `generateSlug()` - converte nome in slug URL-friendly
+- **OBIETTIVO RAGGIUNTO:** Slug sempre presente, zero input utente, zero errori
+
+### v6.2 (27 Dicembre 2025)
+- **IMPLEMENTATO:** Validazione automatica degli slug nei form EduPlan
+- **AGGIUNTO:** Dropdown con lista slug validi per corsi (13 slug)
+- **AGGIUNTO:** Dropdown con lista slug validi per percorsi (3 slug: master, gol, specializzazione)
+- **AGGIUNTO:** Avviso visivo quando si usa uno slug personalizzato non presente nel sito
+- **AGGIUNTO:** Link diretto alla pagina del sito quando si seleziona uno slug valido
+- **MODIFICATO:** CourseModal.tsx - aggiunto campo websiteSlug con validazione
+- **MODIFICATO:** EditCourseModal.tsx - aggiunto campo website_slug con validazione
+- **MODIFICATO:** ProjectModal.tsx - aggiunto campo websiteSlug con validazione
+- **OBIETTIVO RAGGIUNTO:** Zero errori di comunicazione slug tra EduPlan e sito
+
+### v6.1 (27 Dicembre 2025)
+- **DOCUMENTATO:** Problema slug risolto definitivamente
+- **AGGIUNTA:** Tabella con tutti gli slug corretti per i 13 corsi
+- **AGGIUNTA:** Istruzioni per agente EduPlan su verifica slug prima della pubblicazione
+- **AGGIUNTA:** Query SQL di verifica slug
+- **CORRETTO:** Allineamento slug nel sito per 5 corsi:
+  - `master-editoria` → `editoria-e-comunicazione`
+  - `safety-manager` → `master-safety`
+  - `operatore-panificazione` → `operatore-della-panificazione-e-della-produzione-di-paste`
+  - `sviluppo-turistico` → `tecnico-esperto-per-lo-sviluppo-turistico-territoriale`
+  - `operatore-h2s` → `operatore-h2s-e-sicurezza`
+
 ### v6.0 (27 Dicembre 2025)
 - **COMPLETATO:** Sincronizzazione automatica sito-gestionale implementata
 - **IMPLEMENTATO:** Menu Percorsi dinamico (usa `public-paths-api`)
@@ -760,23 +1080,6 @@ lessons.forEach(lesson => {
 3. [x] Testare endpoint con parametro `course_id` - FUNZIONANTE
 4. [x] Impostare `LESSONS_API_ENABLED = true` nel sito - GIA' ATTIVO
 5. [x] Verificare visualizzazione calendario nelle pagine corso - FUNZIONANTE (27/12/2025)
-
----
-
-## NOTE PER AGENTE EDUPLAN
-
-### Come aggiungere un nuovo corso al sito
-
-1. **Creare il corso su EduPlan** con tutti i dati necessari
-2. **Pubblicare il corso** (status = published)
-3. **Verificare lo slug** - il campo `website_slug` deve corrispondere all'ID usato nel sito
-4. **Comunicare all'agente del sito** per aggiungere il corso alla homepage (lista statica)
-
-### Slug dei corsi - Convenzione
-
-Gli slug devono essere in formato kebab-case (tutto minuscolo, parole separate da trattini):
-- "Competenze Digitali" -> `competenze-digitali`
-- "Tecnico Analisi Alimentari" -> `tecnico-analisi-alimentari`
 
 ---
 

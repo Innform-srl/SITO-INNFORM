@@ -20,7 +20,7 @@ interface CourseStyle {
 
 // Mappa degli stili per slug dei corsi
 const courseStylesMap: Record<string, CourseStyle> = {
-  'tecnico-analisi-alimentari': {
+  'tecnico-esperto-in-analisi-alimentari-e-ambientali': {
     icon: Microscope,
     gradient: 'from-purple-600 via-purple-500 to-pink-500',
     bgGradient: 'from-purple-50 to-pink-50',
@@ -164,8 +164,17 @@ export function Courses() {
   const courses = useMemo(() => {
     if (!apiCourses.length) return [];
 
-    return apiCourses
-      .filter(c => c.is_enrollments_open) // Solo corsi con iscrizioni aperte
+    // Prima filtra i corsi con iscrizioni aperte
+    const openCourses = apiCourses.filter(c => c.is_enrollments_open);
+
+    // Poi ordina: metti 'tecnico-esperto-in-analisi-alimentari-e-ambientali' al primo posto
+    const sortedCourses = openCourses.sort((a, b) => {
+      if (a.website_slug === 'tecnico-esperto-in-analisi-alimentari-e-ambientali') return -1;
+      if (b.website_slug === 'tecnico-esperto-in-analisi-alimentari-e-ambientali') return 1;
+      return 0;
+    });
+
+    return sortedCourses
       .map(course => {
         const style = getCourseStyle(course.website_slug);
         const category = getCourseCategory(course);

@@ -101,7 +101,7 @@ const PROGRAMS: Record<string, {
       'Certificato medico di idoneità fisica'
     ]
   },
-  'tecnico-analisi-alimentari': {
+  'tecnico-esperto-in-analisi-alimentari-e-ambientali': {
     id: 'master-analisi-001',
     name: 'Tecnico Esperto in Analisi Alimentari e Ambientali',
     type: 'master',

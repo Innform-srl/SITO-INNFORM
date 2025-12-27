@@ -71,9 +71,12 @@ interface Course {
   internshipPartners?: string[];
 }
 
+// IMPORTANTE: Le chiavi usano il CODICE del corso (es: 'TAA', 'EEC'), NON lo slug.
+// Questo permette di rinominare i corsi su EduPlan senza perdere i dati statici.
+// L'URL continua a usare lo slug (SEO-friendly), ma il collegamento interno usa il code.
 const coursesData: Record<string, Course> = {
-  'tecnico-analisi-alimentari': {
-    id: 'tecnico-analisi-alimentari',
+  'TAA': {
+    id: 'TAA',
     title: 'Tecnico Esperto in Analisi Alimentari e Ambientali',
     description: 'Il master è finalizzato a sviluppare competenze su metodi e tecniche di analisi chimiche in ambito ambientale per il monitoraggio di acqua, aria, suolo, prevenzione e gestione dei rischi dell\'ambiente, analisi chimiche e microbiologiche per il controllo degli alimenti e applicazione di sistemi di qualità nell\'agroalimentare.',
     duration: '900 ore',
@@ -773,14 +776,87 @@ const coursesData: Record<string, Course> = {
       { question: 'Quanti partecipanti sono previsti?', answer: 'Il corso prevede un minimo di 12 e un massimo di 18 partecipanti per garantire un\'esperienza formativa di qualità.' }
     ],
     internshipPartners: []
+  },
+  'corso-ai': {
+    id: 'corso-ai',
+    title: 'Intelligenza Artificiale',
+    description: 'Il corso fornisce una panoramica completa sull\'Intelligenza Artificiale, dalle basi teoriche alle applicazioni pratiche. I partecipanti acquisiranno competenze nell\'utilizzo degli strumenti AI più diffusi, nel prompt engineering e nella comprensione delle implicazioni etiche e professionali dell\'IA nel mondo del lavoro.',
+    duration: '20 ore',
+    type: 'Corso di Formazione',
+    gradient: 'from-violet-600 via-purple-500 to-fuchsia-500',
+    bgGradient: 'from-violet-50 to-fuchsia-50',
+    icon: 'Brain',
+    skills: ['Machine Learning', 'Prompt Engineering', 'ChatGPT', 'AI Generativa', 'Automazione', 'Analisi Dati con AI'],
+    price: 'Contattaci',
+    startDate: 'Iscrizioni aperte',
+    location: 'Potenza / Online',
+    heroImage: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&q=80&w=1080',
+    carouselImages: [
+      'https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&q=80&w=1080',
+      'https://images.unsplash.com/photo-1620712943543-bcc4688e7485?auto=format&fit=crop&q=80&w=1080'
+    ],
+    statsImage: 'https://images.unsplash.com/photo-1555255707-c07966088b7b?auto=format&fit=crop&q=80&w=1080',
+    labImage: 'https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&q=80&w=1080',
+    stats: {
+      employmentRate: 'N/A',
+      satisfaction: 'N/A',
+      avgSalary: 'Variabile',
+      partnerships: '10+'
+    },
+    modules: [
+      {
+        title: 'Fondamenti di Intelligenza Artificiale',
+        hours: '4 ore',
+        topics: ['Cos\'è l\'Intelligenza Artificiale', 'Storia e evoluzione dell\'AI', 'Machine Learning vs Deep Learning', 'Tipi di AI: narrow, general, superintelligence', 'Applicazioni dell\'AI nel mondo reale']
+      },
+      {
+        title: 'AI Generativa e Large Language Models',
+        hours: '4 ore',
+        topics: ['Introduzione ai modelli linguistici (LLM)', 'ChatGPT, Claude, Gemini: panoramica degli strumenti', 'Generazione di testi, immagini e contenuti multimediali', 'Limiti e potenzialità dell\'AI generativa']
+      },
+      {
+        title: 'Prompt Engineering',
+        hours: '4 ore',
+        topics: ['Principi del prompt engineering efficace', 'Tecniche di prompting avanzate', 'Chain-of-thought e few-shot learning', 'Creazione di prompt per casi d\'uso specifici', 'Laboratorio pratico di scrittura prompt']
+      },
+      {
+        title: 'Applicazioni Pratiche dell\'AI',
+        hours: '4 ore',
+        topics: ['AI per la produttività personale e aziendale', 'Automazione di task ripetitivi', 'AI per analisi dati e reportistica', 'Strumenti AI per creatività e design', 'Integrazione AI nei flussi di lavoro']
+      },
+      {
+        title: 'Etica, Privacy e Futuro dell\'AI',
+        hours: '4 ore',
+        topics: ['Implicazioni etiche dell\'Intelligenza Artificiale', 'Privacy e protezione dei dati', 'AI e mercato del lavoro: opportunità e sfide', 'Normative europee sull\'AI (AI Act)', 'Tendenze future e scenari evolutivi']
+      }
+    ],
+    outcomes: [
+      'Comprendere i concetti fondamentali dell\'Intelligenza Artificiale e del Machine Learning',
+      'Utilizzare efficacemente strumenti di AI generativa come ChatGPT e Claude',
+      'Padroneggiare le tecniche di prompt engineering per ottenere risultati ottimali',
+      'Applicare l\'AI per aumentare la produttività personale e professionale',
+      'Valutare criticamente le implicazioni etiche e sociali dell\'AI'
+    ],
+    careers: ['Specialista AI', 'Prompt Engineer', 'AI Trainer', 'Digital Transformation Specialist', 'Data Analyst'],
+    requirements: ['Conoscenza di informatica di base'],
+    certifications: ['Attestato di frequenza con profitto'],
+    teachers: [
+      { name: 'Esperti AI', role: 'Formatori Senior', description: 'Professionisti specializzati in Intelligenza Artificiale e Machine Learning' }
+    ],
+    faq: [
+      { question: 'Sono necessarie competenze di programmazione?', answer: 'No, il corso è progettato per essere accessibile a tutti. È richiesta solo una conoscenza di base dell\'informatica.' },
+      { question: 'Quali strumenti AI verranno utilizzati?', answer: 'Durante il corso utilizzeremo ChatGPT, Claude, e altri strumenti di AI generativa per esercitazioni pratiche.' },
+      { question: 'Il corso è in presenza o online?', answer: 'Il corso è disponibile sia in modalità in presenza a Potenza che online, per garantire la massima flessibilità.' }
+    ],
+    internshipPartners: []
   }
 };
 
 export function CourseDetail() {
   const { courseId } = useParams();
 
-  // Dati statici del corso (se configurato)
-  const course = courseId ? coursesData[courseId] : null;
+  // Dati statici del corso (se configurato in coursesData)
+  const staticCourse = courseId ? coursesData[courseId] : null;
 
   // Dati live da EduPlan API (cerca per slug = courseId)
   // Lo slug e' generato automaticamente dal titolo del corso su EduPlan
@@ -793,6 +869,60 @@ export function CourseDetail() {
     pollingInterval: 60000, // Aggiorna ogni minuto
     enabled: !!courseId,
   });
+
+  // CORSO DINAMICO AL 100%: effectiveCourse usa API come primario, coursesData come fallback/extra
+  // Se un corso esiste solo su EduPlan (non in coursesData), verrà comunque mostrato
+  const course = useMemo<Course | null>(() => {
+    // Se non abbiamo né dati statici né dati live, non possiamo mostrare nulla
+    if (!staticCourse && !liveData) return null;
+
+    // Se abbiamo solo dati statici, usali
+    if (!liveData) return staticCourse;
+
+    // Valori di default per campi presentazionali quando mancano da coursesData
+    const defaultGradient = 'from-purple-600 to-pink-600';
+    const defaultBgGradient = 'from-purple-50 to-pink-50';
+    const defaultHeroImage = '/images/corso-default.jpg';
+    const defaultStatsImage = '/images/stats-default.jpg';
+    const defaultLabImage = '/images/lab-default.jpg';
+
+    // Combina: dati statici come base (se esistono), poi sovrascrivi con dati API
+    return {
+      id: courseId || liveData.code,
+      title: liveData.title || staticCourse?.title || '',
+      subtitle: staticCourse?.subtitle,
+      decree: staticCourse?.decree,
+      description: liveData.description || staticCourse?.description || '',
+      duration: liveData.duration_hours ? `${liveData.duration_hours} ore` : staticCourse?.duration || '',
+      type: staticCourse?.type || liveData.category || 'Corso',
+      gradient: staticCourse?.gradient || defaultGradient,
+      bgGradient: staticCourse?.bgGradient || defaultBgGradient,
+      icon: staticCourse?.icon || 'BookOpen',
+      skills: staticCourse?.skills || [],
+      price: staticCourse?.price || (liveData.price > 0 ? `€${liveData.price.toFixed(2)}` : 'Contattaci'),
+      startDate: staticCourse?.startDate || (liveData.start_date ? new Date(liveData.start_date).toLocaleDateString('it-IT') : 'Da definire'),
+      location: staticCourse?.location || liveData.location || 'Potenza',
+      heroImage: staticCourse?.heroImage || defaultHeroImage,
+      carouselImages: staticCourse?.carouselImages || [defaultHeroImage],
+      statsImage: staticCourse?.statsImage || defaultStatsImage,
+      labImage: staticCourse?.labImage || defaultLabImage,
+      modules: staticCourse?.modules || [],
+      outcomes: staticCourse?.outcomes || [],
+      careers: staticCourse?.careers || [],
+      requirements: staticCourse?.requirements || ['Contattaci per i requisiti'],
+      certifications: staticCourse?.certifications || ['Attestato di frequenza'],
+      importantInfo: staticCourse?.importantInfo,
+      teachers: staticCourse?.teachers || [],
+      faq: staticCourse?.faq || [],
+      stats: staticCourse?.stats || {
+        employmentRate: 'N/A',
+        satisfaction: 'N/A',
+        avgSalary: 'N/A',
+        partnerships: 'N/A',
+      },
+      internshipPartners: staticCourse?.internshipPartners,
+    };
+  }, [staticCourse, liveData, courseId]);
 
   // Hook per invalidare cache dopo iscrizione
   const invalidateCache = useInvalidateCoursesCache();
@@ -854,6 +984,17 @@ export function CourseDetail() {
     };
   }, [selectedEdition, liveData, course]);
 
+  // Se stiamo ancora caricando e non abbiamo dati statici, mostra loading
+  if (!course && liveLoading) {
+    return (
+      <div className="min-h-screen pt-32 pb-12 flex flex-col items-center justify-center text-center px-4">
+        <div className="animate-spin rounded-full h-12 w-12 border-4 border-purple-200 border-t-purple-600 mb-4"></div>
+        <p className="text-gray-600">Caricamento corso...</p>
+      </div>
+    );
+  }
+
+  // Se non abbiamo né dati statici né dati API, mostra errore
   if (!course) {
     return (
       <div className="min-h-screen pt-32 pb-12 flex flex-col items-center justify-center text-center px-4">
