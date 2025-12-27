@@ -146,8 +146,8 @@ const coursesData: Record<string, Course> = {
         'BIOSAFE Lavello', 'IRSAQ Potenza', 'ECOLAB Praia a mare'
     ]
   },
-  'master-editoria': {
-    id: 'master-editoria',
+  'editoria-e-comunicazione': {
+    id: 'editoria-e-comunicazione',
     title: 'Master in Editoria e Comunicazione',
     description: 'Acquisizione di competenze nell\'impostazione e organizzazione del ciclo di lavorazione del prodotto editoriale, funzionamento e management di una casa editrice, sviluppo competenze nel settore della comunicazione, marketing e social media marketing.',
     duration: '900 ore',
@@ -221,8 +221,8 @@ const coursesData: Record<string, Course> = {
         'Tunuè (Latina)', 'Il Mattino di Foggia', 'Universosud Basilicata', 'Lavieri Edizioni', 'EGO 55 (Matera)'
     ]
   },
-  'safety-manager': {
-    id: 'safety-manager',
+  'master-safety': {
+    id: 'master-safety',
     title: 'Safety Manager: Esperto in Sicurezza e Ambiente',
     description: 'Figura trasversale per gestire il sistema di prevenzione del rischio e implementazione del piano della sicurezza ambientale ed aziendale. Individuare i corretti DPI, implementare DVR.',
     duration: '900 ore',
@@ -559,8 +559,8 @@ const coursesData: Record<string, Course> = {
     ],
     internshipPartners: []
   },
-  'operatore-panificazione': {
-    id: 'operatore-panificazione',
+  'operatore-della-panificazione-e-della-produzione-di-paste': {
+    id: 'operatore-della-panificazione-e-della-produzione-di-paste',
     title: 'Operatore di Panificazione e Produzione di Paste',
     description: 'La figura professionale si occupa della preparazione di vari tipi di impasti, della lievitazione, della cottura e del confezionamento dei prodotti, nell\'ambito della produzione di pasta e di prodotti da forno. Può operare in forma dipendente o autonoma, avviando una attività imprenditoriale.',
     duration: '600 ore',

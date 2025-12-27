@@ -68,13 +68,29 @@ const courseStylesMap: Record<string, CourseStyle> = {
     gradientCSS: 'linear-gradient(90deg, #2563EB 0%, #3B82F6 50%, #06B6D4 100%)',
     skills: ['Utilizzo PC', 'Navigazione Web', 'Office', 'Comunicazione Digitale'],
   },
-  'upskilling-comunicazione-digitale-e-pubblicita': {
+  'pubblicita-comunicazione': {
     icon: Megaphone,
     gradient: 'from-purple-700 via-purple-600 to-indigo-700',
     bgGradient: 'from-purple-50 to-indigo-50',
     solidColor: '#7c3aed',
     gradientCSS: 'linear-gradient(90deg, #7F22FE 0%, #AD46FF 50%, #615FFF 100%)',
     skills: ['Social Media', 'Content Creation', 'Digital Marketing', 'Analisi Dati'],
+  },
+  'sistema-educativo-infanzia': {
+    icon: Users,
+    gradient: 'from-pink-600 via-pink-500 to-rose-500',
+    bgGradient: 'from-pink-50 to-rose-50',
+    solidColor: '#db2777',
+    gradientCSS: 'linear-gradient(90deg, #E60076 0%, #F6339A 50%, #FF2056 100%)',
+    skills: ['Pedagogia', 'Attività ludiche', 'Cura infanzia', 'Progettazione educativa'],
+  },
+  'corso-di-specializzazione-alle-guide-turistiche': {
+    icon: Eye,
+    gradient: 'from-teal-600 via-teal-500 to-cyan-500',
+    bgGradient: 'from-teal-50 to-cyan-50',
+    solidColor: '#0d9488',
+    gradientCSS: 'linear-gradient(90deg, #0D9488 0%, #14B8A6 50%, #06B6D4 100%)',
+    skills: ['Accessibilità museale', 'Comunicazione inclusiva', 'Audio-descrizione', 'Esperienze multisensoriali'],
   },
 };
 
