@@ -1,6 +1,231 @@
 # Guida Agente Sito Innform
 
-**Versione Corrente: 6.5 | Data: 27 Dicembre 2025 | Ora: 19:00**
+**Versione Corrente: 6.6 | Data: 27 Dicembre 2025 | Ora: 21:00**
+
+---
+
+## ⚠️ CRITICO: GESTIONE SLUG E RINOMINA CORSI
+
+> **ATTENZIONE:** Questa sezione è FONDAMENTALE. Ignorarla causerà la perdita di contenuti sul sito web.
+
+### Cos'è lo Slug e Perché è Importante
+
+Lo **slug** è un identificatore URL-friendly generato automaticamente dal titolo del corso:
+- Titolo: "Tecnico Analisi Alimentari" → Slug: `tecnico-analisi-alimentari`
+- Titolo: "Corso AI per Aziende" → Slug: `corso-ai-per-aziende`
+
+**Il sito web usa lo slug per DUE scopi critici:**
+
+| Uso | Esempio | Cosa Succede se Cambia |
+|-----|---------|------------------------|
+| **URL pagina corso** | `www.innform.it/corsi/tecnico-analisi-alimentari` | L'URL smette di funzionare (404) |
+| **Collegamento dati statici** | Programma didattico, requisiti, FAQ, immagini | Contenuti non più visibili sul sito |
+
+### Il Problema: Rinominare un Corso
+
+Quando rinomini un corso su EduPlan, lo slug cambia automaticamente:
+
+```
+PRIMA della rinomina:
+┌─────────────────────────────────────┐
+│ Titolo: "Tecnico Analisi Alimentari"│
+│ Slug:   tecnico-analisi-alimentari  │
+│ URL:    /corsi/tecnico-analisi-...  │
+└─────────────────────────────────────┘
+           │
+           │ Dati statici collegati tramite slug
+           ▼
+┌─────────────────────────────────────┐
+│ CourseDetail.tsx                    │
+│ Key: 'tecnico-analisi-alimentari'   │
+│ - Programma didattico (5 moduli)    │
+│ - Requisiti di accesso              │
+│ - FAQ (10 domande)                  │
+│ - Immagine hero                     │
+└─────────────────────────────────────┘
+
+DOPO la rinomina (SENZA coordinamento):
+┌─────────────────────────────────────────────────────┐
+│ Titolo: "Tecnico Esperto in Analisi Alimentari..."  │
+│ Slug:   tecnico-esperto-in-analisi-alimentari-...   │  ← NUOVO SLUG!
+│ URL:    /corsi/tecnico-esperto-in-analisi-...       │
+└─────────────────────────────────────────────────────┘
+           │
+           │ Cerca dati con nuovo slug... NON TROVATI!
+           ▼
+┌─────────────────────────────────────┐
+│ CourseDetail.tsx                    │
+│ Key: 'tecnico-analisi-alimentari'   │  ← VECCHIO SLUG!
+│ - Programma didattico (5 moduli)    │
+│ - Requisiti di accesso              │    ORFANI - Non più collegati!
+│ - FAQ (10 domande)                  │
+│ - Immagine hero                     │
+└─────────────────────────────────────┘
+
+RISULTATO: Pagina corso vuota (niente programma, requisiti, FAQ)
+```
+
+### Dati Statici Collegati allo Slug
+
+I seguenti dati nel sito web sono collegati tramite slug e vanno persi se cambia:
+
+**1. CourseDetail.tsx - Contenuti principali**
+```typescript
+const coursesData = {
+  'tecnico-analisi-alimentari': {  // ← CHIAVE = SLUG
+    title: '...',
+    duration: '600 ore',
+    requirements: ['Diploma', 'Età 18+', ...],
+    modules: [
+      { title: 'Modulo 1', hours: '80 ore', topics: [...] },
+      { title: 'Modulo 2', hours: '120 ore', topics: [...] },
+      // ... altri moduli
+    ],
+    faq: [
+      { question: 'Come mi iscrivo?', answer: '...' },
+      // ... altre FAQ
+    ],
+    heroImage: 'https://...',
+  }
+}
+```
+
+**2. Courses.tsx - Stile visivo nel carosello**
+```typescript
+const courseStylesMap = {
+  'tecnico-analisi-alimentari': {  // ← CHIAVE = SLUG
+    icon: Microscope,
+    gradient: 'from-purple-600 via-purple-500 to-pink-500',
+    accentColor: 'purple',
+  }
+}
+```
+
+**3. ProgramEnrollment.tsx - Form iscrizione**
+```typescript
+const formDataBySlug = {
+  'tecnico-analisi-alimentari': {  // ← CHIAVE = SLUG
+    formId: 'abc123',
+    redirectUrl: '...',
+  }
+}
+```
+
+### Procedura OBBLIGATORIA per Rinominare un Corso
+
+```
+┌────────────────────────────────────────────────────────────────┐
+│                    WORKFLOW RINOMINA CORSO                      │
+└────────────────────────────────────────────────────────────────┘
+
+STEP 1: Prepara le informazioni
+─────────────────────────────────
+Raccogli TUTTI questi dati:
+□ Nome attuale del corso
+□ Nuovo nome del corso
+□ Slug attuale (lo trovi nell'URL del sito)
+□ Nuovo slug (genera mentalmente: lowercase, spazi→trattini)
+□ Codice corso (es: TAA, EEC, CDSA)
+
+STEP 2: Comunica all'agente del sito
+─────────────────────────────────────
+Invia questa comunicazione PRIMA di modificare EduPlan:
+
+┌──────────────────────────────────────────────────────────────┐
+│ RICHIESTA RINOMINA CORSO                                     │
+│                                                              │
+│ Devo rinominare il seguente corso su EduPlan:                │
+│                                                              │
+│ NOME ATTUALE: "Tecnico Analisi Alimentari"                   │
+│ NUOVO NOME:   "Tecnico Esperto in Analisi Alimentari e       │
+│                Ambientali"                                   │
+│                                                              │
+│ SLUG ATTUALE: tecnico-analisi-alimentari                     │
+│ NUOVO SLUG:   tecnico-esperto-in-analisi-alimentari-e-       │
+│               ambientali                                     │
+│                                                              │
+│ CODICE CORSO: TAA                                            │
+│                                                              │
+│ AZIONE RICHIESTA:                                            │
+│ Aggiorna i riferimenti nei file del sito prima che io       │
+│ proceda con la rinomina su EduPlan.                          │
+│                                                              │
+│ Attendo conferma.                                            │
+└──────────────────────────────────────────────────────────────┘
+
+STEP 3: Attendi conferma
+────────────────────────
+L'agente del sito aggiornerà:
+- CourseDetail.tsx (chiave coursesData)
+- Courses.tsx (chiave courseStylesMap + logica ordinamento)
+- ProgramEnrollment.tsx (chiave formDataBySlug)
+
+STEP 4: Procedi con la rinomina
+───────────────────────────────
+SOLO DOPO aver ricevuto conferma, modifica il titolo su EduPlan.
+
+STEP 5: Verifica
+────────────────
+Controlla che il corso sia visibile su:
+- Homepage (carosello)
+- Pagina dettaglio (/corsi/nuovo-slug)
+- Form iscrizione
+```
+
+### Casi Speciali
+
+#### Cambio Solo di Punteggiatura o Maiuscole
+Anche piccole modifiche possono cambiare lo slug:
+- "Corso AI" → `corso-ai`
+- "Corso A.I." → `corso-a-i` (DIVERSO!)
+- "Corso Ai" → `corso-ai` (uguale)
+
+**Regola:** Se hai dubbi, verifica sempre lo slug generato prima di modificare.
+
+#### Aggiungere Parole al Titolo
+- "Analisi Alimentari" → `analisi-alimentari`
+- "Analisi Alimentari e Ambientali" → `analisi-alimentari-e-ambientali` (DIVERSO!)
+
+#### Corsi Nuovi (Senza Dati Statici)
+Se il corso è nuovo e non ha ancora dati statici nel sito, puoi rinominarlo liberamente. L'agente del sito creerà i dati con il nuovo slug.
+
+### Come Calcolare il Nuovo Slug
+
+Lo slug viene generato così:
+1. Converti in minuscolo
+2. Sostituisci spazi con trattini `-`
+3. Rimuovi caratteri speciali (accenti, punteggiatura)
+4. Rimuovi trattini multipli consecutivi
+
+**Esempi:**
+| Titolo | Slug Generato |
+|--------|---------------|
+| "Tecnico Analisi Alimentari" | `tecnico-analisi-alimentari` |
+| "Corso di Specializzazione Guide Turistiche" | `corso-di-specializzazione-guide-turistiche` |
+| "AI per l'Azienda" | `ai-per-lazienda` |
+| "Saldatura TIG/MIG" | `saldatura-tig-mig` |
+
+### Checklist Pre-Rinomina
+
+Prima di rinominare un corso, verifica:
+
+- [ ] Ho il nome attuale esatto?
+- [ ] Ho il nuovo nome esatto?
+- [ ] Ho calcolato il nuovo slug?
+- [ ] Ho comunicato all'agente del sito?
+- [ ] Ho ricevuto conferma dell'aggiornamento?
+- [ ] Il deploy del sito è completato?
+
+**Solo se tutte le caselle sono spuntate, procedi con la rinomina su EduPlan.**
+
+### Soluzione Futura (Pianificata)
+
+In futuro il sistema userà il **codice corso** (es: "TAA", "EEC") invece dello slug per collegare i dati. Questo permetterà di rinominare i corsi liberamente senza coordinamento.
+
+**Vantaggi futuri:**
+- Rinomina libera senza perdita dati
+- URL sempre SEO-friendly (usa ancora slug)
+- Collegamento interno stabile (usa codice)
 
 ---
 
@@ -700,6 +925,19 @@ Risposta attesa: `"meta": { "total": 9, ... }`
 ---
 
 ## CHANGELOG
+
+### v6.6 (27 Dicembre 2025)
+- **AGGIUNTA:** Sezione critica "Gestione Slug e Rinomina Corsi" con documentazione completa
+- **AGGIUNTA:** Workflow dettagliato per rinominare corsi senza perdere dati
+- **AGGIUNTA:** Diagrammi esplicativi del problema slug
+- **AGGIUNTA:** Checklist pre-rinomina
+- **AGGIUNTA:** Casi speciali (punteggiatura, maiuscole, parole aggiuntive)
+- **AGGIUNTA:** Tabella esempi calcolo slug
+
+### v6.5 (27 Dicembre 2025)
+- **IMPLEMENTATO:** Corsi dinamici al 100% da API EduPlan
+- **AGGIUNTO:** Corso AI con programma didattico 20 ore
+- **AGGIUNTO:** Logica ordinamento carosello (TAA al primo posto)
 
 ### v6.4 (27 Dicembre 2025)
 - **RICHIESTA PRIORITARIA:** Rendere il sito 100% dinamico per i corsi
