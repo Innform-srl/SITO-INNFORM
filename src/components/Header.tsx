@@ -1,7 +1,20 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Menu, X, ChevronDown, ChevronRight } from "lucide-react";
 import logoInnform from "figma:asset/257bd345173d057a2c6124b55493bdfdbcf0c984.png";
+import { usePublicPaths } from "../hooks/usePublicPaths";
+import { usePublicCourses } from "../hooks/usePublicCourses";
+
+// Helper per determinare il badge di un corso GOL
+function getGolBadge(courseCode: string): string | undefined {
+  // I corsi con durata <= 100 ore sono tipicamente Upskilling
+  // I corsi GOL-COMDIG (Competenze Digitali) sono Upskilling
+  // I corsi Upskilling-* sono Upskilling
+  if (courseCode.startsWith('Upskilling') || courseCode === 'GOL-COMDIG') {
+    return 'Upskilling';
+  }
+  return 'Reskilling';
+}
 
 export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -9,6 +22,10 @@ export function Header() {
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const [activeSubmenu, setActiveSubmenu] = useState<string | null>(null);
   const location = useLocation();
+
+  // Fetch percorsi e corsi dalle API
+  const { paths, loading: pathsLoading } = usePublicPaths();
+  const { courses, loading: coursesLoading } = usePublicCourses();
 
   const getHref = (path: string) => {
     if (location.pathname === '/' && path.startsWith('/#')) {
@@ -26,43 +43,62 @@ export function Header() {
       window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // Genera il dropdown Percorsi dinamicamente
+  const percorsiDropdown = useMemo(() => {
+    if (pathsLoading || coursesLoading || !paths.length) {
+      // Fallback statico durante il caricamento
+      return [
+        { label: "Caricamento...", href: "/#corsi" }
+      ];
+    }
+
+    // Mappa ID corso -> website_slug dai corsi API
+    const courseSlugMap = new Map<string, string>();
+    courses.forEach(c => {
+      courseSlugMap.set(c.id, c.website_slug);
+    });
+
+    // Genera dropdown da paths
+    return paths.map(path => {
+      // Determina il label user-friendly
+      let label = path.title;
+      if (path.code === 'GOL') {
+        label = 'Programma GOL';
+      } else if (path.code === 'MS') {
+        label = 'Master';
+      }
+
+      // Genera i children (corsi nel percorso)
+      const children = path.courses
+        .filter(c => c.status === 'published')
+        .map(c => {
+          const slug = courseSlugMap.get(c.id);
+          const href = slug ? `/corsi/${slug}` : `/#corsi`;
+
+          // Aggiungi badge per corsi GOL
+          const badge = path.code === 'GOL' ? getGolBadge(c.code) : undefined;
+
+          return {
+            label: c.title,
+            href,
+            badge
+          };
+        });
+
+      return {
+        label,
+        href: "/#corsi",
+        children: children.length > 0 ? children : undefined
+      };
+    }).filter(item => item.children && item.children.length > 0); // Rimuovi percorsi senza corsi
+  }, [paths, courses, pathsLoading, coursesLoading]);
+
   const menuItems = [
     { label: "Home", href: "/" },
     {
       label: "Percorsi",
       href: "/#corsi",
-      dropdown: [
-        {
-          label: "Master",
-          href: "/#corsi",
-          children: [
-            { label: "Analisi Alimentari e Ambientali", href: "/corsi/tecnico-analisi-alimentari" },
-            { label: "Editoria e Comunicazione", href: "/corsi/master-editoria" },
-            { label: "Safety Manager", href: "/corsi/safety-manager" },
-            { label: "Interior Design", href: "/corsi/interior-design" }
-          ]
-        },
-        {
-          label: "Programma GOL",
-          href: "/#corsi",
-          children: [
-            { label: "Sviluppo Turistico Territoriale", href: "/corsi/sviluppo-turistico", badge: "Reskilling" },
-            { label: "Sistema Educativo Infanzia", href: "/corsi/sistema-educativo-infanzia", badge: "Reskilling" },
-            { label: "Operatore della Tornitura", href: "/corsi/operatore-tornitura", badge: "Reskilling" },
-            { label: "Operatore H2S e Sicurezza", href: "/corsi/operatore-h2s", badge: "Reskilling" },
-            { label: "Pubblicità e Comunicazione Digitale", href: "/corsi/pubblicita-comunicazione", badge: "Upskilling" },
-            { label: "Operatore Panificazione e Paste", href: "/corsi/operatore-panificazione", badge: "Reskilling" },
-            { label: "Competenze Digitali", href: "/corsi/competenze-digitali", badge: "Upskilling" }
-          ]
-        },
-        {
-          label: "Corsi di Specializzazione",
-          href: "/#corsi",
-          children: [
-            { label: "Specializzazione Guide Turistiche", href: "/corsi/corso-di-specializzazione-alle-guide-turistiche" }
-          ]
-        }
-      ]
+      dropdown: percorsiDropdown
     },
     {
       label: "Progetti",

@@ -1,9 +1,123 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import { Microscope, Droplet, FlaskConical, BookOpen, ChevronLeft, ChevronRight, Clock, Award, TrendingUp, Users, Settings, AlertTriangle, ShoppingBag, Megaphone, Croissant, Eye, Filter, GraduationCap, Target, LayoutGrid, Layers, Monitor } from 'lucide-react';
+import { Microscope, Droplet, FlaskConical, BookOpen, ChevronLeft, ChevronRight, Clock, Award, TrendingUp, Users, Settings, AlertTriangle, ShoppingBag, Megaphone, Croissant, Eye, Filter, GraduationCap, Target, LayoutGrid, Layers, Monitor, Loader2 } from 'lucide-react';
+import { usePublicCourses } from '../hooks/usePublicCourses';
+import type { CoursePublicData } from '../types/courses-public';
+import type { LucideIcon } from 'lucide-react';
 
 type FilterType = 'tutti' | 'master' | 'gol' | 'specializzazione';
 type ViewMode = 'carousel' | 'grid';
+
+// Stili visivi per i corsi (fallback per il design)
+interface CourseStyle {
+  icon: LucideIcon;
+  gradient: string;
+  bgGradient: string;
+  solidColor: string;
+  gradientCSS: string;
+  skills: string[];
+}
+
+// Mappa degli stili per slug dei corsi
+const courseStylesMap: Record<string, CourseStyle> = {
+  'tecnico-analisi-alimentari': {
+    icon: Microscope,
+    gradient: 'from-purple-600 via-purple-500 to-pink-500',
+    bgGradient: 'from-purple-50 to-pink-50',
+    solidColor: '#9333ea',
+    gradientCSS: 'linear-gradient(90deg, #9333EA 0%, #A855F7 50%, #EC4899 100%)',
+    skills: ['Analisi chimiche', 'Microbiologia', 'Controllo qualità', 'Monitoraggio ambientale'],
+  },
+  'editoria-e-comunicazione': {
+    icon: BookOpen,
+    gradient: 'from-blue-600 via-blue-500 to-cyan-500',
+    bgGradient: 'from-blue-50 to-cyan-50',
+    solidColor: '#2563eb',
+    gradientCSS: 'linear-gradient(90deg, #2563EB 0%, #3B82F6 50%, #06B6D4 100%)',
+    skills: ['Editoria', 'Comunicazione', 'Marketing', 'Social Media'],
+  },
+  'master-safety': {
+    icon: Award,
+    gradient: 'from-emerald-600 via-emerald-500 to-green-500',
+    bgGradient: 'from-emerald-50 to-green-50',
+    solidColor: '#059669',
+    gradientCSS: 'linear-gradient(90deg, #059669 0%, #10B981 50%, #22C55E 100%)',
+    skills: ['Sicurezza sul lavoro', 'Gestione rischio', 'Normativa ambientale', 'Prevenzione'],
+  },
+  'operatore-tornitura': {
+    icon: Settings,
+    gradient: 'from-slate-600 via-slate-500 to-gray-500',
+    bgGradient: 'from-slate-50 to-gray-50',
+    solidColor: '#475569',
+    gradientCSS: 'linear-gradient(90deg, #45556C 0%, #62748E 50%, #6A7282 100%)',
+    skills: ['Tornitura CNC', 'Disegno tecnico', 'Lavorazione metalli', 'Controllo qualità'],
+  },
+  'operatore-della-panificazione-e-della-produzione-di-paste': {
+    icon: Croissant,
+    gradient: 'from-amber-600 via-orange-500 to-yellow-500',
+    bgGradient: 'from-amber-50 to-yellow-50',
+    solidColor: '#d97706',
+    gradientCSS: 'linear-gradient(90deg, #D97706 0%, #F59E0B 50%, #FBBF24 100%)',
+    skills: ['Lavorazione Impasti', 'Lievitazione', 'Cottura Prodotti', 'Confezionamento'],
+  },
+  'competenze-digitali': {
+    icon: Monitor,
+    gradient: 'from-blue-600 via-blue-500 to-cyan-500',
+    bgGradient: 'from-blue-50 to-cyan-50',
+    solidColor: '#2563eb',
+    gradientCSS: 'linear-gradient(90deg, #2563EB 0%, #3B82F6 50%, #06B6D4 100%)',
+    skills: ['Utilizzo PC', 'Navigazione Web', 'Office', 'Comunicazione Digitale'],
+  },
+  'upskilling-comunicazione-digitale-e-pubblicita': {
+    icon: Megaphone,
+    gradient: 'from-purple-700 via-purple-600 to-indigo-700',
+    bgGradient: 'from-purple-50 to-indigo-50',
+    solidColor: '#7c3aed',
+    gradientCSS: 'linear-gradient(90deg, #7F22FE 0%, #AD46FF 50%, #615FFF 100%)',
+    skills: ['Social Media', 'Content Creation', 'Digital Marketing', 'Analisi Dati'],
+  },
+};
+
+// Stile di default per corsi senza stile specifico
+const defaultStyle: CourseStyle = {
+  icon: GraduationCap,
+  gradient: 'from-indigo-600 via-indigo-500 to-blue-500',
+  bgGradient: 'from-indigo-50 to-blue-50',
+  solidColor: '#4f46e5',
+  gradientCSS: 'linear-gradient(90deg, #4F39F6 0%, #615FFF 50%, #2B7FFF 100%)',
+  skills: ['Formazione professionale', 'Competenze specialistiche', 'Certificazione', 'Pratica'],
+};
+
+// Helper per determinare la categoria di un corso
+function getCourseCategory(course: CoursePublicData): FilterType {
+  const code = course.code.toLowerCase();
+  if (code.startsWith('gol') || code.startsWith('tor') || code.startsWith('upskilling')) {
+    return 'gol';
+  }
+  if (code.startsWith('ms') || code === 'taa' || code === 'eec' || code === 'massaf') {
+    return 'master';
+  }
+  if (code.startsWith('cdsa') || code.includes('spec')) {
+    return 'specializzazione';
+  }
+  return 'gol'; // default
+}
+
+// Helper per determinare il tipo visualizzato
+function getCourseType(course: CoursePublicData): string {
+  const code = course.code.toLowerCase();
+  if (code.startsWith('upskilling')) return 'GOL Upskilling';
+  if (code === 'gol-comdig') return 'GOL Upskilling';
+  if (code.startsWith('gol') || code.startsWith('tor')) return 'Programma GOL';
+  if (code.startsWith('ms') || code === 'taa' || code === 'eec' || code === 'massaf') return 'Master';
+  if (code.startsWith('cdsa') || code.includes('spec')) return 'Specializzazione';
+  return 'Corso';
+}
+
+// Helper per ottenere lo stile di un corso
+function getCourseStyle(slug: string): CourseStyle {
+  return courseStylesMap[slug] || defaultStyle;
+}
 
 export function Courses() {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -11,179 +125,37 @@ export function Courses() {
   const [activeFilter, setActiveFilter] = useState<FilterType>('tutti');
   const [viewMode, setViewMode] = useState<ViewMode>('carousel');
 
-  const courses = [
-    // Master
-    {
-      id: 'tecnico-analisi-alimentari',
-      title: 'Tecnico Esperto in Analisi Alimentari e Ambientali',
-      description: 'Metodi e tecniche di analisi chimiche e microbiologiche per il controllo degli alimenti e monitoraggio ambientale (acqua, aria, suolo).',
-      duration: 'Master Tecnico',
-      type: 'Master',
-      category: 'master',
-      icon: Microscope,
-      skills: ['Analisi chimiche', 'Microbiologia', 'Controllo qualità', 'Monitoraggio ambientale'],
-      gradient: 'from-purple-600 via-purple-500 to-pink-500',
-      bgGradient: 'from-purple-50 to-pink-50',
-      solidColor: '#9333ea',
-      gradientCSS: 'linear-gradient(90deg, #9333EA 0%, #A855F7 50%, #EC4899 100%)',
-    },
-    {
-      id: 'master-editoria',
-      title: 'Master in Editoria e Comunicazione',
-      description: 'Competenze nell\'organizzazione del prodotto editoriale, management di case editrici, comunicazione, marketing e social media marketing.',
-      duration: 'IV Edizione',
-      type: 'Master',
-      category: 'master',
-      icon: BookOpen,
-      skills: ['Editoria', 'Comunicazione', 'Marketing', 'Social Media'],
-      gradient: 'from-blue-600 via-blue-500 to-cyan-500',
-      bgGradient: 'from-blue-50 to-cyan-50',
-      solidColor: '#2563eb',
-      gradientCSS: 'linear-gradient(90deg, #2563EB 0%, #3B82F6 50%, #06B6D4 100%)',
-    },
-    {
-      id: 'safety-manager',
-      title: 'Safety Manager: Esperto in Sicurezza e Ambiente',
-      description: 'Figura trasversale per gestire il sistema di prevenzione del rischio e implementazione del piano della sicurezza ambientale ed aziendale.',
-      duration: 'Master',
-      type: 'Master',
-      category: 'master',
-      icon: Award,
-      skills: ['Sicurezza sul lavoro', 'Gestione rischio', 'Normativa ambientale', 'Prevenzione'],
-      gradient: 'from-emerald-600 via-emerald-500 to-green-500',
-      bgGradient: 'from-emerald-50 to-green-50',
-      solidColor: '#059669',
-      gradientCSS: 'linear-gradient(90deg, #059669 0%, #10B981 50%, #22C55E 100%)',
-    },
-    {
-      id: 'interior-design',
-      title: 'Master Interior Design',
-      description: 'Percorso formativo per diventare esperti nella progettazione e arredamento degli spazi interni, coniugando estetica e funzionalità.',
-      duration: 'Master',
-      type: 'Master',
-      category: 'master',
-      icon: TrendingUp,
-      skills: ['Progettazione', 'Arredamento', 'CAD/Rendering', 'Materiali'],
-      gradient: 'from-orange-600 via-orange-500 to-yellow-500',
-      bgGradient: 'from-orange-50 to-yellow-50',
-      solidColor: '#ea580c',
-      gradientCSS: 'linear-gradient(90deg, #EA580C 0%, #F97316 50%, #EAB308 100%)',
-    },
-    // GOL
-    {
-      id: 'sviluppo-turistico',
-      title: 'Tecnico Esperto per lo Sviluppo Turistico Territoriale',
-      description: 'Promozione e valorizzazione delle risorse turistiche del territorio, marketing, pianificazione turistica e gestione strutture ricettive.',
-      duration: '600 ore',
-      type: 'Programma GOL',
-      category: 'gol',
-      icon: BookOpen,
-      skills: ['Marketing territoriale', 'Gestione ricettiva', 'Promozione turistica', 'Pianificazione'],
-      gradient: 'from-indigo-600 via-indigo-500 to-blue-500',
-      bgGradient: 'from-indigo-50 to-blue-50',
-      solidColor: '#4f46e5',
-      gradientCSS: 'linear-gradient(90deg, #4F39F6 0%, #615FFF 50%, #2B7FFF 100%)',
-    },
-    {
-      id: 'sistema-educativo-infanzia',
-      title: 'Tecnico del Sistema Educativo per la Prima Infanzia',
-      description: 'Cura ed educazione dei bambini da 0 a 36 mesi. Competenze in progettazione, gestione di attività educative, ludiche, di socializzazione e laboratoriali.',
-      duration: '600 ore',
-      type: 'Programma GOL',
-      category: 'gol',
-      icon: Users,
-      skills: ['Pedagogia', 'Attività ludiche', 'Cura infanzia', 'Progettazione educativa'],
-      gradient: 'from-pink-600 via-pink-500 to-rose-500',
-      bgGradient: 'from-pink-50 to-rose-50',
-      solidColor: '#db2777',
-      gradientCSS: 'linear-gradient(90deg, #E60076 0%, #F6339A 50%, #FF2056 100%)',
-    },
-    {
-      id: 'operatore-tornitura',
-      title: 'Operatore della Tornitura',
-      description: 'Lavorazione dei metalli con macchine utensili tradizionali e CNC. Lettura disegni tecnici, programmazione CNC e controllo qualità.',
-      duration: '600 ore',
-      type: 'Programma GOL',
-      category: 'gol',
-      icon: Settings,
-      skills: ['Tornitura CNC', 'Disegno tecnico', 'Lavorazione metalli', 'Controllo qualità'],
-      gradient: 'from-slate-600 via-slate-500 to-gray-500',
-      bgGradient: 'from-slate-50 to-gray-50',
-      solidColor: '#475569',
-      gradientCSS: 'linear-gradient(90deg, #45556C 0%, #62748E 50%, #6A7282 100%)',
-    },
-    {
-      id: 'operatore-h2s',
-      title: 'Operatore H2S e Sicurezza',
-      description: 'Gestione emergenze legate all\'idrogeno solforato (H2S). Proprietà, rischi per la salute, metodi di rilevamento e procedure di evacuazione.',
-      duration: 'Sicurezza',
-      type: 'Programma GOL',
-      category: 'gol',
-      icon: AlertTriangle,
-      skills: ['Sicurezza H2S', 'Gestione emergenze', 'Rilevamento gas', 'Evacuazione'],
-      gradient: 'from-red-600 via-red-500 to-orange-500',
-      bgGradient: 'from-red-50 to-orange-50',
-      solidColor: '#dc2626',
-      gradientCSS: 'linear-gradient(90deg, #E7000B 0%, #FB2C36 50%, #FF6900 100%)',
-    },
-    {
-      id: 'pubblicita-comunicazione',
-      title: 'Pubblicità e Comunicazione Digitale',
-      description: 'Upskilling per sviluppare competenze in comunicazione d\'impresa, marketing digitale, content creation e gestione social media.',
-      duration: '100 ore',
-      type: 'GOL Upskilling',
-      category: 'gol',
-      icon: Megaphone,
-      skills: ['Social Media', 'Content Creation', 'Digital Marketing', 'Analisi Dati'],
-      gradient: 'from-purple-700 via-purple-600 to-indigo-700',
-      bgGradient: 'from-purple-50 to-indigo-50',
-      solidColor: '#7c3aed',
-      gradientCSS: 'linear-gradient(90deg, #7F22FE 0%, #AD46FF 50%, #615FFF 100%)',
-    },
-    {
-      id: 'operatore-panificazione',
-      title: 'Operatore di Panificazione e Produzione di Paste',
-      description: 'Preparazione di impasti, lievitazione, cottura e confezionamento nell\'ambito della produzione di pasta e prodotti da forno.',
-      duration: '600 ore',
-      type: 'GOL Reskilling',
-      category: 'gol',
-      icon: Croissant,
-      skills: ['Lavorazione Impasti', 'Lievitazione', 'Cottura Prodotti', 'Confezionamento'],
-      gradient: 'from-amber-600 via-orange-500 to-yellow-500',
-      bgGradient: 'from-amber-50 to-yellow-50',
-      solidColor: '#d97706',
-      gradientCSS: 'linear-gradient(90deg, #D97706 0%, #F59E0B 50%, #FBBF24 100%)',
-    },
-    {
-      id: 'competenze-digitali',
-      title: 'Competenze Digitali',
-      description: 'Upskilling per acquisire competenze digitali essenziali: utilizzo del computer, navigazione internet, strumenti di produttività e comunicazione digitale.',
-      duration: '60 ore',
-      type: 'GOL Upskilling',
-      category: 'gol',
-      icon: Monitor,
-      skills: ['Utilizzo PC', 'Navigazione Web', 'Office', 'Comunicazione Digitale'],
-      gradient: 'from-blue-600 via-blue-500 to-cyan-500',
-      bgGradient: 'from-blue-50 to-cyan-50',
-      solidColor: '#2563eb',
-      gradientCSS: 'linear-gradient(90deg, #2563EB 0%, #3B82F6 50%, #06B6D4 100%)',
-    },
-    // Specializzazione Guide Turistiche
-    {
-      id: 'corso-di-specializzazione-alle-guide-turistiche',
-      title: 'Corso di Specializzazione alle Guide Turistiche',
-      description: 'Specializzazione per guide turistiche nell\'accompagnamento di visitatori non vedenti e ipovedenti. Tecniche di comunicazione accessibile, descrizione artistica inclusiva e esperienze multisensoriali.',
-      duration: '50 ore',
-      type: 'Specializzazione',
-      category: 'specializzazione',
-      icon: Eye,
-      skills: ['Accessibilità museale', 'Comunicazione inclusiva', 'Audio-descrizione', 'Esperienze multisensoriali'],
-      gradient: 'from-teal-600 via-teal-500 to-cyan-500',
-      bgGradient: 'from-teal-50 to-cyan-50',
-      solidColor: '#0d9488',
-      gradientCSS: 'linear-gradient(90deg, #0D9488 0%, #14B8A6 50%, #06B6D4 100%)',
-    },
-  ];
+  // Fetch corsi dall'API
+  const { courses: apiCourses, loading, error } = usePublicCourses();
+
+  // Trasforma i corsi API nel formato per il componente
+  const courses = useMemo(() => {
+    if (!apiCourses.length) return [];
+
+    return apiCourses
+      .filter(c => c.is_enrollments_open) // Solo corsi con iscrizioni aperte
+      .map(course => {
+        const style = getCourseStyle(course.website_slug);
+        const category = getCourseCategory(course);
+        const type = getCourseType(course);
+        const duration = course.duration_hours ? `${course.duration_hours} ore` : 'Da definire';
+
+        return {
+          id: course.website_slug,
+          title: course.title,
+          description: course.description || `Corso di formazione professionale: ${course.title}`,
+          duration,
+          type,
+          category,
+          icon: style.icon,
+          skills: style.skills,
+          gradient: style.gradient,
+          bgGradient: style.bgGradient,
+          solidColor: style.solidColor,
+          gradientCSS: style.gradientCSS,
+        };
+      });
+  }, [apiCourses]);
 
   // Filtra i corsi in base al filtro attivo
   const filteredCourses = activeFilter === 'tutti'
@@ -314,8 +286,32 @@ export function Courses() {
           </button>
         </div>
 
+        {/* Loading State */}
+        {loading && (
+          <div className="flex flex-col items-center justify-center py-20">
+            <Loader2 className="w-12 h-12 text-purple-600 animate-spin mb-4" />
+            <p className="text-gray-500">Caricamento corsi...</p>
+          </div>
+        )}
+
+        {/* Error State */}
+        {error && !loading && (
+          <div className="text-center py-20">
+            <p className="text-red-500 mb-4">Errore nel caricamento dei corsi</p>
+            <p className="text-gray-500 text-sm">{error}</p>
+          </div>
+        )}
+
+        {/* Empty State */}
+        {!loading && !error && courses.length === 0 && (
+          <div className="text-center py-20">
+            <GraduationCap className="w-16 h-16 text-gray-300 mx-auto mb-4" />
+            <p className="text-gray-500">Nessun corso disponibile al momento</p>
+          </div>
+        )}
+
         {/* Grid View */}
-        {viewMode === 'grid' && (
+        {!loading && !error && courses.length > 0 && viewMode === 'grid' && (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 animate-fadeIn">
             {filteredCourses.map((course, index) => {
               const Icon = course.icon;
@@ -450,7 +446,7 @@ export function Courses() {
         )}
 
         {/* Carousel View */}
-        {viewMode === 'carousel' && (
+        {!loading && !error && courses.length > 0 && viewMode === 'carousel' && (
           <div
             className="relative max-w-6xl mx-auto"
             onMouseEnter={() => setIsPaused(true)}

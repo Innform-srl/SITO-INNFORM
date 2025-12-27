@@ -1,6 +1,69 @@
 # Guida Agente Sito Innform
 
-**Versione Corrente: 5.7 | Data: 27 Dicembre 2025**
+**Versione Corrente: 6.0 | Data: 27 Dicembre 2025**
+
+---
+
+## ✅ SINCRONIZZAZIONE AUTOMATICA IMPLEMENTATA (27/12/2025)
+
+**COMPLETATO:** Menu e homepage ora usano le API EduPlan in tempo reale.
+
+### Cosa è cambiato
+
+| Componente | File | Prima | Dopo |
+|------------|------|-------|------|
+| Menu Percorsi | `Header.tsx` | STATICO | ✅ DINAMICO via `public-paths-api` |
+| Homepage corsi | `Courses.tsx` | STATICO | ✅ DINAMICO via `public-courses-api` |
+| Dettaglio corso | `CourseDetail.tsx` | ✅ Dinamico | ✅ OK |
+
+### Come funziona ora
+
+#### Menu Percorsi (`Header.tsx`)
+
+Il menu "Percorsi" ora carica dinamicamente i percorsi dall'API:
+
+```javascript
+const { paths } = usePublicPaths();  // Hook custom
+// API: GET /functions/v1/public-paths-api
+// Mostra solo percorsi con is_learning_path=true E is_published_on_website=true
+```
+
+- I percorsi vengono mostrati con i corsi al loro interno
+- Badge "Upskilling"/"Reskilling" per corsi GOL
+- Cache 5 minuti per performance
+
+#### Homepage Corsi (`Courses.tsx`)
+
+La homepage ora mostra corsi direttamente dall'API:
+
+```javascript
+const { courses } = usePublicCourses();  // Hook custom
+// API: GET /functions/v1/public-courses-api
+// Filtro automatico: is_enrollments_open === true
+```
+
+- Solo corsi con iscrizioni aperte vengono mostrati
+- Stili visivi mantenuti per i corsi esistenti
+- Stile di default per nuovi corsi
+
+### Vantaggi
+
+1. **Sincronizzazione automatica** - Quando un corso viene pubblicato/rimosso da EduPlan, il sito si aggiorna automaticamente (entro 5 minuti)
+2. **Nessuna modifica codice** - Non serve più fare deploy per aggiungere/rimuovere corsi
+3. **Consistenza dati** - I dati sono sempre allineati con il database
+
+### Per aggiungere un nuovo corso
+
+1. Su EduPlan: creare il corso e pubblicarlo
+2. Il sito lo mostrerà automaticamente entro 5 minuti
+3. (Opzionale) Per stile personalizzato: aggiungere in `courseStylesMap` di `Courses.tsx`
+
+---
+
+## STORICO - Menu Percorsi era hardcoded (risolto con v5.9)
+
+Il menu "Percorsi" era **HARDCODED** in `Header.tsx` con voci che non corrispondevano ai dati API.
+Con la v5.9 è stata richiesta l'implementazione dinamica.
 
 ---
 
@@ -357,6 +420,28 @@ Risposta attesa: `"meta": { "total": 9, ... }`
 ---
 
 ## CHANGELOG
+
+### v6.0 (27 Dicembre 2025)
+- **COMPLETATO:** Sincronizzazione automatica sito-gestionale implementata
+- **IMPLEMENTATO:** Menu Percorsi dinamico (usa `public-paths-api`)
+- **IMPLEMENTATO:** Homepage corsi dinamica (usa `public-courses-api`)
+- **CREATO:** Nuovo servizio `public-paths-api.ts` e hook `usePublicPaths.ts`
+- **RIMOSSO:** Lista statica di 12 corsi da `Courses.tsx`
+- **RIMOSSO:** Lista statica percorsi da `Header.tsx`
+- **AGGIUNTO:** Loading state e gestione errori nel componente Courses
+- **OBIETTIVO RAGGIUNTO:** Contenuti sincronizzati automaticamente con EduPlan
+
+### v5.9 (27 Dicembre 2025)
+- **RICHIESTA PRIORITARIA:** Implementare sincronizzazione automatica sito-gestionale
+- **DA FARE:** Rendere menu Percorsi dinamico (usare `public-paths-api`)
+- **DA FARE:** Rendere homepage corsi dinamica (usare `public-courses-api`)
+- **OBIETTIVO:** Eliminare contenuti hardcoded, tutto deve passare dalle API
+
+### v5.8 (27 Dicembre 2025)
+- **SEGNALATO:** Menu "Percorsi" non sincronizzato con API
+- **VERIFICATO:** API `public-paths-api` restituisce solo 2 percorsi (Master, GOL)
+- **VERIFICATO:** "Corsi di Specializzazione" NON ha flag `is_learning_path` attivo
+- **RICHIESTA:** Verificare se menu Percorsi è hardcoded o dinamico
 
 ### v5.7 (27 Dicembre 2025)
 - **ANALISI COMPLETATA:** Risposta al problema corso GOL-COMDIG non visibile
