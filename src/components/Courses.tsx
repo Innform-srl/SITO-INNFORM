@@ -92,6 +92,22 @@ const courseStylesMap: Record<string, CourseStyle> = {
     gradientCSS: 'linear-gradient(90deg, #0D9488 0%, #14B8A6 50%, #06B6D4 100%)',
     skills: ['Accessibilità museale', 'Comunicazione inclusiva', 'Audio-descrizione', 'Esperienze multisensoriali'],
   },
+  'tecnico-esperto-per-lo-sviluppo-turistico-territoriale': {
+    icon: BookOpen,
+    gradient: 'from-indigo-600 via-indigo-500 to-blue-500',
+    bgGradient: 'from-indigo-50 to-blue-50',
+    solidColor: '#4f46e5',
+    gradientCSS: 'linear-gradient(90deg, #4F39F6 0%, #615FFF 50%, #2B7FFF 100%)',
+    skills: ['Marketing territoriale', 'Gestione ricettiva', 'Promozione turistica', 'Pianificazione'],
+  },
+  'operatore-h2s-e-sicurezza': {
+    icon: AlertTriangle,
+    gradient: 'from-red-600 via-red-500 to-orange-500',
+    bgGradient: 'from-red-50 to-orange-50',
+    solidColor: '#dc2626',
+    gradientCSS: 'linear-gradient(90deg, #E7000B 0%, #FB2C36 50%, #FF6900 100%)',
+    skills: ['Sicurezza H2S', 'Gestione emergenze', 'Rilevamento gas', 'Evacuazione'],
+  },
 };
 
 // Stile di default per corsi senza stile specifico

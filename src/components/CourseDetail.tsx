@@ -345,8 +345,8 @@ const coursesData: Record<string, Course> = {
       { question: 'Serve saper disegnare?', answer: 'Aiuta, ma imparerai tutto da zero.' }
     ]
   },
-  'sviluppo-turistico': {
-    id: 'sviluppo-turistico',
+  'tecnico-esperto-per-lo-sviluppo-turistico-territoriale': {
+    id: 'tecnico-esperto-per-lo-sviluppo-turistico-territoriale',
     title: 'Tecnico Esperto per lo Sviluppo Turistico Territoriale',
     description: 'L\'esperto svolge attività di elaborazione e progettazione di piani di sviluppo del territorio. Si occupa di definire l\'offerta turistica di una data area geografica, ideare nuovi itinerari e pacchetti, elaborare strategie e politiche di valorizzazione, curare l\'immagine e la promozione del territorio.',
     duration: '500 ore',
@@ -472,8 +472,8 @@ const coursesData: Record<string, Course> = {
         'C.T. Centro Tornitura SRL (Tito)', 'OCM Officina Cancellara Michele (Acerenza)', 'S.D.L. di Sabia Giovanna (Pietragalla)'
     ]
   },
-  'operatore-h2s': {
-    id: 'operatore-h2s',
+  'operatore-h2s-e-sicurezza': {
+    id: 'operatore-h2s-e-sicurezza',
     title: 'Operatore H2S e Sicurezza',
     description: 'La figura si occupa della sicurezza industriale con focus sulla gestione dei rischi connessi all\'esposizione all\'idrogeno solforato (H2S). Valutare potenziali effetti, implementare misure preventive, utilizzare apparecchiature rilevamento, gestire DPI, garantire vigilanza.',
     duration: '600 ore',
