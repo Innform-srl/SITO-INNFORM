@@ -72,6 +72,8 @@ export function ProjectSegni() {
                 <img
                   src="/segni-hero.jpg"
                   alt="Bambini al nido durante attività di lettura"
+                  loading="lazy"
+                  decoding="async"
                   className="w-full h-auto object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent">
@@ -222,6 +224,8 @@ export function ProjectSegni() {
                     <img
                       src="https://images.unsplash.com/photo-1587654780291-39c9404d746b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjbGFzc3Jvb20lMjBraWRzJTIwdG95c3xlbnwxfHx8fDE3NjU5ODcyNzl8MA&ixlib=rb-4.1.0&q=80&w=1080"
                       alt="Interno Nido"
+                      loading="lazy"
+                      decoding="async"
                       className="absolute inset-0 w-full h-full object-cover"
                     />
                  </div>
@@ -297,6 +301,8 @@ export function ProjectSegni() {
             <img
                src="https://images.unsplash.com/photo-1511632765486-a01980e01a18?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjb21tdW5pdHklMjBldmVudCUyMGNlbGVicmF0aW9ufGVufDF8fHx8MTc2NTk4NzQ1MXww&ixlib=rb-4.1.0&q=80&w=1080"
                alt="Evento Finale"
+               loading="lazy"
+               decoding="async"
                className="h-full w-full object-cover opacity-20"
             />
             <div className="absolute inset-0 bg-gradient-to-r from-rose-900/90 to-purple-900/90 mix-blend-multiply" />

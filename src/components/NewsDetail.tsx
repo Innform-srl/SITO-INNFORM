@@ -99,9 +99,11 @@ export function NewsDetail() {
               </header>
 
               <div className="rounded-2xl overflow-hidden shadow-md mb-10 aspect-video">
-                <img 
-                  src={newsItem.image} 
+                <img
+                  src={newsItem.image}
                   alt={newsItem.title}
+                  loading="lazy"
+                  decoding="async"
                   className="w-full h-full object-cover"
                 />
               </div>
@@ -223,9 +225,11 @@ export function NewsDetail() {
                       className="group flex gap-4 items-start"
                     >
                       <div className="w-20 h-20 flex-shrink-0 rounded-lg overflow-hidden bg-gray-100">
-                        <img 
-                          src={item.image} 
+                        <img
+                          src={item.image}
                           alt={item.title}
+                          loading="lazy"
+                          decoding="async"
                           className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
                         />
                       </div>

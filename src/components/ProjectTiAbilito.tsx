@@ -60,6 +60,8 @@ export function ProjectTiAbilito() {
                 <img
                   src="https://images.unsplash.com/photo-1597007519573-0575fd4cc96b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxyb2JvdCUyMGFzc2lzdGluZyUyMGRpc2FibGVkJTIwc3R1ZGVudHMlMjBlZHVjYXRpb24lMjB0ZWNobm9sb2d5JTIwYXNzaXN0aXZlJTIwcm9ib3R8ZW58MXx8fHwxNzY1OTg1MDM2fDA&ixlib=rb-4.1.0&q=80&w=1080"
                   alt="Tecnologia Assistiva"
+                  loading="lazy"
+                  decoding="async"
                   className="w-full h-auto object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent">

@@ -1,0 +1,21 @@
+{
+  "name": "Innform - Centro Formazione Accreditato",
+  "short_name": "Innform",
+  "description": "Centro di formazione professionale accreditato in Basilicata. Corsi, Master e Programma GOL.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#9300FF",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["education", "business"],
+  "lang": "it",
+  "dir": "ltr"
+}

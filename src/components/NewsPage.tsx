@@ -2,6 +2,7 @@ import React, { useState, useMemo } from 'react';
 import { Calendar, Tag, ArrowRight, Search } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { newsItems } from '../utils/newsData';
+import { SEOHead } from './SEOHead';
 
 const categories = ['Tutti', 'Corsi', 'Bandi', 'Avvisi', 'Graduatorie'];
 
@@ -20,6 +21,12 @@ export function NewsPage() {
   }, [activeCategory, searchQuery]);
 
   return (
+    <>
+      <SEOHead
+        title="News & Eventi"
+        description="Tutte le novità, gli aggiornamenti e le opportunità dal mondo della formazione Innform. Bandi, corsi, avvisi e graduatorie."
+        url="/news"
+      />
     <div className="pt-24 pb-16 bg-gray-50 min-h-screen">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
@@ -82,6 +89,8 @@ export function NewsPage() {
                   <img
                     src={item.image}
                     alt={item.title}
+                    loading="lazy"
+                    decoding="async"
                     className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500"
                   />
                 </div>
@@ -124,5 +133,6 @@ export function NewsPage() {
         )}
       </div>
     </div>
+    </>
   );
 }
