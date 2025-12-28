@@ -457,6 +457,14 @@ const programsData: Record<string, Program> = {
         skills: ['Psicologia disabilità visiva', 'Sistema Braille', 'Audio-descrizione', 'Materiali tattili'],
         category: 'Specializzazione',
         id: 'corso-di-specializzazione-alle-guide-turistiche'
+      },
+      {
+        title: 'Corso AI - Intelligenza Artificiale',
+        duration: '20 ore',
+        description: 'Corso di specializzazione sull\'Intelligenza Artificiale: concetti fondamentali, applicazioni pratiche e strumenti AI per il business e la produttività.',
+        skills: ['Fondamenti AI', 'Prompt Engineering', 'Strumenti AI', 'Automazione'],
+        category: 'Specializzazione',
+        id: 'corso-ai'
       }
     ],
     timeline: [
