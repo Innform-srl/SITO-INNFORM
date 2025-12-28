@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import {
   ArrowLeft, Award, Users, BookOpen, CheckCircle2,
@@ -8,6 +8,8 @@ import {
 } from 'lucide-react';
 import { ImageWithFallback } from './figma/ImageWithFallback';
 import { InfiniteCarousel } from './InfiniteCarousel';
+import { usePublicPaths } from '../hooks/usePublicPaths';
+import { PathCourse } from '../services/public-paths-api';
 
 interface Program {
   id: string;
@@ -661,10 +663,58 @@ const programsData: Record<string, Program> = {
   }
 };
 
+// Mappa programId (URL) → codice percorso API
+const programIdToPathCode: Record<string, string> = {
+  'master': 'MS',
+  'gol': 'GOL',
+  'specializzazione': 'SPEC',
+};
+
+// Funzione per generare slug dal titolo del corso (uguale a quella usata in CourseDetail)
+function generateSlug(title: string): string {
+  return title
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '') // rimuove accenti
+    .replace(/[^a-z0-9\s-]/g, '')    // rimuove caratteri speciali
+    .replace(/\s+/g, '-')            // spazi → trattini
+    .replace(/-+/g, '-')             // trattini multipli → singolo
+    .trim();
+}
+
 export function ProgramDetail() {
   const { programId } = useParams<{ programId: string }>();
   const program = programId ? programsData[programId] : null;
   const [visibleSections, setVisibleSections] = useState<Set<string>>(new Set());
+
+  // Fetch percorsi dall'API
+  const { paths, loading: pathsLoading } = usePublicPaths();
+
+  // Trova il percorso corrispondente dall'API
+  const pathCode = programId ? programIdToPathCode[programId] : null;
+  const apiPath = useMemo(() => {
+    if (!pathCode || !paths.length) return null;
+    return paths.find(p => p.code === pathCode) || null;
+  }, [pathCode, paths]);
+
+  // Converti i corsi dall'API nel formato usato dalla UI
+  const apiCourses = useMemo(() => {
+    if (!apiPath?.courses) return [];
+
+    return apiPath.courses.map((course: PathCourse) => ({
+      title: course.title,
+      duration: `${course.duration_hours} ore`,
+      description: '', // L'API non fornisce descrizione, sarà vuota o si può aggiungere
+      skills: [] as string[],
+      id: generateSlug(course.title),
+      code: course.code, // Utile per eventuale mapping futuro
+      category: pathCode === 'GOL'
+        ? (course.title.toLowerCase().includes('upskilling') ? 'Upskilling' : 'Reskilling')
+        : pathCode === 'SPEC'
+          ? 'Specializzazione'
+          : undefined,
+    }));
+  }, [apiPath, pathCode]);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -909,8 +959,23 @@ export function ProgramDetail() {
       <section className="py-20 bg-white" data-animate id="corsi">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
-          {/* Corsi di Specializzazione */}
-          {program.courses.some(c => c.category === 'Specializzazione') && (
+          {/* Loading state per corsi da API */}
+          {pathsLoading && pathCode && (
+            <div className="text-center py-12">
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 mx-auto mb-4"></div>
+              <p className="text-gray-600">Caricamento corsi...</p>
+            </div>
+          )}
+
+          {/* Usa corsi dall'API se disponibili per i percorsi (master, gol, specializzazione) */}
+          {(() => {
+            // Per i programmi con percorso API, usa apiCourses; altrimenti usa i dati statici
+            const coursesToShow = pathCode && apiCourses.length > 0 ? apiCourses : program.courses;
+
+            return (
+              <>
+                {/* Corsi di Specializzazione */}
+                {coursesToShow.some(c => c.category === 'Specializzazione') && (
             <div className="mb-16">
               <div className="flex items-center gap-3 mb-8">
                 <div style={{ width: '6px', height: '40px', background: 'linear-gradient(to bottom, #0d9488, #06b6d4)', borderRadius: '4px' }}></div>
@@ -918,7 +983,7 @@ export function ProgramDetail() {
               </div>
 
               <div className="grid md:grid-cols-2 gap-8">
-                {program.courses.filter(c => c.category === 'Specializzazione').map((course, idx) => (
+                {coursesToShow.filter(c => c.category === 'Specializzazione').map((course, idx) => (
                   <Link
                     key={idx}
                     to={course.id ? `/corsi/${course.id}` : '#'}
@@ -934,21 +999,25 @@ export function ProgramDetail() {
                         </div>
                       </div>
                       <h3 className="text-2xl font-bold mb-4 text-teal-700">{course.title}</h3>
-                      <p className="text-gray-700 mb-6 leading-relaxed">{course.description}</p>
+                      {course.description && (
+                        <p className="text-gray-700 mb-6 leading-relaxed">{course.description}</p>
+                      )}
 
-                      <div className="space-y-2">
-                        <div className="text-sm uppercase tracking-wide text-gray-500 mb-3">Competenze</div>
-                        <div className="flex flex-wrap gap-2">
-                          {course.skills.map((skill, skillIdx) => (
-                            <span
-                              key={skillIdx}
-                              className="bg-white px-4 py-2 rounded-lg text-sm shadow-md border border-teal-100"
-                            >
-                              {skill}
-                            </span>
-                          ))}
+                      {course.skills && course.skills.length > 0 && (
+                        <div className="space-y-2">
+                          <div className="text-sm uppercase tracking-wide text-gray-500 mb-3">Competenze</div>
+                          <div className="flex flex-wrap gap-2">
+                            {course.skills.map((skill, skillIdx) => (
+                              <span
+                                key={skillIdx}
+                                className="bg-white px-4 py-2 rounded-lg text-sm shadow-md border border-teal-100"
+                              >
+                                {skill}
+                              </span>
+                            ))}
+                          </div>
                         </div>
-                      </div>
+                      )}
 
                       <div className="flex items-center gap-2 mt-6 text-teal-600 font-semibold">
                         <span>Scopri il corso</span>
@@ -962,7 +1031,7 @@ export function ProgramDetail() {
           )}
 
           {/* Percorsi Upskilling */}
-          {program.courses.some(c => c.category === 'Upskilling') && (
+          {coursesToShow.some(c => c.category === 'Upskilling') && (
             <div className="mb-16">
               <div className="flex items-center gap-3 mb-8">
                 <div style={{ width: '6px', height: '40px', background: 'linear-gradient(to bottom, #06b6d4, #0891b2)', borderRadius: '4px' }}></div>
@@ -970,7 +1039,7 @@ export function ProgramDetail() {
               </div>
 
               <div className="grid md:grid-cols-2 gap-8">
-                {program.courses.filter(c => c.category === 'Upskilling').map((course, idx) => (
+                {coursesToShow.filter(c => c.category === 'Upskilling').map((course, idx) => (
                   <Link
                     key={idx}
                     to={course.id ? `/corsi/${course.id}` : '#'}
@@ -986,21 +1055,25 @@ export function ProgramDetail() {
                         </div>
                       </div>
                       <h3 className="text-2xl font-bold mb-4 text-teal-700">{course.title}</h3>
-                      <p className="text-gray-700 mb-6 leading-relaxed">{course.description}</p>
+                      {course.description && (
+                        <p className="text-gray-700 mb-6 leading-relaxed">{course.description}</p>
+                      )}
 
-                      <div className="space-y-2">
-                        <div className="text-sm uppercase tracking-wide text-gray-500 mb-3">Competenze</div>
-                        <div className="flex flex-wrap gap-2">
-                          {course.skills.map((skill, skillIdx) => (
-                            <span
-                              key={skillIdx}
-                              className="bg-white px-4 py-2 rounded-lg text-sm shadow-md border border-gray-100"
-                            >
-                              {skill}
-                            </span>
-                          ))}
+                      {course.skills && course.skills.length > 0 && (
+                        <div className="space-y-2">
+                          <div className="text-sm uppercase tracking-wide text-gray-500 mb-3">Competenze</div>
+                          <div className="flex flex-wrap gap-2">
+                            {course.skills.map((skill, skillIdx) => (
+                              <span
+                                key={skillIdx}
+                                className="bg-white px-4 py-2 rounded-lg text-sm shadow-md border border-gray-100"
+                              >
+                                {skill}
+                              </span>
+                            ))}
+                          </div>
                         </div>
-                      </div>
+                      )}
 
                       <div className="flex items-center gap-2 mt-6 text-cyan-600 font-semibold">
                         <span>Scopri il corso</span>
@@ -1014,7 +1087,7 @@ export function ProgramDetail() {
           )}
 
           {/* Percorsi Reskilling */}
-          {program.courses.some(c => c.category === 'Reskilling') && (
+          {coursesToShow.some(c => c.category === 'Reskilling') && (
             <div>
               <div className="flex items-center gap-3 mb-8">
                 <div style={{ width: '6px', height: '40px', background: 'linear-gradient(to bottom, #3b82f6, #1d4ed8)', borderRadius: '4px' }}></div>
@@ -1022,7 +1095,7 @@ export function ProgramDetail() {
               </div>
 
               <div className="grid md:grid-cols-2 gap-8">
-                {program.courses.filter(c => c.category === 'Reskilling').map((course, idx) => (
+                {coursesToShow.filter(c => c.category === 'Reskilling').map((course, idx) => (
                   <Link
                     key={idx}
                     to={course.id ? `/corsi/${course.id}` : '#'}
@@ -1038,21 +1111,25 @@ export function ProgramDetail() {
                         </div>
                       </div>
                       <h3 className="text-2xl font-bold mb-4 text-gray-900">{course.title}</h3>
-                      <p className="text-gray-700 mb-6 leading-relaxed">{course.description}</p>
+                      {course.description && (
+                        <p className="text-gray-700 mb-6 leading-relaxed">{course.description}</p>
+                      )}
 
-                      <div className="space-y-2">
-                        <div className="text-sm uppercase tracking-wide text-gray-500 mb-3">Competenze</div>
-                        <div className="flex flex-wrap gap-2">
-                          {course.skills.map((skill, skillIdx) => (
-                            <span
-                              key={skillIdx}
-                              className="bg-gray-50 px-4 py-2 rounded-lg text-sm border border-gray-200"
-                            >
-                              {skill}
-                            </span>
-                          ))}
+                      {course.skills && course.skills.length > 0 && (
+                        <div className="space-y-2">
+                          <div className="text-sm uppercase tracking-wide text-gray-500 mb-3">Competenze</div>
+                          <div className="flex flex-wrap gap-2">
+                            {course.skills.map((skill, skillIdx) => (
+                              <span
+                                key={skillIdx}
+                                className="bg-gray-50 px-4 py-2 rounded-lg text-sm border border-gray-200"
+                              >
+                                {skill}
+                              </span>
+                            ))}
+                          </div>
                         </div>
-                      </div>
+                      )}
 
                       <div className="flex items-center gap-2 mt-6 text-blue-600 font-semibold">
                         <span>Scopri il corso</span>
@@ -1066,9 +1143,9 @@ export function ProgramDetail() {
           )}
 
           {/* Fallback per corsi senza categoria */}
-          {program.courses.some(c => !c.category) && (
+          {coursesToShow.some(c => !c.category) && (
             <div className="grid md:grid-cols-2 gap-8 mt-8">
-              {program.courses.filter(c => !c.category).map((course, idx) => (
+              {coursesToShow.filter(c => !c.category).map((course, idx) => (
                 <Link
                   key={idx}
                   to={course.id ? `/corsi/${course.id}` : '#'}
@@ -1106,6 +1183,9 @@ export function ProgramDetail() {
               ))}
             </div>
           )}
+              </>
+            );
+          })()}
         </div>
       </section>
 
