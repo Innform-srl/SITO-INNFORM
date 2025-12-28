@@ -352,13 +352,6 @@ const programsData: Record<string, Program> = {
         description: 'Diventa esperto in sicurezza sul lavoro con competenze in normative, risk assessment e gestione emergenze.',
         skills: ['Normative sicurezza', 'Risk assessment', 'DVR', 'Gestione emergenze'],
         id: 'master-safety'
-      },
-      {
-        title: 'Corso AI - Intelligenza Artificiale',
-        duration: '20 ore',
-        description: 'Corso introduttivo sull\'Intelligenza Artificiale: concetti fondamentali, applicazioni pratiche e strumenti AI per il business e la produttività.',
-        skills: ['Fondamenti AI', 'Prompt Engineering', 'Strumenti AI', 'Automazione'],
-        id: 'corso-ai'
       }
     ],
     timeline: [

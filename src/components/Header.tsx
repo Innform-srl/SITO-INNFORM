@@ -184,10 +184,13 @@ export function Header() {
                           }}
                         >
                           {subItem.children ? (
-                            <div className={`flex items-center justify-between px-4 py-3 text-sm text-gray-700 hover:bg-purple-50 hover:text-purple-600 transition-colors cursor-pointer ${activeSubmenu === subItem.label ? 'bg-purple-50 text-purple-600' : ''}`}>
+                            <Link
+                              to={subItem.href}
+                              className={`flex items-center justify-between px-4 py-3 text-sm text-gray-700 hover:bg-purple-50 hover:text-purple-600 transition-colors ${activeSubmenu === subItem.label ? 'bg-purple-50 text-purple-600' : ''}`}
+                            >
                               <span className="font-semibold">{subItem.label}</span>
                               <ChevronRight size={14} />
-                            </div>
+                            </Link>
                           ) : (
                             <Link
                               to={subItem.href}
