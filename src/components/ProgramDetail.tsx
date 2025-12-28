@@ -29,6 +29,8 @@ interface Program {
     duration: string;
     description: string;
     skills: string[];
+    id?: string;
+    category?: string;
   }>;
   timeline: Array<{
     phase: string;
@@ -334,25 +336,29 @@ const programsData: Record<string, Program> = {
         title: 'Tecnico Esperto in Analisi Alimentari e Ambientali',
         duration: '400 ore',
         description: 'Master completo per diventare esperto in analisi chimiche e microbiologiche nel settore food e ambiente.',
-        skills: ['Analisi chimiche', 'Microbiologia', 'HACCP avanzato', 'Tecniche strumentali']
+        skills: ['Analisi chimiche', 'Microbiologia', 'HACCP avanzato', 'Tecniche strumentali'],
+        id: 'tecnico-esperto-in-analisi-alimentari-e-ambientali'
       },
       {
         title: 'Master in Editoria e Comunicazione',
         duration: '350 ore',
         description: 'Formazione completa su editoria digitale, content management e strategie di comunicazione.',
-        skills: ['Editoria digitale', 'Content strategy', 'SEO copywriting', 'Publishing workflow']
+        skills: ['Editoria digitale', 'Content strategy', 'SEO copywriting', 'Publishing workflow'],
+        id: 'editoria-e-comunicazione'
       },
       {
         title: 'Safety Manager',
         duration: '300 ore',
         description: 'Diventa esperto in sicurezza sul lavoro con competenze in normative, risk assessment e gestione emergenze.',
-        skills: ['Normative sicurezza', 'Risk assessment', 'DVR', 'Gestione emergenze']
+        skills: ['Normative sicurezza', 'Risk assessment', 'DVR', 'Gestione emergenze'],
+        id: 'master-safety'
       },
       {
-        title: 'Master in Interior Design',
-        duration: '320 ore',
-        description: 'Progetta spazi interni con competenze in design, render 3D e gestione commesse.',
-        skills: ['Progettazione', 'AutoCAD & 3D', 'Materiali', 'Gestione cliente']
+        title: 'Corso AI - Intelligenza Artificiale',
+        duration: '20 ore',
+        description: 'Corso introduttivo sull\'Intelligenza Artificiale: concetti fondamentali, applicazioni pratiche e strumenti AI per il business e la produttività.',
+        skills: ['Fondamenti AI', 'Prompt Engineering', 'Strumenti AI', 'Automazione'],
+        id: 'corso-ai'
       }
     ],
     timeline: [
@@ -1062,8 +1068,9 @@ export function ProgramDetail() {
           {program.courses.some(c => !c.category) && (
             <div className="grid md:grid-cols-2 gap-8 mt-8">
               {program.courses.filter(c => !c.category).map((course, idx) => (
-                <div
+                <Link
                   key={idx}
+                  to={course.id ? `/corsi/${course.id}` : '#'}
                   className={`bg-gradient-to-br ${program.bgGradient} rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2`}
                 >
                   <div className="p-8">
@@ -1088,8 +1095,13 @@ export function ProgramDetail() {
                         ))}
                       </div>
                     </div>
+
+                    <div className={`flex items-center gap-2 mt-6 font-semibold`} style={{ color: program.gradient.includes('pink') ? '#db2777' : '#7c3aed' }}>
+                      <span>Scopri il corso</span>
+                      <ChevronRight size={20} />
+                    </div>
                   </div>
-                </div>
+                </Link>
               ))}
             </div>
           )}

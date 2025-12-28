@@ -60,12 +60,19 @@ export function Header() {
 
     // Genera dropdown da paths
     return paths.map(path => {
-      // Determina il label user-friendly
+      // Determina il label user-friendly e l'href alla pagina programma
       let label = path.title;
+      let programHref = "/#corsi";
+
       if (path.code === 'GOL') {
         label = 'Programma GOL';
+        programHref = '/programmi/gol';
       } else if (path.code === 'MS') {
         label = 'Master';
+        programHref = '/programmi/master';
+      } else if (path.code === 'SPEC' || path.title.toLowerCase().includes('specializzazione')) {
+        label = 'Corsi di Specializzazione';
+        programHref = '/programmi/specializzazione';
       }
 
       // Genera i children (corsi nel percorso)
@@ -87,7 +94,7 @@ export function Header() {
 
       return {
         label,
-        href: "/#corsi",
+        href: programHref,
         children: children.length > 0 ? children : undefined
       };
     }).filter(item => item.children && item.children.length > 0); // Rimuovi percorsi senza corsi
