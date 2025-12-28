@@ -18,9 +18,9 @@ interface CourseStyle {
   skills: string[];
 }
 
-// Mappa degli stili per slug dei corsi
+// Mappa degli stili per CODICE corso (stabile anche se il titolo cambia)
 const courseStylesMap: Record<string, CourseStyle> = {
-  'tecnico-esperto-in-analisi-alimentari-e-ambientali': {
+  'TAA': {
     icon: Microscope,
     gradient: 'from-purple-600 via-purple-500 to-pink-500',
     bgGradient: 'from-purple-50 to-pink-50',
@@ -28,7 +28,7 @@ const courseStylesMap: Record<string, CourseStyle> = {
     gradientCSS: 'linear-gradient(90deg, #9333EA 0%, #A855F7 50%, #EC4899 100%)',
     skills: ['Analisi chimiche', 'Microbiologia', 'Controllo qualità', 'Monitoraggio ambientale'],
   },
-  'editoria-e-comunicazione': {
+  'EEC': {
     icon: BookOpen,
     gradient: 'from-blue-600 via-blue-500 to-cyan-500',
     bgGradient: 'from-blue-50 to-cyan-50',
@@ -36,7 +36,7 @@ const courseStylesMap: Record<string, CourseStyle> = {
     gradientCSS: 'linear-gradient(90deg, #2563EB 0%, #3B82F6 50%, #06B6D4 100%)',
     skills: ['Editoria', 'Comunicazione', 'Marketing', 'Social Media'],
   },
-  'master-safety': {
+  'MASSAF': {
     icon: Award,
     gradient: 'from-emerald-600 via-emerald-500 to-green-500',
     bgGradient: 'from-emerald-50 to-green-50',
@@ -44,7 +44,7 @@ const courseStylesMap: Record<string, CourseStyle> = {
     gradientCSS: 'linear-gradient(90deg, #059669 0%, #10B981 50%, #22C55E 100%)',
     skills: ['Sicurezza sul lavoro', 'Gestione rischio', 'Normativa ambientale', 'Prevenzione'],
   },
-  'operatore-tornitura': {
+  'Tor': {
     icon: Settings,
     gradient: 'from-slate-600 via-slate-500 to-gray-500',
     bgGradient: 'from-slate-50 to-gray-50',
@@ -52,7 +52,7 @@ const courseStylesMap: Record<string, CourseStyle> = {
     gradientCSS: 'linear-gradient(90deg, #45556C 0%, #62748E 50%, #6A7282 100%)',
     skills: ['Tornitura CNC', 'Disegno tecnico', 'Lavorazione metalli', 'Controllo qualità'],
   },
-  'operatore-della-panificazione-e-della-produzione-di-paste': {
+  'GOL-ODPE': {
     icon: Croissant,
     gradient: 'from-amber-600 via-orange-500 to-yellow-500',
     bgGradient: 'from-amber-50 to-yellow-50',
@@ -60,7 +60,7 @@ const courseStylesMap: Record<string, CourseStyle> = {
     gradientCSS: 'linear-gradient(90deg, #D97706 0%, #F59E0B 50%, #FBBF24 100%)',
     skills: ['Lavorazione Impasti', 'Lievitazione', 'Cottura Prodotti', 'Confezionamento'],
   },
-  'competenze-digitali': {
+  'GOL-COMDIG': {
     icon: Monitor,
     gradient: 'from-blue-600 via-blue-500 to-cyan-500',
     bgGradient: 'from-blue-50 to-cyan-50',
@@ -68,7 +68,7 @@ const courseStylesMap: Record<string, CourseStyle> = {
     gradientCSS: 'linear-gradient(90deg, #2563EB 0%, #3B82F6 50%, #06B6D4 100%)',
     skills: ['Utilizzo PC', 'Navigazione Web', 'Office', 'Comunicazione Digitale'],
   },
-  'pubblicita-comunicazione': {
+  'Upskilling-CDP1': {
     icon: Megaphone,
     gradient: 'from-purple-700 via-purple-600 to-indigo-700',
     bgGradient: 'from-purple-50 to-indigo-50',
@@ -76,7 +76,7 @@ const courseStylesMap: Record<string, CourseStyle> = {
     gradientCSS: 'linear-gradient(90deg, #7F22FE 0%, #AD46FF 50%, #615FFF 100%)',
     skills: ['Social Media', 'Content Creation', 'Digital Marketing', 'Analisi Dati'],
   },
-  'sistema-educativo-infanzia': {
+  'OTDS': {
     icon: Users,
     gradient: 'from-pink-600 via-pink-500 to-rose-500',
     bgGradient: 'from-pink-50 to-rose-50',
@@ -84,7 +84,7 @@ const courseStylesMap: Record<string, CourseStyle> = {
     gradientCSS: 'linear-gradient(90deg, #E60076 0%, #F6339A 50%, #FF2056 100%)',
     skills: ['Pedagogia', 'Attività ludiche', 'Cura infanzia', 'Progettazione educativa'],
   },
-  'corso-di-specializzazione-alle-guide-turistiche': {
+  'CDSA': {
     icon: Eye,
     gradient: 'from-teal-600 via-teal-500 to-cyan-500',
     bgGradient: 'from-teal-50 to-cyan-50',
@@ -92,7 +92,7 @@ const courseStylesMap: Record<string, CourseStyle> = {
     gradientCSS: 'linear-gradient(90deg, #0D9488 0%, #14B8A6 50%, #06B6D4 100%)',
     skills: ['Accessibilità museale', 'Comunicazione inclusiva', 'Audio-descrizione', 'Esperienze multisensoriali'],
   },
-  'tecnico-esperto-per-lo-sviluppo-turistico-territoriale': {
+  'GOL-TEPL': {
     icon: BookOpen,
     gradient: 'from-indigo-600 via-indigo-500 to-blue-500',
     bgGradient: 'from-indigo-50 to-blue-50',
@@ -100,13 +100,21 @@ const courseStylesMap: Record<string, CourseStyle> = {
     gradientCSS: 'linear-gradient(90deg, #4F39F6 0%, #615FFF 50%, #2B7FFF 100%)',
     skills: ['Marketing territoriale', 'Gestione ricettiva', 'Promozione turistica', 'Pianificazione'],
   },
-  'operatore-h2s-e-sicurezza': {
+  'GOL-OHES': {
     icon: AlertTriangle,
     gradient: 'from-red-600 via-red-500 to-orange-500',
     bgGradient: 'from-red-50 to-orange-50',
     solidColor: '#dc2626',
     gradientCSS: 'linear-gradient(90deg, #E7000B 0%, #FB2C36 50%, #FF6900 100%)',
     skills: ['Sicurezza H2S', 'Gestione emergenze', 'Rilevamento gas', 'Evacuazione'],
+  },
+  'CS-CORAI': {
+    icon: Monitor,
+    gradient: 'from-violet-600 via-purple-500 to-fuchsia-500',
+    bgGradient: 'from-violet-50 to-fuchsia-50',
+    solidColor: '#7c3aed',
+    gradientCSS: 'linear-gradient(90deg, #7C3AED 0%, #A855F7 50%, #D946EF 100%)',
+    skills: ['Intelligenza Artificiale', 'Machine Learning', 'Data Analysis', 'Automazione'],
   },
 };
 
@@ -146,9 +154,9 @@ function getCourseType(course: CoursePublicData): string {
   return 'Corso';
 }
 
-// Helper per ottenere lo stile di un corso
-function getCourseStyle(slug: string): CourseStyle {
-  return courseStylesMap[slug] || defaultStyle;
+// Helper per ottenere lo stile di un corso (cerca per codice)
+function getCourseStyle(code: string): CourseStyle {
+  return courseStylesMap[code] || defaultStyle;
 }
 
 export function Courses() {
@@ -167,16 +175,16 @@ export function Courses() {
     // Prima filtra i corsi con iscrizioni aperte
     const openCourses = apiCourses.filter(c => c.is_enrollments_open);
 
-    // Poi ordina: metti 'tecnico-esperto-in-analisi-alimentari-e-ambientali' al primo posto
+    // Poi ordina: metti TAA (Tecnico Analisi Alimentari) al primo posto
     const sortedCourses = openCourses.sort((a, b) => {
-      if (a.website_slug === 'tecnico-esperto-in-analisi-alimentari-e-ambientali') return -1;
-      if (b.website_slug === 'tecnico-esperto-in-analisi-alimentari-e-ambientali') return 1;
+      if (a.code === 'TAA') return -1;
+      if (b.code === 'TAA') return 1;
       return 0;
     });
 
     return sortedCourses
       .map(course => {
-        const style = getCourseStyle(course.website_slug);
+        const style = getCourseStyle(course.code);  // Usa codice corso (stabile)
         const category = getCourseCategory(course);
         const type = getCourseType(course);
         const duration = course.duration_hours ? `${course.duration_hours} ore` : 'Da definire';

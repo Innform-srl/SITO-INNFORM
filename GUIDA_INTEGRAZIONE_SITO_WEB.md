@@ -1,78 +1,190 @@
 # Guida Agente Sito Innform
 
-**Versione Corrente: 6.6 | Data: 27 Dicembre 2025 | Ora: 21:00**
+**Versione Corrente: 6.9 | Data: 27 Dicembre 2025 | Ora: 20:00**
 
 ---
 
-## ⚠️ CRITICO: GESTIONE SLUG E RINOMINA CORSI
+## ✅ IMPLEMENTATO - COLLEGAMENTO DATI PER CODICE CORSO
 
-> **ATTENZIONE:** Questa sezione è FONDAMENTALE. Ignorarla causerà la perdita di contenuti sul sito web.
+> **Stato: COMPLETATO** - I corsi possono ora essere rinominati liberamente su EduPlan senza perdere dati.
 
-### Cos'è lo Slug e Perché è Importante
+### Obiettivo (raggiunto)
+
+Permettere la **rinomina libera dei corsi** su EduPlan senza perdere i dati statici nel sito, mantenendo URL SEO-friendly.
+
+### Situazione precedente (risolta)
+
+```
+URL:                /corsi/tecnico-analisi-alimentari     ← SLUG (usato per URL)
+Collegamento dati:  coursesData['tecnico-analisi-alimentari']  ← SLUG (cambia se rinomini!)
+
+Quando rinomini il corso → slug cambia → dati statici persi!
+```
+
+### Soluzione implementata
+
+```
+URL:                /corsi/tecnico-esperto-in-analisi...  ← SLUG (per SEO, può cambiare)
+Collegamento dati:  coursesData['TAA']                    ← CODICE (stabile, non cambia mai)
+
+Quando rinomini il corso → slug cambia → dati statici OK!
+```
+
+### Implementazione nel sito
+
+#### 1. Cambiare le chiavi in `coursesData` (CourseDetail.tsx)
+
+```javascript
+// PRIMA (chiavi = slug):
+const coursesData = {
+  'tecnico-analisi-alimentari': {
+    title: '...',
+    modules: [...],
+    faq: [...],
+  },
+  'master-safety': { ... },
+  'corso-ai': { ... },
+}
+
+// DOPO (chiavi = codice corso):
+const coursesData = {
+  'TAA': {  // Codice corso stabile
+    title: '...',
+    modules: [...],
+    faq: [...],
+  },
+  'MASSAF': { ... },
+  'CS-CORAI': { ... },
+}
+```
+
+#### 2. Cambiare la logica di lookup
+
+```javascript
+// PRIMA (cerca per slug - instabile):
+const CourseDetail = () => {
+  const { slug } = useParams();
+  const staticData = coursesData[slug];  // ❌ Slug può cambiare
+  // ...
+}
+
+// DOPO (cerca per codice - stabile):
+const CourseDetail = () => {
+  const { slug } = useParams();
+
+  // 1. Ottieni dati API (include il codice corso)
+  const { course: apiData, loading } = usePublicCourse({ slug });
+
+  // 2. Usa il CODICE per trovare i dati statici
+  const staticData = apiData ? coursesData[apiData.code] : null;  // ✅ Codice stabile
+
+  // 3. Merge come prima
+  const course = useMemo(() => {
+    if (!apiData) return null;
+    return {
+      ...apiData,
+      // Extras da staticData (opzionali)
+      heroImage: staticData?.heroImage || defaultImage,
+      modules: staticData?.modules || [],
+      faq: staticData?.faq || [],
+    };
+  }, [apiData, staticData]);
+}
+```
+
+#### 3. Cambiare le chiavi in `courseStylesMap` (Courses.tsx)
+
+```javascript
+// PRIMA:
+const courseStylesMap = {
+  'tecnico-analisi-alimentari': { icon: Microscope, gradient: '...' },
+}
+
+// DOPO:
+const courseStylesMap = {
+  'TAA': { icon: Microscope, gradient: '...' },
+}
+```
+
+#### 4. Aggiornare il lookup degli stili
+
+```javascript
+// PRIMA:
+const style = courseStylesMap[course.website_slug] || defaultStyle;
+
+// DOPO:
+const style = courseStylesMap[course.code] || defaultStyle;
+```
+
+### Tabella corrispondenza Codice → Slug attuale
+
+| Codice | Slug Attuale | Nome Corso |
+|--------|--------------|------------|
+| `TAA` | `tecnico-esperto-in-analisi-alimentari-e-ambientali` | Tecnico Esperto Analisi Alimentari |
+| `MASSAF` | `master-safety` | Master Safety |
+| `EEC` | `editoria-e-comunicazione` | Editoria e Comunicazione |
+| `CDSA` | `corso-di-specializzazione-alle-guide-turistiche` | Specializzazione Guide Turistiche |
+| `Tor` | `operatore-tornitura` | Operatore Tornitura |
+| `OTDS` | `sistema-educativo-infanzia` | Sistema Educativo Infanzia |
+| `GOL-OHES` | `operatore-h2s-e-sicurezza` | Operatore H2S |
+| `GOL-TEPL` | `tecnico-esperto-per-lo-sviluppo-turistico-territoriale` | Sviluppo Turistico |
+| `GOL-COMDIG` | `competenze-digitali` | Competenze Digitali |
+| `GOL-ODPE` | `operatore-della-panificazione-e-della-produzione-di-paste` | Operatore Panificazione |
+| `Upskilling-CDP1` | `pubblicita-comunicazione` | Pubblicità Comunicazione |
+| `CS-CORAI` | `corso-ai` | Corso AI |
+
+### Vantaggi
+
+1. **Rinomina libera** - Puoi rinominare i corsi su EduPlan senza coordinamento
+2. **URL SEO-friendly** - Gli URL usano ancora lo slug leggibile
+3. **Dati statici stabili** - I contenuti (FAQ, moduli, immagini) non si perdono mai
+4. **Zero manutenzione** - Nessun aggiornamento chiavi necessario dopo rinomina
+
+---
+
+## ℹ️ GESTIONE SLUG E RINOMINA CORSI
+
+> **NOTA:** Con l'implementazione del collegamento per codice, la rinomina dei corsi è ora SICURA e non richiede coordinamento.
+
+### Cos'è lo Slug
 
 Lo **slug** è un identificatore URL-friendly generato automaticamente dal titolo del corso:
 - Titolo: "Tecnico Analisi Alimentari" → Slug: `tecnico-analisi-alimentari`
 - Titolo: "Corso AI per Aziende" → Slug: `corso-ai-per-aziende`
 
-**Il sito web usa lo slug per DUE scopi critici:**
-
-| Uso | Esempio | Cosa Succede se Cambia |
-|-----|---------|------------------------|
-| **URL pagina corso** | `www.innform.it/corsi/tecnico-analisi-alimentari` | L'URL smette di funzionare (404) |
-| **Collegamento dati statici** | Programma didattico, requisiti, FAQ, immagini | Contenuti non più visibili sul sito |
-
-### Il Problema: Rinominare un Corso
-
-Quando rinomini un corso su EduPlan, lo slug cambia automaticamente:
+### Come Funziona Ora (Dopo l'Implementazione)
 
 ```
-PRIMA della rinomina:
-┌─────────────────────────────────────┐
-│ Titolo: "Tecnico Analisi Alimentari"│
-│ Slug:   tecnico-analisi-alimentari  │
-│ URL:    /corsi/tecnico-analisi-...  │
-└─────────────────────────────────────┘
-           │
-           │ Dati statici collegati tramite slug
-           ▼
-┌─────────────────────────────────────┐
-│ CourseDetail.tsx                    │
-│ Key: 'tecnico-analisi-alimentari'   │
-│ - Programma didattico (5 moduli)    │
-│ - Requisiti di accesso              │
-│ - FAQ (10 domande)                  │
-│ - Immagine hero                     │
-└─────────────────────────────────────┘
-
-DOPO la rinomina (SENZA coordinamento):
+RINOMINA CORSO SU EDUPLAN:
 ┌─────────────────────────────────────────────────────┐
-│ Titolo: "Tecnico Esperto in Analisi Alimentari..."  │
-│ Slug:   tecnico-esperto-in-analisi-alimentari-...   │  ← NUOVO SLUG!
-│ URL:    /corsi/tecnico-esperto-in-analisi-...       │
+│ Titolo: "Nuovo Nome Corso"                          │
+│ Slug:   nuovo-nome-corso                  (cambia)  │
+│ Codice: TAA                               (stabile) │
 └─────────────────────────────────────────────────────┘
            │
-           │ Cerca dati con nuovo slug... NON TROVATI!
+           │ URL usa slug → /corsi/nuovo-nome-corso
+           │ Dati statici cercati per CODICE → TAA
            ▼
 ┌─────────────────────────────────────┐
 │ CourseDetail.tsx                    │
-│ Key: 'tecnico-analisi-alimentari'   │  ← VECCHIO SLUG!
+│ Key: 'TAA'                          │  ← CODICE STABILE!
 │ - Programma didattico (5 moduli)    │
-│ - Requisiti di accesso              │    ORFANI - Non più collegati!
+│ - Requisiti di accesso              │    SEMPRE COLLEGATI
 │ - FAQ (10 domande)                  │
 │ - Immagine hero                     │
 └─────────────────────────────────────┘
 
-RISULTATO: Pagina corso vuota (niente programma, requisiti, FAQ)
+RISULTATO: Pagina corso funziona correttamente!
 ```
 
-### Dati Statici Collegati allo Slug
+### Dati Statici Collegati al Codice
 
-I seguenti dati nel sito web sono collegati tramite slug e vanno persi se cambia:
+I seguenti dati nel sito web sono collegati tramite codice corso (stabile):
 
 **1. CourseDetail.tsx - Contenuti principali**
 ```typescript
 const coursesData = {
-  'tecnico-analisi-alimentari': {  // ← CHIAVE = SLUG
+  'TAA': {  // ← CHIAVE = CODICE CORSO (stabile)
     title: '...',
     duration: '600 ore',
     requirements: ['Diploma', 'Età 18+', ...],
@@ -93,7 +205,7 @@ const coursesData = {
 **2. Courses.tsx - Stile visivo nel carosello**
 ```typescript
 const courseStylesMap = {
-  'tecnico-analisi-alimentari': {  // ← CHIAVE = SLUG
+  'TAA': {  // ← CHIAVE = CODICE CORSO (stabile)
     icon: Microscope,
     gradient: 'from-purple-600 via-purple-500 to-pink-500',
     accentColor: 'purple',
@@ -101,150 +213,39 @@ const courseStylesMap = {
 }
 ```
 
-**3. ProgramEnrollment.tsx - Form iscrizione**
-```typescript
-const formDataBySlug = {
-  'tecnico-analisi-alimentari': {  // ← CHIAVE = SLUG
-    formId: 'abc123',
-    redirectUrl: '...',
-  }
-}
-```
+### Rinominare un Corso
 
-### Procedura OBBLIGATORIA per Rinominare un Corso
+Con l'implementazione attuale, puoi **rinominare liberamente** i corsi su EduPlan:
 
-```
-┌────────────────────────────────────────────────────────────────┐
-│                    WORKFLOW RINOMINA CORSO                      │
-└────────────────────────────────────────────────────────────────┘
+1. **Rinomina su EduPlan** - Cambia il titolo del corso
+2. **Lo slug cambia automaticamente** - L'URL del corso si aggiorna
+3. **I dati statici rimangono collegati** - Grazie al codice corso stabile
+4. **Nessuna azione richiesta sul sito** - Funziona automaticamente
 
-STEP 1: Prepara le informazioni
-─────────────────────────────────
-Raccogli TUTTI questi dati:
-□ Nome attuale del corso
-□ Nuovo nome del corso
-□ Slug attuale (lo trovi nell'URL del sito)
-□ Nuovo slug (genera mentalmente: lowercase, spazi→trattini)
-□ Codice corso (es: TAA, EEC, CDSA)
+### Aggiungere un Nuovo Corso
 
-STEP 2: Comunica all'agente del sito
-─────────────────────────────────────
-Invia questa comunicazione PRIMA di modificare EduPlan:
+Per aggiungere dati statici (programma, FAQ, immagini) a un nuovo corso:
 
-┌──────────────────────────────────────────────────────────────┐
-│ RICHIESTA RINOMINA CORSO                                     │
-│                                                              │
-│ Devo rinominare il seguente corso su EduPlan:                │
-│                                                              │
-│ NOME ATTUALE: "Tecnico Analisi Alimentari"                   │
-│ NUOVO NOME:   "Tecnico Esperto in Analisi Alimentari e       │
-│                Ambientali"                                   │
-│                                                              │
-│ SLUG ATTUALE: tecnico-analisi-alimentari                     │
-│ NUOVO SLUG:   tecnico-esperto-in-analisi-alimentari-e-       │
-│               ambientali                                     │
-│                                                              │
-│ CODICE CORSO: TAA                                            │
-│                                                              │
-│ AZIONE RICHIESTA:                                            │
-│ Aggiorna i riferimenti nei file del sito prima che io       │
-│ proceda con la rinomina su EduPlan.                          │
-│                                                              │
-│ Attendo conferma.                                            │
-└──────────────────────────────────────────────────────────────┘
-
-STEP 3: Attendi conferma
-────────────────────────
-L'agente del sito aggiornerà:
-- CourseDetail.tsx (chiave coursesData)
-- Courses.tsx (chiave courseStylesMap + logica ordinamento)
-- ProgramEnrollment.tsx (chiave formDataBySlug)
-
-STEP 4: Procedi con la rinomina
-───────────────────────────────
-SOLO DOPO aver ricevuto conferma, modifica il titolo su EduPlan.
-
-STEP 5: Verifica
-────────────────
-Controlla che il corso sia visibile su:
-- Homepage (carosello)
-- Pagina dettaglio (/corsi/nuovo-slug)
-- Form iscrizione
-```
-
-### Casi Speciali
-
-#### Cambio Solo di Punteggiatura o Maiuscole
-Anche piccole modifiche possono cambiare lo slug:
-- "Corso AI" → `corso-ai`
-- "Corso A.I." → `corso-a-i` (DIVERSO!)
-- "Corso Ai" → `corso-ai` (uguale)
-
-**Regola:** Se hai dubbi, verifica sempre lo slug generato prima di modificare.
-
-#### Aggiungere Parole al Titolo
-- "Analisi Alimentari" → `analisi-alimentari`
-- "Analisi Alimentari e Ambientali" → `analisi-alimentari-e-ambientali` (DIVERSO!)
-
-#### Corsi Nuovi (Senza Dati Statici)
-Se il corso è nuovo e non ha ancora dati statici nel sito, puoi rinominarlo liberamente. L'agente del sito creerà i dati con il nuovo slug.
-
-### Come Calcolare il Nuovo Slug
-
-Lo slug viene generato così:
-1. Converti in minuscolo
-2. Sostituisci spazi con trattini `-`
-3. Rimuovi caratteri speciali (accenti, punteggiatura)
-4. Rimuovi trattini multipli consecutivi
-
-**Esempi:**
-| Titolo | Slug Generato |
-|--------|---------------|
-| "Tecnico Analisi Alimentari" | `tecnico-analisi-alimentari` |
-| "Corso di Specializzazione Guide Turistiche" | `corso-di-specializzazione-guide-turistiche` |
-| "AI per l'Azienda" | `ai-per-lazienda` |
-| "Saldatura TIG/MIG" | `saldatura-tig-mig` |
-
-### Checklist Pre-Rinomina
-
-Prima di rinominare un corso, verifica:
-
-- [ ] Ho il nome attuale esatto?
-- [ ] Ho il nuovo nome esatto?
-- [ ] Ho calcolato il nuovo slug?
-- [ ] Ho comunicato all'agente del sito?
-- [ ] Ho ricevuto conferma dell'aggiornamento?
-- [ ] Il deploy del sito è completato?
-
-**Solo se tutte le caselle sono spuntate, procedi con la rinomina su EduPlan.**
-
-### Soluzione Futura (Pianificata)
-
-In futuro il sistema userà il **codice corso** (es: "TAA", "EEC") invece dello slug per collegare i dati. Questo permetterà di rinominare i corsi liberamente senza coordinamento.
-
-**Vantaggi futuri:**
-- Rinomina libera senza perdita dati
-- URL sempre SEO-friendly (usa ancora slug)
-- Collegamento interno stabile (usa codice)
+1. **Trova il codice corso** su EduPlan
+2. **Aggiungi entry in `coursesData`** (CourseDetail.tsx) usando il codice come chiave
+3. **Aggiungi entry in `courseStylesMap`** (Courses.tsx) usando il codice come chiave
 
 ---
 
-## ✅ CORSI DINAMICI AL 100% - IMPLEMENTATO (v6.5)
+## ✅ CORSI DINAMICI AL 100% - IMPLEMENTATO
 
 ### Cosa è stato fatto
 
 Il sito ora mostra **automaticamente** i corsi pubblicati su EduPlan, senza richiedere dati statici in `coursesData`.
 
-**File modificato:** `src/components/CourseDetail.tsx`
-
-### Come funziona ora
+### Come funziona
 
 ```javascript
-// 1. Dati statici (opzionali, per personalizzazioni)
-const staticCourse = coursesData[slug];
-
-// 2. Dati live da API (fonte primaria)
+// 1. Dati live da API (cerca per slug dall'URL)
 const { course: liveData, loading } = usePublicCourse({ slug });
+
+// 2. Dati statici (cerca per CODICE - stabile)
+const staticCourse = liveData?.code ? coursesData[liveData.code] : null;
 
 // 3. Combina: API primario, statico per extras
 const course = useMemo(() => {
@@ -256,7 +257,6 @@ const course = useMemo(() => {
     title: liveData.title,
     description: liveData.description,
     duration: `${liveData.duration_hours} ore`,
-    price: liveData.price > 0 ? `€${liveData.price}` : 'Contattaci',
     // ... dati da API
 
     // Extras da staticCourse (se disponibili)
@@ -265,24 +265,14 @@ const course = useMemo(() => {
     faq: staticCourse?.faq || [],
   };
 }, [staticCourse, liveData]);
-
-// 4. Loading state per corsi solo API
-if (!course && loading) {
-  return <Loading />; // Spinner mentre carica
-}
-
-// 5. Errore solo se né API né statico hanno dati
-if (!course) {
-  return <NotFound />;
-}
 ```
 
-### Vantaggi implementati
+### Vantaggi
 
 1. **Zero interventi manuali** - I nuovi corsi appaiono automaticamente
 2. **Sincronizzazione reale** - Il sito è sempre allineato con EduPlan
-3. **Dati statici opzionali** - `coursesData` serve solo per personalizzazioni extra
-4. **Loading state** - Spinner durante il caricamento per corsi solo API
+3. **Dati statici stabili** - Collegati tramite codice corso, non cambiano mai
+4. **Rinomina libera** - Puoi cambiare i titoli senza perdere dati
 
 ### Esempio: Corso AI
 

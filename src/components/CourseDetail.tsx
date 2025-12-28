@@ -149,8 +149,8 @@ const coursesData: Record<string, Course> = {
         'BIOSAFE Lavello', 'IRSAQ Potenza', 'ECOLAB Praia a mare'
     ]
   },
-  'editoria-e-comunicazione': {
-    id: 'editoria-e-comunicazione',
+  'EEC': {
+    id: 'EEC',
     title: 'Master in Editoria e Comunicazione',
     description: 'Acquisizione di competenze nell\'impostazione e organizzazione del ciclo di lavorazione del prodotto editoriale, funzionamento e management di una casa editrice, sviluppo competenze nel settore della comunicazione, marketing e social media marketing.',
     duration: '900 ore',
@@ -224,8 +224,8 @@ const coursesData: Record<string, Course> = {
         'Tunuè (Latina)', 'Il Mattino di Foggia', 'Universosud Basilicata', 'Lavieri Edizioni', 'EGO 55 (Matera)'
     ]
   },
-  'master-safety': {
-    id: 'master-safety',
+  'MASSAF': {
+    id: 'MASSAF',
     title: 'Safety Manager: Esperto in Sicurezza e Ambiente',
     description: 'Figura trasversale per gestire il sistema di prevenzione del rischio e implementazione del piano della sicurezza ambientale ed aziendale. Individuare i corretti DPI, implementare DVR.',
     duration: '900 ore',
@@ -348,8 +348,8 @@ const coursesData: Record<string, Course> = {
       { question: 'Serve saper disegnare?', answer: 'Aiuta, ma imparerai tutto da zero.' }
     ]
   },
-  'tecnico-esperto-per-lo-sviluppo-turistico-territoriale': {
-    id: 'tecnico-esperto-per-lo-sviluppo-turistico-territoriale',
+  'GOL-TEPL': {
+    id: 'GOL-TEPL',
     title: 'Tecnico Esperto per lo Sviluppo Turistico Territoriale',
     description: 'L\'esperto svolge attività di elaborazione e progettazione di piani di sviluppo del territorio. Si occupa di definire l\'offerta turistica di una data area geografica, ideare nuovi itinerari e pacchetti, elaborare strategie e politiche di valorizzazione, curare l\'immagine e la promozione del territorio.',
     duration: '500 ore',
@@ -393,8 +393,8 @@ const coursesData: Record<string, Course> = {
     teachers: [{ name: 'Esperti del settore', role: 'Formatori', description: 'Professionisti turismo' }],
     faq: [{ question: 'È gratuito?', answer: 'Sì, per gli aventi diritto GOL.' }]
   },
-  'sistema-educativo-infanzia': {
-    id: 'sistema-educativo-infanzia',
+  'OTDS': {
+    id: 'OTDS',
     title: 'Tecnico del Sistema Educativo per la Prima Infanzia',
     description: 'Progettazione di attività educative e ludiche, monitoraggio della salute e del benessere, applicazione delle procedure di cura e gestione dei rapporti con i genitori.',
     duration: '600 ore',
@@ -434,8 +434,8 @@ const coursesData: Record<string, Course> = {
         'Scarabocchiando a casa di Angela', 'Il Piccolo Nido (Tito)', 'Piccole Orme', 'La Giostra', 'Tribù dei Tora Tora'
     ]
   },
-  'operatore-tornitura': {
-    id: 'operatore-tornitura',
+  'Tor': {
+    id: 'Tor',
     title: 'Operatore della Tornitura',
     description: 'Il tornitore è responsabile della lavorazione dei metalli utilizzando il tornio, sia tradizionale che a controllo numerico computerizzato (CNC). È in grado di leggere il disegno meccanico, eseguire lavorazioni complesse, apportare regolazioni al tornio, utilizzare accessori in modo ottimale.',
     duration: '600 ore',
@@ -475,8 +475,8 @@ const coursesData: Record<string, Course> = {
         'C.T. Centro Tornitura SRL (Tito)', 'OCM Officina Cancellara Michele (Acerenza)', 'S.D.L. di Sabia Giovanna (Pietragalla)'
     ]
   },
-  'operatore-h2s-e-sicurezza': {
-    id: 'operatore-h2s-e-sicurezza',
+  'GOL-OHES': {
+    id: 'GOL-OHES',
     title: 'Operatore H2S e Sicurezza',
     description: 'La figura si occupa della sicurezza industriale con focus sulla gestione dei rischi connessi all\'esposizione all\'idrogeno solforato (H2S). Valutare potenziali effetti, implementare misure preventive, utilizzare apparecchiature rilevamento, gestire DPI, garantire vigilanza.',
     duration: '600 ore',
@@ -512,8 +512,8 @@ const coursesData: Record<string, Course> = {
     teachers: [{ name: 'Esperti sicurezza', role: 'Istruttori qualificati', description: 'Professionisti H2S' }],
     faq: [{ question: 'È valido in Italia?', answer: 'Sì, titolo valido in Italia.' }]
   },
-  'pubblicita-comunicazione': {
-    id: 'pubblicita-comunicazione',
+  'Upskilling-CDP1': {
+    id: 'Upskilling-CDP1',
     title: 'Pubblicità e Comunicazione Digitale',
     description: 'Il corso offre un percorso formativo per sviluppare competenze teorico-pratiche nella comunicazione d\'impresa e pubblicità, dai fondamenti di marketing alla gestione di campagne social media e content creation.',
     duration: '100 ore',
@@ -562,8 +562,8 @@ const coursesData: Record<string, Course> = {
     ],
     internshipPartners: []
   },
-  'operatore-della-panificazione-e-della-produzione-di-paste': {
-    id: 'operatore-della-panificazione-e-della-produzione-di-paste',
+  'GOL-ODPE': {
+    id: 'GOL-ODPE',
     title: 'Operatore di Panificazione e Produzione di Paste',
     description: 'La figura professionale si occupa della preparazione di vari tipi di impasti, della lievitazione, della cottura e del confezionamento dei prodotti, nell\'ambito della produzione di pasta e di prodotti da forno. Può operare in forma dipendente o autonoma, avviando una attività imprenditoriale.',
     duration: '600 ore',
@@ -618,8 +618,8 @@ const coursesData: Record<string, Course> = {
     ],
     internshipPartners: []
   },
-  'competenze-digitali': {
-    id: 'competenze-digitali',
+  'GOL-COMDIG': {
+    id: 'GOL-COMDIG',
     title: 'Competenze Digitali',
     description: 'Il corso offre un percorso formativo per acquisire competenze digitali essenziali per il mondo del lavoro moderno. I partecipanti impareranno a utilizzare il computer, navigare in internet, gestire strumenti di produttività e comunicare efficacemente tramite canali digitali.',
     duration: '60 ore',
@@ -674,8 +674,8 @@ const coursesData: Record<string, Course> = {
     ],
     internshipPartners: []
   },
-  'corso-di-specializzazione-alle-guide-turistiche': {
-    id: 'corso-di-specializzazione-alle-guide-turistiche',
+  'CDSA': {
+    id: 'CDSA',
     title: 'Corso di Specializzazione alle Guide Turistiche',
     subtitle: 'Accessibilità al patrimonio museale e monumentale italiano per non vedenti',
     decree: 'Autorizzato con Decreto Ministeriale prot. n. 269540 del 02/12/2025',
@@ -777,8 +777,8 @@ const coursesData: Record<string, Course> = {
     ],
     internshipPartners: []
   },
-  'corso-ai': {
-    id: 'corso-ai',
+  'CS-CORAI': {
+    id: 'CS-CORAI',
     title: 'Intelligenza Artificiale',
     description: 'Il corso fornisce una panoramica completa sull\'Intelligenza Artificiale, dalle basi teoriche alle applicazioni pratiche. I partecipanti acquisiranno competenze nell\'utilizzo degli strumenti AI più diffusi, nel prompt engineering e nella comprensione delle implicazioni etiche e professionali dell\'IA nel mondo del lavoro.',
     duration: '20 ore',
@@ -855,10 +855,7 @@ const coursesData: Record<string, Course> = {
 export function CourseDetail() {
   const { courseId } = useParams();
 
-  // Dati statici del corso (se configurato in coursesData)
-  const staticCourse = courseId ? coursesData[courseId] : null;
-
-  // Dati live da EduPlan API (cerca per slug = courseId)
+  // Dati live da EduPlan API (cerca per slug = courseId dall'URL)
   // Lo slug e' generato automaticamente dal titolo del corso su EduPlan
   const {
     course: liveData,
@@ -869,6 +866,10 @@ export function CourseDetail() {
     pollingInterval: 60000, // Aggiorna ogni minuto
     enabled: !!courseId,
   });
+
+  // Dati statici del corso (cerca per CODICE corso - stabile anche se il titolo cambia)
+  // Questo permette di rinominare i corsi su EduPlan senza perdere i dati presentazionali
+  const staticCourse = liveData?.code ? coursesData[liveData.code] : null;
 
   // CORSO DINAMICO AL 100%: effectiveCourse usa API come primario, coursesData come fallback/extra
   // Se un corso esiste solo su EduPlan (non in coursesData), verrà comunque mostrato
