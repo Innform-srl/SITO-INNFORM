@@ -555,52 +555,60 @@ const programsData: Record<string, Program> = {
     ],
     courses: [
       {
-        title: 'Tecnico per lo Sviluppo Turistico Territoriale',
-        duration: '300 ore',
-        description: 'Promuovi il territorio attraverso strategie di marketing turistico e valorizzazione delle risorse locali.',
-        skills: ['Marketing turistico', 'Gestione eventi', 'Promozione territoriale', 'Digital tourism'],
+        title: 'Tecnico Esperto per lo Sviluppo Turistico Territoriale',
+        duration: '500 ore',
+        description: 'Elaborazione e progettazione di piani di sviluppo del territorio, definizione dell\'offerta turistica, ideazione itinerari e pacchetti, strategie di valorizzazione e promozione.',
+        skills: ['Marketing Territoriale', 'Pianificazione Turistica', 'Valorizzazione risorse', 'Promozione'],
         category: 'Reskilling',
-        id: 'sviluppo-turistico'
+        id: 'tecnico-esperto-per-lo-sviluppo-turistico-territoriale'
       },
       {
         title: 'Tecnico del Sistema Educativo per la Prima Infanzia',
-        duration: '350 ore',
-        description: 'Lavora nei servizi educativi 0-3 anni con competenze pedagogiche e gestionali.',
-        skills: ['Pedagogia infantile', 'Psicologia sviluppo', 'Attività ludiche', 'Sicurezza bambini'],
+        duration: '600 ore',
+        description: 'Progettazione di attività educative e ludiche, monitoraggio della salute e del benessere, applicazione delle procedure di cura e gestione dei rapporti con i genitori.',
+        skills: ['Pedagogia', 'Cura infanzia', 'Progettazione educativa', 'Laboratori creativi'],
         category: 'Reskilling',
-        id: 'sistema-educativo-infanzia'
+        id: 'tecnico-del-sistema-educativo-per-la-prima-infanzia'
       },
       {
-        title: 'Operatore di Tornitura',
-        duration: '280 ore',
-        description: 'Diventa operatore specializzato nella lavorazione di precisione con torni CNC e tradizionali.',
-        skills: ['Tornio CNC', 'Lettura disegno', 'Controllo qualità', 'Manutenzione macchine'],
+        title: 'Operatore della Tornitura',
+        duration: '600 ore',
+        description: 'Lavorazione dei metalli utilizzando il tornio, sia tradizionale che a controllo numerico computerizzato (CNC). Lettura disegno meccanico, lavorazioni complesse, regolazioni.',
+        skills: ['Tornitura tradizionale', 'Tornitura CNC', 'Disegno meccanico', 'Controllo qualità'],
         category: 'Reskilling',
-        id: 'operatore-tornitura'
+        id: 'operatore-della-tornitura'
       },
       {
         title: 'Operatore H2S e Sicurezza',
-        duration: '200 ore',
-        description: 'Specializzati nella gestione della sicurezza in ambienti con presenza di idrogeno solforato.',
-        skills: ['Rilevamento H2S', 'Dispositivi sicurezza', 'Procedure emergenza', 'Normative specifiche'],
+        duration: '600 ore',
+        description: 'Sicurezza industriale con focus sulla gestione dei rischi connessi all\'esposizione all\'idrogeno solforato (H2S). Misure preventive, apparecchiature rilevamento, gestione DPI.',
+        skills: ['Gestione rischio H2S', 'Rilevamento gas', 'DPI e APVR', 'Gestione emergenze'],
         category: 'Reskilling',
-        id: 'operatore-h2s'
-      },
-      {
-        title: 'Pubblicità e Comunicazione Digitale',
-        duration: '100 ore',
-        description: 'Corso di Upskilling per sviluppare competenze in pubblicità digitale, social media marketing e comunicazione d\'impresa.',
-        skills: ['Social Media', 'Digital Ads', 'Content Creation', 'Analisi Dati'],
-        category: 'Upskilling',
-        id: 'pubblicita-comunicazione'
+        id: 'operatore-h2s-e-sicurezza'
       },
       {
         title: 'Operatore di Panificazione e Produzione di Paste',
         duration: '600 ore',
-        description: 'Formazione per operatori specializzati nella produzione di pane e pasta, dalla lavorazione degli impasti alla cottura e confezionamento.',
-        skills: ['Lavorazione Impasti', 'Lievitazione', 'Cottura', 'Confezionamento'],
+        description: 'Preparazione di vari tipi di impasti, lievitazione, cottura e confezionamento dei prodotti nell\'ambito della produzione di pasta e prodotti da forno.',
+        skills: ['Lavorazione Impasti', 'Gestione Lievitazione', 'Cottura Prodotti', 'Confezionamento'],
         category: 'Reskilling',
-        id: 'operatore-panificazione'
+        id: 'operatore-di-panificazione-e-produzione-di-paste'
+      },
+      {
+        title: 'Competenze Digitali',
+        duration: '60 ore',
+        description: 'Competenze digitali essenziali per il mondo del lavoro: utilizzo computer, navigazione internet, gestione strumenti di produttività e comunicazione digitale.',
+        skills: ['Utilizzo PC', 'Navigazione Web', 'Suite Office', 'Email e PEC'],
+        category: 'Upskilling',
+        id: 'competenze-digitali'
+      },
+      {
+        title: 'Pubblicità e Comunicazione Digitale',
+        duration: '100 ore',
+        description: 'Competenze teorico-pratiche nella comunicazione d\'impresa e pubblicità, dai fondamenti di marketing alla gestione di campagne social media e content creation.',
+        skills: ['Social Media Marketing', 'Digital Advertising', 'Content Creation', 'Analisi Dati'],
+        category: 'Upskilling',
+        id: 'pubblicita-e-comunicazione-digitale'
       }
     ],
     timeline: [
