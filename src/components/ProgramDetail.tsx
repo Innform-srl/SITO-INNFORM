@@ -730,24 +730,42 @@ export function ProgramDetail() {
     return 'Reskilling';
   };
 
-  // Converti i corsi dall'API nel formato usato dalla UI
+  // Mappa slug -> dati statici per merge con API
+  const staticCoursesMap = useMemo(() => {
+    const map: Record<string, (typeof programsData)['gol']['courses'][0]> = {};
+    if (program?.courses) {
+      program.courses.forEach(c => {
+        if (c.id) map[c.id] = c;
+      });
+    }
+    return map;
+  }, [program?.courses]);
+
+  // Converti i corsi dall'API nel formato usato dalla UI, con merge dai dati statici
   const apiCourses = useMemo(() => {
     if (!apiPath?.courses) return [];
 
-    return apiPath.courses.map((course: PathCourse) => ({
-      title: course.title,
-      duration: `${course.duration_hours} ore`,
-      description: '', // L'API non fornisce descrizione, sarà vuota o si può aggiungere
-      skills: [] as string[],
-      id: generateSlug(course.title),
-      code: course.code, // Utile per eventuale mapping futuro
-      category: pathCode === 'GOL'
-        ? getGolCourseCategory(course)
-        : pathCode === 'SPEC'
-          ? 'Specializzazione'
-          : undefined,
-    }));
-  }, [apiPath, pathCode]);
+    return apiPath.courses.map((course: PathCourse) => {
+      const slug = generateSlug(course.title);
+      const staticData = staticCoursesMap[slug];
+
+      // Usa dati statici come fonte principale se disponibili
+      return {
+        title: course.title,
+        // Preferisci ore dai dati statici se disponibili
+        duration: staticData?.duration || `${course.duration_hours} ore`,
+        description: staticData?.description || '',
+        skills: staticData?.skills || [] as string[],
+        id: slug,
+        code: course.code,
+        category: staticData?.category || (pathCode === 'GOL'
+          ? getGolCourseCategory(course)
+          : pathCode === 'SPEC'
+            ? 'Specializzazione'
+            : undefined),
+      };
+    });
+  }, [apiPath, pathCode, staticCoursesMap]);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
