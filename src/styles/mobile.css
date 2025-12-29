@@ -667,15 +667,22 @@
 /* Touch devices (coarse pointer) - Risoluzione problema "Fat-Finger" */
 @media (pointer: coarse) {
   /* Minimum touch target size per WCAG 2.5.5 */
+  /* Only apply to interactive elements, not decorative bullets */
   nav a,
   nav button,
-  .rounded-full,
-  .rounded-xl,
-  button,
+  button:not(.w-2):not(.h-2),
   [role="button"],
-  a[href] {
+  a[href]:not(.w-2):not(.h-2) {
     min-height: var(--touch-target-min, 44px) !important;
     min-width: var(--touch-target-min, 44px) !important;
+  }
+
+  /* Exclude small decorative elements from touch target rules */
+  .w-2.h-2.rounded-full,
+  .w-1\.5.h-1\.5.rounded-full,
+  #programmi .rounded-full:not(button):not(a) {
+    min-height: unset !important;
+    min-width: unset !important;
   }
 
   /* Increased spacing for touch navigation */
