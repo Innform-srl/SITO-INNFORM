@@ -1150,7 +1150,12 @@ export function ProgramDetail() {
               </div>
 
               <div className="grid md:grid-cols-2 gap-8">
-                {coursesToShow.filter(c => c.category === 'Upskilling').map((course, idx) => (
+                {coursesToShow.filter(c => c.category === 'Upskilling').map((course, idx) => {
+                  // Trova durata dal mapping per codice se disponibile
+                  const upskillDuration = course.duration ||
+                    (course.code && golCourseDataByCode[course.code]?.duration) ||
+                    '';
+                  return (
                   <Link
                     key={idx}
                     to={course.id ? `/corsi/${course.id}` : '#'}
@@ -1158,9 +1163,11 @@ export function ProgramDetail() {
                   >
                     <div className="p-8">
                       <div className="flex items-center justify-between mb-4">
+                        {upskillDuration && (
                         <div className="bg-gradient-to-r from-cyan-500 to-teal-500 text-white px-4 py-2 rounded-full text-sm font-medium">
-                          {course.duration}
+                          {upskillDuration}
                         </div>
+                        )}
                         <div className="bg-white px-4 py-2 rounded-full text-sm font-medium text-gray-600 border border-gray-200">
                           Upskilling
                         </div>
@@ -1192,7 +1199,8 @@ export function ProgramDetail() {
                       </div>
                     </div>
                   </Link>
-                ))}
+                  );
+                })}
               </div>
             </div>
           )}
