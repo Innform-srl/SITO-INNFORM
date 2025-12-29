@@ -6,9 +6,16 @@ import {
   Heart, Shield, Award, Clock, Baby, Home, BookOpen, Smartphone, GraduationCap, PartyPopper, CheckCircle
 } from 'lucide-react';
 import { Button } from './ui/button';
+import { SEOHead } from './SEOHead';
 
 export function ProjectSegni() {
   return (
+    <>
+      <SEOHead
+        title="Progetto Segni - Il Piccolo Nido a Satriano di Lucania"
+        description="Progetto Segni: 20 nuovi posti al nido Il Piccolo Nido di Satriano di Lucania. Laboratori per famiglie, corso qualifica professionale e biblioteca per l'infanzia."
+        url="/progetti/segni"
+      />
     <div className="bg-white">
       {/* Hero Section */}
       <section className="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden">
@@ -560,5 +567,6 @@ export function ProjectSegni() {
 
       </div>
     </div>
+    </>
   );
 }

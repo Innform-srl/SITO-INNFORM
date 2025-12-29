@@ -8,9 +8,16 @@ import {
 import { Button } from './ui/button';
 import { Badge } from './ui/badge';
 import { Link } from 'react-router-dom';
+import { SEOHead } from './SEOHead';
 
 export function ProjectTiAbilito() {
   return (
+    <>
+      <SEOHead
+        title="Progetto T.I. ABILITO - Tecnologia e IA per l'Inclusione"
+        description="Progetto T.I. ABILITO: tecnologia e intelligenza artificiale per la cura, inclusione e comunicazione della disabilità. Corsi gratuiti ASACOM e alfabetizzazione informatica in Basilicata."
+        url="/progetti/ti-abilito"
+      />
     <div className="bg-white">
       {/* Hero Section - Master Style */}
       <section className="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden">
@@ -418,5 +425,6 @@ export function ProjectTiAbilito() {
 
       </div>
     </div>
+    </>
   );
 }
