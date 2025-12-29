@@ -179,12 +179,7 @@ export function Hero() {
                     <div className="bg-white/95 backdrop-blur-xl rounded-3xl p-8 shadow-2xl border border-white/20 h-full flex flex-col justify-between">
                       <div>
                         <div className="flex justify-between items-start mb-6">
-                            <div
-                              className="inline-block p-4 rounded-2xl bg-gradient-to-br from-red-600 to-red-500 shadow-lg"
-                              style={{
-                                animation: 'pulse-scale 2s ease-in-out infinite'
-                              }}
-                            >
+                            <div className="inline-block p-4 rounded-2xl bg-gradient-to-br from-red-600 to-red-500 shadow-lg">
                               <Newspaper className="text-white" size={32} />
                             </div>
                             <span
@@ -199,10 +194,6 @@ export function Hero() {
                                 NEWS
                             </span>
                             <style>{`
-                              @keyframes pulse-scale {
-                                0%, 100% { transform: scale(1); box-shadow: 0 10px 15px -3px rgba(220, 38, 38, 0.3); }
-                                50% { transform: scale(1.1); box-shadow: 0 0 30px rgba(239, 68, 68, 0.6); }
-                              }
                               @keyframes badge-pulse {
                                 0%, 100% { background-color: #f3f4f6; color: #4b5563; border-color: #e5e7eb; }
                                 50% { background-color: #ef4444; color: #ffffff; border-color: #ef4444; }
