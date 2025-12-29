@@ -54,6 +54,10 @@
     <link rel="preload" href="https://fonts.googleapis.com/css2?family=Alata&display=swap" as="style">
     <link href="https://fonts.googleapis.com/css2?family=Alata&display=swap" rel="stylesheet">
 
+    <!-- CSS Splitting for HTTP/2 Optimization -->
+    <!-- Mobile CSS loaded with media query - browser downloads with LOW priority on desktop -->
+    <link rel="stylesheet" href="/src/styles/mobile.css" media="(max-width: 767px)">
+
     <!-- Prefetch for navigation -->
     <link rel="prefetch" href="/news">
     <link rel="prefetch" href="/chi-siamo/panoramica">

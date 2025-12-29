@@ -1,15 +1,43 @@
 /**
- * Mobile-specific styles
- * Approccio: Media Query Ranges chiusi + !important per override inline styles
- * Desktop rimane 100% invariato
+ * Mobile-specific styles (0px - 767px)
+ * Strategia: Simultaneous Development con Closed Ranges
+ * Questo file viene caricato con media="(max-width: 767px)" per HTTP/2 optimization
  */
 
 /* ===========================================
+   CSS VARIABLES CON FALLBACK
+   Tutte le variabili hanno un valore di fallback per robustezza
+   =========================================== */
+:root {
+  /* Mobile-specific spacing */
+  --mobile-section-padding: var(--section-padding-mobile, 40px);
+  --mobile-gap-lg: var(--gap-lg-mobile, 20px);
+  --mobile-gap-md: var(--gap-md-mobile, 14px);
+  --mobile-gap-sm: var(--gap-sm-mobile, 8px);
+
+  /* Mobile typography */
+  --mobile-h1-size: var(--h1-mobile, 32px);
+  --mobile-h2-size: var(--h2-mobile, 24px);
+  --mobile-h3-size: var(--h3-mobile, 18px);
+  --mobile-body-size: var(--body-mobile, 14px);
+  --mobile-small-size: var(--small-mobile, 12px);
+
+  /* Touch target minimum (WCAG 2.5.5) */
+  --touch-target-min: var(--touch-min, 44px);
+
+  /* Performance - reduced blur values */
+  --mobile-blur-lg: var(--blur-lg-mobile, 32px);
+  --mobile-blur-md: var(--blur-md-mobile, 24px);
+  --mobile-blur-sm: var(--blur-sm-mobile, 12px);
+}
+
+/* ===========================================
    EXTRA SMALL SCREENS (0px - 374px)
+   Closed Range - Isolated styles
    =========================================== */
 @media (min-width: 0px) and (max-width: 374px) {
 
-  /* Hero Title - OVERRIDE INLINE STYLES */
+  /* Hero Title - Override inline styles */
   section > div > div > div > h1 {
     width: 100% !important;
     height: auto !important;
@@ -17,7 +45,7 @@
   }
 
   section > div > div > div > h1 > span {
-    font-size: 32px !important;
+    font-size: var(--mobile-h1-size, 32px) !important;
     line-height: 1.1 !important;
     display: block !important;
   }
@@ -28,25 +56,24 @@
     position: relative !important;
     top: 0 !important;
     left: 0 !important;
-    margin-top: 8px !important;
+    margin-top: var(--mobile-gap-sm, 8px) !important;
   }
 
   section > div > div > div > h1 > div > span {
-    font-size: 32px !important;
+    font-size: var(--mobile-h1-size, 32px) !important;
     line-height: 1.1 !important;
   }
 
   /* Hero Stats */
   .grid.grid-cols-3 .text-2xl {
-    font-size: 18px !important;
+    font-size: var(--mobile-h3-size, 18px) !important;
   }
 
-  /* Hero Carousel Container */
+  /* Hero Carousel */
   .h-\[500px\] {
     height: 320px !important;
   }
 
-  /* Hero Card */
   .max-w-sm {
     max-width: 260px !important;
   }
@@ -55,44 +82,40 @@
     max-height: 280px !important;
   }
 
-  /* Hero Card Padding */
+  /* Hero Card */
   .rounded-3xl.p-8 {
-    padding: 12px !important;
+    padding: var(--mobile-gap-sm, 12px) !important;
   }
 
-  /* Hero Card Title */
   .text-2xl.font-bold.text-gray-900 {
-    font-size: 14px !important;
+    font-size: var(--mobile-body-size, 14px) !important;
     line-height: 1.2 !important;
-    margin-bottom: 8px !important;
   }
 
-  /* Hero Card Excerpt */
   .text-gray-600.text-sm.mb-6 {
-    font-size: 11px !important;
-    margin-bottom: 12px !important;
+    font-size: var(--mobile-small-size, 11px) !important;
+    margin-bottom: var(--mobile-gap-sm, 12px) !important;
     -webkit-line-clamp: 2 !important;
   }
 
-  /* Hero Card Icon Container */
+  /* Icon containers */
   .p-4.rounded-2xl {
-    padding: 8px !important;
+    padding: var(--mobile-gap-sm, 8px) !important;
   }
 
-  /* Hero Card Icon */
   .p-4.rounded-2xl svg {
     width: 20px !important;
     height: 20px !important;
   }
 
-  /* Hero Card Checkmarks - hide on extra small */
+  /* Hide non-essential on extra small */
   .space-y-2 > .flex.items-center.gap-2.text-sm {
     display: none !important;
   }
 
   /* Section Headings */
   .text-5xl {
-    font-size: 24px !important;
+    font-size: var(--mobile-h2-size, 24px) !important;
   }
 
   .md\:text-6xl {
@@ -101,43 +124,38 @@
 
   /* Section padding */
   .py-24 {
-    padding-top: 40px !important;
-    padding-bottom: 40px !important;
+    padding-top: var(--mobile-section-padding, 40px) !important;
+    padding-bottom: var(--mobile-section-padding, 40px) !important;
   }
 
   /* Buttons */
   .px-6.py-3 {
     padding: 10px 16px !important;
-    font-size: 14px !important;
+    font-size: var(--mobile-body-size, 14px) !important;
   }
 
-  /* Background blobs - smaller on mobile */
-  .w-\[418px\] {
+  /* Background blobs - reduce for performance */
+  .w-\[418px\], .h-\[418px\] {
     width: 150px !important;
-  }
-  .h-\[418px\] {
     height: 150px !important;
   }
-  .w-\[382px\] {
+  .w-\[382px\], .h-\[382px\] {
     width: 120px !important;
-  }
-  .h-\[382px\] {
     height: 120px !important;
   }
-  .w-\[346px\] {
+  .w-\[346px\], .h-\[346px\] {
     width: 100px !important;
-  }
-  .h-\[346px\] {
     height: 100px !important;
   }
 }
 
 /* ===========================================
    SMALL SCREENS (375px - 639px)
+   Closed Range - Isolated styles
    =========================================== */
 @media (min-width: 375px) and (max-width: 639px) {
 
-  /* Hero Title - OVERRIDE INLINE STYLES */
+  /* Hero Title */
   section > div > div > div > h1 {
     width: 100% !important;
     height: auto !important;
@@ -156,7 +174,7 @@
     position: relative !important;
     top: 0 !important;
     left: 0 !important;
-    margin-top: 8px !important;
+    margin-top: var(--mobile-gap-sm, 8px) !important;
   }
 
   section > div > div > div > h1 > div > span {
@@ -169,12 +187,11 @@
     font-size: 20px !important;
   }
 
-  /* Hero Carousel Container */
+  /* Hero Carousel */
   .h-\[500px\] {
     height: 360px !important;
   }
 
-  /* Hero Card */
   .max-w-sm {
     max-width: 280px !important;
   }
@@ -183,24 +200,21 @@
     max-height: 320px !important;
   }
 
-  /* Hero Card Padding */
+  /* Hero Card */
   .rounded-3xl.p-8 {
     padding: 16px !important;
   }
 
-  /* Hero Card Title */
   .text-2xl.font-bold.text-gray-900 {
     font-size: 16px !important;
     line-height: 1.25 !important;
   }
 
-  /* Hero Card Excerpt */
   .text-gray-600.text-sm.mb-6 {
-    font-size: 12px !important;
-    margin-bottom: 12px !important;
+    font-size: var(--mobile-small-size, 12px) !important;
+    margin-bottom: var(--mobile-gap-sm, 12px) !important;
   }
 
-  /* Hero Card Icon Container */
   .p-4.rounded-2xl {
     padding: 10px !important;
   }
@@ -220,38 +234,32 @@
     padding-bottom: 48px !important;
   }
 
-  /* Buttons */
   .px-6.py-3 {
     padding: 12px 20px !important;
   }
 
   /* Background blobs */
-  .w-\[418px\] {
+  .w-\[418px\], .h-\[418px\] {
     width: 180px !important;
-  }
-  .h-\[418px\] {
     height: 180px !important;
   }
-  .w-\[382px\] {
+  .w-\[382px\], .h-\[382px\] {
     width: 150px !important;
-  }
-  .h-\[382px\] {
     height: 150px !important;
   }
-  .w-\[346px\] {
+  .w-\[346px\], .h-\[346px\] {
     width: 130px !important;
-  }
-  .h-\[346px\] {
     height: 130px !important;
   }
 }
 
 /* ===========================================
    MEDIUM SCREENS (640px - 767px)
+   Closed Range - Isolated styles
    =========================================== */
 @media (min-width: 640px) and (max-width: 767px) {
 
-  /* Hero Title - OVERRIDE INLINE STYLES */
+  /* Hero Title */
   section > div > div > div > h1 {
     width: 100% !important;
     height: auto !important;
@@ -270,7 +278,7 @@
     position: relative !important;
     top: 0 !important;
     left: 0 !important;
-    margin-top: 8px !important;
+    margin-top: var(--mobile-gap-sm, 8px) !important;
   }
 
   section > div > div > div > h1 > div > span {
@@ -278,17 +286,15 @@
     line-height: 1.1 !important;
   }
 
-  /* Hero Carousel Container */
+  /* Hero Carousel */
   .h-\[500px\] {
     height: 420px !important;
   }
 
-  /* Hero Card */
   .max-h-\[450px\] {
     max-height: 380px !important;
   }
 
-  /* Hero Card Padding */
   .rounded-3xl.p-8 {
     padding: 20px !important;
   }
@@ -298,23 +304,18 @@
     font-size: 36px !important;
   }
 
-  /* Section padding */
   .py-24 {
     padding-top: 56px !important;
     padding-bottom: 56px !important;
   }
 
   /* Background blobs */
-  .w-\[418px\] {
+  .w-\[418px\], .h-\[418px\] {
     width: 250px !important;
-  }
-  .h-\[418px\] {
     height: 250px !important;
   }
-  .w-\[382px\] {
+  .w-\[382px\], .h-\[382px\] {
     width: 220px !important;
-  }
-  .h-\[382px\] {
     height: 220px !important;
   }
 }
@@ -325,48 +326,36 @@
 @media (max-width: 767px) {
 
   /* --- HEADER / NAVIGATION --- */
-
-  /* Badge nel menu mobile - text-[6px] fix */
   .text-\[6px\] {
     font-size: 10px !important;
     padding: 2px 8px !important;
   }
 
   /* --- COURSES SECTION --- */
-
-  /* Course icons */
-  .w-\[100px\] {
+  .w-\[100px\], .h-\[100px\] {
     width: 56px !important;
-  }
-  .h-\[100px\] {
     height: 56px !important;
   }
 
-  /* Course icon container */
   #corsi .p-10 {
-    padding: 20px !important;
+    padding: var(--mobile-gap-lg, 20px) !important;
   }
 
-  /* Course title in carousel */
   #corsi .text-5xl {
-    font-size: 22px !important;
+    font-size: var(--mobile-h3-size, 22px) !important;
   }
 
-  /* Course description */
   #corsi .text-xl {
-    font-size: 14px !important;
+    font-size: var(--mobile-body-size, 14px) !important;
   }
 
   /* --- PROGRAMS SECTION --- */
-
   #programmi .p-10 {
-    padding: 20px !important;
+    padding: var(--mobile-gap-lg, 20px) !important;
   }
 
-  #programmi .w-20 {
+  #programmi .w-20, #programmi .h-20 {
     width: 56px !important;
-  }
-  #programmi .h-20 {
     height: 56px !important;
   }
 
@@ -375,109 +364,97 @@
   }
 
   #programmi .text-lg {
-    font-size: 14px !important;
+    font-size: var(--mobile-body-size, 14px) !important;
   }
 
   /* --- ABOUT SECTION --- */
-
   #chi-siamo .p-8 {
     padding: 16px !important;
   }
 
   #chi-siamo .text-4xl {
-    font-size: 22px !important;
+    font-size: var(--mobile-h3-size, 22px) !important;
   }
 
-  #chi-siamo .w-14 {
+  #chi-siamo .w-14, #chi-siamo .h-14 {
     width: 40px !important;
-  }
-  #chi-siamo .h-14 {
     height: 40px !important;
   }
 
   #chi-siamo .text-3xl {
-    font-size: 22px !important;
+    font-size: var(--mobile-h3-size, 22px) !important;
   }
 
   #chi-siamo .text-lg {
-    font-size: 14px !important;
+    font-size: var(--mobile-body-size, 14px) !important;
   }
 
   /* --- CONTACT SECTION --- */
-
   #contatti .p-6 {
     padding: 16px !important;
   }
 
-  #contatti .w-14 {
-    width: 44px !important;
-  }
-  #contatti .h-14 {
-    height: 44px !important;
+  #contatti .w-14, #contatti .h-14 {
+    width: var(--touch-target-min, 44px) !important;
+    height: var(--touch-target-min, 44px) !important;
   }
 
   #contatti .p-10 {
-    padding: 20px !important;
+    padding: var(--mobile-gap-lg, 20px) !important;
   }
 
   #contatti .text-3xl {
-    font-size: 22px !important;
+    font-size: var(--mobile-h3-size, 22px) !important;
   }
 
   /* --- FOOTER --- */
-
   footer .py-16 {
-    padding-top: 40px !important;
-    padding-bottom: 40px !important;
+    padding-top: var(--mobile-section-padding, 40px) !important;
+    padding-bottom: var(--mobile-section-padding, 40px) !important;
   }
 
   footer .gap-12 {
-    gap: 24px !important;
+    gap: var(--mobile-gap-lg, 24px) !important;
   }
 
   footer .text-lg {
-    font-size: 14px !important;
+    font-size: var(--mobile-body-size, 14px) !important;
   }
 
-  footer .w-11 {
+  footer .w-11, footer .h-11 {
     width: 40px !important;
-  }
-  footer .h-11 {
     height: 40px !important;
   }
 
-  /* Accreditations grid */
   footer .gap-8.text-sm {
     display: grid !important;
     grid-template-columns: 1fr 1fr !important;
-    gap: 12px !important;
+    gap: var(--mobile-gap-sm, 12px) !important;
   }
 
   /* --- GLOBAL TYPOGRAPHY --- */
-
   .text-xl {
     font-size: 16px !important;
   }
 
   /* --- PERFORMANCE OPTIMIZATIONS --- */
-
   .blur-3xl {
-    filter: blur(32px) !important;
+    filter: blur(var(--mobile-blur-lg, 32px)) !important;
   }
 
   .blur-2xl {
-    filter: blur(24px) !important;
+    filter: blur(var(--mobile-blur-md, 24px)) !important;
   }
 
   .backdrop-blur-xl {
-    backdrop-filter: blur(12px) !important;
+    backdrop-filter: blur(var(--mobile-blur-sm, 12px)) !important;
   }
 
   .backdrop-blur-md {
     backdrop-filter: blur(8px) !important;
   }
 
-  /* Break long emails */
+  /* Break long content */
   a[href^="mailto:"] {
     word-break: break-all !important;
   }
@@ -486,35 +463,43 @@
   .absolute.bottom-10.left-1\/2 {
     display: none !important;
   }
-
-  /* Reduce floating particles on mobile */
-  .absolute.w-2.h-2.bg-white.rounded-full.opacity-20:nth-child(n+10) {
-    display: none !important;
-  }
 }
 
 /* ===========================================
    INTERACTION MEDIA FEATURES
-   Touch devices & Hover detection
+   Fat-Finger Problem Resolution
    =========================================== */
 
-/* Touch devices - larger tap targets */
+/* Touch devices (coarse pointer) - Risoluzione problema "Fat-Finger" */
 @media (pointer: coarse) {
+  /* Minimum touch target size per WCAG 2.5.5 */
   nav a,
   nav button,
   .rounded-full,
-  .rounded-xl {
-    min-height: 44px !important;
+  .rounded-xl,
+  button,
+  [role="button"],
+  a[href] {
+    min-height: var(--touch-target-min, 44px) !important;
+    min-width: var(--touch-target-min, 44px) !important;
   }
 
-  /* Larger spacing for touch navigation */
+  /* Increased spacing for touch navigation */
   nav .space-y-2 > * {
     padding-top: 12px !important;
     padding-bottom: 12px !important;
   }
+
+  /* Larger form inputs for touch */
+  input,
+  select,
+  textarea {
+    min-height: var(--touch-target-min, 44px) !important;
+    font-size: 16px !important; /* Prevents iOS zoom on focus */
+  }
 }
 
-/* Devices without hover - prevent sticky hover */
+/* Devices without hover - Prevent "sticky hover" bug */
 @media (hover: none) {
   .hover\:scale-105:hover,
   .hover\:scale-110:hover,
@@ -535,10 +520,46 @@
   .group:hover .group-hover\:text-white {
     color: inherit !important;
   }
+
+  /* Disable hover color changes */
+  .hover\:bg-white\/20:hover {
+    background-color: inherit !important;
+  }
+}
+
+/* ===========================================
+   PROGRESSIVE ENHANCEMENT - @supports
+   Feature Queries for modern CSS
+   =========================================== */
+
+/* CSS Grid Enhancement */
+@supports (display: grid) {
+  @media (max-width: 767px) {
+    footer .gap-8.text-sm {
+      display: grid !important;
+      grid-template-columns: repeat(2, 1fr) !important;
+    }
+  }
+}
+
+/* Backdrop filter fallback */
+@supports not (backdrop-filter: blur(10px)) {
+  .backdrop-blur-xl,
+  .backdrop-blur-md {
+    background-color: rgba(255, 255, 255, 0.95) !important;
+  }
+}
+
+/* Container queries enhancement (future-ready) */
+@supports (container-type: inline-size) {
+  .news-card {
+    container-type: inline-size;
+  }
 }
 
 /* ===========================================
    ACCESSIBILITY - Reduced Motion
+   Critical for users with vestibular disorders
    =========================================== */
 @media (prefers-reduced-motion: reduce) {
   *,
@@ -551,7 +572,66 @@
   }
 
   .animate-blob,
+  .animate-bounce,
+  .animate-pulse {
+    animation: none !important;
+  }
+
+  /* Disable parallax and transforms */
+  .transform,
+  [class*="translate-"],
+  [class*="scale-"],
+  [class*="rotate-"] {
+    transform: none !important;
+  }
+}
+
+/* ===========================================
+   AI-READINESS / SEMANTICA
+   Stili che migliorano la leggibilità per agenti AI
+   =========================================== */
+
+/* High contrast focus states for AI agents reading tab order */
+@media (max-width: 767px) {
+  :focus-visible {
+    outline: 3px solid var(--focus-color, #9333ea) !important;
+    outline-offset: 2px !important;
+  }
+
+  /* Clear visual hierarchy for AI parsing */
+  [role="navigation"],
+  [role="main"],
+  [role="contentinfo"] {
+    display: block !important;
+  }
+
+  /* Ensure ARIA labels are associated with visible elements */
+  [aria-label],
+  [aria-labelledby],
+  [aria-describedby] {
+    position: relative !important;
+  }
+}
+
+/* ===========================================
+   PRINT STYLES (bonus)
+   =========================================== */
+@media print {
+  .blur-3xl,
+  .blur-2xl,
+  .backdrop-blur-xl,
+  .backdrop-blur-md {
+    filter: none !important;
+    backdrop-filter: none !important;
+  }
+
+  .animate-blob,
   .animate-bounce {
     animation: none !important;
+  }
+
+  nav,
+  .absolute.bottom-10 {
+    display: none !important;
   }
 }
