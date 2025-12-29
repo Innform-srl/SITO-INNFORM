@@ -1,5 +1,50 @@
 import React from 'react';
-import { Quote } from 'lucide-react';
+import { Quote, Star } from 'lucide-react';
+
+// Schema JSON-LD per le recensioni aggregate
+function ReviewsSchema({ testimonials }: { testimonials: Array<{ text: string; author: string; role: string }> }) {
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "EducationalOrganization",
+    "name": "Innform",
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "4.8",
+      "reviewCount": testimonials.length.toString(),
+      "bestRating": "5",
+      "worstRating": "1"
+    },
+    "review": testimonials.map((t, i) => ({
+      "@type": "Review",
+      "author": {
+        "@type": "Person",
+        "name": t.author
+      },
+      "reviewBody": t.text,
+      "reviewRating": {
+        "@type": "Rating",
+        "ratingValue": "5",
+        "bestRating": "5",
+        "worstRating": "1"
+      },
+      "itemReviewed": {
+        "@type": "Course",
+        "name": t.role,
+        "provider": {
+          "@type": "Organization",
+          "name": "Innform"
+        }
+      }
+    }))
+  };
+
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+    />
+  );
+}
 
 export function Testimonials() {
   const testimonials = [
@@ -24,6 +69,8 @@ export function Testimonials() {
   ];
 
   return (
+    <>
+    <ReviewsSchema testimonials={testimonials} />
     <section className="py-24 bg-white relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="text-center mb-16">
@@ -58,5 +105,6 @@ export function Testimonials() {
         </div>
       </div>
     </section>
+    </>
   );
 }

@@ -71,10 +71,10 @@ export function Footer() {
                 Programmi
               </h4>
               <ul className="space-y-3 text-gray-300">
-                <li><a href="#programmi" className="hover:text-white hover:translate-x-1 inline-block transition-all">Progetto TI.ABILITO</a></li>
-                <li><a href="#programmi" className="hover:text-white hover:translate-x-1 inline-block transition-all">Progetto Segni</a></li>
+                <li><Link to="/progetti/ti-abilito" className="hover:text-white hover:translate-x-1 inline-block transition-all">Progetto TI.ABILITO</Link></li>
+                <li><Link to="/progetti/segni" className="hover:text-white hover:translate-x-1 inline-block transition-all">Progetto Segni</Link></li>
                 <li><a href="#programmi" className="hover:text-white hover:translate-x-1 inline-block transition-all">Programma GOL</a></li>
-                <li><a href="#chi-siamo" className="hover:text-white hover:translate-x-1 inline-block transition-all">Chi Siamo</a></li>
+                <li><Link to="/faq" className="hover:text-white hover:translate-x-1 inline-block transition-all">FAQ</Link></li>
               </ul>
             </div>
 

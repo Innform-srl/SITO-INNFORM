@@ -10,6 +10,7 @@ import { ImageWithFallback } from './figma/ImageWithFallback';
 import { InfiniteCarousel } from './InfiniteCarousel';
 import { usePublicPaths } from '../hooks/usePublicPaths';
 import { PathCourse } from '../services/public-paths-api';
+import { SEOHead, CourseSchema } from './SEOHead';
 
 interface Program {
   id: string;
@@ -755,6 +756,21 @@ export function ProgramDetail() {
   }
 
   return (
+    <>
+      <SEOHead
+        title={`${program.title} - Programma Formazione Professionale`}
+        description={program.description}
+        image={program.heroImage}
+        url={`/programmi/${programId}`}
+      />
+      <CourseSchema
+        name={program.title}
+        description={program.description}
+        provider="Innform"
+        url={`/programmi/${programId}`}
+        image={program.heroImage}
+        educationalLevel="Formazione Professionale"
+      />
     <div className="min-h-screen bg-white">
       {/* Hero Section with Advanced Animations */}
       <section className={`relative bg-gradient-to-br ${program.bgGradient} overflow-hidden min-h-[600px] flex items-center`}>
@@ -1293,5 +1309,6 @@ export function ProgramDetail() {
         </div>
       </section>
     </div>
+    </>
   );
 }

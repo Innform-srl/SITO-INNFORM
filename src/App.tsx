@@ -26,6 +26,7 @@ import { ProjectTiAbilito } from './components/ProjectTiAbilito';
 import { ProjectSegni } from './components/ProjectSegni';
 import { PrivacyPolicy } from './components/PrivacyPolicy';
 import { CookiePolicy } from './components/CookiePolicy';
+import { FAQPage } from './components/FAQPage';
 
 import { ScrollToTop } from './components/ScrollToTop';
 
@@ -126,6 +127,11 @@ export default function App() {
           <Route path="/cookie-policy" element={
             <Layout>
               <CookiePolicy />
+            </Layout>
+          } />
+          <Route path="/faq" element={
+            <Layout>
+              <FAQPage />
             </Layout>
           } />
         </Routes>

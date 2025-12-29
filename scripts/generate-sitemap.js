@@ -21,6 +21,7 @@ const staticRoutes = [
   { path: '/progetti/segni', changefreq: 'monthly', priority: '0.8' },
   { path: '/privacy-policy', changefreq: 'yearly', priority: '0.3' },
   { path: '/cookie-policy', changefreq: 'yearly', priority: '0.3' },
+  { path: '/faq', changefreq: 'monthly', priority: '0.7' },
 ];
 
 // Funzione per leggere le news da newsData.ts
@@ -47,41 +48,24 @@ function getNewsRoutes() {
   }
 }
 
-// Funzione per leggere i corsi da CourseDetail.tsx
+// Corsi noti con i loro slug (sincronizzati con EduPlan API)
+// Questi slug corrispondono al campo website_slug su EduPlan
+const knownCourses = [
+  'tecnico-esperto-in-analisi-alimentari-e-ambientali',
+  'esperto-in-efficienza-energetica-e-certificazione',
+  'massaggio-shiatsu-e-ayurveda',
+  'operatore-del-turismo-per-disabili-sensoriali',
+  'corso-di-specializzazione-alle-guide-turistiche',
+  'interior-design'
+];
+
+// Funzione per leggere i corsi
 function getCourseRoutes() {
-  try {
-    const courseDetailPath = path.join(__dirname, '../src/components/CourseDetail.tsx');
-    const content = fs.readFileSync(courseDetailPath, 'utf-8');
-
-    // Estrai gli slug dei corsi (chiavi dell'oggetto coursesData)
-    const courseMatches = content.match(/'([a-z-]+)':\s*\{[\s\S]*?id:\s*'([a-z-]+)'/g);
-    if (!courseMatches) {
-      // Prova pattern alternativo
-      const altMatches = content.match(/['"]([a-z-]+)['"]\s*:\s*\{\s*[\r\n\s]*id/g);
-      if (!altMatches) return [];
-
-      return [...new Set(altMatches.map(match => {
-        const slug = match.match(/['"]([a-z-]+)['"]/)[1];
-        return {
-          path: `/corsi/${slug}`,
-          changefreq: 'weekly',
-          priority: '0.9'
-        };
-      }))];
-    }
-
-    return courseMatches.map(match => {
-      const slug = match.match(/'([a-z-]+)'/)[1];
-      return {
-        path: `/corsi/${slug}`,
-        changefreq: 'weekly',
-        priority: '0.9'
-      };
-    });
-  } catch (error) {
-    console.warn('Impossibile leggere CourseDetail.tsx:', error.message);
-    return [];
-  }
+  return knownCourses.map(slug => ({
+    path: `/corsi/${slug}`,
+    changefreq: 'weekly',
+    priority: '0.9'
+  }));
 }
 
 // Funzione per leggere i programmi da ProgramDetail.tsx
