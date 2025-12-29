@@ -1,283 +1,371 @@
 /**
  * Mobile-specific styles
- * Questo file contiene SOLO override per dispositivi mobile (< 768px)
- * Il layout desktop rimane completamente invariato
+ * Approccio: Media Query Ranges chiusi + Interaction Media Features
+ * Ogni breakpoint è isolato ("foglio bianco") senza sovrascritture a cascata
  */
 
-@media (max-width: 767px) {
+/* ===========================================
+   EXTRA SMALL SCREENS (0px - 374px)
+   =========================================== */
+@media (min-width: 0px) and (max-width: 374px) {
 
-  /* ===========================================
-     HERO SECTION
-     =========================================== */
-
-  /* Titolo Hero - ridimensionamento */
+  /* Hero Title */
   #root section:first-of-type h1 span {
-    font-size: 48px !important;
-    line-height: 1.1 !important;
+    font-size: 36px;
+    line-height: 1.1;
   }
 
-  /* Carousel News - altezza ridotta */
+  /* Hero Stats */
+  #root section:first-of-type .grid.grid-cols-3 {
+    gap: 8px;
+  }
+
+  #root section:first-of-type .grid.grid-cols-3 .text-2xl {
+    font-size: 18px;
+  }
+
+  /* Carousel Container */
   #root section:first-of-type .relative.flex.justify-center.items-center {
-    height: 350px !important;
+    height: 300px;
   }
 
-  /* Card News - dimensioni ottimizzate */
-  #root section:first-of-type .relative.flex.justify-center.items-center > div > div {
-    max-width: 280px !important;
-  }
-
-  /* Card News - padding interno */
+  /* Card News */
   #root section:first-of-type .bg-white\/95 {
-    padding: 16px !important;
+    padding: 12px;
   }
 
-  /* News title */
   #root section:first-of-type .bg-white\/95 h3 {
-    font-size: 16px !important;
-    line-height: 1.3 !important;
+    font-size: 14px;
+    line-height: 1.3;
   }
 
-  /* News excerpt */
   #root section:first-of-type .bg-white\/95 p {
-    font-size: 12px !important;
-    line-height: 1.4 !important;
+    font-size: 11px;
   }
 
-  /* ===========================================
-     HEADER / NAVIGATION
-     =========================================== */
-
-  /* Badge nel menu mobile - aumenta dimensione font */
-  nav .rounded-full[class*="text-[6px]"] {
-    font-size: 10px !important;
-    padding: 2px 6px !important;
-  }
-
-  /* Touch target minimo per menu items */
-  nav a, nav button {
-    min-height: 44px !important;
-    display: flex !important;
-    align-items: center !important;
-  }
-
-  /* ===========================================
-     COURSES SECTION
-     =========================================== */
-
-  /* Filtri corsi - layout verticale */
-  #corsi .flex.flex-wrap.justify-center {
-    flex-direction: column !important;
-    gap: 8px !important;
-  }
-
-  /* Bottoni filtro - full width su mobile */
-  #corsi .flex.flex-wrap.justify-center button {
-    width: 100% !important;
-    justify-content: center !important;
-    padding: 10px 16px !important;
-    font-size: 14px !important;
-  }
-
-  /* Icone corsi - ridimensionate */
-  #corsi .w-\[100px\],
-  #corsi .h-\[100px\] {
-    width: 48px !important;
-    height: 48px !important;
-  }
-
-  /* Container icona corso */
-  #corsi .p-10 {
-    padding: 24px !important;
-  }
-
-  /* Titolo corso nel carousel */
-  #corsi h3 {
-    font-size: 20px !important;
-    line-height: 1.2 !important;
-  }
-
-  /* Descrizione corso */
-  #corsi .text-gray-700 {
-    font-size: 14px !important;
-  }
-
-  /* CTA buttons corsi */
-  #corsi a[class*="rounded-xl"] {
-    padding: 12px 16px !important;
-    font-size: 14px !important;
-    min-height: 44px !important;
-  }
-
-  /* ===========================================
-     PROGRAMS SECTION
-     =========================================== */
-
-  /* Card programmi - padding */
-  #programmi .p-10 {
-    padding: 20px !important;
-  }
-
-  /* Icone programmi */
-  #programmi .w-20,
-  #programmi .h-20 {
-    width: 56px !important;
-    height: 56px !important;
-  }
-
-  #programmi .w-20 svg,
-  #programmi .h-20 svg {
-    width: 28px !important;
-    height: 28px !important;
-  }
-
-  /* Titoli programmi */
-  #programmi h3 {
-    font-size: 20px !important;
-  }
-
-  /* Descrizione programmi */
-  #programmi p {
-    font-size: 14px !important;
-  }
-
-  /* ===========================================
-     ABOUT SECTION
-     =========================================== */
-
-  /* Stats cards - padding */
-  #chi-siamo .p-8 {
-    padding: 16px !important;
-  }
-
-  /* Stats value */
-  #chi-siamo .text-4xl {
-    font-size: 24px !important;
-  }
-
-  /* Stats icon container */
-  #chi-siamo .w-14,
-  #chi-siamo .h-14 {
-    width: 40px !important;
-    height: 40px !important;
-  }
-
-  /* ===========================================
-     CONTACT SECTION
-     =========================================== */
-
-  /* Contact cards - padding */
-  #contatti .p-6 {
-    padding: 16px !important;
-  }
-
-  /* Contact icon container */
-  #contatti .w-14,
-  #contatti .h-14 {
-    width: 44px !important;
-    height: 44px !important;
-  }
-
-  /* Contact form container */
-  #contatti .p-10 {
-    padding: 16px !important;
-  }
-
-  /* Form title */
-  #contatti h3 {
-    font-size: 20px !important;
-  }
-
-  /* ===========================================
-     FOOTER
-     =========================================== */
-
-  /* Footer padding */
-  footer .py-16 {
-    padding-top: 40px !important;
-    padding-bottom: 40px !important;
-  }
-
-  /* Footer columns gap */
-  footer .gap-12 {
-    gap: 24px !important;
-  }
-
-  /* Footer headings */
-  footer h4 {
-    font-size: 14px !important;
-    margin-bottom: 12px !important;
-  }
-
-  /* Footer links */
-  footer ul li {
-    font-size: 12px !important;
-  }
-
-  /* Social icons */
-  footer .w-11,
-  footer .h-11 {
-    width: 40px !important;
-    height: 40px !important;
-  }
-
-  /* Accreditations - grid instead of flex */
-  footer .flex.flex-wrap.justify-center.gap-8 {
-    display: grid !important;
-    grid-template-columns: 1fr 1fr !important;
-    gap: 12px !important;
-  }
-
-  /* ===========================================
-     GLOBAL MOBILE OPTIMIZATIONS
-     =========================================== */
-
-  /* Riduce blur per performance su mobile */
-  .blur-3xl {
-    filter: blur(32px) !important;
-  }
-
-  .blur-2xl {
-    filter: blur(24px) !important;
-  }
-
-  .backdrop-blur-xl {
-    backdrop-filter: blur(12px) !important;
-  }
-
-  .backdrop-blur-md {
-    backdrop-filter: blur(8px) !important;
-  }
-
-  /* Section headings - dimensioni responsive */
+  /* Section Headings */
   section h2 {
-    font-size: 32px !important;
-    line-height: 1.2 !important;
+    font-size: 26px;
+    line-height: 1.2;
+  }
+
+  /* Buttons */
+  a.rounded-full,
+  button.rounded-full {
+    padding: 8px 16px;
+    font-size: 13px;
+  }
+
+  /* Section padding */
+  section.py-24 {
+    padding-top: 40px;
+    padding-bottom: 40px;
+  }
+}
+
+/* ===========================================
+   SMALL SCREENS (375px - 639px)
+   =========================================== */
+@media (min-width: 375px) and (max-width: 639px) {
+
+  /* Hero Title */
+  #root section:first-of-type h1 span {
+    font-size: 42px;
+    line-height: 1.1;
+  }
+
+  /* Carousel Container */
+  #root section:first-of-type .relative.flex.justify-center.items-center {
+    height: 340px;
+  }
+
+  /* Card News */
+  #root section:first-of-type .bg-white\/95 {
+    padding: 14px;
+  }
+
+  #root section:first-of-type .bg-white\/95 h3 {
+    font-size: 15px;
+    line-height: 1.3;
+  }
+
+  #root section:first-of-type .bg-white\/95 p {
+    font-size: 12px;
+  }
+
+  /* Section Headings */
+  section h2 {
+    font-size: 30px;
+    line-height: 1.2;
   }
 
   /* Section subheadings */
   section > div > p.text-xl {
-    font-size: 16px !important;
+    font-size: 15px;
   }
 
-  /* Padding sezioni */
+  /* Section padding */
   section.py-24 {
-    padding-top: 48px !important;
-    padding-bottom: 48px !important;
+    padding-top: 44px;
+    padding-bottom: 44px;
   }
 
-  /* Gap grids */
+  /* Gaps */
   .gap-12 {
-    gap: 24px !important;
+    gap: 20px;
   }
 
   .gap-8 {
-    gap: 16px !important;
+    gap: 14px;
+  }
+}
+
+/* ===========================================
+   MEDIUM SCREENS (640px - 767px)
+   =========================================== */
+@media (min-width: 640px) and (max-width: 767px) {
+
+  /* Hero Title */
+  #root section:first-of-type h1 span {
+    font-size: 52px;
+    line-height: 1.1;
+  }
+
+  /* Carousel Container */
+  #root section:first-of-type .relative.flex.justify-center.items-center {
+    height: 380px;
+  }
+
+  /* Card News */
+  #root section:first-of-type .bg-white\/95 {
+    padding: 18px;
+  }
+
+  #root section:first-of-type .bg-white\/95 h3 {
+    font-size: 17px;
+  }
+
+  #root section:first-of-type .bg-white\/95 p {
+    font-size: 13px;
+  }
+
+  /* Section Headings */
+  section h2 {
+    font-size: 36px;
+    line-height: 1.2;
+  }
+
+  /* Section padding */
+  section.py-24 {
+    padding-top: 52px;
+    padding-bottom: 52px;
+  }
+}
+
+/* ===========================================
+   ALL MOBILE (0px - 767px) - Shared Rules
+   =========================================== */
+@media (max-width: 767px) {
+
+  /* --- HEADER / NAVIGATION --- */
+
+  /* Badge nel menu mobile */
+  nav .rounded-full[class*="text-[6px]"] {
+    font-size: 10px;
+    padding: 2px 6px;
+  }
+
+  /* --- COURSES SECTION --- */
+
+  /* Filtri corsi */
+  #corsi .flex.flex-wrap.justify-center {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  #corsi .flex.flex-wrap.justify-center button {
+    width: 100%;
+    justify-content: center;
+    padding: 10px 16px;
+    font-size: 14px;
+  }
+
+  /* Icone corsi */
+  #corsi .w-\[100px\],
+  #corsi .h-\[100px\] {
+    width: 48px;
+    height: 48px;
+  }
+
+  #corsi .p-10 {
+    padding: 24px;
+  }
+
+  #corsi h3 {
+    font-size: 20px;
+    line-height: 1.2;
+  }
+
+  #corsi .text-gray-700 {
+    font-size: 14px;
+  }
+
+  /* --- PROGRAMS SECTION --- */
+
+  #programmi .p-10 {
+    padding: 20px;
+  }
+
+  #programmi .w-20,
+  #programmi .h-20 {
+    width: 56px;
+    height: 56px;
+  }
+
+  #programmi h3 {
+    font-size: 20px;
+  }
+
+  #programmi p {
+    font-size: 14px;
+  }
+
+  /* --- ABOUT SECTION --- */
+
+  #chi-siamo .p-8 {
+    padding: 16px;
+  }
+
+  #chi-siamo .text-4xl {
+    font-size: 24px;
+  }
+
+  #chi-siamo .w-14,
+  #chi-siamo .h-14 {
+    width: 40px;
+    height: 40px;
+  }
+
+  /* --- CONTACT SECTION --- */
+
+  #contatti .p-6 {
+    padding: 16px;
+  }
+
+  #contatti .w-14,
+  #contatti .h-14 {
+    width: 44px;
+    height: 44px;
+  }
+
+  #contatti .p-10 {
+    padding: 16px;
+  }
+
+  #contatti h3 {
+    font-size: 20px;
+  }
+
+  /* --- FOOTER --- */
+
+  footer .py-16 {
+    padding-top: 40px;
+    padding-bottom: 40px;
+  }
+
+  footer .gap-12 {
+    gap: 24px;
+  }
+
+  footer h4 {
+    font-size: 14px;
+    margin-bottom: 12px;
+  }
+
+  footer ul li {
+    font-size: 12px;
+  }
+
+  footer .w-11,
+  footer .h-11 {
+    width: 40px;
+    height: 40px;
+  }
+
+  footer .flex.flex-wrap.justify-center.gap-8 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  /* --- PERFORMANCE OPTIMIZATIONS --- */
+
+  .blur-3xl {
+    filter: blur(32px);
+  }
+
+  .blur-2xl {
+    filter: blur(24px);
+  }
+
+  .backdrop-blur-xl {
+    backdrop-filter: blur(12px);
+  }
+
+  .backdrop-blur-md {
+    backdrop-filter: blur(8px);
   }
 
   /* Break long emails */
   a[href^="mailto:"],
   [class*="break-all"] {
-    word-break: break-all !important;
+    word-break: break-all;
+  }
+}
+
+/* ===========================================
+   INTERACTION MEDIA FEATURES
+   Touch devices & Hover detection
+   =========================================== */
+
+/* Touch devices - larger tap targets */
+@media (pointer: coarse) {
+  nav a,
+  nav button,
+  a.rounded-full,
+  button.rounded-full,
+  #corsi a[class*="rounded-xl"],
+  footer a {
+    min-height: 44px;
+    min-width: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Larger spacing for touch */
+  nav .space-y-2 > * {
+    margin-top: 8px;
+    margin-bottom: 8px;
+  }
+}
+
+/* Devices without hover - remove hover effects to avoid "sticky hover" */
+@media (hover: none) {
+  .hover\:scale-105:hover,
+  .hover\:scale-110:hover,
+  .hover\:-translate-y-1:hover,
+  .hover\:-translate-y-2:hover {
+    transform: none;
+  }
+
+  .hover\:shadow-xl:hover,
+  .hover\:shadow-2xl:hover {
+    box-shadow: inherit;
+  }
+
+  .group:hover .group-hover\:opacity-100 {
+    opacity: 0;
   }
 }
 
@@ -292,37 +380,5 @@
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
-  }
-}
-
-/* ===========================================
-   EXTRA SMALL SCREENS (< 375px)
-   =========================================== */
-@media (max-width: 374px) {
-
-  /* Hero title even smaller */
-  #root section:first-of-type h1 span {
-    font-size: 36px !important;
-  }
-
-  /* Stats in hero */
-  #root section:first-of-type .grid.grid-cols-3 {
-    gap: 8px !important;
-  }
-
-  #root section:first-of-type .grid.grid-cols-3 .text-2xl {
-    font-size: 18px !important;
-  }
-
-  /* Section headings */
-  section h2 {
-    font-size: 26px !important;
-  }
-
-  /* Buttons */
-  a.rounded-full,
-  button.rounded-full {
-    padding: 8px 16px !important;
-    font-size: 13px !important;
   }
 }
