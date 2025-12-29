@@ -19,6 +19,8 @@ const staticRoutes = [
   { path: '/chi-siamo/qualita', changefreq: 'monthly', priority: '0.7' },
   { path: '/progetti/ti-abilito', changefreq: 'monthly', priority: '0.8' },
   { path: '/progetti/segni', changefreq: 'monthly', priority: '0.8' },
+  { path: '/privacy-policy', changefreq: 'yearly', priority: '0.3' },
+  { path: '/cookie-policy', changefreq: 'yearly', priority: '0.3' },
 ];
 
 // Funzione per leggere le news da newsData.ts

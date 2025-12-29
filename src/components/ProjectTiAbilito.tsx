@@ -59,7 +59,7 @@ export function ProjectTiAbilito() {
               <div className="relative rounded-3xl overflow-hidden shadow-2xl border-8 border-white transform rotate-2 hover:rotate-0 transition-transform duration-500">
                 <img
                   src="https://images.unsplash.com/photo-1597007519573-0575fd4cc96b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxyb2JvdCUyMGFzc2lzdGluZyUyMGRpc2FibGVkJTIwc3R1ZGVudHMlMjBlZHVjYXRpb24lMjB0ZWNobm9sb2d5JTIwYXNzaXN0aXZlJTIwcm9ib3R8ZW58MXx8fHwxNzY1OTg1MDM2fDA&ixlib=rb-4.1.0&q=80&w=1080"
-                  alt="Tecnologia Assistiva"
+                  alt="Robot educativo utilizzato per supportare studenti con disabilità - Progetto T.I. ABILITO"
                   loading="lazy"
                   decoding="async"
                   className="w-full h-auto object-cover"

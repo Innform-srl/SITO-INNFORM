@@ -24,6 +24,8 @@ import { ProgramEnrollment } from './components/ProgramEnrollment';
 
 import { ProjectTiAbilito } from './components/ProjectTiAbilito';
 import { ProjectSegni } from './components/ProjectSegni';
+import { PrivacyPolicy } from './components/PrivacyPolicy';
+import { CookiePolicy } from './components/CookiePolicy';
 
 import { ScrollToTop } from './components/ScrollToTop';
 
@@ -112,6 +114,18 @@ export default function App() {
           <Route path="/progetti/segni" element={
             <Layout>
               <ProjectSegni />
+            </Layout>
+          } />
+
+          {/* Legal Pages */}
+          <Route path="/privacy-policy" element={
+            <Layout>
+              <PrivacyPolicy />
+            </Layout>
+          } />
+          <Route path="/cookie-policy" element={
+            <Layout>
+              <CookiePolicy />
             </Layout>
           } />
         </Routes>

@@ -1,8 +1,15 @@
 import React from 'react';
 import { Award, Shield, Target, TrendingUp, CheckCircle, FileText, Download } from 'lucide-react';
+import { SEOHead } from './SEOHead';
 
 export function AboutQuality() {
   return (
+    <>
+      <SEOHead
+        title="Certificazione ISO 9001:2015 - Sistema Qualità"
+        description="Innform è certificato ISO 9001:2015 da Dimitto per servizi di formazione e consulenza. Sistema di gestione qualità per eccellenza nei servizi formativi."
+        url="/chi-siamo/qualita"
+      />
     <div className="bg-white pt-24">
       {/* Hero Section */}
       <section className="relative py-20 bg-gradient-to-br from-emerald-900 via-emerald-800 to-teal-900 text-white overflow-hidden">
@@ -143,5 +150,6 @@ export function AboutQuality() {
         </div>
       </section>
     </div>
+    </>
   );
 }

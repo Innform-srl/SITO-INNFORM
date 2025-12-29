@@ -1,8 +1,15 @@
 import React from 'react';
 import { Eye, Target, Handshake, Scale, ShieldCheck, CheckCircle } from 'lucide-react';
+import { SEOHead } from './SEOHead';
 
 export function AboutVision() {
   return (
+    <>
+      <SEOHead
+        title="Visione e Missione - I Nostri Valori"
+        description="La visione e missione di Innform: eccellenza nella formazione professionale in Basilicata. Valori di trasparenza, legalità e innovazione guidano il nostro impegno."
+        url="/chi-siamo/visione-missione"
+      />
     <div className="bg-white pt-24">
       {/* Hero Section */}
       <section className="relative py-20 bg-gradient-to-br from-blue-900 via-blue-800 to-indigo-900 text-white overflow-hidden">
@@ -114,5 +121,6 @@ export function AboutVision() {
         </div>
       </section>
     </div>
+    </>
   );
 }

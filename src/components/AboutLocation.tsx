@@ -1,8 +1,15 @@
 import React from 'react';
 import { MapPin, Phone, Mail, Clock, Train, Car, Navigation } from 'lucide-react';
+import { SEOHead } from './SEOHead';
 
 export function AboutLocation() {
   return (
+    <>
+      <SEOHead
+        title="Dove Siamo - Sede Innform Potenza"
+        description="Innform si trova in Via della Chimica 87, Potenza (Basilicata). Orari apertura: Lun-Ven 9:00-13:30 e 15:30-19:00, Sab 10:00-13:00. Tel: 0971.473968"
+        url="/chi-siamo/dove-siamo"
+      />
     <div className="bg-white pt-24">
       {/* Hero Section */}
       <section className="relative py-20 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white overflow-hidden">
@@ -131,5 +138,6 @@ export function AboutLocation() {
         </div>
       </section>
     </div>
+    </>
   );
 }

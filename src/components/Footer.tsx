@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { Linkedin, Facebook, Instagram, Mail, Phone, MapPin, Award } from 'lucide-react';
 
 export function Footer() {
@@ -132,9 +133,8 @@ export function Footer() {
                 &copy; 2025 Innform. Tutti i diritti riservati.
               </p>
               <div className="flex gap-6 text-sm text-gray-400">
-                <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
-                <a href="#" className="hover:text-white transition-colors">Cookie Policy</a>
-                <a href="#" className="hover:text-white transition-colors">Termini e Condizioni</a>
+                <Link to="/privacy-policy" className="hover:text-white transition-colors">Privacy Policy</Link>
+                <Link to="/cookie-policy" className="hover:text-white transition-colors">Cookie Policy</Link>
               </div>
             </div>
           </div>

@@ -223,7 +223,7 @@ export function ProjectSegni() {
                  <div className="relative h-64 lg:h-auto order-1 lg:order-2" style={{ minHeight: '400px' }}>
                     <img
                       src="https://images.unsplash.com/photo-1587654780291-39c9404d746b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjbGFzc3Jvb20lMjBraWRzJTIwdG95c3xlbnwxfHx8fDE3NjU5ODcyNzl8MA&ixlib=rb-4.1.0&q=80&w=1080"
-                      alt="Interno Nido"
+                      alt="Aula colorata del nido Il Piccolo Nido con giochi educativi per bambini 0-3 anni"
                       loading="lazy"
                       decoding="async"
                       className="absolute inset-0 w-full h-full object-cover"
@@ -300,7 +300,7 @@ export function ProjectSegni() {
           <div className="absolute inset-0">
             <img
                src="https://images.unsplash.com/photo-1511632765486-a01980e01a18?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjb21tdW5pdHklMjBldmVudCUyMGNlbGVicmF0aW9ufGVufDF8fHx8MTc2NTk4NzQ1MXww&ixlib=rb-4.1.0&q=80&w=1080"
-               alt="Evento Finale"
+               alt="Famiglie e bambini durante l'evento finale del Progetto Segni a Satriano di Lucania"
                loading="lazy"
                decoding="async"
                className="h-full w-full object-cover opacity-20"

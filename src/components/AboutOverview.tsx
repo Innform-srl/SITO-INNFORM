@@ -1,9 +1,16 @@
 import React from 'react';
 import { Users, Calendar, Award, CheckCircle2, FileText, Briefcase } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { SEOHead } from './SEOHead';
 
 export function AboutOverview() {
   return (
+    <>
+      <SEOHead
+        title="Chi Siamo - Ente di Formazione Accreditato"
+        description="Innform è un centro di formazione professionale accreditato in Basilicata dal 2007. Oltre 18 anni di esperienza, 673+ studenti formati, 50+ corsi certificati."
+        url="/chi-siamo/panoramica"
+      />
     <div className="bg-white pt-24">
       {/* Hero Section */}
       <section className="relative py-20 bg-gradient-to-br from-purple-900 via-purple-800 to-pink-900 text-white overflow-hidden">
@@ -123,5 +130,6 @@ export function AboutOverview() {
         </div>
       </section>
     </div>
+    </>
   );
 }
