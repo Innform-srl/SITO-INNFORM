@@ -1044,9 +1044,17 @@ export function CourseDetail() {
         <FAQSchema items={course.faq} />
       )}
 
-    <div className="bg-white">
+    <article
+      className="bg-white"
+      itemScope
+      itemType="https://schema.org/Course"
+      aria-label={`Dettaglio corso: ${course.title}`}
+    >
       {/* Hero Section */}
-      <section className="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden">
+      <section
+        className="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden"
+        aria-labelledby="course-title"
+      >
         {/* Background Gradient */}
         <div className={`absolute inset-0 bg-gradient-to-br ${course.bgGradient} opacity-50`}></div>
         
@@ -1820,7 +1828,7 @@ export function CourseDetail() {
           </div>
         </div>
       </section>
-    </div>
+    </article>
     </>
   );
 }

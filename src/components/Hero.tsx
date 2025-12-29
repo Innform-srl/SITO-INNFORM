@@ -41,7 +41,12 @@ export function Hero() {
   }, [slides.length]);
 
   return (
-    <section className="relative min-h-screen flex items-center overflow-hidden" style={{background: 'linear-gradient(135deg, #9300FF 0%, #9A05FF 50%, #FF0083 100%)'}}>
+    <section
+      id="hero"
+      aria-label="Innform - Centro Formazione Accreditato"
+      className="relative min-h-screen flex items-center overflow-hidden"
+      style={{background: 'linear-gradient(135deg, #9300FF 0%, #9A05FF 50%, #FF0083 100%)'}}
+    >
       {/* Animated Background Elements */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute top-0 left-0 w-full h-full">

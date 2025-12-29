@@ -30,17 +30,45 @@ import { FAQPage } from './components/FAQPage';
 
 import { ScrollToTop } from './components/ScrollToTop';
 
+function SkipLinks() {
+  return (
+    <nav aria-label="Skip links" className="sr-only focus-within:not-sr-only">
+      <a
+        href="#main-content"
+        className="absolute top-2 left-2 z-[9999] bg-purple-600 text-white px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400 transform -translate-y-full focus:translate-y-0 transition-transform"
+      >
+        Vai al contenuto principale
+      </a>
+      <a
+        href="#corsi"
+        className="absolute top-2 left-48 z-[9999] bg-purple-600 text-white px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400 transform -translate-y-full focus:translate-y-0 transition-transform"
+      >
+        Vai ai corsi
+      </a>
+      <a
+        href="#contatti"
+        className="absolute top-2 left-80 z-[9999] bg-purple-600 text-white px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400 transform -translate-y-full focus:translate-y-0 transition-transform"
+      >
+        Vai ai contatti
+      </a>
+    </nav>
+  );
+}
+
 function HomePage() {
   return (
     <>
+      <SkipLinks />
       <Header />
-      <Hero />
-      <Courses />
-      <Programs />
-      <About />
-      <Services />
-      <Testimonials />
-      <Contact />
+      <main id="main-content" role="main" aria-label="Contenuto principale">
+        <Hero />
+        <Courses />
+        <Programs />
+        <About />
+        <Services />
+        <Testimonials />
+        <Contact />
+      </main>
       <Footer />
     </>
   );

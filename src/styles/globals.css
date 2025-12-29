@@ -45,6 +45,68 @@
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
+
+  /* =============================================
+     INNFORM DESIGN SYSTEM - Semantic Variables
+     Tutte le variabili hanno fallback per robustezza
+     ============================================= */
+
+  /* Brand Colors */
+  --inn-purple: var(--brand-purple, #9300FF);
+  --inn-purple-dark: var(--brand-purple-dark, #7B00D4);
+  --inn-pink: var(--brand-pink, #FF0083);
+  --inn-pink-dark: var(--brand-pink-dark, #D40070);
+  --inn-blue: var(--brand-blue, #51A2FF);
+
+  /* Program Colors */
+  --inn-master: var(--program-master, linear-gradient(90deg, #9333EA 0%, #EC4899 100%));
+  --inn-gol: var(--program-gol, linear-gradient(90deg, #155DFC 0%, #0092B8 100%));
+  --inn-specializzazione: var(--program-spec, linear-gradient(90deg, #0D9488 0%, #06B6D4 100%));
+
+  /* Semantic Spacing */
+  --inn-spacing-xs: var(--spacing-xs, 4px);
+  --inn-spacing-sm: var(--spacing-sm, 8px);
+  --inn-spacing-md: var(--spacing-md, 16px);
+  --inn-spacing-lg: var(--spacing-lg, 24px);
+  --inn-spacing-xl: var(--spacing-xl, 32px);
+  --inn-spacing-2xl: var(--spacing-2xl, 48px);
+  --inn-spacing-section: var(--spacing-section, 96px);
+
+  /* Card Spacing */
+  --inn-card-padding: var(--card-padding, 24px);
+  --inn-card-radius: var(--card-radius, 24px);
+  --inn-card-shadow: var(--card-shadow, 0 10px 40px rgba(0, 0, 0, 0.1));
+
+  /* Typography Scale */
+  --inn-text-xs: var(--text-xs, 12px);
+  --inn-text-sm: var(--text-sm, 14px);
+  --inn-text-base: var(--text-base, 16px);
+  --inn-text-lg: var(--text-lg, 18px);
+  --inn-text-xl: var(--text-xl, 20px);
+  --inn-text-2xl: var(--text-2xl, 24px);
+  --inn-text-3xl: var(--text-3xl, 30px);
+  --inn-text-4xl: var(--text-4xl, 36px);
+  --inn-text-5xl: var(--text-5xl, 48px);
+  --inn-text-hero: var(--text-hero, 96px);
+
+  /* Touch Target (WCAG 2.5.5) */
+  --inn-touch-target: var(--touch-target, 44px);
+  --inn-touch-target-lg: var(--touch-target-lg, 48px);
+
+  /* Transitions */
+  --inn-transition-fast: var(--transition-fast, 150ms);
+  --inn-transition-base: var(--transition-base, 300ms);
+  --inn-transition-slow: var(--transition-slow, 500ms);
+
+  /* Z-Index Scale */
+  --inn-z-dropdown: var(--z-dropdown, 50);
+  --inn-z-sticky: var(--z-sticky, 100);
+  --inn-z-modal: var(--z-modal, 200);
+  --inn-z-toast: var(--z-toast, 300);
+
+  /* Focus Ring (Accessibility) */
+  --inn-focus-ring: var(--focus-ring, 0 0 0 3px rgba(147, 0, 255, 0.4));
+  --inn-focus-color: var(--focus-color, #9300FF);
 }
 
 .dark {
@@ -188,4 +250,72 @@
 
 html {
   font-size: var(--font-size);
+}
+
+/* =============================================
+   ACCESSIBILITY & AI-READINESS UTILITIES
+   ============================================= */
+
+/* Screen reader only - visually hidden but accessible */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Show on focus (for skip links) */
+.sr-only:focus,
+.sr-only:active,
+.focus-within\:not-sr-only:focus-within .sr-only {
+  position: static;
+  width: auto;
+  height: auto;
+  padding: inherit;
+  margin: inherit;
+  overflow: visible;
+  clip: auto;
+  white-space: normal;
+}
+
+/* Enhanced focus visibility for keyboard navigation */
+:focus-visible {
+  outline: 3px solid var(--inn-focus-color, #9300FF);
+  outline-offset: 2px;
+}
+
+/* Remove focus outline for mouse users */
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Touch-friendly button base */
+@layer utilities {
+  .touch-target {
+    min-height: var(--inn-touch-target, 44px);
+    min-width: var(--inn-touch-target, 44px);
+  }
+
+  .touch-target-lg {
+    min-height: var(--inn-touch-target-lg, 48px);
+    min-width: var(--inn-touch-target-lg, 48px);
+  }
+}
+
+/* AI-Readable landmark styling */
+[role="navigation"],
+[role="main"],
+[role="contentinfo"],
+[role="banner"] {
+  display: block;
+}
+
+/* Semantic article styling */
+article[itemscope] {
+  display: block;
 }

@@ -108,8 +108,34 @@
     height: 20px !important;
   }
 
+  /* Course carousel icon - extra small */
+  #corsi .p-10.rounded-3xl {
+    padding: 8px !important;
+    margin-bottom: 6px !important;
+  }
+
+  #corsi .p-10.rounded-3xl svg {
+    width: 32px !important;
+    height: 32px !important;
+  }
+
+  /* Course card padding - extra small */
+  #corsi .p-8.md\:p-12 {
+    padding: 12px !important;
+  }
+
+  /* Course title - extra small */
+  #corsi .text-3xl.md\:text-4xl.lg\:text-5xl {
+    font-size: 16px !important;
+  }
+
   /* Hide non-essential on extra small */
   .space-y-2 > .flex.items-center.gap-2.text-sm {
+    display: none !important;
+  }
+
+  /* Hide market demand indicator on extra small */
+  #corsi .hidden.md\:block {
     display: none !important;
   }
 
@@ -332,15 +358,70 @@
   }
 
   /* --- COURSES SECTION --- */
-  .w-\[100px\], .h-\[100px\] {
-    width: 56px !important;
-    height: 56px !important;
+  /* Icon container in carousel - much smaller on mobile */
+  #corsi .p-10.rounded-3xl {
+    padding: 12px !important;
+    margin-bottom: 8px !important;
   }
 
-  #corsi .p-10 {
-    padding: var(--mobile-gap-lg, 20px) !important;
+  /* Icon SVG size in carousel */
+  #corsi .p-10.rounded-3xl svg {
+    width: 40px !important;
+    height: 40px !important;
   }
 
+  /* Card inner padding */
+  #corsi .p-8.md\:p-12 {
+    padding: 16px !important;
+  }
+
+  /* Grid gap between icon/info and content */
+  #corsi .gap-8.md\:gap-12 {
+    gap: 16px !important;
+  }
+
+  /* Badge container spacing */
+  #corsi .gap-3.mb-6 {
+    gap: 8px !important;
+    margin-bottom: 12px !important;
+  }
+
+  /* Badge items */
+  #corsi .px-4.py-2.rounded-full {
+    padding: 6px 12px !important;
+  }
+
+  /* Course title in carousel */
+  #corsi .text-3xl.md\:text-4xl.lg\:text-5xl {
+    font-size: 20px !important;
+    line-height: 1.2 !important;
+    margin-bottom: 8px !important;
+  }
+
+  /* Title underline */
+  #corsi .h-1.w-24.rounded-full.mb-6 {
+    margin-bottom: 12px !important;
+  }
+
+  /* Course description */
+  #corsi .text-lg.md\:text-xl.text-gray-700 {
+    font-size: 14px !important;
+    line-height: 1.5 !important;
+  }
+
+  /* CTA buttons container */
+  #corsi .flex.flex-col.sm\:flex-row.gap-4.pt-4 {
+    padding-top: 12px !important;
+    gap: 8px !important;
+  }
+
+  /* CTA buttons */
+  #corsi .px-8.py-4.rounded-xl {
+    padding: 12px 20px !important;
+    font-size: 14px !important;
+  }
+
+  /* Section headings */
   #corsi .text-5xl {
     font-size: var(--mobile-h3-size, 22px) !important;
   }
@@ -349,22 +430,135 @@
     font-size: var(--mobile-body-size, 14px) !important;
   }
 
+  /* Filter buttons - compact on mobile */
+  #corsi .gap-6.mb-12 {
+    gap: 12px !important;
+    margin-bottom: 20px !important;
+  }
+
+  #corsi .gap-4 {
+    gap: 8px !important;
+  }
+
+  /* Hide divider between filters and view toggle */
+  #corsi div[style*="width: 1px"][style*="height: 40px"] {
+    display: none !important;
+  }
+
+  /* Progress and dots spacing */
+  #corsi .mt-12 {
+    margin-top: 20px !important;
+  }
+
+  #corsi .mt-8.max-w-md {
+    margin-top: 12px !important;
+  }
+
+  /* Carousel dots - smaller on mobile */
+  #corsi .gap-3 button .rounded-full {
+    height: 8px !important;
+  }
+
+  #corsi .gap-3 button .rounded-full[style*="width: 3rem"] {
+    width: 1.5rem !important;
+  }
+
+  #corsi .gap-3 button .rounded-full[style*="width: 0.75rem"] {
+    width: 8px !important;
+  }
+
+  /* Dots container gap */
+  #corsi .flex.justify-center.items-center.gap-3 {
+    gap: 6px !important;
+  }
+
+  /* Bottom CTA spacing */
+  #corsi .mt-16 {
+    margin-top: 24px !important;
+  }
+
+  #corsi .px-10.py-5.rounded-xl {
+    padding: 14px 24px !important;
+  }
+
   /* --- PROGRAMS SECTION --- */
   #programmi .p-10 {
-    padding: var(--mobile-gap-lg, 20px) !important;
+    padding: 16px !important;
   }
 
-  #programmi .w-20, #programmi .h-20 {
-    width: 56px !important;
-    height: 56px !important;
+  /* Program icon containers - much smaller */
+  #programmi .w-20.h-20,
+  #programmi .inline-flex.w-20.h-20 {
+    width: 44px !important;
+    height: 44px !important;
   }
 
+  /* Program icon SVG */
+  #programmi .w-20.h-20 svg,
+  #programmi .inline-flex.w-20.h-20 svg {
+    width: 22px !important;
+    height: 22px !important;
+  }
+
+  /* Program titles */
   #programmi .text-3xl {
-    font-size: 20px !important;
+    font-size: 18px !important;
+    margin-bottom: 8px !important;
   }
 
+  /* Program descriptions */
   #programmi .text-lg {
-    font-size: var(--mobile-body-size, 14px) !important;
+    font-size: 13px !important;
+    line-height: 1.4 !important;
+  }
+
+  /* Program features spacing */
+  #programmi .space-y-3 {
+    margin-top: 8px !important;
+    margin-bottom: 0 !important;
+  }
+
+  #programmi .space-y-3 > div {
+    margin-top: 4px !important;
+    margin-bottom: 0 !important;
+  }
+
+  /* Feature text */
+  #programmi .space-y-3 span {
+    font-size: 12px !important;
+  }
+
+  /* Feature bullets */
+  #programmi .w-2.h-2.rounded-full {
+    width: 5px !important;
+    height: 5px !important;
+  }
+
+  /* CTA link */
+  #programmi .pt-4.font-bold {
+    padding-top: 10px !important;
+    font-size: 13px !important;
+  }
+
+  /* Section header spacing */
+  #programmi .mb-16 {
+    margin-bottom: 20px !important;
+  }
+
+  /* Cards grid gap */
+  #programmi .gap-8 {
+    gap: 12px !important;
+  }
+
+  /* Space between icon and content */
+  #programmi .space-y-8 {
+    gap: 10px !important;
+  }
+
+  /* Corner decoration - smaller */
+  #programmi .w-32.h-32 {
+    width: 40px !important;
+    height: 40px !important;
   }
 
   /* --- ABOUT SECTION --- */
