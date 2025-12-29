@@ -706,22 +706,65 @@ export function ProgramDetail() {
     return paths.find(p => p.code === pathCode) || null;
   }, [pathCode, paths]);
 
-  // Mappa codici corso -> categoria per GOL
-  const golCourseCategories: Record<string, 'Upskilling' | 'Reskilling'> = {
-    'GOL-COMDIG': 'Upskilling',      // Competenze Digitali - 60 ore
-    'Upskilling-CDP1': 'Upskilling', // Pubblicità e Comunicazione Digitale - 100 ore
-    'GOL-TEPL': 'Reskilling',        // Tecnico Sviluppo Turistico - 500 ore
-    'OTDS': 'Reskilling',            // Sistema Educativo Prima Infanzia - 600 ore
-    'Tor': 'Reskilling',             // Operatore Tornitura - 600 ore
-    'GOL-OHES': 'Reskilling',        // Operatore H2S e Sicurezza - 600 ore
-    'GOL-ODPE': 'Reskilling',        // Operatore Panificazione - 600 ore
+  // Mappa codici corso -> dati statici completi per GOL
+  const golCourseDataByCode: Record<string, { duration: string; description: string; skills: string[]; category: 'Upskilling' | 'Reskilling' }> = {
+    'GOL-COMDIG': {
+      duration: '60 ore',
+      description: 'Competenze digitali essenziali per il mondo del lavoro: utilizzo computer, navigazione internet, gestione strumenti di produttività e comunicazione digitale.',
+      skills: ['Utilizzo PC', 'Navigazione Web', 'Suite Office', 'Email e PEC'],
+      category: 'Upskilling'
+    },
+    'Upskilling-CDP1': {
+      duration: '100 ore',
+      description: 'Competenze teorico-pratiche nella comunicazione d\'impresa e pubblicità, dai fondamenti di marketing alla gestione di campagne social media e content creation.',
+      skills: ['Social Media Marketing', 'Digital Advertising', 'Content Creation', 'Analisi Dati'],
+      category: 'Upskilling'
+    },
+    'GOL-TEPL': {
+      duration: '500 ore',
+      description: 'Elaborazione e progettazione di piani di sviluppo del territorio, definizione dell\'offerta turistica, ideazione itinerari e pacchetti, strategie di valorizzazione e promozione.',
+      skills: ['Marketing Territoriale', 'Pianificazione Turistica', 'Valorizzazione risorse', 'Promozione'],
+      category: 'Reskilling'
+    },
+    'OTDS': {
+      duration: '600 ore',
+      description: 'Progettazione di attività educative e ludiche, monitoraggio della salute e del benessere, applicazione delle procedure di cura e gestione dei rapporti con i genitori.',
+      skills: ['Pedagogia', 'Cura infanzia', 'Progettazione educativa', 'Laboratori creativi'],
+      category: 'Reskilling'
+    },
+    'Tor': {
+      duration: '600 ore',
+      description: 'Lavorazione dei metalli utilizzando il tornio, sia tradizionale che a controllo numerico computerizzato (CNC). Lettura disegno meccanico, lavorazioni complesse, regolazioni.',
+      skills: ['Tornitura tradizionale', 'Tornitura CNC', 'Disegno meccanico', 'Controllo qualità'],
+      category: 'Reskilling'
+    },
+    'GOL-OHES': {
+      duration: '600 ore',
+      description: 'Sicurezza industriale con focus sulla gestione dei rischi connessi all\'esposizione all\'idrogeno solforato (H2S). Misure preventive, apparecchiature rilevamento, gestione DPI.',
+      skills: ['Gestione rischio H2S', 'Rilevamento gas', 'DPI e APVR', 'Gestione emergenze'],
+      category: 'Reskilling'
+    },
+    'GOL-ODPE': {
+      duration: '600 ore',
+      description: 'Preparazione di vari tipi di impasti, lievitazione, cottura e confezionamento dei prodotti nell\'ambito della produzione di pasta e prodotti da forno.',
+      skills: ['Lavorazione Impasti', 'Gestione Lievitazione', 'Cottura Prodotti', 'Confezionamento'],
+      category: 'Reskilling'
+    },
+  };
+
+  // Funzione per ottenere dati statici di un corso GOL per codice
+  const getGolCourseData = (course: PathCourse) => {
+    if (course.code && golCourseDataByCode[course.code]) {
+      return golCourseDataByCode[course.code];
+    }
+    return null;
   };
 
   // Funzione per determinare la categoria di un corso GOL
   const getGolCourseCategory = (course: PathCourse): 'Upskilling' | 'Reskilling' => {
-    // Prima controlla per codice corso
-    if (course.code && golCourseCategories[course.code]) {
-      return golCourseCategories[course.code];
+    const staticData = getGolCourseData(course);
+    if (staticData) {
+      return staticData.category;
     }
     // Fallback: corsi brevi (<=100 ore) sono Upskilling, altrimenti Reskilling
     if (course.duration_hours <= 100) {
@@ -748,17 +791,19 @@ export function ProgramDetail() {
     return apiPath.courses.map((course: PathCourse) => {
       const slug = generateSlug(course.title);
       const staticData = staticCoursesMap[slug];
+      // Per i corsi GOL, usa lookup per codice corso
+      const codeData = pathCode === 'GOL' ? getGolCourseData(course) : null;
 
       // Usa dati statici come fonte principale se disponibili
       return {
         title: course.title,
-        // Preferisci ore dai dati statici se disponibili
-        duration: staticData?.duration || `${course.duration_hours} ore`,
-        description: staticData?.description || '',
-        skills: staticData?.skills || [] as string[],
+        // Preferisci ore dai dati per codice (GOL), poi statici, poi API
+        duration: codeData?.duration || staticData?.duration || `${course.duration_hours} ore`,
+        description: codeData?.description || staticData?.description || '',
+        skills: codeData?.skills || staticData?.skills || [] as string[],
         id: slug,
         code: course.code,
-        category: staticData?.category || (pathCode === 'GOL'
+        category: codeData?.category || staticData?.category || (pathCode === 'GOL'
           ? getGolCourseCategory(course)
           : pathCode === 'SPEC'
             ? 'Specializzazione'
