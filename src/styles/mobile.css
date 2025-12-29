@@ -1,0 +1,328 @@
+/**
+ * Mobile-specific styles
+ * Questo file contiene SOLO override per dispositivi mobile (< 768px)
+ * Il layout desktop rimane completamente invariato
+ */
+
+@media (max-width: 767px) {
+
+  /* ===========================================
+     HERO SECTION
+     =========================================== */
+
+  /* Titolo Hero - ridimensionamento */
+  #root section:first-of-type h1 span {
+    font-size: 48px !important;
+    line-height: 1.1 !important;
+  }
+
+  /* Carousel News - altezza ridotta */
+  #root section:first-of-type .relative.flex.justify-center.items-center {
+    height: 350px !important;
+  }
+
+  /* Card News - dimensioni ottimizzate */
+  #root section:first-of-type .relative.flex.justify-center.items-center > div > div {
+    max-width: 280px !important;
+  }
+
+  /* Card News - padding interno */
+  #root section:first-of-type .bg-white\/95 {
+    padding: 16px !important;
+  }
+
+  /* News title */
+  #root section:first-of-type .bg-white\/95 h3 {
+    font-size: 16px !important;
+    line-height: 1.3 !important;
+  }
+
+  /* News excerpt */
+  #root section:first-of-type .bg-white\/95 p {
+    font-size: 12px !important;
+    line-height: 1.4 !important;
+  }
+
+  /* ===========================================
+     HEADER / NAVIGATION
+     =========================================== */
+
+  /* Badge nel menu mobile - aumenta dimensione font */
+  nav .rounded-full[class*="text-[6px]"] {
+    font-size: 10px !important;
+    padding: 2px 6px !important;
+  }
+
+  /* Touch target minimo per menu items */
+  nav a, nav button {
+    min-height: 44px !important;
+    display: flex !important;
+    align-items: center !important;
+  }
+
+  /* ===========================================
+     COURSES SECTION
+     =========================================== */
+
+  /* Filtri corsi - layout verticale */
+  #corsi .flex.flex-wrap.justify-center {
+    flex-direction: column !important;
+    gap: 8px !important;
+  }
+
+  /* Bottoni filtro - full width su mobile */
+  #corsi .flex.flex-wrap.justify-center button {
+    width: 100% !important;
+    justify-content: center !important;
+    padding: 10px 16px !important;
+    font-size: 14px !important;
+  }
+
+  /* Icone corsi - ridimensionate */
+  #corsi .w-\[100px\],
+  #corsi .h-\[100px\] {
+    width: 48px !important;
+    height: 48px !important;
+  }
+
+  /* Container icona corso */
+  #corsi .p-10 {
+    padding: 24px !important;
+  }
+
+  /* Titolo corso nel carousel */
+  #corsi h3 {
+    font-size: 20px !important;
+    line-height: 1.2 !important;
+  }
+
+  /* Descrizione corso */
+  #corsi .text-gray-700 {
+    font-size: 14px !important;
+  }
+
+  /* CTA buttons corsi */
+  #corsi a[class*="rounded-xl"] {
+    padding: 12px 16px !important;
+    font-size: 14px !important;
+    min-height: 44px !important;
+  }
+
+  /* ===========================================
+     PROGRAMS SECTION
+     =========================================== */
+
+  /* Card programmi - padding */
+  #programmi .p-10 {
+    padding: 20px !important;
+  }
+
+  /* Icone programmi */
+  #programmi .w-20,
+  #programmi .h-20 {
+    width: 56px !important;
+    height: 56px !important;
+  }
+
+  #programmi .w-20 svg,
+  #programmi .h-20 svg {
+    width: 28px !important;
+    height: 28px !important;
+  }
+
+  /* Titoli programmi */
+  #programmi h3 {
+    font-size: 20px !important;
+  }
+
+  /* Descrizione programmi */
+  #programmi p {
+    font-size: 14px !important;
+  }
+
+  /* ===========================================
+     ABOUT SECTION
+     =========================================== */
+
+  /* Stats cards - padding */
+  #chi-siamo .p-8 {
+    padding: 16px !important;
+  }
+
+  /* Stats value */
+  #chi-siamo .text-4xl {
+    font-size: 24px !important;
+  }
+
+  /* Stats icon container */
+  #chi-siamo .w-14,
+  #chi-siamo .h-14 {
+    width: 40px !important;
+    height: 40px !important;
+  }
+
+  /* ===========================================
+     CONTACT SECTION
+     =========================================== */
+
+  /* Contact cards - padding */
+  #contatti .p-6 {
+    padding: 16px !important;
+  }
+
+  /* Contact icon container */
+  #contatti .w-14,
+  #contatti .h-14 {
+    width: 44px !important;
+    height: 44px !important;
+  }
+
+  /* Contact form container */
+  #contatti .p-10 {
+    padding: 16px !important;
+  }
+
+  /* Form title */
+  #contatti h3 {
+    font-size: 20px !important;
+  }
+
+  /* ===========================================
+     FOOTER
+     =========================================== */
+
+  /* Footer padding */
+  footer .py-16 {
+    padding-top: 40px !important;
+    padding-bottom: 40px !important;
+  }
+
+  /* Footer columns gap */
+  footer .gap-12 {
+    gap: 24px !important;
+  }
+
+  /* Footer headings */
+  footer h4 {
+    font-size: 14px !important;
+    margin-bottom: 12px !important;
+  }
+
+  /* Footer links */
+  footer ul li {
+    font-size: 12px !important;
+  }
+
+  /* Social icons */
+  footer .w-11,
+  footer .h-11 {
+    width: 40px !important;
+    height: 40px !important;
+  }
+
+  /* Accreditations - grid instead of flex */
+  footer .flex.flex-wrap.justify-center.gap-8 {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 12px !important;
+  }
+
+  /* ===========================================
+     GLOBAL MOBILE OPTIMIZATIONS
+     =========================================== */
+
+  /* Riduce blur per performance su mobile */
+  .blur-3xl {
+    filter: blur(32px) !important;
+  }
+
+  .blur-2xl {
+    filter: blur(24px) !important;
+  }
+
+  .backdrop-blur-xl {
+    backdrop-filter: blur(12px) !important;
+  }
+
+  .backdrop-blur-md {
+    backdrop-filter: blur(8px) !important;
+  }
+
+  /* Section headings - dimensioni responsive */
+  section h2 {
+    font-size: 32px !important;
+    line-height: 1.2 !important;
+  }
+
+  /* Section subheadings */
+  section > div > p.text-xl {
+    font-size: 16px !important;
+  }
+
+  /* Padding sezioni */
+  section.py-24 {
+    padding-top: 48px !important;
+    padding-bottom: 48px !important;
+  }
+
+  /* Gap grids */
+  .gap-12 {
+    gap: 24px !important;
+  }
+
+  .gap-8 {
+    gap: 16px !important;
+  }
+
+  /* Break long emails */
+  a[href^="mailto:"],
+  [class*="break-all"] {
+    word-break: break-all !important;
+  }
+}
+
+/* ===========================================
+   ACCESSIBILITY - Reduced Motion
+   =========================================== */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ===========================================
+   EXTRA SMALL SCREENS (< 375px)
+   =========================================== */
+@media (max-width: 374px) {
+
+  /* Hero title even smaller */
+  #root section:first-of-type h1 span {
+    font-size: 36px !important;
+  }
+
+  /* Stats in hero */
+  #root section:first-of-type .grid.grid-cols-3 {
+    gap: 8px !important;
+  }
+
+  #root section:first-of-type .grid.grid-cols-3 .text-2xl {
+    font-size: 18px !important;
+  }
+
+  /* Section headings */
+  section h2 {
+    font-size: 26px !important;
+  }
+
+  /* Buttons */
+  a.rounded-full,
+  button.rounded-full {
+    padding: 8px 16px !important;
+    font-size: 13px !important;
+  }
+}

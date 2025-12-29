@@ -3,6 +3,9 @@
 /* Import custom animations */
 @import './animations.css';
 
+/* Import mobile-specific styles */
+@import './mobile.css';
+
 :root {
   --font-size: 16px;
   --background: #ffffff;
