@@ -182,7 +182,7 @@ export function Hero() {
                             <div className="inline-block p-4 rounded-2xl bg-gradient-to-br from-red-600 to-red-500 shadow-lg">
                               <Newspaper className="text-white" size={32} />
                             </div>
-                            <span className="bg-gray-100 text-gray-600 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wide border border-gray-200 animate-news-badge">
+                            <span className="text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wide border animate-news-badge">
                                 NEWS
                             </span>
                         </div>
