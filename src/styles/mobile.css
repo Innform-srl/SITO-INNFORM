@@ -1,7 +1,7 @@
 /**
  * Mobile-specific styles
- * Approccio: Media Query Ranges chiusi + Interaction Media Features
- * Ogni breakpoint è isolato ("foglio bianco") senza sovrascritture a cascata
+ * Approccio: Media Query Ranges chiusi + !important per override inline styles
+ * Desktop rimane 100% invariato
  */
 
 /* ===========================================
@@ -9,57 +9,126 @@
    =========================================== */
 @media (min-width: 0px) and (max-width: 374px) {
 
-  /* Hero Title */
-  #root section:first-of-type h1 span {
-    font-size: 36px;
-    line-height: 1.1;
+  /* Hero Title - OVERRIDE INLINE STYLES */
+  section > div > div > div > h1 {
+    width: 100% !important;
+    height: auto !important;
+    position: relative !important;
+  }
+
+  section > div > div > div > h1 > span {
+    font-size: 32px !important;
+    line-height: 1.1 !important;
+    display: block !important;
+  }
+
+  section > div > div > div > h1 > div {
+    width: 100% !important;
+    height: auto !important;
+    position: relative !important;
+    top: 0 !important;
+    left: 0 !important;
+    margin-top: 8px !important;
+  }
+
+  section > div > div > div > h1 > div > span {
+    font-size: 32px !important;
+    line-height: 1.1 !important;
   }
 
   /* Hero Stats */
-  #root section:first-of-type .grid.grid-cols-3 {
-    gap: 8px;
+  .grid.grid-cols-3 .text-2xl {
+    font-size: 18px !important;
   }
 
-  #root section:first-of-type .grid.grid-cols-3 .text-2xl {
-    font-size: 18px;
+  /* Hero Carousel Container */
+  .h-\[500px\] {
+    height: 320px !important;
   }
 
-  /* Carousel Container */
-  #root section:first-of-type .relative.flex.justify-center.items-center {
-    height: 300px;
+  /* Hero Card */
+  .max-w-sm {
+    max-width: 260px !important;
   }
 
-  /* Card News */
-  #root section:first-of-type .bg-white\/95 {
-    padding: 12px;
+  .max-h-\[450px\] {
+    max-height: 280px !important;
   }
 
-  #root section:first-of-type .bg-white\/95 h3 {
-    font-size: 14px;
-    line-height: 1.3;
+  /* Hero Card Padding */
+  .rounded-3xl.p-8 {
+    padding: 12px !important;
   }
 
-  #root section:first-of-type .bg-white\/95 p {
-    font-size: 11px;
+  /* Hero Card Title */
+  .text-2xl.font-bold.text-gray-900 {
+    font-size: 14px !important;
+    line-height: 1.2 !important;
+    margin-bottom: 8px !important;
+  }
+
+  /* Hero Card Excerpt */
+  .text-gray-600.text-sm.mb-6 {
+    font-size: 11px !important;
+    margin-bottom: 12px !important;
+    -webkit-line-clamp: 2 !important;
+  }
+
+  /* Hero Card Icon Container */
+  .p-4.rounded-2xl {
+    padding: 8px !important;
+  }
+
+  /* Hero Card Icon */
+  .p-4.rounded-2xl svg {
+    width: 20px !important;
+    height: 20px !important;
+  }
+
+  /* Hero Card Checkmarks - hide on extra small */
+  .space-y-2 > .flex.items-center.gap-2.text-sm {
+    display: none !important;
   }
 
   /* Section Headings */
-  section h2 {
-    font-size: 26px;
-    line-height: 1.2;
+  .text-5xl {
+    font-size: 24px !important;
   }
 
-  /* Buttons */
-  a.rounded-full,
-  button.rounded-full {
-    padding: 8px 16px;
-    font-size: 13px;
+  .md\:text-6xl {
+    font-size: 26px !important;
   }
 
   /* Section padding */
-  section.py-24 {
-    padding-top: 40px;
-    padding-bottom: 40px;
+  .py-24 {
+    padding-top: 40px !important;
+    padding-bottom: 40px !important;
+  }
+
+  /* Buttons */
+  .px-6.py-3 {
+    padding: 10px 16px !important;
+    font-size: 14px !important;
+  }
+
+  /* Background blobs - smaller on mobile */
+  .w-\[418px\] {
+    width: 150px !important;
+  }
+  .h-\[418px\] {
+    height: 150px !important;
+  }
+  .w-\[382px\] {
+    width: 120px !important;
+  }
+  .h-\[382px\] {
+    height: 120px !important;
+  }
+  .w-\[346px\] {
+    width: 100px !important;
+  }
+  .h-\[346px\] {
+    height: 100px !important;
   }
 }
 
@@ -68,55 +137,112 @@
    =========================================== */
 @media (min-width: 375px) and (max-width: 639px) {
 
-  /* Hero Title */
-  #root section:first-of-type h1 span {
-    font-size: 42px;
-    line-height: 1.1;
+  /* Hero Title - OVERRIDE INLINE STYLES */
+  section > div > div > div > h1 {
+    width: 100% !important;
+    height: auto !important;
+    position: relative !important;
   }
 
-  /* Carousel Container */
-  #root section:first-of-type .relative.flex.justify-center.items-center {
-    height: 340px;
+  section > div > div > div > h1 > span {
+    font-size: 40px !important;
+    line-height: 1.1 !important;
+    display: block !important;
   }
 
-  /* Card News */
-  #root section:first-of-type .bg-white\/95 {
-    padding: 14px;
+  section > div > div > div > h1 > div {
+    width: 100% !important;
+    height: auto !important;
+    position: relative !important;
+    top: 0 !important;
+    left: 0 !important;
+    margin-top: 8px !important;
   }
 
-  #root section:first-of-type .bg-white\/95 h3 {
-    font-size: 15px;
-    line-height: 1.3;
+  section > div > div > div > h1 > div > span {
+    font-size: 40px !important;
+    line-height: 1.1 !important;
   }
 
-  #root section:first-of-type .bg-white\/95 p {
-    font-size: 12px;
+  /* Hero Stats */
+  .grid.grid-cols-3 .text-2xl {
+    font-size: 20px !important;
+  }
+
+  /* Hero Carousel Container */
+  .h-\[500px\] {
+    height: 360px !important;
+  }
+
+  /* Hero Card */
+  .max-w-sm {
+    max-width: 280px !important;
+  }
+
+  .max-h-\[450px\] {
+    max-height: 320px !important;
+  }
+
+  /* Hero Card Padding */
+  .rounded-3xl.p-8 {
+    padding: 16px !important;
+  }
+
+  /* Hero Card Title */
+  .text-2xl.font-bold.text-gray-900 {
+    font-size: 16px !important;
+    line-height: 1.25 !important;
+  }
+
+  /* Hero Card Excerpt */
+  .text-gray-600.text-sm.mb-6 {
+    font-size: 12px !important;
+    margin-bottom: 12px !important;
+  }
+
+  /* Hero Card Icon Container */
+  .p-4.rounded-2xl {
+    padding: 10px !important;
   }
 
   /* Section Headings */
-  section h2 {
-    font-size: 30px;
-    line-height: 1.2;
+  .text-5xl {
+    font-size: 28px !important;
   }
 
-  /* Section subheadings */
-  section > div > p.text-xl {
-    font-size: 15px;
+  .md\:text-6xl {
+    font-size: 30px !important;
   }
 
   /* Section padding */
-  section.py-24 {
-    padding-top: 44px;
-    padding-bottom: 44px;
+  .py-24 {
+    padding-top: 48px !important;
+    padding-bottom: 48px !important;
   }
 
-  /* Gaps */
-  .gap-12 {
-    gap: 20px;
+  /* Buttons */
+  .px-6.py-3 {
+    padding: 12px 20px !important;
   }
 
-  .gap-8 {
-    gap: 14px;
+  /* Background blobs */
+  .w-\[418px\] {
+    width: 180px !important;
+  }
+  .h-\[418px\] {
+    height: 180px !important;
+  }
+  .w-\[382px\] {
+    width: 150px !important;
+  }
+  .h-\[382px\] {
+    height: 150px !important;
+  }
+  .w-\[346px\] {
+    width: 130px !important;
+  }
+  .h-\[346px\] {
+    height: 130px !important;
   }
 }
 
@@ -125,40 +251,71 @@
    =========================================== */
 @media (min-width: 640px) and (max-width: 767px) {
 
-  /* Hero Title */
-  #root section:first-of-type h1 span {
-    font-size: 52px;
-    line-height: 1.1;
+  /* Hero Title - OVERRIDE INLINE STYLES */
+  section > div > div > div > h1 {
+    width: 100% !important;
+    height: auto !important;
+    position: relative !important;
   }
 
-  /* Carousel Container */
-  #root section:first-of-type .relative.flex.justify-center.items-center {
-    height: 380px;
+  section > div > div > div > h1 > span {
+    font-size: 52px !important;
+    line-height: 1.1 !important;
+    display: block !important;
   }
 
-  /* Card News */
-  #root section:first-of-type .bg-white\/95 {
-    padding: 18px;
+  section > div > div > div > h1 > div {
+    width: 100% !important;
+    height: auto !important;
+    position: relative !important;
+    top: 0 !important;
+    left: 0 !important;
+    margin-top: 8px !important;
   }
 
-  #root section:first-of-type .bg-white\/95 h3 {
-    font-size: 17px;
+  section > div > div > div > h1 > div > span {
+    font-size: 52px !important;
+    line-height: 1.1 !important;
   }
 
-  #root section:first-of-type .bg-white\/95 p {
-    font-size: 13px;
+  /* Hero Carousel Container */
+  .h-\[500px\] {
+    height: 420px !important;
+  }
+
+  /* Hero Card */
+  .max-h-\[450px\] {
+    max-height: 380px !important;
+  }
+
+  /* Hero Card Padding */
+  .rounded-3xl.p-8 {
+    padding: 20px !important;
   }
 
   /* Section Headings */
-  section h2 {
-    font-size: 36px;
-    line-height: 1.2;
+  .text-5xl {
+    font-size: 36px !important;
   }
 
   /* Section padding */
-  section.py-24 {
-    padding-top: 52px;
-    padding-bottom: 52px;
+  .py-24 {
+    padding-top: 56px !important;
+    padding-bottom: 56px !important;
+  }
+
+  /* Background blobs */
+  .w-\[418px\] {
+    width: 250px !important;
+  }
+  .h-\[418px\] {
+    height: 250px !important;
+  }
+  .w-\[382px\] {
+    width: 220px !important;
+  }
+  .h-\[382px\] {
+    height: 220px !important;
   }
 }
 
@@ -169,157 +326,170 @@
 
   /* --- HEADER / NAVIGATION --- */
 
-  /* Badge nel menu mobile */
-  nav .rounded-full[class*="text-[6px]"] {
-    font-size: 10px;
-    padding: 2px 6px;
+  /* Badge nel menu mobile - text-[6px] fix */
+  .text-\[6px\] {
+    font-size: 10px !important;
+    padding: 2px 8px !important;
   }
 
   /* --- COURSES SECTION --- */
 
-  /* Filtri corsi */
-  #corsi .flex.flex-wrap.justify-center {
-    flex-direction: column;
-    gap: 8px;
+  /* Course icons */
+  .w-\[100px\] {
+    width: 56px !important;
+  }
+  .h-\[100px\] {
+    height: 56px !important;
   }
 
-  #corsi .flex.flex-wrap.justify-center button {
-    width: 100%;
-    justify-content: center;
-    padding: 10px 16px;
-    font-size: 14px;
-  }
-
-  /* Icone corsi */
-  #corsi .w-\[100px\],
-  #corsi .h-\[100px\] {
-    width: 48px;
-    height: 48px;
-  }
-
+  /* Course icon container */
   #corsi .p-10 {
-    padding: 24px;
+    padding: 20px !important;
   }
 
-  #corsi h3 {
-    font-size: 20px;
-    line-height: 1.2;
+  /* Course title in carousel */
+  #corsi .text-5xl {
+    font-size: 22px !important;
   }
 
-  #corsi .text-gray-700 {
-    font-size: 14px;
+  /* Course description */
+  #corsi .text-xl {
+    font-size: 14px !important;
   }
 
   /* --- PROGRAMS SECTION --- */
 
   #programmi .p-10 {
-    padding: 20px;
+    padding: 20px !important;
   }
 
-  #programmi .w-20,
+  #programmi .w-20 {
+    width: 56px !important;
+  }
   #programmi .h-20 {
-    width: 56px;
-    height: 56px;
+    height: 56px !important;
   }
 
-  #programmi h3 {
-    font-size: 20px;
+  #programmi .text-3xl {
+    font-size: 20px !important;
   }
 
-  #programmi p {
-    font-size: 14px;
+  #programmi .text-lg {
+    font-size: 14px !important;
   }
 
   /* --- ABOUT SECTION --- */
 
   #chi-siamo .p-8 {
-    padding: 16px;
+    padding: 16px !important;
   }
 
   #chi-siamo .text-4xl {
-    font-size: 24px;
+    font-size: 22px !important;
   }
 
-  #chi-siamo .w-14,
+  #chi-siamo .w-14 {
+    width: 40px !important;
+  }
   #chi-siamo .h-14 {
-    width: 40px;
-    height: 40px;
+    height: 40px !important;
+  }
+
+  #chi-siamo .text-3xl {
+    font-size: 22px !important;
+  }
+
+  #chi-siamo .text-lg {
+    font-size: 14px !important;
   }
 
   /* --- CONTACT SECTION --- */
 
   #contatti .p-6 {
-    padding: 16px;
+    padding: 16px !important;
   }
 
-  #contatti .w-14,
+  #contatti .w-14 {
+    width: 44px !important;
+  }
   #contatti .h-14 {
-    width: 44px;
-    height: 44px;
+    height: 44px !important;
   }
 
   #contatti .p-10 {
-    padding: 16px;
+    padding: 20px !important;
   }
 
-  #contatti h3 {
-    font-size: 20px;
+  #contatti .text-3xl {
+    font-size: 22px !important;
   }
 
   /* --- FOOTER --- */
 
   footer .py-16 {
-    padding-top: 40px;
-    padding-bottom: 40px;
+    padding-top: 40px !important;
+    padding-bottom: 40px !important;
   }
 
   footer .gap-12 {
-    gap: 24px;
+    gap: 24px !important;
   }
 
-  footer h4 {
-    font-size: 14px;
-    margin-bottom: 12px;
+  footer .text-lg {
+    font-size: 14px !important;
   }
 
-  footer ul li {
-    font-size: 12px;
+  footer .w-11 {
+    width: 40px !important;
   }
-
-  footer .w-11,
   footer .h-11 {
-    width: 40px;
-    height: 40px;
+    height: 40px !important;
   }
 
-  footer .flex.flex-wrap.justify-center.gap-8 {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
+  /* Accreditations grid */
+  footer .gap-8.text-sm {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 12px !important;
+  }
+
+  /* --- GLOBAL TYPOGRAPHY --- */
+
+  .text-xl {
+    font-size: 16px !important;
   }
 
   /* --- PERFORMANCE OPTIMIZATIONS --- */
 
   .blur-3xl {
-    filter: blur(32px);
+    filter: blur(32px) !important;
   }
 
   .blur-2xl {
-    filter: blur(24px);
+    filter: blur(24px) !important;
   }
 
   .backdrop-blur-xl {
-    backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px) !important;
   }
 
   .backdrop-blur-md {
-    backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px) !important;
   }
 
   /* Break long emails */
-  a[href^="mailto:"],
-  [class*="break-all"] {
-    word-break: break-all;
+  a[href^="mailto:"] {
+    word-break: break-all !important;
+  }
+
+  /* Hide scroll indicator on mobile */
+  .absolute.bottom-10.left-1\/2 {
+    display: none !important;
+  }
+
+  /* Reduce floating particles on mobile */
+  .absolute.w-2.h-2.bg-white.rounded-full.opacity-20:nth-child(n+10) {
+    display: none !important;
   }
 }
 
@@ -332,40 +502,38 @@
 @media (pointer: coarse) {
   nav a,
   nav button,
-  a.rounded-full,
-  button.rounded-full,
-  #corsi a[class*="rounded-xl"],
-  footer a {
-    min-height: 44px;
-    min-width: 44px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
+  .rounded-full,
+  .rounded-xl {
+    min-height: 44px !important;
   }
 
-  /* Larger spacing for touch */
+  /* Larger spacing for touch navigation */
   nav .space-y-2 > * {
-    margin-top: 8px;
-    margin-bottom: 8px;
+    padding-top: 12px !important;
+    padding-bottom: 12px !important;
   }
 }
 
-/* Devices without hover - remove hover effects to avoid "sticky hover" */
+/* Devices without hover - prevent sticky hover */
 @media (hover: none) {
   .hover\:scale-105:hover,
   .hover\:scale-110:hover,
   .hover\:-translate-y-1:hover,
   .hover\:-translate-y-2:hover {
-    transform: none;
+    transform: none !important;
   }
 
   .hover\:shadow-xl:hover,
   .hover\:shadow-2xl:hover {
-    box-shadow: inherit;
+    box-shadow: inherit !important;
   }
 
   .group:hover .group-hover\:opacity-100 {
-    opacity: 0;
+    opacity: 0 !important;
+  }
+
+  .group:hover .group-hover\:text-white {
+    color: inherit !important;
   }
 }
 
@@ -380,5 +548,10 @@
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+
+  .animate-blob,
+  .animate-bounce {
+    animation: none !important;
   }
 }
