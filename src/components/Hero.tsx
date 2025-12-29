@@ -179,7 +179,7 @@ export function Hero() {
                     <div className="bg-white/95 backdrop-blur-xl rounded-3xl p-8 shadow-2xl border border-white/20 h-full flex flex-col justify-between">
                       <div>
                         <div className="flex justify-between items-start mb-6">
-                            <div className="inline-block p-4 rounded-2xl bg-gradient-to-br from-red-600 to-red-500 shadow-lg">
+                            <div className="inline-block p-4 rounded-2xl bg-gradient-to-br from-red-600 to-red-500 shadow-lg animate-news-icon">
                               <Newspaper className="text-white" size={32} />
                             </div>
                             <span className="text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wide border animate-news-badge">
