@@ -706,6 +706,30 @@ export function ProgramDetail() {
     return paths.find(p => p.code === pathCode) || null;
   }, [pathCode, paths]);
 
+  // Mappa codici corso -> categoria per GOL
+  const golCourseCategories: Record<string, 'Upskilling' | 'Reskilling'> = {
+    'GOL-COMDIG': 'Upskilling',      // Competenze Digitali - 60 ore
+    'Upskilling-CDP1': 'Upskilling', // Pubblicità e Comunicazione Digitale - 100 ore
+    'GOL-TEPL': 'Reskilling',        // Tecnico Sviluppo Turistico - 500 ore
+    'OTDS': 'Reskilling',            // Sistema Educativo Prima Infanzia - 600 ore
+    'Tor': 'Reskilling',             // Operatore Tornitura - 600 ore
+    'GOL-OHES': 'Reskilling',        // Operatore H2S e Sicurezza - 600 ore
+    'GOL-ODPE': 'Reskilling',        // Operatore Panificazione - 600 ore
+  };
+
+  // Funzione per determinare la categoria di un corso GOL
+  const getGolCourseCategory = (course: PathCourse): 'Upskilling' | 'Reskilling' => {
+    // Prima controlla per codice corso
+    if (course.code && golCourseCategories[course.code]) {
+      return golCourseCategories[course.code];
+    }
+    // Fallback: corsi brevi (<=100 ore) sono Upskilling, altrimenti Reskilling
+    if (course.duration_hours <= 100) {
+      return 'Upskilling';
+    }
+    return 'Reskilling';
+  };
+
   // Converti i corsi dall'API nel formato usato dalla UI
   const apiCourses = useMemo(() => {
     if (!apiPath?.courses) return [];
@@ -718,7 +742,7 @@ export function ProgramDetail() {
       id: generateSlug(course.title),
       code: course.code, // Utile per eventuale mapping futuro
       category: pathCode === 'GOL'
-        ? (course.title.toLowerCase().includes('upskilling') ? 'Upskilling' : 'Reskilling')
+        ? getGolCourseCategory(course)
         : pathCode === 'SPEC'
           ? 'Specializzazione'
           : undefined,
