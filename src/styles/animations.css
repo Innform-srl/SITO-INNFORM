@@ -536,3 +536,21 @@
 .animate-ken-burns {
   animation: kenBurns 20s ease-in-out infinite;
 }
+
+/* News Badge Pulse - White to Red */
+@keyframes newsBadgePulse {
+  0%, 100% {
+    background-color: #f3f4f6;
+    color: #4b5563;
+    border-color: #e5e7eb;
+  }
+  50% {
+    background-color: #fee2e2;
+    color: #dc2626;
+    border-color: #fecaca;
+  }
+}
+
+.animate-news-badge {
+  animation: newsBadgePulse 2.5s ease-in-out infinite;
+}
