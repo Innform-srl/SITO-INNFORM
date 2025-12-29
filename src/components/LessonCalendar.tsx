@@ -372,29 +372,60 @@ export function LessonCalendar({
         /* Responsive */
         @media (max-width: 768px) {
           .calendar-container {
-            height: auto;
-            max-height: 545px;
+            height: 400px;
+            max-height: 400px;
+            overflow: hidden;
           }
 
           .lessons-wrapper {
             width: 100%;
-            padding: 24px 16px;
+            padding: 16px;
+            height: 100%;
+            overflow: hidden;
           }
 
           .calendar-header {
             flex-direction: column;
             align-items: flex-start;
+            margin-bottom: 16px;
           }
 
           .header-title {
-            font-size: 20px;
-            line-height: 28px;
+            font-size: 18px;
+            line-height: 24px;
+          }
+
+          .icon-badge {
+            width: 40px;
+            height: 40px;
+            padding: 8px;
+          }
+
+          .icon-badge svg {
+            width: 20px;
+            height: 20px;
+          }
+
+          .lessons-count-badge {
+            padding: 6px 12px;
+          }
+
+          .lessons-count-badge span {
+            font-size: 12px;
+          }
+
+          .lessons-scroll-area {
+            flex: 1;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            padding-bottom: 24px;
           }
 
           .lesson-card {
             flex-direction: column;
             align-items: flex-start;
             padding: 12px;
+            min-height: auto;
           }
 
           .date-box {
@@ -402,23 +433,46 @@ export function LessonCalendar({
             flex-direction: row;
             justify-content: center;
             gap: 8px;
+            padding: 6px 0;
+          }
+
+          .day-number {
+            font-size: 16px;
           }
 
           .month-year {
             margin-top: 0;
           }
 
+          .month-text {
+            font-size: 9px;
+          }
+
           .content-row {
             flex-direction: column;
             align-items: flex-start;
+            gap: 6px;
+          }
+
+          .lesson-title {
+            font-size: 14px;
+            line-height: 20px;
           }
 
           .time-badge {
             align-self: flex-start;
           }
 
+          .lesson-description {
+            font-size: 11px;
+          }
+
           .decorative-blur {
             display: none;
+          }
+
+          .gradient-fade {
+            height: 24px;
           }
         }
       `}</style>
