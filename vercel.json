@@ -2,11 +2,11 @@
   "rewrites": [
     {
       "source": "/lms/:path*",
-      "destination": "https://lms-innform-3re8k5avz-innformsrl.vercel.app/lms/:path*"
+      "destination": "https://lms-innform.vercel.app/lms/:path*"
     },
     {
       "source": "/lms",
-      "destination": "https://lms-innform-3re8k5avz-innformsrl.vercel.app/lms"
+      "destination": "https://lms-innform.vercel.app/lms/it"
     },
     {
       "source": "/((?!assets|lms|.*\\.js|.*\\.css|.*\\.ico|.*\\.png|.*\\.jpg|.*\\.webp|.*\\.svg|.*\\.xml|.*\\.txt).*)",
