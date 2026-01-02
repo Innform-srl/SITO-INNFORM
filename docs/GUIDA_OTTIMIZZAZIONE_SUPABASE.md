@@ -4,9 +4,9 @@ Questa guida descrive le ottimizzazioni implementate per ridurre il consumo di e
 
 ---
 
-## Aggiornamento 30/12/2025 ore 14:30 - Stato Implementazione
+## Aggiornamento 30/12/2025 ore 14:30 - Implementazione COMPLETATA ✅
 
-### Problema CORS risolto ✅
+### Problema CORS risolto
 
 Il sito non caricava i corsi a causa di un errore CORS:
 ```
@@ -19,31 +19,21 @@ Request header field cache-control is not allowed by Access-Control-Allow-Header
 - Rimossi gli header `Cache-Control` e `Pragma` dalle richieste
 - Il bypass della cache ora funziona tramite parametro `_t` nell'URL
 
-### Refetch dopo broadcast ✅ IMPLEMENTATO
+### Modifiche implementate lato EduPlan (COMPLETATO ✅)
 
-Il sito **GIA' implementa** il refetch automatico dopo aver ricevuto un broadcast.
+**1. Supporto parametro `_t` per cache bust** ✅ IMPLEMENTATO
+- La Edge Function `public-courses-api` ora riconosce il parametro `_t`
+- Se presente, restituisce `Cache-Control: no-cache, no-store, must-revalidate`
+- Se assente, permette caching CDN per 60 secondi
+- Il campo `meta.fresh` indica se i dati sono stati forzati freschi
 
-**File:** `src/hooks/useRealtimeCourses.ts`
+**2. CORS headers corretti** ✅ GIA' FUNZIONANTE
 
-Il flusso funziona cosi':
-1. Broadcast ricevuto → log: `[Realtime] Ricevuto evento courses:updated`
-2. Cache invalidata → `invalidateCache()`
-3. Delay 1 secondo (per propagazione database)
-4. Refetch con `forceRefresh=true` → aggiunge `?_t=timestamp` all'URL
-5. API chiamata → log: `[useRealtimeCourses] fetchCourses chiamato con forceRefresh: true`
-6. State aggiornato → log: `[useRealtimeCourses] Aggiorno state con X corsi`
-
-### Se i dati non si aggiornano, verificare:
-
-1. **Console browser**: Devono apparire TUTTI i log sopra indicati
-2. **Edge Function EduPlan**: Deve riconoscere `_t` e bypassare cache (vedi `meta.fresh: true`)
-3. **Delay database**: Se i dati sono ancora vecchi, aumentare il delay nel sito
-
-### Implementazione EduPlan (vedi docs/GUIDA_OTTIMIZZAZIONE_SUPABASE.md)
-
-- ✅ Supporto parametro `_t` per cache bust
-- ✅ CORS headers corretti
-- ✅ Broadcast Realtime dopo modifiche corsi/edizioni/lezioni
+**3. Broadcast Realtime dopo modifiche** ✅ IMPLEMENTATO
+- `courseService.ts`: broadcast su create/update/delete corso
+- `lessonService.ts`: broadcast su create/update/delete lezione
+- `EditionModal.tsx`: broadcast su create/update/delete edizione
+- `projectService.ts`: broadcast su update percorsi formativi
 
 ---
 
@@ -460,14 +450,14 @@ await supabase.channel('public-data').send({
 [Sito aggiorna UI istantaneamente]
 ```
 
-### 6. Checklist Implementazione EduPlan
+### 6. Checklist Implementazione EduPlan (COMPLETATA ✅)
 
-- [ ] Aggiungere gestione parametro `_t` nella Edge Function
-- [ ] Aggiungere CORS headers corretti (specialmente handler OPTIONS)
-- [ ] Implementare broadcast Realtime dopo ogni modifica corso
-- [ ] Implementare broadcast per modifiche edizioni
-- [ ] Implementare broadcast per modifiche calendario lezioni
-- [ ] Testare flusso completo con DevTools aperto
+- [x] Aggiungere gestione parametro `_t` nella Edge Function ✅ (30/12/2025)
+- [x] Aggiungere CORS headers corretti (specialmente handler OPTIONS) ✅
+- [x] Implementare broadcast Realtime dopo ogni modifica corso ✅ (courseService.ts)
+- [x] Implementare broadcast per modifiche edizioni ✅ (EditionModal.tsx)
+- [x] Implementare broadcast per modifiche calendario lezioni ✅ (lessonService.ts)
+- [ ] Testare flusso completo con DevTools aperto (richiede fix lato sito - vedi GUIDA_REALTIME)
 
 ### 7. Debug Realtime
 
@@ -487,5 +477,5 @@ Se non appaiono questi log:
 ---
 
 *Guida creata il 26/12/2025 per progetto Innform.eu*
-*Aggiornata il 30/12/2025 con sezione EduPlan e Realtime*
+*Aggiornata il 30/12/2025 ore 14:30 - Implementazione EduPlan COMPLETATA*
 *Applicabile a qualsiasi progetto React/Vite con Supabase e Vercel*

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { Microscope, Droplet, FlaskConical, BookOpen, ChevronLeft, ChevronRight, Clock, Award, TrendingUp, Users, Settings, AlertTriangle, ShoppingBag, Megaphone, Croissant, Eye, Filter, GraduationCap, Target, LayoutGrid, Layers, Monitor, Loader2 } from 'lucide-react';
-import { usePublicCourses } from '../hooks/usePublicCourses';
+import { useRealtimeCourses } from '../hooks/useRealtimeCourses';
 import type { CoursePublicData } from '../types/courses-public';
 import type { LucideIcon } from 'lucide-react';
 
@@ -165,8 +165,8 @@ export function Courses() {
   const [activeFilter, setActiveFilter] = useState<FilterType>('tutti');
   const [viewMode, setViewMode] = useState<ViewMode>('carousel');
 
-  // Fetch corsi dall'API
-  const { courses: apiCourses, loading, error } = usePublicCourses();
+  // Fetch corsi dall'API con Realtime
+  const { courses: apiCourses, loading, error, isRealtime, connectionStatus } = useRealtimeCourses();
 
   // Trasforma i corsi API nel formato per il componente
   const courses = useMemo(() => {
@@ -263,6 +263,13 @@ export function Courses() {
           <p className="text-xl text-gray-600 max-w-2xl mx-auto">
             Certificazioni riconosciute, docenti esperti e laboratori all&apos;avanguardia
           </p>
+          {/* Indicatore stato connessione Realtime (discreto) */}
+          {connectionStatus === 'connected' && (
+            <p className="text-xs text-green-500 mt-2 flex items-center justify-center gap-1">
+              <span className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse"></span>
+              Aggiornamenti live attivi
+            </p>
+          )}
         </div>
 
         {/* Filter Buttons */}

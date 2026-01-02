@@ -28,12 +28,14 @@ const CONFIG = {
   CACHE_TIME: 300000, // 5 minuti - compromesso tra reattività e risparmio egress
 };
 
-// Cache semplice in memoria
+// Cache semplice in memoria con versioning per gestire invalidazioni
 interface CacheEntry {
   data: CoursesApiResponse;
   timestamp: number;
+  version: number;  // Versione della cache quando l'entry è stata creata
 }
 const cache = new Map<string, CacheEntry>();
+let cacheVersion = 0;  // Incrementato ad ogni invalidateCache()
 
 const log = (message: string, data?: any) => {
   if (CONFIG.DEBUG) {
@@ -49,16 +51,17 @@ const getCacheKey = (params?: CoursesQueryParams): string => {
 };
 
 /**
- * Verifica se la cache e' valida
+ * Verifica se la cache e' valida (tempo + versione)
  */
 const isCacheValid = (entry: CacheEntry): boolean => {
-  return Date.now() - entry.timestamp < CONFIG.CACHE_TIME;
+  // La cache è valida solo se non è scaduta E ha la versione corrente
+  return Date.now() - entry.timestamp < CONFIG.CACHE_TIME && entry.version === cacheVersion;
 };
 
 /**
  * Costruisce l'URL con i parametri
  */
-const buildUrl = (params?: CoursesQueryParams): string => {
+const buildUrl = (params?: CoursesQueryParams, bustCache = false): string => {
   const url = new URL(API_BASE);
 
   if (params) {
@@ -70,6 +73,11 @@ const buildUrl = (params?: CoursesQueryParams): string => {
     if (params.type) url.searchParams.set('type', params.type);
     if (params.limit) url.searchParams.set('limit', String(params.limit));
     if (params.offset) url.searchParams.set('offset', String(params.offset));
+  }
+
+  // Aggiungi timestamp per bypassare cache HTTP quando richiesto
+  if (bustCache) {
+    url.searchParams.set('_t', String(Date.now()));
   }
 
   return url.toString();
@@ -89,6 +97,7 @@ async function fetchWithRetry(url: string, retries = CONFIG.RETRY_COUNT): Promis
           'apikey': SUPABASE_ANON_KEY,
           'Content-Type': 'application/json',
         },
+        // Cache bypass gestito lato server con parametro _t nell'URL
       });
 
       if (!response.ok) {
@@ -139,6 +148,7 @@ export async function getCourses(options?: {
   };
 
   const cacheKey = getCacheKey(params);
+  const requestVersion = cacheVersion;
 
   // Controlla cache (se non forceRefresh)
   if (!options?.forceRefresh) {
@@ -149,11 +159,13 @@ export async function getCourses(options?: {
     }
   }
 
-  const url = buildUrl(params);
+  const url = buildUrl(params, options?.forceRefresh);
   const data = await fetchWithRetry(url);
 
-  // Salva in cache
-  cache.set(cacheKey, { data, timestamp: Date.now() });
+  // Salva in cache SOLO se la versione non è cambiata durante la fetch
+  if (requestVersion === cacheVersion) {
+    cache.set(cacheKey, { data, timestamp: Date.now(), version: cacheVersion });
+  }
 
   return data;
 }
@@ -163,6 +175,7 @@ export async function getCourses(options?: {
  */
 export async function getCourseById(id: string, forceRefresh = false): Promise<CoursePublicData | null> {
   const cacheKey = getCacheKey({ id });
+  const requestVersion = cacheVersion;
 
   if (!forceRefresh) {
     const cached = cache.get(cacheKey);
@@ -173,10 +186,12 @@ export async function getCourseById(id: string, forceRefresh = false): Promise<C
     }
   }
 
-  const url = buildUrl({ id });
+  const url = buildUrl({ id }, forceRefresh);
   const response = await fetchWithRetry(url);
 
-  cache.set(cacheKey, { data: response, timestamp: Date.now() });
+  if (requestVersion === cacheVersion) {
+    cache.set(cacheKey, { data: response, timestamp: Date.now(), version: cacheVersion });
+  }
 
   const data = response.data;
   return Array.isArray(data) ? data[0] || null : data;
@@ -188,6 +203,7 @@ export async function getCourseById(id: string, forceRefresh = false): Promise<C
  */
 export async function getCourseByCode(code: string, forceRefresh = false): Promise<CoursePublicData | null> {
   const cacheKey = getCacheKey({ code });
+  const requestVersion = cacheVersion;
 
   if (!forceRefresh) {
     const cached = cache.get(cacheKey);
@@ -198,10 +214,12 @@ export async function getCourseByCode(code: string, forceRefresh = false): Promi
     }
   }
 
-  const url = buildUrl({ code });
+  const url = buildUrl({ code }, forceRefresh);
   const response = await fetchWithRetry(url);
 
-  cache.set(cacheKey, { data: response, timestamp: Date.now() });
+  if (requestVersion === cacheVersion) {
+    cache.set(cacheKey, { data: response, timestamp: Date.now(), version: cacheVersion });
+  }
 
   const data = response.data;
   return Array.isArray(data) ? data[0] || null : data;
@@ -214,31 +232,47 @@ export async function getCourseByCode(code: string, forceRefresh = false): Promi
  */
 export async function getCourseBySlug(slug: string, forceRefresh = false): Promise<CoursePublicData | null> {
   const cacheKey = getCacheKey({ slug });
+  // Cattura la versione all'inizio - se cambia durante la fetch, non salviamo dati stale
+  const requestVersion = cacheVersion;
 
   if (!forceRefresh) {
     const cached = cache.get(cacheKey);
     if (cached && isCacheValid(cached)) {
       log('Corso da cache (slug)');
       const data = cached.data.data;
-      return Array.isArray(data) ? data[0] || null : data;
+      const result = Array.isArray(data) ? data[0] || null : data;
+      console.log('[PublicCoursesAPI] getCourseBySlug DA CACHE:', slug, '- edizioni:', result?.editions?.length || 0);
+      return result;
     }
   }
 
-  const url = buildUrl({ slug });
+  console.log('[PublicCoursesAPI] getCourseBySlug FETCH NETWORK:', slug, '- forceRefresh:', forceRefresh);
+  const url = buildUrl({ slug }, forceRefresh);
   const response = await fetchWithRetry(url);
 
-  cache.set(cacheKey, { data: response, timestamp: Date.now() });
+  // Salva in cache SOLO se la versione non è cambiata durante la fetch
+  // Questo previene che dati vecchi (da richieste pre-invalidazione) sovrascrivano dati freschi
+  if (requestVersion === cacheVersion) {
+    cache.set(cacheKey, { data: response, timestamp: Date.now(), version: cacheVersion });
+  } else {
+    console.log('[PublicCoursesAPI] Skip cache save - versione cambiata durante fetch (', requestVersion, '->', cacheVersion, ')');
+  }
 
   const data = response.data;
-  return Array.isArray(data) ? data[0] || null : data;
+  const result = Array.isArray(data) ? data[0] || null : data;
+  console.log('[PublicCoursesAPI] getCourseBySlug RISULTATO:', slug, '- edizioni:', result?.editions?.length || 0, '- fresh:', response.meta?.fresh);
+  return result;
 }
 
 /**
- * Invalida la cache (utile dopo un'iscrizione)
+ * Invalida la cache (utile dopo un'iscrizione o aggiornamento realtime)
+ * Incrementa la versione per invalidare anche le entry che verranno scritte
+ * da richieste in flight che erano partite prima dell'invalidazione
  */
 export function invalidateCache(): void {
+  cacheVersion++;  // Incrementa versione - tutte le entry esistenti diventeranno invalide
   cache.clear();
-  log('Cache invalidata');
+  console.log('[PublicCoursesAPI] Cache invalidata, nuova versione:', cacheVersion);
 }
 
 /**

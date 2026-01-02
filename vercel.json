@@ -1,13 +1,17 @@
 {
-  "rewrites": [
-    {
-      "source": "/lms/:path*",
-      "destination": "https://lms-innform.vercel.app/lms/:path*"
-    },
+  "redirects": [
     {
       "source": "/lms",
-      "destination": "https://lms-innform.vercel.app/lms/it"
+      "destination": "https://lms-innform.vercel.app/lms/it",
+      "permanent": false
     },
+    {
+      "source": "/lms/:path*",
+      "destination": "https://lms-innform.vercel.app/lms/:path*",
+      "permanent": false
+    }
+  ],
+  "rewrites": [
     {
       "source": "/((?!assets|lms|.*\\.js|.*\\.css|.*\\.ico|.*\\.png|.*\\.jpg|.*\\.webp|.*\\.svg|.*\\.xml|.*\\.txt).*)",
       "destination": "/index.html"

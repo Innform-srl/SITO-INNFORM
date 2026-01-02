@@ -2,8 +2,8 @@ import React, { useState, useEffect, useMemo } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Menu, X, ChevronDown, ChevronRight } from "lucide-react";
 import logoInnform from "figma:asset/257bd345173d057a2c6124b55493bdfdbcf0c984.png";
-import { usePublicPaths } from "../hooks/usePublicPaths";
-import { usePublicCourses } from "../hooks/usePublicCourses";
+import { useRealtimePaths } from "../hooks/useRealtimePaths";
+import { useRealtimeCourses } from "../hooks/useRealtimeCourses";
 
 // Helper per determinare il badge di un corso GOL
 function getGolBadge(courseCode: string): string | undefined {
@@ -23,9 +23,9 @@ export function Header() {
   const [activeSubmenu, setActiveSubmenu] = useState<string | null>(null);
   const location = useLocation();
 
-  // Fetch percorsi e corsi dalle API
-  const { paths, loading: pathsLoading } = usePublicPaths();
-  const { courses, loading: coursesLoading } = usePublicCourses();
+  // Fetch percorsi e corsi dalle API con Realtime
+  const { paths, loading: pathsLoading } = useRealtimePaths();
+  const { courses, loading: coursesLoading } = useRealtimeCourses();
 
   const getHref = (path: string) => {
     if (location.pathname === '/' && path.startsWith('/#')) {

@@ -8,7 +8,7 @@ import {
 } from 'lucide-react';
 import { ImageWithFallback } from './figma/ImageWithFallback';
 import { InfiniteCarousel } from './InfiniteCarousel';
-import { usePublicPaths } from '../hooks/usePublicPaths';
+import { useRealtimePaths } from '../hooks/useRealtimePaths';
 import { PathCourse } from '../services/public-paths-api';
 import { SEOHead, CourseSchema } from './SEOHead';
 
@@ -696,8 +696,8 @@ export function ProgramDetail() {
   const program = programId ? programsData[programId] : null;
   const [visibleSections, setVisibleSections] = useState<Set<string>>(new Set());
 
-  // Fetch percorsi dall'API
-  const { paths, loading: pathsLoading } = usePublicPaths();
+  // Fetch percorsi dall'API con Realtime
+  const { paths, loading: pathsLoading } = useRealtimePaths();
 
   // Trova il percorso corrispondente dall'API
   const pathCode = programId ? programIdToPathCode[programId] : null;

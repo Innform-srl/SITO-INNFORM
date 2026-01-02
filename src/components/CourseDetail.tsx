@@ -12,7 +12,8 @@ import { CourseCarousel } from './CourseCarousel';
 import { EnrollmentForm } from './EduPlanForms';
 import { SEOHead, CourseSchema, FAQSchema } from './SEOHead';
 // Integrazione dati live EduPlan
-import { usePublicCourse, useInvalidateCoursesCache, useCourseLessons } from '../hooks/usePublicCourses';
+import { useRealtimeCourse } from '../hooks/useRealtimeCourses';
+import { useInvalidateCoursesCache, useCourseLessons } from '../hooks/usePublicCourses';
 import { LessonCalendar } from './LessonCalendar';
 import {
   CourseBadgesDisplay,
@@ -861,11 +862,21 @@ export function CourseDetail() {
     course: liveData,
     loading: liveLoading,
     lastUpdated,
-  } = usePublicCourse({
+    isRealtime,
+  } = useRealtimeCourse({
     slug: courseId || undefined,  // Usa slug (website_slug) invece di code
-    pollingInterval: 60000, // Aggiorna ogni minuto
     enabled: !!courseId,
   });
+
+  // DEBUG: log quando liveData cambia
+  useEffect(() => {
+    console.log('[CourseDetail] liveData CAMBIATO:', {
+      id: liveData?.id,
+      editionsCount: liveData?.editions?.length || 0,
+      editionIds: liveData?.editions?.map(e => e.id) || [],
+      lastUpdated: lastUpdated?.toISOString(),
+    });
+  }, [liveData, lastUpdated]);
 
   // Dati statici del corso (cerca per CODICE corso - stabile anche se il titolo cambia)
   // Questo permette di rinominare i corsi su EduPlan senza perdere i dati presentazionali
@@ -900,7 +911,7 @@ export function CourseDetail() {
       bgGradient: staticCourse?.bgGradient || defaultBgGradient,
       icon: staticCourse?.icon || 'BookOpen',
       skills: staticCourse?.skills || [],
-      price: staticCourse?.price || (liveData.price > 0 ? `€${liveData.price.toFixed(2)}` : 'Contattaci'),
+      price: liveData.price > 0 ? `€${liveData.price.toFixed(2)}` : (staticCourse?.price || 'Contattaci'),
       startDate: staticCourse?.startDate || (liveData.start_date ? new Date(liveData.start_date).toLocaleDateString('it-IT') : 'Da definire'),
       location: staticCourse?.location || liveData.location || 'Potenza',
       heroImage: staticCourse?.heroImage || defaultHeroImage,
@@ -931,20 +942,23 @@ export function CourseDetail() {
   // Stato per l'edizione selezionata nelle tab
   const [selectedEdition, setSelectedEdition] = useState<CourseEdition | null>(null);
 
-  // Hook per calendario lezioni - NON passare editionId per mostrare TUTTE le lezioni del corso
+  // Hook per calendario lezioni - filtra per edizione selezionata
   const {
     lessons,
   } = useCourseLessons({
     courseId: liveData?.id,
-    // editionId rimosso intenzionalmente - il calendario mostra tutte le lezioni del corso
+    editionId: selectedEdition?.id,  // Mostra solo le lezioni dell'edizione selezionata
     pollingInterval: 60000,
-    enabled: !!liveData?.id,
+    enabled: !!liveData?.id && !!selectedEdition?.id,
   });
 
   // Calcola edizioni ordinate (stessa logica di EditionsList)
+  // NOTA: usiamo liveData come dipendenza (non solo editions) per forzare ricalcolo
+  // quando il corso viene aggiornato via Realtime (structuredClone crea nuovo riferimento)
   const sortedEditions = useMemo(() => {
+    console.log('[CourseDetail] useMemo sortedEditions RICALCOLO - liveData.editions:', liveData?.editions?.length || 0, '- liveData.id:', liveData?.id);
     if (!liveData?.editions || liveData.editions.length === 0) return [];
-    return [...liveData.editions].sort((a, b) => {
+    const sorted = [...liveData.editions].sort((a, b) => {
       if (a.badges.sold_out && !b.badges.sold_out) return 1;
       if (!a.badges.sold_out && b.badges.sold_out) return -1;
       const deadlineA = a.enrollment_deadline ? new Date(a.enrollment_deadline).getTime() : Infinity;
@@ -952,33 +966,65 @@ export function CourseDetail() {
       if (deadlineA !== deadlineB) return deadlineA - deadlineB;
       return new Date(a.start_date).getTime() - new Date(b.start_date).getTime();
     });
-  }, [liveData?.editions]);
+    console.log('[CourseDetail] useMemo sortedEditions RISULTATO:', sorted.length, 'ids:', sorted.map(e => e.id.slice(0,8)));
+    return sorted;
+  }, [liveData]);  // Cambiato: usa liveData intero come dipendenza
 
   // Imposta edizione di default quando arrivano i dati
+  // E aggiorna l'edizione selezionata quando i dati cambiano (es. via Realtime)
   useEffect(() => {
-    if (sortedEditions.length > 0 && !selectedEdition) {
-      const defaultEdition = sortedEditions.find(ed => !ed.badges.sold_out && ed.is_enrollments_open) || sortedEditions[0];
-      setSelectedEdition(defaultEdition);
+    console.log('[CourseDetail] sortedEditions aggiornate:', sortedEditions.length, 'edizioni');
+
+    if (sortedEditions.length > 0) {
+      if (!selectedEdition) {
+        // Prima volta: seleziona l'edizione di default
+        const defaultEdition = sortedEditions.find((ed: CourseEdition) => !ed.badges.sold_out && ed.is_enrollments_open) || sortedEditions[0];
+        console.log('[CourseDetail] Seleziono edizione default:', defaultEdition?.id);
+        setSelectedEdition(defaultEdition);
+      } else {
+        // Aggiornamento: sincronizza i dati dell'edizione selezionata con quelli aggiornati
+        const updatedEdition = sortedEditions.find((ed: CourseEdition) => ed.id === selectedEdition.id);
+
+        if (!updatedEdition) {
+          // L'edizione selezionata è stata ELIMINATA - seleziona un'altra
+          console.log('[CourseDetail] Edizione eliminata! Seleziono nuova default');
+          const newDefault = sortedEditions.find((ed: CourseEdition) => !ed.badges.sold_out && ed.is_enrollments_open) || sortedEditions[0];
+          setSelectedEdition(newDefault);
+        } else if (JSON.stringify(updatedEdition) !== JSON.stringify(selectedEdition)) {
+          // L'edizione esiste ma è stata modificata - aggiorna i dati
+          console.log('[CourseDetail] Edizione aggiornata:', updatedEdition.id);
+          setSelectedEdition(updatedEdition);
+        }
+      }
+    } else if (selectedEdition) {
+      // Non ci sono più edizioni - deseleziona
+      console.log('[CourseDetail] Nessuna edizione disponibile, deseleziono');
+      setSelectedEdition(null);
     }
   }, [sortedEditions, selectedEdition]);
 
   // Dati da mostrare: edizione selezionata o dati corso
-  // NOTA: location e price danno priorità ai dati statici del sito se presenti
+  // NOTA: prezzo e altri dati vengono da EduPlan (edizione), con fallback ai dati statici
   const displayData = useMemo(() => {
     const edition = selectedEdition;
+
+    // Calcola il prezzo: priorità edizione > corso live > statico
+    let price = 'Contattaci';
+    if (edition?.price !== null && edition?.price !== undefined && edition.price > 0) {
+      price = `€${edition.price.toFixed(2)}`;
+    } else if (liveData?.price !== undefined && liveData.price > 0) {
+      price = `€${liveData.price.toFixed(2)}`;
+    } else if (course?.price && course.price !== 'Contattaci') {
+      price = course.price;
+    }
+
     return {
       duration: liveData?.duration_hours ? `${liveData.duration_hours} ore` : course?.duration || '',
-      price: course?.price  // Priorità al dato statico del sito
-        ? course.price
-        : edition?.price !== null && edition?.price !== undefined && edition.price > 0
-          ? `€${edition.price.toFixed(2)}`
-          : liveData?.price !== undefined && liveData.price > 0
-            ? `€${liveData.price.toFixed(2)}`
-            : '',
+      price,
       availableSpots: edition ? edition.available_spots : liveData?.available_spots,
       maxParticipants: edition ? edition.max_participants : liveData?.max_participants,
       startDate: edition?.start_date || liveData?.start_date,
-      location: course?.location || edition?.location || liveData?.location,  // Priorità al dato statico del sito
+      location: edition?.location || liveData?.location || course?.location,
       teacher: edition?.teacher || liveData?.teacher,
       isSoldOut: edition ? edition.badges.sold_out : liveData?.badges.sold_out,
       editionName: edition?.edition_name || (edition ? `Edizione ${edition.edition_number}` : null),
