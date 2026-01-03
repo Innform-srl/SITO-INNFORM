@@ -977,15 +977,23 @@ export const QuickContactForm: React.FC<QuickContactFormProps> = ({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    // Prepara il subject con info corso
+    const subject = courseName
+      ? `Domanda su: ${courseName}`
+      : 'Richiesta informazioni corso';
+
     // Componi il messaggio con la provenienza
-    const messageWithOrigin = formData.city
-      ? `[Provenienza: ${formData.city}]\n\n${formData.message || ''}`
+    const messageWithOrigin = (formData as any).city
+      ? `[Provenienza: ${(formData as any).city}]\n\n${formData.message || ''}`
       : formData.message;
 
     const result = await submit({
       ...formData,
-      message: messageWithOrigin,
       name: formData.email?.split('@')[0] || 'Utente', // Nome derivato da email
+      subject,
+      company: (formData as any).city || undefined, // Salva città nel campo company per CRM
+      message: messageWithOrigin || '',
+      courseInterest: courseId,
       privacyAccepted: true,
     } as ContactFormInput);
 
