@@ -1007,29 +1007,32 @@ export const QuickContactForm: React.FC<QuickContactFormProps> = ({
   // Success state
   if (state.success) {
     return (
-      <div className="bg-purple-50 rounded-2xl p-6 text-center">
-        <div className="text-purple-600 text-4xl mb-3">✓</div>
-        <h3 className="text-lg font-bold text-purple-800 mb-2">
-          Richiesta Inviata!
-        </h3>
-        <p className="text-purple-700 text-sm mb-3">
-          Ti risponderemo entro 2 ore.
-        </p>
-        <button
-          onClick={reset}
-          className="text-purple-600 hover:text-purple-800 font-medium text-sm"
-        >
-          Invia un'altra domanda
-        </button>
+      <div className="bg-gradient-to-br from-indigo-50 to-purple-50 rounded-3xl p-6 border border-purple-100 shadow-md">
+        <div className="bg-white/60 backdrop-blur-sm rounded-xl p-6 text-center border border-green-100">
+          <div className="w-12 h-12 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-3 shadow-sm">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+              <polyline points="22 4 12 14.01 9 11.01"></polyline>
+            </svg>
+          </div>
+          <p className="font-bold text-gray-900 mb-1">Messaggio inviato!</p>
+          <p className="text-sm text-gray-600 mb-4">Un nostro consulente ti risponderà al più presto.</p>
+          <button
+            onClick={reset}
+            className="text-xs text-purple-600 font-bold hover:text-purple-700 hover:underline uppercase tracking-wide"
+          >
+            Invia un altro messaggio
+          </button>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="bg-purple-50 rounded-2xl p-6 shadow-lg">
-      <div className="flex items-center gap-3 mb-5">
-        <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center">
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-purple-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <div className="bg-gradient-to-br from-indigo-50 to-purple-50 rounded-3xl p-6 border border-purple-100 shadow-md">
+      <div className="flex items-center gap-3 mb-4">
+        <div className="p-2 bg-white rounded-lg shadow-sm text-purple-600">
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <line x1="22" y1="2" x2="11" y2="13"></line>
             <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
           </svg>
@@ -1037,7 +1040,7 @@ export const QuickContactForm: React.FC<QuickContactFormProps> = ({
         <h3 className="font-bold text-lg text-gray-900">Dubbi? Scrivici</h3>
       </div>
 
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form onSubmit={handleSubmit} className="space-y-3">
         <div>
           <input
             type="email"
@@ -1045,7 +1048,7 @@ export const QuickContactForm: React.FC<QuickContactFormProps> = ({
             required
             value={formData.email || ''}
             onChange={handleChange}
-            className="w-full px-4 py-3 bg-white border-0 rounded-xl focus:ring-2 focus:ring-purple-500 placeholder:text-gray-400"
+            className="w-full px-4 py-3 rounded-xl border border-purple-100 bg-white focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none text-sm transition-all placeholder:text-gray-400 shadow-sm"
             placeholder="La tua email"
           />
         </div>
@@ -1056,7 +1059,7 @@ export const QuickContactForm: React.FC<QuickContactFormProps> = ({
             name="city"
             value={(formData as any).city || ''}
             onChange={handleChange}
-            className="w-full px-4 py-3 bg-white border-0 rounded-xl focus:ring-2 focus:ring-purple-500 placeholder:text-gray-400"
+            className="w-full px-4 py-3 rounded-xl border border-purple-100 bg-white focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none text-sm transition-all placeholder:text-gray-400 shadow-sm"
             placeholder="Da dove vieni?"
           />
         </div>
@@ -1067,7 +1070,7 @@ export const QuickContactForm: React.FC<QuickContactFormProps> = ({
             rows={3}
             value={formData.message || ''}
             onChange={handleChange}
-            className="w-full px-4 py-3 bg-white border-0 rounded-xl focus:ring-2 focus:ring-purple-500 placeholder:text-gray-400 resize-none"
+            className="w-full px-4 py-3 rounded-xl border border-purple-100 bg-white focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none text-sm transition-all resize-none placeholder:text-gray-400 shadow-sm"
             placeholder="Cosa vorresti sapere?"
           />
         </div>
@@ -1082,20 +1085,17 @@ export const QuickContactForm: React.FC<QuickContactFormProps> = ({
         <button
           type="submit"
           disabled={state.loading}
-          className="w-full py-3 px-6 bg-purple-600 text-white font-semibold rounded-xl hover:bg-purple-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-all duration-200 flex items-center justify-center gap-2"
+          className="w-full bg-purple-600 text-white py-3 rounded-xl font-bold hover:bg-purple-700 transition-all shadow-md hover:shadow-lg disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2 transform active:scale-95"
         >
           {state.loading ? (
-            <>
-              <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
-                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
-                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
-              </svg>
-              Invio...
-            </>
+            <div className="flex items-center gap-2">
+              <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+              <span>Invio...</span>
+            </div>
           ) : (
             <>
               Invia Richiesta
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <line x1="22" y1="2" x2="11" y2="13"></line>
                 <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
               </svg>
@@ -1103,7 +1103,7 @@ export const QuickContactForm: React.FC<QuickContactFormProps> = ({
           )}
         </button>
 
-        <p className="text-center text-sm text-gray-500">
+        <p className="text-xs text-center text-gray-500 mt-2">
           Rispondiamo solitamente entro 2 ore.
         </p>
       </form>
