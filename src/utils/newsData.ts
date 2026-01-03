@@ -1,14 +1,14 @@
 export const newsItems = [
   {
     id: 5,
-    title: "Ultime iscrizioni: Corso Guide Turistiche per Non Vedenti - Inizio 19 Gennaio",
+    title: "Corso Guide Turistiche per Non Vedenti - 23 Febbraio",
     date: "3 Gennaio 2026",
     category: "Corsi",
     image: "https://images.unsplash.com/photo-1582555172866-f73bb12a2ab3?auto=format&fit=crop&q=80&w=1080",
-    excerpt: "Ultime settimane per iscriversi al corso di specializzazione per guide turistiche sull'accessibilità per non vedenti. Laboratori esperienziali a Matera, inizio corso 19 Gennaio 2026.",
+    excerpt: "Aperte le iscrizioni al corso di specializzazione per guide turistiche sull'accessibilità per non vedenti. Laboratori esperienziali a Matera, inizio corso 23 Febbraio 2026.",
     link: "/corsi/corso-di-specializzazione-alle-guide-turistiche",
     content: `
-      <p class="lead">Sono aperte le <strong>ultime iscrizioni</strong> per il corso di specializzazione per guide turistiche dedicato all'accessibilità al patrimonio museale e monumentale italiano per non vedenti. <strong>Inizio corso: 19 Gennaio 2026</strong>.</p>
+      <p class="lead">Sono aperte le iscrizioni per il corso di specializzazione per guide turistiche dedicato all'accessibilità al patrimonio museale e monumentale italiano per non vedenti. <strong>Inizio corso: 23 Febbraio 2026</strong>.</p>
 
       <h3>Perché iscriversi ora</h3>
       <p>Il corso è autorizzato con <strong>Decreto Ministeriale prot. n. 269540 del 02/12/2025</strong> e rappresenta un'opportunità unica per:</p>
@@ -35,7 +35,7 @@ export const newsItems = [
 
       <h3>Informazioni pratiche</h3>
       <ul style="list-style-type: disc; margin-left: 20px; margin-bottom: 16px;">
-        <li style="margin-bottom: 8px;"><strong>Inizio corso:</strong> 19 Gennaio 2026</li>
+        <li style="margin-bottom: 8px;"><strong>Inizio corso:</strong> 23 Febbraio 2026</li>
         <li style="margin-bottom: 8px;"><strong>Sede laboratori:</strong> Matera</li>
         <li style="margin-bottom: 8px;"><strong>Costo:</strong> €480 (IVA inclusa)</li>
         <li style="margin-bottom: 8px;"><strong>Posti disponibili:</strong> Massimo 18 partecipanti</li>
