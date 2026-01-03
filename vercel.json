@@ -2,7 +2,7 @@
   "redirects": [
     {
       "source": "/lms",
-      "destination": "https://lms-innform.vercel.app/lms/it",
+      "destination": "https://lms-innform.vercel.app/lms",
       "permanent": false
     },
     {
