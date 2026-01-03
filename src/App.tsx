@@ -29,7 +29,6 @@ import { CookiePolicy } from './components/CookiePolicy';
 import { FAQPage } from './components/FAQPage';
 
 import { ScrollToTop } from './components/ScrollToTop';
-import { Favicon } from './components/Favicon';
 
 function SkipLinks() {
   return (
@@ -78,7 +77,6 @@ function HomePage() {
 export default function App() {
   return (
     <Router>
-      <Favicon />
       <ScrollToTop />
       <div className="min-h-screen bg-white">
         <Routes>
