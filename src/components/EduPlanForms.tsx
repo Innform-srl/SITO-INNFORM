@@ -1037,7 +1037,7 @@ export const QuickContactForm: React.FC<QuickContactFormProps> = ({
             <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
           </svg>
         </div>
-        <h3 className="font-bold text-lg text-gray-900">Dubbi? Scrivici</h3>
+        <h3 className="font-bold text-lg text-gray-900">Scrivici</h3>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-3">
