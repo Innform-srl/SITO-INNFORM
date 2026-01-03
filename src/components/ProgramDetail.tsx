@@ -850,11 +850,23 @@ export function ProgramDetail() {
     );
   }
 
+  // Meta description SEO ottimizzate per programma
+  const getSeoDescription = (id: string, baseDescription: string): string => {
+    const seoDescriptions: Record<string, string> = {
+      'master': `Master alta formazione post-laurea a Potenza con stage garantito e 92% placement. Laboratori certificati, docenti qualificati e certificazioni professionali riconosciute in Basilicata.`,
+      'gol': `Corsi gratuiti per disoccupati in Basilicata con Programma GOL finanziato PNRR. Indennità di frequenza, qualifica professionale riconosciuta e supporto al reinserimento lavorativo.`,
+      'specializzazione': `Corsi specializzazione turismo accessibile a Matera e Potenza. Formazione Intelligenza Artificiale, guide turistiche per non vedenti. Attestati riconosciuti Regione Basilicata.`,
+      'ti-abilito': `Programma TI.ABILITO: corsi qualifica professionale gratuiti in Basilicata con stage garantito in azienda. Operatore amministrativo, logistica, ristorazione. 85% placement lavorativo.`,
+      'progetto-segni': `Progetto Segni: certificazioni professionali digital marketing, UX design, data analytics a Potenza. Formazione pratica con networking e opportunità di carriera.`
+    };
+    return seoDescriptions[id] || baseDescription;
+  };
+
   return (
     <>
       <SEOHead
-        title={`${program.title} - Programma Formazione Professionale`}
-        description={program.description}
+        title={`${program.title} - Programma Formazione Professionale Potenza`}
+        description={getSeoDescription(programId || '', program.description)}
         image={program.heroImage}
         url={`/programmi/${programId}`}
       />
@@ -947,9 +959,9 @@ export function ProgramDetail() {
               <div className="relative animate-tilt">
                 <div className={`absolute inset-0 bg-gradient-to-br ${program.gradient} rounded-3xl transform rotate-6 opacity-20 animate-pulse-glow`}></div>
                 <div className={`absolute inset-0 bg-gradient-to-br ${program.gradient} rounded-3xl transform -rotate-3 opacity-10`}></div>
-                <ImageWithFallback 
+                <ImageWithFallback
                   src={program.heroImage}
-                  alt={program.title}
+                  alt={`${program.title} - Corso formazione professionale accreditato a Potenza, Basilicata`}
                   className="relative rounded-3xl shadow-2xl w-full h-[500px] object-cover animate-glow-pulse"
                 />
               </div>

@@ -22,9 +22,10 @@ export function Services() {
             </div>
             <h3 className="text-2xl font-bold mb-4 text-gray-900">Servizi alle Imprese</h3>
             <p className="text-gray-600 leading-relaxed text-lg">
-              Attività di formazione che possano consentire alle imprese di essere più competitive, 
-              aumentando il livello di professionalità e di qualità del prodotto. Offriamo consulenza 
-              personalizzata per identificare i fabbisogni formativi e sviluppare piani di crescita mirati.
+              Formazione aziendale in Basilicata per rendere le imprese più competitive.
+              Offriamo corsi obbligatori sicurezza lavoro D.Lgs. 81/08, certificazioni informatiche PEKIT
+              e formazione finanziata tramite Fondo Fonarcom. Consulenza personalizzata per identificare
+              i fabbisogni formativi e sviluppare piani di crescita professionale mirati.
             </p>
           </div>
 
@@ -35,9 +36,9 @@ export function Services() {
             </div>
             <h3 className="text-2xl font-bold mb-4 text-gray-900">Servizi ai Privati</h3>
             <p className="text-gray-600 leading-relaxed text-lg">
-              Proponiamo corsi di formazione dedicati, allo scopo di aumentare le capacità professionali 
-              e affacciarsi al mercato del lavoro in maniera efficace e competitiva. Dai master post-laurea 
-              ai corsi di qualifica professionale, ti accompagniamo nel tuo percorso di carriera.
+              Corsi gratuiti per disoccupati tramite Programma GOL e qualifiche professionali riconosciute
+              dalla Regione Basilicata. Dai master post-laurea ai corsi di specializzazione, offriamo
+              percorsi formativi per entrare nel mercato del lavoro in modo competitivo con stage garantito.
             </p>
           </div>
         </div>

@@ -160,6 +160,10 @@ interface CourseSchemaProps {
   image?: string;
   price?: number;
   priceCurrency?: string;
+  skills?: string[];
+  courseMode?: 'online' | 'onsite' | 'blended';
+  startDate?: string;
+  isAccessibleForFree?: boolean;
 }
 
 export function CourseSchema({
@@ -171,7 +175,11 @@ export function CourseSchema({
   url,
   image,
   price,
-  priceCurrency = 'EUR'
+  priceCurrency = 'EUR',
+  skills,
+  courseMode,
+  startDate,
+  isAccessibleForFree
 }: CourseSchemaProps) {
   const schema: Record<string, unknown> = {
     "@context": "https://schema.org",
@@ -179,11 +187,21 @@ export function CourseSchema({
     "name": name,
     "description": description,
     "provider": {
-      "@type": "Organization",
+      "@type": "EducationalOrganization",
       "name": provider,
-      "sameAs": "https://www.innform.eu"
+      "sameAs": "https://www.innform.eu",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Via della Chimica 87",
+        "addressLocality": "Potenza",
+        "postalCode": "85100",
+        "addressRegion": "Basilicata",
+        "addressCountry": "IT"
+      }
     },
-    "url": `https://www.innform.eu${url}`
+    "url": `https://www.innform.eu${url}`,
+    "inLanguage": "it",
+    "availableLanguage": ["it"]
   };
 
   if (duration) {
@@ -194,6 +212,26 @@ export function CourseSchema({
   }
   if (image) {
     schema.image = image;
+  }
+  if (skills && skills.length > 0) {
+    schema.teaches = skills;
+  }
+  if (courseMode) {
+    const modeMap = {
+      'online': 'https://schema.org/OnlineEventAttendanceMode',
+      'onsite': 'https://schema.org/OfflineEventAttendanceMode',
+      'blended': 'https://schema.org/MixedEventAttendanceMode'
+    };
+    schema.hasCourseInstance = {
+      "@type": "CourseInstance",
+      "courseMode": modeMap[courseMode]
+    };
+    if (startDate) {
+      (schema.hasCourseInstance as Record<string, unknown>).startDate = startDate;
+    }
+  }
+  if (isAccessibleForFree !== undefined) {
+    schema.isAccessibleForFree = isAccessibleForFree;
   }
   if (price !== undefined) {
     schema.offers = {

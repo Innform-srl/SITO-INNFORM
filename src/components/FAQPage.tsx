@@ -93,6 +93,42 @@ const faqData: FAQItem[] = [
     category: 'Sede e Contatti',
     question: 'Quali sono gli orari di apertura?',
     answer: 'La segreteria è aperta dal Lunedì al Venerdì dalle 9:00 alle 13:30 e dalle 15:30 alle 19:00, il Sabato dalle 10:00 alle 13:00. Per informazioni puoi chiamare lo 0971.473968 o scrivere a formazione@innform.eu.'
+  },
+  // SEO FAQ aggiuntive
+  {
+    category: 'Iscrizioni e Costi',
+    question: 'Quanto costano i corsi di formazione?',
+    answer: 'I costi variano in base al tipo di corso: i corsi finanziati dal Programma GOL o da fondi regionali sono completamente gratuiti. I Master a pagamento partono da €1.500, i corsi di qualifica da €800. Offriamo sempre la possibilità di rateizzazione senza interessi e periodicamente attiviamo promozioni speciali.'
+  },
+  {
+    category: 'Corsi e Formazione',
+    question: 'I corsi sono online o in presenza?',
+    answer: 'Offriamo entrambe le modalità a seconda del corso. La formazione può essere in presenza presso la nostra sede di Potenza, completamente online tramite la nostra piattaforma e-learning, o in modalità blended (mista). Ogni scheda corso indica chiaramente la modalità di erogazione prevista.'
+  },
+  {
+    category: 'Corsi e Formazione',
+    question: 'Come ottenere una qualifica professionale riconosciuta?',
+    answer: 'Per ottenere una qualifica professionale riconosciuta dalla Regione Basilicata devi completare un corso di qualifica accreditato, frequentare almeno il 70% delle ore previste e superare l\'esame finale. Le qualifiche rilasciate da Innform sono valide su tutto il territorio nazionale e riconosciute nel Repertorio Nazionale delle Qualificazioni.'
+  },
+  {
+    category: 'Corsi e Formazione',
+    question: 'Qual è la differenza tra corso e master?',
+    answer: 'I corsi di qualifica professionale sono destinati a chi cerca una prima formazione o riqualificazione (diploma richiesto), durano 200-500 ore e rilasciano una qualifica regionale. I Master sono percorsi post-laurea (laurea richiesta), durano 300-600 ore, includono project work e stage, e sono orientati a ruoli manageriali e specialistici.'
+  },
+  {
+    category: 'Programma GOL',
+    question: 'Quali sono i requisiti per accedere al Programma GOL?',
+    answer: 'Per accedere al Programma GOL devi essere in una di queste condizioni: disoccupato, percettore di NASpI/DIS-COLL, beneficiario di ammortizzatori sociali, lavoratore fragile o vulnerabile, NEET under 30, donna in condizione di svantaggio, persona con disabilità, o lavoratore over 55. È necessario recarsi al Centro per l\'Impiego per la presa in carico.'
+  },
+  {
+    category: 'Corsi e Formazione',
+    question: 'A cosa serve la certificazione PEKIT?',
+    answer: 'La certificazione PEKIT (Permanent Education and Knowledge on Information Technology) è una certificazione informatica riconosciuta dal MIUR, valida per concorsi pubblici e graduatorie scolastiche. Attesta competenze digitali a livello europeo ed è utile per aumentare il punteggio nelle graduatorie docenti, nei concorsi pubblici e per migliorare il proprio curriculum professionale.'
+  },
+  {
+    category: 'Stage e Lavoro',
+    question: 'Lo stage è retribuito?',
+    answer: 'Gli stage curriculari inclusi nei corsi di qualifica generalmente prevedono un\'indennità di partecipazione o un rimborso spese, variabile in base al progetto e ai finanziamenti disponibili. Per i corsi GOL è spesso prevista un\'indennità di frequenza. Gli stage extra-curriculari attivati dopo il corso seguono la normativa regionale che prevede un\'indennità minima mensile.'
   }
 ];
 

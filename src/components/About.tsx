@@ -80,11 +80,11 @@ export function About() {
             </div>
 
             <p className="text-lg text-gray-700 leading-relaxed">
-              Innform è una società accreditata in Regione Basilicata dall'anno 2007. Progetta e gestisce master e corsi di alta formazione per laureati, formazione professionale con rilascio di qualifiche per disoccupati, formazione continua rivolta a lavoratori e imprenditori.
+              Innform è un centro di formazione professionale accreditato in Regione Basilicata dal 2007, certificato ISO 9001:2015. Progetta e gestisce master e corsi di alta formazione per laureati, formazione professionale con rilascio di qualifiche riconosciute per disoccupati tramite Programma GOL, e formazione continua rivolta a lavoratori e imprenditori.
             </p>
 
             <p className="text-lg text-gray-700 leading-relaxed">
-              Implementa soluzioni formative finalizzate allo sviluppo delle competenze e del potenziale delle persone, per accompagnarle nel mondo del lavoro e consolidare la loro professionalità.
+              Come referente del Fondo Fonarcom, offriamo formazione finanziata per le aziende. Implementiamo soluzioni formative per lo sviluppo delle competenze, accompagnando ogni persona nel mondo del lavoro con stage garantito e placement lavorativo.
             </p>
 
             {/* Features List */}
@@ -100,12 +100,21 @@ export function About() {
             </div>
 
             {/* CTA */}
-            <div className="pt-4">
+            <div className="pt-4 flex flex-wrap gap-4">
               <a
                 href="#contatti"
                 className="inline-flex items-center gap-2 bg-gradient-to-r from-purple-600 to-pink-600 text-white px-8 py-4 rounded-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300"
               >
                 <span>Unisciti a Noi</span>
+                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </svg>
+              </a>
+              <a
+                href="/programmi/gol"
+                className="inline-flex items-center gap-2 bg-white border-2 border-purple-600 text-purple-600 px-8 py-4 rounded-xl hover:bg-purple-50 transform hover:scale-105 transition-all duration-300"
+              >
+                <span>Scopri Programma GOL</span>
                 <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                 </svg>
