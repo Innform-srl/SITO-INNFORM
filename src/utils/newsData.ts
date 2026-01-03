@@ -1,5 +1,51 @@
 export const newsItems = [
   {
+    id: 5,
+    title: "Ultime iscrizioni: Corso Guide Turistiche per Non Vedenti - Inizio 19 Gennaio",
+    date: "3 Gennaio 2026",
+    category: "Corsi",
+    image: "https://images.unsplash.com/photo-1582555172866-f73bb12a2ab3?auto=format&fit=crop&q=80&w=1080",
+    excerpt: "Ultime settimane per iscriversi al corso di specializzazione per guide turistiche sull'accessibilità per non vedenti. Laboratori esperienziali a Matera, inizio corso 19 Gennaio 2026.",
+    link: "/corsi/corso-di-specializzazione-alle-guide-turistiche",
+    content: `
+      <p class="lead">Sono aperte le <strong>ultime iscrizioni</strong> per il corso di specializzazione per guide turistiche dedicato all'accessibilità al patrimonio museale e monumentale italiano per non vedenti. <strong>Inizio corso: 19 Gennaio 2026</strong>.</p>
+
+      <h3>Perché iscriversi ora</h3>
+      <p>Il corso è autorizzato con <strong>Decreto Ministeriale prot. n. 269540 del 02/12/2025</strong> e rappresenta un'opportunità unica per:</p>
+      <ul style="list-style-type: disc; margin-left: 20px; margin-bottom: 16px;">
+        <li style="margin-bottom: 8px;"><strong>Specializzarsi in un settore in crescita:</strong> Il turismo accessibile è sempre più richiesto</li>
+        <li style="margin-bottom: 8px;"><strong>Adempiere all'obbligo formativo:</strong> 50 ore valide per rimanere nell'elenco nazionale guide</li>
+        <li style="margin-bottom: 8px;"><strong>Vivere un'esperienza formativa unica:</strong> Laboratori esperienziali a Matera con guide non vedenti</li>
+      </ul>
+
+      <h3>Struttura del corso</h3>
+      <p>Il percorso formativo prevede <strong>50 ore</strong> di formazione in modalità mista:</p>
+      <ul style="list-style-type: disc; margin-left: 20px; margin-bottom: 16px;">
+        <li style="margin-bottom: 8px;"><strong>30 ore online:</strong> Psicologia della disabilità visiva, Sistema Braille, tecniche di audio-descrizione</li>
+        <li style="margin-bottom: 8px;"><strong>20 ore in presenza a Matera:</strong> Laboratori bendati, visite guidate con non vedenti esperti, creazione materiali tattili</li>
+      </ul>
+
+      <h3>Laboratori esperienziali unici</h3>
+      <p>La parte più innovativa sono i laboratori dove vivrai in prima persona l'esperienza della cecità:</p>
+      <ul style="list-style-type: disc; margin-left: 20px; margin-bottom: 16px;">
+        <li style="margin-bottom: 8px;"><strong>"Toccare la Bellezza":</strong> Manipolazione artistica bendata con guida non vedente</li>
+        <li style="margin-bottom: 8px;"><strong>Laboratorio Sensoriale Itinerante:</strong> Visita bendata nei Sassi di Matera</li>
+        <li style="margin-bottom: 8px;"><strong>Creazione materiale tattile:</strong> Mappe, plastici e rilievi per fruizione culturale</li>
+      </ul>
+
+      <h3>Informazioni pratiche</h3>
+      <ul style="list-style-type: disc; margin-left: 20px; margin-bottom: 16px;">
+        <li style="margin-bottom: 8px;"><strong>Inizio corso:</strong> 19 Gennaio 2026</li>
+        <li style="margin-bottom: 8px;"><strong>Sede laboratori:</strong> Matera</li>
+        <li style="margin-bottom: 8px;"><strong>Costo:</strong> €480 (IVA inclusa)</li>
+        <li style="margin-bottom: 8px;"><strong>Posti disponibili:</strong> Massimo 18 partecipanti</li>
+      </ul>
+
+      <p style="margin-top: 24px; font-weight: bold; color: #7c3aed;">Non perdere questa opportunità: i posti sono limitati!</p>
+      <p><a href="/corsi/corso-di-specializzazione-alle-guide-turistiche" class="cta-link" style="display: inline-block; background-color: #7c3aed; color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: bold;">Iscriviti ora →</a></p>
+    `
+  },
+  {
     id: 1,
     title: "Corso Gratuito Alfabetizzazione Informatica: iscrizioni aperte per famiglie",
     date: "20 Dicembre 2025",
