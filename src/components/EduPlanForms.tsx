@@ -943,6 +943,167 @@ export const PreEnrollmentForm: React.FC<PreEnrollmentFormProps> = ({
 };
 
 // ============================================
+// QUICK CONTACT FORM (Form compatto per sidebar corsi)
+// ============================================
+
+interface QuickContactFormProps {
+  courseId?: string;
+  courseName?: string;
+  onSuccess?: (result: any) => void;
+  onError?: (error: string) => void;
+}
+
+export const QuickContactForm: React.FC<QuickContactFormProps> = ({
+  courseId,
+  courseName,
+  onSuccess,
+  onError,
+}) => {
+  const { state, submit, reset } = useContactForm();
+
+  const [formData, setFormData] = useState<Partial<ContactFormInput>>({
+    courseInterest: courseId,
+    privacyAccepted: true, // Implicito per form rapido
+  });
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    // Componi il messaggio con la provenienza
+    const messageWithOrigin = formData.city
+      ? `[Provenienza: ${formData.city}]\n\n${formData.message || ''}`
+      : formData.message;
+
+    const result = await submit({
+      ...formData,
+      message: messageWithOrigin,
+      name: formData.email?.split('@')[0] || 'Utente', // Nome derivato da email
+      privacyAccepted: true,
+    } as ContactFormInput);
+
+    if (result) {
+      onSuccess?.(result);
+    } else if (state.error) {
+      onError?.(state.error);
+    }
+  };
+
+  // Success state
+  if (state.success) {
+    return (
+      <div className="bg-purple-50 rounded-2xl p-6 text-center">
+        <div className="text-purple-600 text-4xl mb-3">✓</div>
+        <h3 className="text-lg font-bold text-purple-800 mb-2">
+          Richiesta Inviata!
+        </h3>
+        <p className="text-purple-700 text-sm mb-3">
+          Ti risponderemo entro 2 ore.
+        </p>
+        <button
+          onClick={reset}
+          className="text-purple-600 hover:text-purple-800 font-medium text-sm"
+        >
+          Invia un'altra domanda
+        </button>
+      </div>
+    );
+  }
+
+  return (
+    <div className="bg-purple-50 rounded-2xl p-6 shadow-lg">
+      <div className="flex items-center gap-3 mb-5">
+        <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center">
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-purple-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <line x1="22" y1="2" x2="11" y2="13"></line>
+            <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+          </svg>
+        </div>
+        <h3 className="font-bold text-lg text-gray-900">Dubbi? Scrivici</h3>
+      </div>
+
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <div>
+          <input
+            type="email"
+            name="email"
+            required
+            value={formData.email || ''}
+            onChange={handleChange}
+            className="w-full px-4 py-3 bg-white border-0 rounded-xl focus:ring-2 focus:ring-purple-500 placeholder:text-gray-400"
+            placeholder="La tua email"
+          />
+        </div>
+
+        <div>
+          <input
+            type="text"
+            name="city"
+            value={(formData as any).city || ''}
+            onChange={handleChange}
+            className="w-full px-4 py-3 bg-white border-0 rounded-xl focus:ring-2 focus:ring-purple-500 placeholder:text-gray-400"
+            placeholder="Da dove vieni?"
+          />
+        </div>
+
+        <div>
+          <textarea
+            name="message"
+            rows={3}
+            value={formData.message || ''}
+            onChange={handleChange}
+            className="w-full px-4 py-3 bg-white border-0 rounded-xl focus:ring-2 focus:ring-purple-500 placeholder:text-gray-400 resize-none"
+            placeholder="Cosa vorresti sapere?"
+          />
+        </div>
+
+        {/* Error message */}
+        {state.error && (
+          <div className="bg-red-50 border border-red-200 rounded-lg p-3">
+            <p className="text-red-600 text-sm">{state.error}</p>
+          </div>
+        )}
+
+        <button
+          type="submit"
+          disabled={state.loading}
+          className="w-full py-3 px-6 bg-purple-600 text-white font-semibold rounded-xl hover:bg-purple-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-all duration-200 flex items-center justify-center gap-2"
+        >
+          {state.loading ? (
+            <>
+              <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
+                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
+                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+              </svg>
+              Invio...
+            </>
+          ) : (
+            <>
+              Invia Richiesta
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <line x1="22" y1="2" x2="11" y2="13"></line>
+                <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+              </svg>
+            </>
+          )}
+        </button>
+
+        <p className="text-center text-sm text-gray-500">
+          Rispondiamo solitamente entro 2 ore.
+        </p>
+      </form>
+    </div>
+  );
+};
+
+// ============================================
 // EXPORT
 // ============================================
 
@@ -950,4 +1111,5 @@ export default {
   EnrollmentForm,
   ContactForm,
   PreEnrollmentForm,
+  QuickContactForm,
 };

@@ -9,7 +9,7 @@ import {
 } from 'lucide-react';
 import { ImageWithFallback } from './figma/ImageWithFallback';
 import { CourseCarousel } from './CourseCarousel';
-import { EnrollmentForm } from './EduPlanForms';
+import { EnrollmentForm, QuickContactForm } from './EduPlanForms';
 import { SEOHead, CourseSchema, FAQSchema } from './SEOHead';
 // Integrazione dati live EduPlan
 import { useRealtimeCourse } from '../hooks/useRealtimeCourses';
@@ -1816,6 +1816,12 @@ export function CourseDetail() {
                   </div>
                 </div>
               </div>
+
+              {/* Quick Contact Form */}
+              <QuickContactForm
+                courseId={course.id}
+                courseName={course.title}
+              />
 
               {/* FAQ Widget */}
               <div className="bg-purple-900 rounded-3xl p-6 text-white shadow-xl">
