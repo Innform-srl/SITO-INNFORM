@@ -188,13 +188,33 @@ Spazio per il Safety Manager ce n'e\' in abbondanza in questo momento storico e 
   ]
 };
 
+// Mappa slug -> codice per supportare entrambi i formati
+const slugToCodeMap: Record<string, string> = {
+  'editoria-e-comunicazione': 'EEC',
+  'master-editoria-comunicazione': 'EEC',
+  'tecnico-analisi-alimentari': 'TAA',
+  'tecnico-esperto-in-analisi-alimentari-e-ambientali': 'TAA',
+  'master-safety-manager': 'MASSAF',
+  'safety-manager': 'MASSAF',
+  'safety-manager-esperto-in-sicurezza-e-ambiente': 'MASSAF',
+};
+
 // Funzione helper per ottenere le testimonianze di un corso
 export function getTestimonialsForCourse(courseCode: string): CourseTestimonial[] {
-  return courseTestimonials[courseCode] || [];
+  // Prova prima con il codice diretto
+  if (courseTestimonials[courseCode]) {
+    return courseTestimonials[courseCode];
+  }
+  // Altrimenti cerca tramite slug
+  const mappedCode = slugToCodeMap[courseCode.toLowerCase()];
+  if (mappedCode && courseTestimonials[mappedCode]) {
+    return courseTestimonials[mappedCode];
+  }
+  return [];
 }
 
 // Funzione per ottenere un numero limitato di testimonianze (per la preview)
 export function getTestimonialsPreview(courseCode: string, limit: number = 3): CourseTestimonial[] {
-  const testimonials = courseTestimonials[courseCode] || [];
+  const testimonials = getTestimonialsForCourse(courseCode);
   return testimonials.slice(0, limit);
 }

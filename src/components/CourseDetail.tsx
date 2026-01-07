@@ -1570,13 +1570,11 @@ export function CourseDetail() {
               </div>
 
               {/* Testimonianze degli Studenti */}
-              {liveData?.code && (
-                <CourseTestimonials
-                  courseCode={liveData.code}
-                  courseName={course.title}
-                  gradient={course.gradient}
-                />
-              )}
+              <CourseTestimonials
+                courseCode={liveData?.code || course.id}
+                courseName={course.title}
+                gradient={course.gradient}
+              />
 
             </div>
 
