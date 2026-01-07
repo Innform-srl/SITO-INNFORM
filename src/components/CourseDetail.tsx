@@ -1569,13 +1569,6 @@ export function CourseDetail() {
                 </div>
               </div>
 
-              {/* Testimonianze degli Studenti */}
-              <CourseTestimonials
-                courseCode={liveData?.code || course.id}
-                courseName={course.title}
-                gradient={course.gradient}
-              />
-
             </div>
 
             {/* Right Sidebar (1/3) - Sticky container unico */}
@@ -1847,6 +1840,17 @@ export function CourseDetail() {
             </div>
 
           </div>
+        </div>
+      </section>
+
+      {/* Sezione Testimonianze - Full Width */}
+      <section className="py-16 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <CourseTestimonials
+            courseCode={liveData?.code || course.id}
+            courseName={course.title}
+            gradient={course.gradient}
+          />
         </div>
       </section>
 

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Quote, ChevronDown, ChevronUp, Star, User } from 'lucide-react';
+import { Quote, X } from 'lucide-react';
 import { getTestimonialsForCourse, CourseTestimonial } from '../data/courseTestimonials';
 
 interface CourseTestimonialsProps {
@@ -25,7 +25,7 @@ function CourseReviewsSchema({
     "provider": {
       "@type": "Organization",
       "name": "Innform",
-      "sameAs": "https://www.innfrm.it"
+      "sameAs": "https://www.innform.eu"
     },
     "aggregateRating": {
       "@type": "AggregateRating",
@@ -60,73 +60,59 @@ function CourseReviewsSchema({
   );
 }
 
-// Card singola testimonianza
-function TestimonialCard({
+// Modale per la lettura completa
+function TestimonialModal({
   testimonial,
-  gradient = 'from-purple-600 to-pink-600',
-  isExpanded,
-  onToggle
+  gradient,
+  onClose
 }: {
   testimonial: CourseTestimonial;
-  gradient?: string;
-  isExpanded: boolean;
-  onToggle: () => void;
+  gradient: string;
+  onClose: () => void;
 }) {
-  const displayText = isExpanded ? testimonial.fullText : testimonial.excerpt;
-
   return (
-    <div className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 flex flex-col h-full">
-      {/* Header con icona quote */}
-      <div className="flex items-start justify-between mb-4">
-        <div className={`p-3 rounded-xl bg-gradient-to-br ${gradient} bg-opacity-10`}>
-          <Quote className="text-purple-600" size={24} />
-        </div>
-        <div className="flex gap-0.5">
-          {[...Array(5)].map((_, i) => (
-            <Star key={i} size={14} className="text-yellow-400 fill-yellow-400" />
-          ))}
-        </div>
-      </div>
-
-      {/* Testo testimonianza */}
-      <div className="flex-grow">
-        <p className="text-gray-700 leading-relaxed text-sm whitespace-pre-line">
-          {displayText}
-        </p>
-      </div>
-
-      {/* Bottone espandi/comprimi se il testo e' lungo */}
-      {testimonial.fullText.length > testimonial.excerpt.length && (
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm"
+      onClick={onClose}
+    >
+      <div
+        className="relative bg-white rounded-3xl p-8 max-w-2xl w-full max-h-[80vh] overflow-y-auto shadow-2xl"
+        onClick={(e) => e.stopPropagation()}
+      >
+        {/* Bottone chiudi */}
         <button
-          onClick={onToggle}
-          className="mt-3 text-purple-600 hover:text-purple-700 text-sm font-medium flex items-center gap-1 transition-colors"
+          onClick={onClose}
+          className="absolute top-4 right-4 p-2 rounded-full hover:bg-gray-100 transition-colors"
+          aria-label="Chiudi"
         >
-          {isExpanded ? (
-            <>
-              Mostra meno <ChevronUp size={16} />
-            </>
-          ) : (
-            <>
-              Leggi tutto <ChevronDown size={16} />
-            </>
-          )}
+          <X size={24} className="text-gray-500" />
         </button>
-      )}
 
-      {/* Footer con info autore */}
-      <div className="mt-4 pt-4 border-t border-gray-100">
-        <div className="flex items-center gap-3">
-          <div className={`w-10 h-10 rounded-full bg-gradient-to-br ${gradient} flex items-center justify-center text-white`}>
-            <User size={18} />
-          </div>
-          <div>
-            <div className="font-semibold text-gray-900 text-sm">{testimonial.name}</div>
-            <div className="text-xs text-gray-500">{testimonial.date}</div>
-          </div>
+        {/* Decorazione gradient */}
+        <div className={`absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl ${gradient} opacity-10 rounded-bl-full rounded-tr-3xl`}></div>
+
+        {/* Contenuto */}
+        <Quote className="text-purple-300 mb-6" size={48} />
+
+        <h3 className="text-xl font-bold text-gray-900 mb-4">{testimonial.title}</h3>
+
+        <p className="text-gray-700 leading-relaxed mb-8 text-lg whitespace-pre-line">
+          "{testimonial.fullText}"
+        </p>
+
+        <div className="border-t border-gray-100 pt-6">
+          <div className="font-bold text-gray-900 text-lg">{testimonial.name}</div>
+          <div className="text-sm text-gray-500">{testimonial.date}</div>
         </div>
       </div>
     </div>
   );
+}
+
+// Funzione per troncare il testo
+function truncateText(text: string, maxLength: number = 180): string {
+  if (text.length <= maxLength) return text;
+  return text.substring(0, maxLength).trim() + '...';
 }
 
 export function CourseTestimonials({
@@ -135,27 +121,12 @@ export function CourseTestimonials({
   gradient = 'from-purple-600 to-pink-600'
 }: CourseTestimonialsProps) {
   const testimonials = getTestimonialsForCourse(courseCode);
-  const [expandedCards, setExpandedCards] = useState<Set<string>>(new Set());
-  const [showAll, setShowAll] = useState(false);
+  const [selectedTestimonial, setSelectedTestimonial] = useState<CourseTestimonial | null>(null);
 
   // Se non ci sono testimonianze per questo corso, non mostrare nulla
   if (testimonials.length === 0) {
     return null;
   }
-
-  const displayedTestimonials = showAll ? testimonials : testimonials.slice(0, 3);
-
-  const toggleCard = (id: string) => {
-    setExpandedCards(prev => {
-      const newSet = new Set(prev);
-      if (newSet.has(id)) {
-        newSet.delete(id);
-      } else {
-        newSet.add(id);
-      }
-      return newSet;
-    });
-  };
 
   return (
     <>
@@ -163,61 +134,49 @@ export function CourseTestimonials({
 
       <div className="bg-white rounded-3xl p-8 shadow-sm border border-gray-100">
         {/* Header sezione */}
-        <div className="flex items-center justify-between mb-8">
-          <div>
-            <h3 className="text-xl font-bold text-gray-900 flex items-center gap-2">
-              <Quote className="text-purple-600" size={24} />
-              Testimonianze degli Studenti
-            </h3>
-            <p className="text-gray-500 text-sm mt-1">
-              {testimonials.length} recension{testimonials.length === 1 ? 'e' : 'i'} verificat{testimonials.length === 1 ? 'a' : 'e'}
-            </p>
-          </div>
-
-          {/* Rating medio */}
-          <div className="flex items-center gap-2 bg-purple-50 px-4 py-2 rounded-full">
-            <div className="flex gap-0.5">
-              {[...Array(5)].map((_, i) => (
-                <Star key={i} size={16} className="text-yellow-400 fill-yellow-400" />
-              ))}
-            </div>
-            <span className="font-bold text-purple-700">4.9</span>
-          </div>
+        <div className="text-center mb-8">
+          <h3 className="text-2xl font-bold text-gray-900 mb-2">
+            Testimonianze degli Studenti
+          </h3>
+          <p className="text-gray-500">
+            {testimonials.length} recension{testimonials.length === 1 ? 'e' : 'i'} verificat{testimonials.length === 1 ? 'a' : 'e'}
+          </p>
+          <div className={`h-1 w-16 bg-gradient-to-r ${gradient} mx-auto rounded-full mt-4`}></div>
         </div>
 
-        {/* Grid testimonianze */}
+        {/* Grid testimonianze - stesso layout homepage */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {displayedTestimonials.map((testimonial) => (
-            <TestimonialCard
+          {testimonials.map((testimonial) => (
+            <div
               key={testimonial.id}
-              testimonial={testimonial}
-              gradient={gradient}
-              isExpanded={expandedCards.has(testimonial.id)}
-              onToggle={() => toggleCard(testimonial.id)}
-            />
+              onClick={() => setSelectedTestimonial(testimonial)}
+              className="relative bg-gray-50 p-6 rounded-2xl shadow-sm hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 cursor-pointer"
+            >
+              <div className={`absolute top-0 right-0 w-20 h-20 bg-gradient-to-bl ${gradient} opacity-10 rounded-bl-full rounded-tr-2xl`}></div>
+
+              <Quote className="text-purple-300 mb-4" size={32} />
+
+              <p className="text-gray-700 leading-relaxed mb-4 italic text-sm">
+                "{truncateText(testimonial.excerpt)}"
+              </p>
+
+              <div className="mt-auto">
+                <div className="font-bold text-gray-900 text-sm">{testimonial.name}</div>
+                <div className="text-xs text-gray-500">{testimonial.date}</div>
+              </div>
+            </div>
           ))}
         </div>
-
-        {/* Bottone mostra piu' testimonianze */}
-        {testimonials.length > 3 && (
-          <div className="mt-8 text-center">
-            <button
-              onClick={() => setShowAll(!showAll)}
-              className={`inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold transition-all bg-gradient-to-r ${gradient} text-white hover:shadow-lg hover:scale-105`}
-            >
-              {showAll ? (
-                <>
-                  Mostra meno <ChevronUp size={18} />
-                </>
-              ) : (
-                <>
-                  Mostra tutte le {testimonials.length} testimonianze <ChevronDown size={18} />
-                </>
-              )}
-            </button>
-          </div>
-        )}
       </div>
+
+      {/* Modale */}
+      {selectedTestimonial && (
+        <TestimonialModal
+          testimonial={selectedTestimonial}
+          gradient={gradient}
+          onClose={() => setSelectedTestimonial(null)}
+        />
+      )}
     </>
   );
 }
