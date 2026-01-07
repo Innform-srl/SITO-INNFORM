@@ -24,6 +24,7 @@ import {
 } from './CourseLiveInfo';
 import { formatDateIT } from '../services/public-courses-api';
 import { CourseEdition } from '../types/courses-public';
+import { CourseTestimonials } from './CourseTestimonials';
 
 interface Course {
   id: string;
@@ -1567,6 +1568,15 @@ export function CourseDetail() {
                   </div>
                 </div>
               </div>
+
+              {/* Testimonianze degli Studenti */}
+              {liveData?.code && (
+                <CourseTestimonials
+                  courseCode={liveData.code}
+                  courseName={course.title}
+                  gradient={course.gradient}
+                />
+              )}
 
             </div>
 
