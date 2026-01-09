@@ -1156,45 +1156,50 @@ export function CourseDetail() {
                 </p>
               </div>
 
-              <div className="flex flex-wrap justify-center lg:justify-start gap-6 text-gray-600">
-                <div className="flex items-center gap-2 bg-white px-5 py-3 rounded-2xl shadow-sm border border-gray-100">
-                  <Clock className="text-purple-600" size={20} />
-                  <span className="font-semibold">{course.duration}</span>
-                </div>
-                <div className="flex items-center gap-2 bg-white px-5 py-3 rounded-2xl shadow-sm border border-gray-100">
-                  <MapPin className="text-pink-600" size={20} />
-                  <span className="font-semibold">{course.location}</span>
-                </div>
-                <div className="flex items-center gap-2 bg-white px-5 py-3 rounded-2xl shadow-sm border border-gray-100">
-                  <Calendar className="text-blue-600" size={20} />
-                  <span className="font-semibold">Inizio: {course.startDate}</span>
-                </div>
-              </div>
+              {/* Info e pulsanti per layout standard (non CDSA) */}
+              {course.id !== 'CDSA' && (
+                <>
+                  <div className="flex flex-wrap justify-center lg:justify-start gap-6 text-gray-600">
+                    <div className="flex items-center gap-2 bg-white px-5 py-3 rounded-2xl shadow-sm border border-gray-100">
+                      <Clock className="text-purple-600" size={20} />
+                      <span className="font-semibold">{course.duration}</span>
+                    </div>
+                    <div className="flex items-center gap-2 bg-white px-5 py-3 rounded-2xl shadow-sm border border-gray-100">
+                      <MapPin className="text-pink-600" size={20} />
+                      <span className="font-semibold">{course.location}</span>
+                    </div>
+                    <div className="flex items-center gap-2 bg-white px-5 py-3 rounded-2xl shadow-sm border border-gray-100">
+                      <Calendar className="text-blue-600" size={20} />
+                      <span className="font-semibold">Inizio: {course.startDate}</span>
+                    </div>
+                  </div>
 
-              <div className="pt-4 flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-                {course.type.includes('GOL') ? (
-                  <a
-                    href="#iscrizione"
-                    className="px-8 py-4 rounded-xl text-white font-bold text-lg shadow-xl hover:shadow-2xl hover:scale-105 transition-all text-center"
-                    style={{ backgroundColor: '#16a34a' }}
-                  >
-                    Pre-iscriviti Ora (Gratuito)
-                  </a>
-                ) : (
-                  <a
-                    href="#iscrizione"
-                    className={`px-8 py-4 rounded-xl text-white font-bold text-lg shadow-xl hover:shadow-2xl hover:scale-105 transition-all bg-gradient-to-r ${course.gradient}`}
-                  >
-                    Iscriviti Ora
-                  </a>
-                )}
-                <a
-                  href="#programma"
-                  className="px-8 py-4 rounded-xl bg-white text-gray-800 font-bold text-lg shadow-md border border-gray-200 hover:border-purple-300 hover:text-purple-600 transition-all"
-                >
-                  Dettagli Programma
-                </a>
-              </div>
+                  <div className="pt-4 flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+                    {course.type.includes('GOL') ? (
+                      <a
+                        href="#iscrizione"
+                        className="px-8 py-4 rounded-xl text-white font-bold text-lg shadow-xl hover:shadow-2xl hover:scale-105 transition-all text-center"
+                        style={{ backgroundColor: '#16a34a' }}
+                      >
+                        Pre-iscriviti Ora (Gratuito)
+                      </a>
+                    ) : (
+                      <a
+                        href="#iscrizione"
+                        className={`px-8 py-4 rounded-xl text-white font-bold text-lg shadow-xl hover:shadow-2xl hover:scale-105 transition-all bg-gradient-to-r ${course.gradient}`}
+                      >
+                        Iscriviti Ora
+                      </a>
+                    )}
+                    <a
+                      href="#programma"
+                      className="px-8 py-4 rounded-xl bg-white text-gray-800 font-bold text-lg shadow-md border border-gray-200 hover:border-purple-300 hover:text-purple-600 transition-all"
+                    >
+                      Dettagli Programma
+                    </a>
+                  </div>
+                </>
+              )}
             </div>
 
             {/* Right Column: Hero Image / Carousel */}
@@ -1203,7 +1208,7 @@ export function CourseDetail() {
                 <div className={`absolute inset-0 bg-gradient-to-tr ${course.gradient} rounded-[2rem] transform rotate-3 opacity-20 blur-lg`}></div>
                 <div className="relative rounded-[2rem] overflow-hidden shadow-2xl border-4 border-white">
                   <CourseCarousel images={course.carouselImages} alt={course.title} />
-                  
+
                   {/* Floating Price Tag */}
                   <div className="absolute top-6 right-6 bg-white/95 backdrop-blur-md p-4 rounded-2xl shadow-xl border border-gray-100 z-10">
                     <div className="text-xs text-gray-500 font-semibold uppercase tracking-wider mb-1">Costo Corso</div>
@@ -1217,6 +1222,43 @@ export function CourseDetail() {
                   </div>
                 </div>
               </div>
+
+              {/* Info e pulsanti per layout CDSA (sotto l'immagine) */}
+              {course.id === 'CDSA' && (
+                <div className="mt-6 space-y-4">
+                  <div className="flex flex-wrap justify-center gap-4 text-gray-600">
+                    <div className="flex items-center gap-2 bg-white px-4 py-2 rounded-full shadow-sm border border-gray-100">
+                      <Clock className="text-purple-600" size={18} />
+                      <span className="font-medium text-sm">{course.duration}</span>
+                    </div>
+                    <div className="flex items-center gap-2 bg-white px-4 py-2 rounded-full shadow-sm border border-gray-100">
+                      <MapPin className="text-pink-600" size={18} />
+                      <span className="font-medium text-sm">{course.location}</span>
+                    </div>
+                  </div>
+                  <div className="flex justify-center">
+                    <div className="flex items-center gap-2 bg-white px-4 py-2 rounded-full shadow-sm border border-gray-100">
+                      <Calendar className="text-blue-600" size={18} />
+                      <span className="font-medium text-sm">Inizio: {course.startDate}</span>
+                    </div>
+                  </div>
+
+                  <div className="pt-2 flex flex-col sm:flex-row gap-3 justify-center">
+                    <a
+                      href="#iscrizione"
+                      className={`px-6 py-3 rounded-xl text-white font-bold text-base shadow-xl hover:shadow-2xl hover:scale-105 transition-all bg-gradient-to-r ${course.gradient}`}
+                    >
+                      Iscriviti Ora
+                    </a>
+                    <a
+                      href="#programma"
+                      className="px-6 py-3 rounded-xl bg-white text-gray-800 font-bold text-base shadow-md border border-gray-200 hover:border-purple-300 hover:text-purple-600 transition-all"
+                    >
+                      Dettagli Programma
+                    </a>
+                  </div>
+                </div>
+              )}
             </div>
 
           </div>
