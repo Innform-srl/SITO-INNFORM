@@ -1157,7 +1157,7 @@ export function CourseDetail() {
               </div>
 
               {/* Info e pulsanti per layout standard (non CDSA) */}
-              {course.id !== 'CDSA' && (
+              {liveData?.code !== 'CDSA' && (
                 <>
                   <div className="flex flex-wrap justify-center lg:justify-start gap-6 text-gray-600">
                     <div className="flex items-center gap-2 bg-white px-5 py-3 rounded-2xl shadow-sm border border-gray-100">
@@ -1224,7 +1224,7 @@ export function CourseDetail() {
               </div>
 
               {/* Info e pulsanti per layout CDSA (sotto l'immagine) */}
-              {course.id === 'CDSA' && (
+              {liveData?.code === 'CDSA' && (
                 <div className="mt-6 space-y-4">
                   <div className="flex flex-wrap justify-center gap-4 text-gray-600">
                     <div className="flex items-center gap-2 bg-white px-4 py-2 rounded-full shadow-sm border border-gray-100">
