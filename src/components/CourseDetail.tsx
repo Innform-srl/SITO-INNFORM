@@ -681,7 +681,7 @@ const coursesData: Record<string, Course> = {
     title: 'Corso di Specializzazione alle Guide Turistiche',
     subtitle: 'Accessibilità al patrimonio museale e monumentale italiano per non vedenti',
     decree: 'Obbligo di aggiornamento per guide turistiche: 50 ore ogni 3 anni per rimanere nell\'elenco nazionale.\nAutorizzato con Decreto Ministeriale prot. n. 269540 del 02/12/2025',
-    description: 'Il corso forma guide turistiche specializzate nell\'accompagnamento di visitatori non vedenti e ipovedenti presso musei, monumenti e siti culturali. I partecipanti acquisiranno competenze nella comunicazione accessibile, nella descrizione artistica inclusiva e nella progettazione di esperienze multisensoriali.',
+    description: 'Il corso di specializzazione è pensato per guide turistiche che desiderano ampliare le proprie competenze e diventare protagoniste di un turismo davvero inclusivo. Il percorso formativo fornisce strumenti teorici e pratici per progettare e condurre esperienze culturali accessibili, significative e coinvolgenti per persone non vedenti e ipovedenti.\n\nAttraverso una modalità blended (lezioni online e laboratori esperienziali in presenza), il corso affronta temi chiave come la psicologia della disabilità visiva, la comunicazione accessibile e il sistema Braille, le tecniche di descrizione artistica, la costruzione di immagini mentali e l\'estetica multisensoriale. Un\'attenzione particolare è dedicata alla progettazione di materiali tattili e alla sperimentazione diretta, grazie a laboratori pratici e itineranti guidati anche da docenti non vedenti.\n\nAl termine del percorso, i partecipanti avranno acquisito competenze concrete per accogliere e accompagnare visitatori con disabilità visiva, progettare visite inclusive, utilizzare linguaggi descrittivi efficaci e valorizzare il patrimonio museale e monumentale attraverso un approccio multisensoriale ed empatico. Il valore aggiunto del corso risiede nell\'esperienza diretta sul campo e nella formazione olistica, che permette alle guide di diventare veri agenti di accessibilità, capaci di rendere la bellezza e la cultura fruibili da tutti, senza esclusioni.',
     duration: '50 ore',
     type: 'Corso di Specializzazione',
     gradient: 'from-teal-600 via-teal-500 to-cyan-500',
@@ -1151,7 +1151,7 @@ export function CourseDetail() {
                   </p>
                 )}
 
-                <p className="text-xl text-gray-600 leading-relaxed max-w-2xl mx-auto lg:mx-0">
+                <p className="text-xl text-gray-600 leading-relaxed max-w-2xl mx-auto lg:mx-0 whitespace-pre-line">
                   {course.description}
                 </p>
               </div>
