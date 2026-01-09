@@ -905,7 +905,7 @@ export function CourseDetail() {
       title: liveData.title || staticCourse?.title || '',
       subtitle: staticCourse?.subtitle,
       decree: staticCourse?.decree,
-      description: liveData.description || staticCourse?.description || '',
+      description: staticCourse?.description || liveData.description || '',
       duration: liveData.duration_hours ? `${liveData.duration_hours} ore` : staticCourse?.duration || '',
       type: staticCourse?.type || liveData.category || 'Corso',
       gradient: staticCourse?.gradient || defaultGradient,
