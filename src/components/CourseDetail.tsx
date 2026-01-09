@@ -1065,6 +1065,12 @@ export function CourseDetail() {
     ? parseFloat(displayData.price.replace(/[^0-9.,]/g, '').replace(',', '.'))
     : undefined;
 
+  // Determina se le iscrizioni sono aperte (per mostrare/nascondere form iscrizione)
+  const hasAvailableEdition = liveData?.editions?.some(
+    ed => ed.is_enrollments_open && !ed.badges.sold_out && !ed.badges.already_started
+  ) || false;
+  const canEnroll = hasAvailableEdition || (liveData?.is_enrollments_open && !liveData?.badges?.sold_out && !liveData?.badges?.already_started) || false;
+
   return (
     <>
       {/* SEO Meta Tags dinamici */}
@@ -1895,42 +1901,69 @@ export function CourseDetail() {
         </div>
       </section>
 
-      {/* Sezione Iscrizione - Integrata con EduPlan */}
+      {/* Sezione Iscrizione/Richiedi Info - Integrata con EduPlan */}
       <section id="iscrizione" className={`py-20 bg-gradient-to-br ${course.bgGradient}`}>
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <div className={`inline-block bg-gradient-to-r ${course.gradient} text-white px-6 py-2 rounded-full mb-4`}>
-              Iscriviti Ora
-            </div>
-            <h2 className="text-4xl md:text-5xl font-bold mb-4 text-gray-900">
-              Inizia il Tuo Percorso
-            </h2>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              Compila il form per informazioni sul corso. Ti contatteremo subito per tutti i dettagli.
-            </p>
-          </div>
+          {canEnroll ? (
+            /* Iscrizioni APERTE - Mostra form iscrizione */
+            <>
+              <div className="text-center mb-12">
+                <div className={`inline-block bg-gradient-to-r ${course.gradient} text-white px-6 py-2 rounded-full mb-4`}>
+                  Iscriviti Ora
+                </div>
+                <h2 className="text-4xl md:text-5xl font-bold mb-4 text-gray-900">
+                  Inizia il Tuo Percorso
+                </h2>
+                <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+                  Compila il form per informazioni sul corso. Ti contatteremo subito per tutti i dettagli.
+                </p>
+              </div>
 
-          <div className="bg-white rounded-3xl p-8 md:p-10 shadow-2xl">
-            <EnrollmentForm
-              courseId={course.id}
-              courseName={course.title}
-              onSuccess={(result) => {
-                console.log('[CourseDetail] Iscrizione completata:', result);
-                // Invalida cache per aggiornare posti disponibili
-                invalidateCache();
-                // Analytics tracking (opzionale)
-                if (typeof window !== 'undefined' && (window as any).gtag) {
-                  (window as any).gtag('event', 'enrollment_submitted', {
-                    course_id: course.id,
-                    course_name: course.title,
-                  });
-                }
-              }}
-              onError={(error) => {
-                console.error('[CourseDetail] Errore iscrizione:', error);
-              }}
-            />
-          </div>
+              <div className="bg-white rounded-3xl p-8 md:p-10 shadow-2xl">
+                <EnrollmentForm
+                  courseId={course.id}
+                  courseName={course.title}
+                  onSuccess={(result) => {
+                    console.log('[CourseDetail] Iscrizione completata:', result);
+                    // Invalida cache per aggiornare posti disponibili
+                    invalidateCache();
+                    // Analytics tracking (opzionale)
+                    if (typeof window !== 'undefined' && (window as any).gtag) {
+                      (window as any).gtag('event', 'enrollment_submitted', {
+                        course_id: course.id,
+                        course_name: course.title,
+                      });
+                    }
+                  }}
+                  onError={(error) => {
+                    console.error('[CourseDetail] Errore iscrizione:', error);
+                  }}
+                />
+              </div>
+            </>
+          ) : (
+            /* Iscrizioni CHIUSE - Mostra messaggio e form richiedi info */
+            <>
+              <div className="text-center mb-12">
+                <div className="inline-block bg-amber-500 text-white px-6 py-2 rounded-full mb-4">
+                  Iscrizioni Chiuse
+                </div>
+                <h2 className="text-4xl md:text-5xl font-bold mb-4 text-gray-900">
+                  Richiedi Informazioni
+                </h2>
+                <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+                  Le iscrizioni per questa edizione sono chiuse. Compila il form per ricevere informazioni sulle prossime edizioni.
+                </p>
+              </div>
+
+              <div className="bg-white rounded-3xl p-8 md:p-10 shadow-2xl">
+                <QuickContactForm
+                  courseId={course.id}
+                  courseName={course.title}
+                />
+              </div>
+            </>
+          )}
         </div>
       </section>
     </article>
