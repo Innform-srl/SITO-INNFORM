@@ -1151,7 +1151,7 @@ export function CourseDetail() {
                   </p>
                 )}
 
-                <p className="text-xl text-gray-600 leading-relaxed max-w-2xl mx-auto lg:mx-0 whitespace-pre-line">
+                <p className={`${liveData?.code === 'CDSA' ? 'text-base' : 'text-xl'} text-gray-600 leading-relaxed max-w-2xl mx-auto lg:mx-0 whitespace-pre-line`}>
                   {course.description}
                 </p>
               </div>
@@ -1244,13 +1244,13 @@ export function CourseDetail() {
                   <div className="pt-2 flex flex-col sm:flex-row gap-3 justify-center">
                     <a
                       href="#iscrizione"
-                      className={`px-6 py-3 rounded-xl text-white font-bold text-base shadow-xl hover:shadow-2xl hover:scale-105 transition-all bg-gradient-to-r ${course.gradient}`}
+                      className="px-6 py-3 rounded-xl text-white font-bold text-base shadow-xl hover:shadow-2xl hover:scale-105 transition-all bg-teal-600 hover:bg-teal-700"
                     >
                       Iscriviti Ora
                     </a>
                     <a
                       href="#programma"
-                      className="px-6 py-3 rounded-xl bg-white text-gray-800 font-bold text-base shadow-md border border-gray-200 hover:border-purple-300 hover:text-purple-600 transition-all"
+                      className="px-6 py-3 rounded-xl bg-white text-gray-800 font-bold text-base shadow-md border border-gray-200 hover:border-teal-300 hover:text-teal-600 transition-all"
                     >
                       Dettagli Programma
                     </a>
