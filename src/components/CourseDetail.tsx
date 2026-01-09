@@ -1203,7 +1203,7 @@ export function CourseDetail() {
             </div>
 
             {/* Right Column: Hero Image / Carousel */}
-            <div className="flex-1 w-full max-w-xl lg:max-w-none">
+            <div className={`flex-1 w-full max-w-xl lg:max-w-none ${liveData?.code === 'CDSA' ? 'mt-[170px]' : ''}`}>
               <div className="relative">
                 <div className={`absolute inset-0 bg-gradient-to-tr ${course.gradient} rounded-[2rem] transform rotate-3 opacity-20 blur-lg`}></div>
                 <div className="relative rounded-[2rem] overflow-hidden shadow-2xl border-4 border-white">
@@ -1225,7 +1225,7 @@ export function CourseDetail() {
 
               {/* Info e pulsanti per layout CDSA (sotto l'immagine) */}
               {liveData?.code === 'CDSA' && (
-                <div className="mt-10 space-y-4">
+                <div className="mt-[150px] space-y-4">
                   <div className="flex flex-wrap justify-center gap-4 text-gray-600">
                     <div className="flex items-center gap-2 bg-white px-4 py-2 rounded-full shadow-sm border border-gray-100">
                       <Clock className="text-purple-600" size={18} />
