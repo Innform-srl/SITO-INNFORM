@@ -1199,7 +1199,8 @@ export function CourseDetail() {
                     ) : (
                       <a
                         href="#iscrizione"
-                        className="px-8 py-4 rounded-xl text-white font-bold text-lg shadow-xl hover:shadow-2xl hover:scale-105 transition-all bg-gray-500 hover:bg-gray-600"
+                        className="px-8 py-4 rounded-xl text-white font-bold text-lg shadow-xl hover:shadow-2xl hover:scale-105 transition-all"
+                        style={{ backgroundColor: '#6b7280' }}
                       >
                         Chiedi Informazioni
                       </a>
@@ -1266,7 +1267,8 @@ export function CourseDetail() {
                     ) : (
                       <a
                         href="#iscrizione"
-                        className="px-6 py-3 rounded-xl text-white font-bold text-base shadow-xl hover:shadow-2xl hover:scale-105 transition-all bg-gray-500 hover:bg-gray-600"
+                        className="px-6 py-3 rounded-xl text-white font-bold text-base shadow-xl hover:shadow-2xl hover:scale-105 transition-all"
+                        style={{ backgroundColor: '#6b7280' }}
                       >
                         Chiedi Informazioni
                       </a>
