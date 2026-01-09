@@ -680,7 +680,7 @@ const coursesData: Record<string, Course> = {
     id: 'CDSA',
     title: 'Corso di Specializzazione alle Guide Turistiche',
     subtitle: 'Accessibilità al patrimonio museale e monumentale italiano per non vedenti',
-    decree: 'Obbligo di aggiornamento per guide turistiche: 50 ore ogni 3 anni per rimanere nell\'elenco nazionale. Autorizzato con Decreto Ministeriale prot. n. 269540 del 02/12/2025',
+    decree: 'Obbligo di aggiornamento per guide turistiche: 50 ore ogni 3 anni per rimanere nell\'elenco nazionale.\nAutorizzato con Decreto Ministeriale prot. n. 269540 del 02/12/2025',
     description: 'Il corso forma guide turistiche specializzate nell\'accompagnamento di visitatori non vedenti e ipovedenti presso musei, monumenti e siti culturali. I partecipanti acquisiranno competenze nella comunicazione accessibile, nella descrizione artistica inclusiva e nella progettazione di esperienze multisensoriali.',
     duration: '50 ore',
     type: 'Corso di Specializzazione',
