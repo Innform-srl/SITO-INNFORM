@@ -1146,7 +1146,7 @@ export function CourseDetail() {
                 )}
 
                 {course.decree && (
-                  <p className="text-sm md:text-base text-gray-500 font-medium">
+                  <p className="text-sm md:text-base text-gray-500 font-medium whitespace-pre-line">
                     {course.decree}
                   </p>
                 )}
