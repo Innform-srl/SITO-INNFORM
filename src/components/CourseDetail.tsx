@@ -1244,7 +1244,8 @@ export function CourseDetail() {
                   <div className="pt-2 flex flex-col sm:flex-row gap-3 justify-center">
                     <a
                       href="#iscrizione"
-                      className="px-6 py-3 rounded-xl text-white font-bold text-base shadow-xl hover:shadow-2xl hover:scale-105 transition-all bg-teal-600 hover:bg-teal-700"
+                      className="px-6 py-3 rounded-xl text-white font-bold text-base shadow-xl hover:shadow-2xl hover:scale-105 transition-all"
+                      style={{ backgroundColor: '#0d9488' }}
                     >
                       Iscriviti Ora
                     </a>
