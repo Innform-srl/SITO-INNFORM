@@ -1226,20 +1226,18 @@ export function CourseDetail() {
               {/* Info e pulsanti per layout CDSA (sotto l'immagine) */}
               {liveData?.code === 'CDSA' && (
                 <div className="space-y-4" style={{ marginTop: '150px' }}>
-                  <div className="flex flex-wrap justify-center gap-4 text-gray-600">
-                    <div className="flex items-center gap-2 bg-white px-4 py-2 rounded-full shadow-sm border border-gray-100">
+                  <div className="flex justify-center gap-3 text-gray-600">
+                    <div className="flex items-center justify-center gap-2 bg-white px-4 py-2 rounded-full shadow-sm border border-gray-100" style={{ minWidth: '140px' }}>
                       <Clock className="text-purple-600" size={18} />
                       <span className="font-medium text-sm">{course.duration}</span>
                     </div>
-                    <div className="flex items-center gap-2 bg-white px-4 py-2 rounded-full shadow-sm border border-gray-100">
+                    <div className="flex items-center justify-center gap-2 bg-white px-4 py-2 rounded-full shadow-sm border border-gray-100" style={{ minWidth: '140px' }}>
                       <MapPin className="text-pink-600" size={18} />
                       <span className="font-medium text-sm">{course.location}</span>
                     </div>
-                  </div>
-                  <div className="flex justify-center">
-                    <div className="flex items-center gap-2 bg-white px-4 py-2 rounded-full shadow-sm border border-gray-100">
+                    <div className="flex items-center justify-center gap-2 bg-white px-4 py-2 rounded-full shadow-sm border border-gray-100" style={{ minWidth: '140px' }}>
                       <Calendar className="text-blue-600" size={18} />
-                      <span className="font-medium text-sm">Inizio: {course.startDate}</span>
+                      <span className="font-medium text-sm">{course.startDate}</span>
                     </div>
                   </div>
 
