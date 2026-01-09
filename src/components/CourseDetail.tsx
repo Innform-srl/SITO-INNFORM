@@ -1189,12 +1189,19 @@ export function CourseDetail() {
                       >
                         Pre-iscriviti Ora (Gratuito)
                       </a>
-                    ) : (
+                    ) : canEnroll ? (
                       <a
                         href="#iscrizione"
                         className={`px-8 py-4 rounded-xl text-white font-bold text-lg shadow-xl hover:shadow-2xl hover:scale-105 transition-all bg-gradient-to-r ${course.gradient}`}
                       >
                         Iscriviti Ora
+                      </a>
+                    ) : (
+                      <a
+                        href="#iscrizione"
+                        className="px-8 py-4 rounded-xl text-white font-bold text-lg shadow-xl hover:shadow-2xl hover:scale-105 transition-all bg-gray-500 hover:bg-gray-600"
+                      >
+                        Chiedi Informazioni
                       </a>
                     )}
                     <a
@@ -1248,13 +1255,22 @@ export function CourseDetail() {
                   </div>
 
                   <div className="pt-2 flex flex-col sm:flex-row gap-3 justify-center">
-                    <a
-                      href="#iscrizione"
-                      className="px-6 py-3 rounded-xl text-white font-bold text-base shadow-xl hover:shadow-2xl hover:scale-105 transition-all"
-                      style={{ backgroundColor: '#0d9488' }}
-                    >
-                      Iscriviti Ora
-                    </a>
+                    {canEnroll ? (
+                      <a
+                        href="#iscrizione"
+                        className="px-6 py-3 rounded-xl text-white font-bold text-base shadow-xl hover:shadow-2xl hover:scale-105 transition-all"
+                        style={{ backgroundColor: '#0d9488' }}
+                      >
+                        Iscriviti Ora
+                      </a>
+                    ) : (
+                      <a
+                        href="#iscrizione"
+                        className="px-6 py-3 rounded-xl text-white font-bold text-base shadow-xl hover:shadow-2xl hover:scale-105 transition-all bg-gray-500 hover:bg-gray-600"
+                      >
+                        Chiedi Informazioni
+                      </a>
+                    )}
                     <a
                       href="#programma"
                       className="px-6 py-3 rounded-xl bg-white text-gray-800 font-bold text-base shadow-md border border-gray-200 hover:border-teal-300 hover:text-teal-600 transition-all"
