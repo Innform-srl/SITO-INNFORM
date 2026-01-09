@@ -22,7 +22,8 @@ const EDUPLAN_URL = 'https://ikjqbmjyjuhkwtdvxjai.supabase.co';
 const EDUPLAN_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY || '';
 
 // Nome del canale broadcast (deve corrispondere a quello configurato su EduPlan)
-const BROADCAST_CHANNEL = 'public-data';
+// EduPlan usa 'public-updates' per inviare notifiche broadcast
+const BROADCAST_CHANNEL = 'public-updates';
 
 // Tipi di eventi broadcast
 export type BroadcastEventType =

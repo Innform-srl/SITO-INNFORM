@@ -50,3 +50,6 @@ nul
 
 # Cartelle non correlate al sito principale
 clinicabenessere/
+
+.vercel
+.env*.local

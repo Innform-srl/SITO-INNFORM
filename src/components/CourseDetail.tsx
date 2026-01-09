@@ -680,7 +680,7 @@ const coursesData: Record<string, Course> = {
     id: 'CDSA',
     title: 'Corso di Specializzazione alle Guide Turistiche',
     subtitle: 'Accessibilità al patrimonio museale e monumentale italiano per non vedenti',
-    decree: 'Autorizzato con Decreto Ministeriale prot. n. 269540 del 02/12/2025',
+    decree: 'Obbligo di aggiornamento per guide turistiche: 50 ore ogni 3 anni per rimanere nell\'elenco nazionale. Autorizzato con Decreto Ministeriale prot. n. 269540 del 02/12/2025',
     description: 'Il corso forma guide turistiche specializzate nell\'accompagnamento di visitatori non vedenti e ipovedenti presso musei, monumenti e siti culturali. I partecipanti acquisiranno competenze nella comunicazione accessibile, nella descrizione artistica inclusiva e nella progettazione di esperienze multisensoriali.',
     duration: '50 ore',
     type: 'Corso di Specializzazione',
@@ -689,7 +689,7 @@ const coursesData: Record<string, Course> = {
     icon: 'Eye',
     skills: ['Psicologia disabilità visiva', 'Sistema Braille', 'Audio-descrizione', 'Comunicazione accessibile', 'Esperienze multisensoriali', 'Materiali tattili'],
     price: '€480 (IVA inclusa)',
-    startDate: '19 Gennaio 2026',
+    startDate: '23 Febbraio 2026',
     location: 'Matera (in presenza) + Online',
     heroImage: 'https://images.unsplash.com/photo-1582555172866-f73bb12a2ab3?auto=format&fit=crop&q=80&w=1080',
     carouselImages: [

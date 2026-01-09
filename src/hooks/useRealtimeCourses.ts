@@ -146,8 +146,14 @@ export function useRealtimeCourses(options: UseRealtimeCoursesOptions = {}): Use
     }, CONFIG.DEBOUNCE_DELAY);
 
     // Sottoscrivi agli aggiornamenti corsi
+    // EduPlan invia: { type: 'courses:updated', id: courseId }
     const unsubscribe = subscribe<CoursePublicData[]>('courses:updated', (payload: BroadcastPayload<CoursePublicData[]>) => {
-      console.log('[useRealtimeCourses] Ricevuto aggiornamento, forzo refetch:', payload);
+      console.log('[useRealtimeCourses] Ricevuto broadcast courses:updated:', payload);
+
+      // Log dell'id del corso aggiornato (se presente)
+      if (payload.id) {
+        console.log('[useRealtimeCourses] Corso aggiornato ID:', payload.id);
+      }
 
       // Se il payload contiene i dati completi, usali direttamente
       if (payload.data && Array.isArray(payload.data) && payload.data.length > 0) {
@@ -157,10 +163,10 @@ export function useRealtimeCourses(options: UseRealtimeCoursesOptions = {}): Use
         setTotal(payload.data.length);
         setLastUpdated(new Date());
       } else {
-        // Altrimenti, invalida cache e refetch
-        console.log('[useRealtimeCourses] Payload senza dati, eseguo refetch...');
+        // Invalida cache e refetch - il payload contiene solo l'id del corso modificato
+        console.log('[useRealtimeCourses] Invalido cache e refetch (corso modificato:', payload.id || 'non specificato', ')');
         invalidateCache();
-        // Delay più lungo per dare tempo al database di propagare le modifiche
+        // Delay per dare tempo al database di propagare le modifiche
         setTimeout(() => {
           console.log('[useRealtimeCourses] Eseguo refetch dopo delay...');
           fetchCourses(true);
@@ -399,24 +405,38 @@ export function useRealtimeCourse(options: UseRealtimeCourseOptions): UseRealtim
     });
 
     // Sottoscrivi anche a courses:updated per sync generale
+    // EduPlan invia: { type: 'courses:updated', id: courseId }
     // NOTA: Usiamo un debounce per evitare chiamate multiple
     let refetchTimeout: NodeJS.Timeout | null = null;
     const unsubscribeAll = subscribe<CoursePublicData[]>('courses:updated', (payload) => {
-      // Quando la lista cambia, potrebbe essere cambiato anche questo corso
-      console.log('[useRealtimeCourse] Ricevuto courses:updated per corso singolo');
+      console.log('[useRealtimeCourse] Ricevuto broadcast courses:updated:', payload);
+
+      // Verifica se l'aggiornamento riguarda questo corso specifico
+      const isThisCourse = payload.id && (payload.id === id || payload.id === course?.id);
+
+      if (isThisCourse) {
+        console.log('[useRealtimeCourse] Aggiornamento per QUESTO corso, refetch immediato');
+      } else if (payload.id) {
+        console.log('[useRealtimeCourse] Aggiornamento per altro corso:', payload.id, '- ignoro');
+        return; // Non è questo corso, ignora
+      } else {
+        console.log('[useRealtimeCourse] Aggiornamento generico, refetch per sicurezza');
+      }
 
       // Cancella eventuali timeout precedenti per evitare chiamate multiple
       if (refetchTimeout) {
         clearTimeout(refetchTimeout);
       }
 
-      // Delay più lungo per dare tempo al database di propagare le modifiche
+      // Delay per dare tempo al database di propagare le modifiche
+      // Delay ridotto se è specificamente questo corso
+      const delay = isThisCourse ? 1000 : 5000;
       refetchTimeout = setTimeout(() => {
-        console.log('[useRealtimeCourse] Invalido cache e forzo refetch (dopo 5s)...');
+        console.log(`[useRealtimeCourse] Invalido cache e forzo refetch (dopo ${delay}ms)...`);
         invalidateCache();
         fetchCourseRef.current?.(true);
         refetchTimeout = null;
-      }, 5000);  // 5 secondi di delay per propagazione DB
+      }, delay);
     });
 
     setTimeout(() => {
