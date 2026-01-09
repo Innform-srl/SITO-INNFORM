@@ -1192,7 +1192,8 @@ export function CourseDetail() {
                     ) : canEnroll ? (
                       <a
                         href="#iscrizione"
-                        className={`px-8 py-4 rounded-xl text-white font-bold text-lg shadow-xl hover:shadow-2xl hover:scale-105 transition-all bg-gradient-to-r ${course.gradient}`}
+                        className="px-8 py-4 rounded-xl text-white font-bold text-lg shadow-xl hover:shadow-2xl hover:scale-105 transition-all"
+                        style={{ backgroundColor: '#7c3aed' }}
                       >
                         Iscriviti Ora
                       </a>
