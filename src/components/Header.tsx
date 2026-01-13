@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X, ChevronDown, ChevronRight } from "lucide-react";
+import { Menu, X, ChevronDown, ChevronRight, User } from "lucide-react";
 import logoInnform from "figma:asset/257bd345173d057a2c6124b55493bdfdbcf0c984.png";
 import { useRealtimePaths } from "../hooks/useRealtimePaths";
 import { useRealtimeCourses } from "../hooks/useRealtimeCourses";
@@ -258,12 +258,13 @@ export function Header() {
                 </a>
               );
             })}
-            <a
-              href="#contatti"
-              className="ml-4 bg-gradient-to-r from-purple-600 to-pink-600 text-white px-6 py-2 rounded-full hover:shadow-lg transform hover:scale-105 transition-all duration-300"
+            <Link
+              to="/accedi"
+              className="ml-4 flex items-center gap-2 bg-gradient-to-r from-purple-600 to-pink-600 text-white px-6 py-2 rounded-full hover:shadow-lg transform hover:scale-105 transition-all duration-300"
             >
-              Inizia Ora
-            </a>
+              <User size={18} />
+              Accedi
+            </Link>
           </nav>
 
           {/* Mobile menu button */}
@@ -367,13 +368,14 @@ export function Header() {
                 )}
               </div>
             ))}
-            <a
-              href="#contatti"
-              className="block bg-gradient-to-r from-purple-600 to-pink-600 text-white px-4 py-2 rounded-lg text-center mt-4 mx-2"
+            <Link
+              to="/accedi"
+              className="flex items-center justify-center gap-2 bg-gradient-to-r from-purple-600 to-pink-600 text-white px-4 py-2 rounded-lg text-center mt-4 mx-2"
               onClick={() => setMobileMenuOpen(false)}
             >
-              Inizia Ora
-            </a>
+              <User size={18} />
+              Accedi
+            </Link>
           </nav>
         )}
       </div>

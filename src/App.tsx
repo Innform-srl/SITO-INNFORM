@@ -27,6 +27,7 @@ import { ProjectSegni } from './components/ProjectSegni';
 import { PrivacyPolicy } from './components/PrivacyPolicy';
 import { CookiePolicy } from './components/CookiePolicy';
 import { FAQPage } from './components/FAQPage';
+import { LoginPage } from './components/LoginPage';
 
 import { ScrollToTop } from './components/ScrollToTop';
 
@@ -162,6 +163,9 @@ export default function App() {
               <FAQPage />
             </Layout>
           } />
+
+          {/* Login Page */}
+          <Route path="/accedi" element={<LoginPage />} />
         </Routes>
       </div>
     </Router>
