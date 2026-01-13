@@ -28,6 +28,9 @@ import { PrivacyPolicy } from './components/PrivacyPolicy';
 import { CookiePolicy } from './components/CookiePolicy';
 import { FAQPage } from './components/FAQPage';
 import { LoginPage } from './components/LoginPage';
+import { StudentDashboard } from './components/StudentDashboard';
+import { ProtectedRoute } from './components/ProtectedRoute';
+import { AuthProvider } from './contexts/AuthContext';
 
 import { ScrollToTop } from './components/ScrollToTop';
 
@@ -78,10 +81,11 @@ function HomePage() {
 export default function App() {
   return (
     <Router>
-      <ScrollToTop />
-      <div className="min-h-screen bg-white">
-        <Routes>
-          <Route path="/" element={<HomePage />} />
+      <AuthProvider>
+        <ScrollToTop />
+        <div className="min-h-screen bg-white">
+          <Routes>
+            <Route path="/" element={<HomePage />} />
           <Route path="/news" element={
             <Layout>
               <NewsPage />
@@ -166,8 +170,16 @@ export default function App() {
 
           {/* Login Page */}
           <Route path="/accedi" element={<LoginPage />} />
+
+          {/* Dashboard Studente (Protetta) */}
+          <Route path="/dashboard" element={
+            <ProtectedRoute>
+              <StudentDashboard />
+            </ProtectedRoute>
+          } />
         </Routes>
-      </div>
+        </div>
+      </AuthProvider>
     </Router>
   );
 }
