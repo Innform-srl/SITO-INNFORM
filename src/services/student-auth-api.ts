@@ -51,10 +51,17 @@ export interface AuthenticatedStudent {
   enrollments: StudentEnrollment[];
 }
 
+export interface AuthTokens {
+  access_token: string;
+  refresh_token: string;
+  expires_at: number;
+}
+
 export interface StudentApiResponse {
   success: boolean;
   data?: AuthenticatedStudent;
-  error?: {
+  auth?: AuthTokens;
+  error?: string | {
     code: string;
     message: string;
   };
@@ -78,6 +85,7 @@ export interface LoginCredentials {
 const STORAGE_KEYS = {
   STUDENT_DATA: 'innform_student_data',
   SESSION_EXPIRY: 'innform_session_expiry',
+  AUTH_TOKENS: 'innform_auth_tokens',
 };
 
 // Durata sessione: 24 ore
@@ -183,8 +191,8 @@ export const StudentAuthService = {
       log('Login response:', result);
 
       if (result.success && result.data) {
-        // Verifica che lo studente sia attivo
-        if (!result.data.active) {
+        // Verifica che lo studente sia attivo (se il campo esiste)
+        if (result.data.active === false) {
           return {
             success: false,
             error: {
@@ -195,16 +203,21 @@ export const StudentAuthService = {
         }
 
         // Salva i dati in sessione
-        this.saveSession(result.data);
+        this.saveSession(result.data, result.auth);
 
         return result;
       }
 
+      // Gestisci errore (può essere stringa o oggetto)
+      const errorMessage = typeof result.error === 'string'
+        ? result.error
+        : result.error?.message || 'Login fallito. Verifica le credenziali.';
+
       return {
         success: false,
-        error: result.error || {
+        error: {
           code: 'LOGIN_FAILED',
-          message: 'Login fallito. Verifica le credenziali.',
+          message: errorMessage,
         },
       };
     } catch (error) {
@@ -222,11 +235,20 @@ export const StudentAuthService = {
   /**
    * Salva i dati della sessione in localStorage
    */
-  saveSession(studentData: AuthenticatedStudent): void {
+  saveSession(studentData: AuthenticatedStudent, authTokens?: AuthTokens): void {
     try {
-      const expiry = Date.now() + SESSION_DURATION_MS;
+      // Usa expires_at dal token se disponibile, altrimenti 24h default
+      const expiry = authTokens?.expires_at
+        ? authTokens.expires_at * 1000 // converti da secondi a millisecondi
+        : Date.now() + SESSION_DURATION_MS;
+
       localStorage.setItem(STORAGE_KEYS.STUDENT_DATA, JSON.stringify(studentData));
       localStorage.setItem(STORAGE_KEYS.SESSION_EXPIRY, expiry.toString());
+
+      if (authTokens) {
+        localStorage.setItem(STORAGE_KEYS.AUTH_TOKENS, JSON.stringify(authTokens));
+      }
+
       log('Session saved for:', studentData.email);
     } catch (error) {
       log('Error saving session:', error);
@@ -272,6 +294,7 @@ export const StudentAuthService = {
     try {
       localStorage.removeItem(STORAGE_KEYS.STUDENT_DATA);
       localStorage.removeItem(STORAGE_KEYS.SESSION_EXPIRY);
+      localStorage.removeItem(STORAGE_KEYS.AUTH_TOKENS);
       log('Session cleared');
     } catch (error) {
       log('Error clearing session:', error);
@@ -279,22 +302,16 @@ export const StudentAuthService = {
   },
 
   /**
-   * Aggiorna i dati dello studente (ricarica dal server)
+   * Recupera i token di autenticazione
    */
-  async refreshSession(): Promise<StudentApiResponse> {
-    const currentSession = this.getSession();
-    if (!currentSession) {
-      return {
-        success: false,
-        error: {
-          code: 'NO_SESSION',
-          message: 'Nessuna sessione attiva',
-        },
-      };
+  getAuthTokens(): AuthTokens | null {
+    try {
+      const tokensStr = localStorage.getItem(STORAGE_KEYS.AUTH_TOKENS);
+      if (!tokensStr) return null;
+      return JSON.parse(tokensStr) as AuthTokens;
+    } catch {
+      return null;
     }
-
-    // Ricarica i dati usando l'email della sessione
-    return this.login({ email: currentSession.email });
   },
 };
 

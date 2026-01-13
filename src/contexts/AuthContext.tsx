@@ -20,7 +20,6 @@ interface AuthContextType {
   // Azioni
   login: (credentials: LoginCredentials) => Promise<StudentApiResponse>;
   logout: () => void;
-  refreshSession: () => Promise<void>;
   clearError: () => void;
 }
 
@@ -72,7 +71,11 @@ export function AuthProvider({ children }: AuthProviderProps) {
       if (response.success && response.data) {
         setStudent(response.data);
       } else if (response.error) {
-        setError(response.error.message);
+        // Gestisci errore stringa o oggetto
+        const errorMsg = typeof response.error === 'string'
+          ? response.error
+          : response.error.message;
+        setError(errorMsg);
       }
 
       return response;
@@ -98,26 +101,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
     setError(null);
   }, []);
 
-  // Refresh session
-  const refreshSession = useCallback(async () => {
-    if (!student) return;
-
-    setIsLoading(true);
-    try {
-      const response = await StudentAuthService.refreshSession();
-      if (response.success && response.data) {
-        setStudent(response.data);
-      } else {
-        // Se il refresh fallisce, effettua logout
-        logout();
-      }
-    } catch (err) {
-      console.error('[AuthContext] Error refreshing session:', err);
-    } finally {
-      setIsLoading(false);
-    }
-  }, [student, logout]);
-
   // Clear error
   const clearError = useCallback(() => {
     setError(null);
@@ -130,7 +113,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
     error,
     login,
     logout,
-    refreshSession,
     clearError,
   };
 
