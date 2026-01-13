@@ -11,6 +11,8 @@ const EDU_API_CONFIG = {
   BASE_URL: 'https://ikjqbmjyjuhkwtdvxjai.supabase.co/functions/v1',
   ENDPOINT: '/public-students-api',
   API_KEY: '78889692017718889893657167663215',
+  // Supabase anon key per Authorization header
+  SUPABASE_ANON_KEY: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlranFibWp5anVoa3d0ZHZ4amFpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjEwMzc4MDksImV4cCI6MjA3NjYxMzgwOX0.6MqvODmDE27UtnTXgI7ZiZF1th5q4QVVxwVu_2czBcs',
 };
 
 // ============================================
@@ -126,6 +128,7 @@ export const StudentAuthService = {
       const response = await fetch(url, {
         method: 'GET',
         headers: {
+          'Authorization': `Bearer ${EDU_API_CONFIG.SUPABASE_ANON_KEY}`,
           'x-api-key': EDU_API_CONFIG.API_KEY,
           'Content-Type': 'application/json',
         },
