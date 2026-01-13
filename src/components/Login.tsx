@@ -8,6 +8,7 @@ type LoginMode = 'email' | 'fiscal_code';
 export function Login() {
   const [email, setEmail] = useState('');
   const [fiscalCode, setFiscalCode] = useState('');
+  const [password, setPassword] = useState('');
   const [loginMode, setLoginMode] = useState<LoginMode>('email');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [localError, setLocalError] = useState<string | null>(null);
@@ -39,13 +40,17 @@ export function Login() {
       setLocalError('Inserisci il tuo codice fiscale');
       return;
     }
+    if (!password.trim()) {
+      setLocalError('Inserisci la password');
+      return;
+    }
 
     setIsSubmitting(true);
 
     try {
       const credentials = loginMode === 'email'
-        ? { email: email.trim() }
-        : { fiscal_code: fiscalCode.trim().toUpperCase() };
+        ? { email: email.trim(), password: password }
+        : { fiscal_code: fiscalCode.trim().toUpperCase(), password: password };
 
       const response = await login(credentials);
 
@@ -98,9 +103,7 @@ export function Login() {
               <div className="login-logo-placeholder"></div>
               <h1 className="login-title">Area Riservata Allievi</h1>
               <p className="login-subtitle">
-                {loginMode === 'email'
-                  ? 'Inserisci la tua email per accedere.'
-                  : 'Inserisci il tuo codice fiscale per accedere.'}
+                Inserisci le tue credenziali per accedere.
               </p>
             </div>
 
@@ -159,6 +162,28 @@ export function Login() {
                   </div>
                 </div>
               )}
+
+              {/* Password Field */}
+              <div className="form-field">
+                <label htmlFor="password" className="form-label">
+                  Password
+                </label>
+                <div className="form-input-wrapper">
+                  <input
+                    id="password"
+                    name="password"
+                    type="password"
+                    autoComplete="current-password"
+                    required
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    className="form-input"
+                    placeholder="••••••••"
+                    disabled={isSubmitting}
+                  />
+                  <Lock className="form-input-icon" size={20} strokeWidth={1.667} />
+                </div>
+              </div>
 
               {/* Toggle Login Mode */}
               <div className="form-toggle-mode">

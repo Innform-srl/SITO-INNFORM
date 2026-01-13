@@ -68,6 +68,7 @@ export interface StudentApiResponse {
 export interface LoginCredentials {
   email?: string;
   fiscal_code?: string;
+  password: string;
 }
 
 // ============================================
@@ -102,7 +103,7 @@ export const StudentAuthService = {
    */
   async login(credentials: LoginCredentials): Promise<StudentApiResponse> {
     try {
-      const { email, fiscal_code } = credentials;
+      const { email, fiscal_code, password } = credentials;
 
       if (!email && !fiscal_code) {
         return {
@@ -114,24 +115,35 @@ export const StudentAuthService = {
         };
       }
 
-      // Costruisci query params
-      const params = new URLSearchParams();
-      if (email) {
-        params.append('email', email);
-      } else if (fiscal_code) {
-        params.append('fiscal_code', fiscal_code);
+      if (!password) {
+        return {
+          success: false,
+          error: {
+            code: 'INVALID_CREDENTIALS',
+            message: 'Inserisci la password',
+          },
+        };
       }
 
-      const url = `${EDU_API_CONFIG.BASE_URL}${EDU_API_CONFIG.ENDPOINT}?${params.toString()}`;
+      // Costruisci body per POST
+      const body: Record<string, string> = { password };
+      if (email) {
+        body.email = email;
+      } else if (fiscal_code) {
+        body.fiscal_code = fiscal_code;
+      }
+
+      const url = `${EDU_API_CONFIG.BASE_URL}${EDU_API_CONFIG.ENDPOINT}`;
       log('Login request:', url);
 
       const response = await fetch(url, {
-        method: 'GET',
+        method: 'POST',
         headers: {
           'Authorization': `Bearer ${EDU_API_CONFIG.SUPABASE_ANON_KEY}`,
           'x-api-key': EDU_API_CONFIG.API_KEY,
           'Content-Type': 'application/json',
         },
+        body: JSON.stringify(body),
       });
 
       if (!response.ok) {
