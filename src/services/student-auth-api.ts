@@ -91,6 +91,9 @@ const STORAGE_KEYS = {
 // Durata sessione: 24 ore
 const SESSION_DURATION_MS = 24 * 60 * 60 * 1000;
 
+// Import LMS API per combinare i corsi
+import { LmsApiService } from './lms-api';
+
 // ============================================
 // FUNZIONI UTILITY
 // ============================================
@@ -311,6 +314,62 @@ export const StudentAuthService = {
       return JSON.parse(tokensStr) as AuthTokens;
     } catch {
       return null;
+    }
+  },
+
+  /**
+   * Recupera i corsi LMS dello studente e li combina con quelli EDU
+   * Questa funzione aggiorna i dati in sessione con i corsi da entrambe le piattaforme
+   */
+  async refreshEnrollments(): Promise<AuthenticatedStudent | null> {
+    try {
+      const student = this.getSession();
+      if (!student) {
+        log('No session found for refresh');
+        return null;
+      }
+
+      log('Refreshing enrollments for:', student.email);
+
+      // Recupera i corsi LMS
+      const lmsResponse = await LmsApiService.getEnrollments(student.email);
+
+      // Segna i corsi EDU con la source
+      const eduEnrollments = (student.enrollments || []).map(e => ({
+        ...e,
+        _source: 'edu' as const,
+      }));
+
+      // Converti e aggiungi i corsi LMS
+      let lmsEnrollments: StudentEnrollment[] = [];
+      if (lmsResponse.success && lmsResponse.data?.enrollments) {
+        lmsEnrollments = lmsResponse.data.enrollments.map(e =>
+          LmsApiService.convertToStudentEnrollment(e)
+        );
+        log('LMS enrollments found:', lmsEnrollments.length);
+      }
+
+      // Combina i corsi: EDU e LMS sono piattaforme separate, quindi li uniamo tutti
+      // I corsi LMS hanno già _source: 'lms' e ID con prefisso 'lms_'
+      const combinedEnrollments = [...eduEnrollments, ...lmsEnrollments];
+      log('EDU enrollments:', eduEnrollments.length);
+      log('LMS enrollments:', lmsEnrollments.length);
+
+      // Aggiorna i dati dello studente con i corsi combinati
+      const updatedStudent: AuthenticatedStudent = {
+        ...student,
+        enrollments: combinedEnrollments,
+      };
+
+      // Salva in sessione (mantieni i token esistenti)
+      const tokens = this.getAuthTokens();
+      this.saveSession(updatedStudent, tokens || undefined);
+
+      log('Total enrollments after refresh:', combinedEnrollments.length);
+      return updatedStudent;
+    } catch (error) {
+      log('Error refreshing enrollments:', error);
+      return this.getSession();
     }
   },
 };

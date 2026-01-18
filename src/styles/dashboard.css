@@ -124,8 +124,8 @@
 /* Stats Cards */
 .dashboard-stats {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 20px;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
   margin-bottom: 32px;
 }
 
@@ -220,6 +220,49 @@
   font-size: 18px;
   font-weight: 600;
   margin: 0;
+  flex: 1;
+}
+
+/* Refresh Button */
+.refresh-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  background: #F3F4F6;
+  border: 1px solid #E5E7EB;
+  border-radius: 8px;
+  color: #6B7280;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.refresh-btn:hover {
+  background: #E5E7EB;
+  color: #9810FA;
+}
+
+.refresh-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.refresh-btn.refreshing svg {
+  animation: spin 1s linear infinite;
+}
+
+/* Refreshing Indicator */
+.refreshing-indicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+  margin-bottom: 16px;
+  background: #F3E8FF;
+  border-radius: 8px;
+  color: #9810FA;
+  font-size: 14px;
 }
 
 /* Profile Section */
@@ -287,30 +330,41 @@
 
 /* Enrollment Card */
 .enrollment-card {
-  background: #F9FAFB;
-  border: 1px solid #E5E7EB;
   border-radius: 12px;
   padding: 20px;
-  transition: border-color 0.3s ease;
+  transition: all 0.2s ease;
 }
 
 .enrollment-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* EDU Card - Sfondo viola chiaro */
+.enrollment-card-edu {
+  background: linear-gradient(135deg, #FAF5FF 0%, #F3E8FF 100%);
+  border: 1px solid #E9D5FF;
+}
+
+.enrollment-card-edu:hover {
   border-color: #9810FA;
+}
+
+/* LMS Card - Sfondo verde chiaro */
+.enrollment-card-lms {
+  background: linear-gradient(135deg, #F0FDF4 0%, #DCFCE7 100%);
+  border: 1px solid #BBF7D0;
+}
+
+.enrollment-card-lms:hover {
+  border-color: #10B981;
 }
 
 .enrollment-card-header {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
-  margin-bottom: 12px;
-}
-
-.enrollment-category {
-  font-size: 12px;
-  font-weight: 600;
-  color: #9810FA;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
+  margin-bottom: 8px;
 }
 
 .enrollment-badge {
@@ -355,19 +409,15 @@
   font-size: 16px;
   font-weight: 600;
   color: #101828;
-  margin: 0 0 4px 0;
-}
-
-.enrollment-code {
-  font-size: 13px;
-  color: #6B7280;
   margin: 0 0 16px 0;
+  line-height: 1.4;
 }
 
-.enrollment-details {
+/* Info section */
+.enrollment-info {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 6px;
   margin-bottom: 16px;
 }
 
@@ -376,19 +426,62 @@
   align-items: center;
   gap: 8px;
   font-size: 13px;
-  color: #4A5565;
+  color: #4B5563;
 }
 
 .enrollment-detail svg {
   color: #9CA3AF;
+  flex-shrink: 0;
+}
+
+/* Progress Bar (LMS) */
+.enrollment-progress {
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.progress-bar {
+  flex: 1;
+  height: 6px;
+  background: #E5E7EB;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #10B981 0%, #059669 100%);
+  border-radius: 3px;
+  transition: width 0.5s ease;
+}
+
+.progress-text {
+  font-size: 12px;
+  color: #059669;
+  font-weight: 600;
+  min-width: 36px;
+}
+
+/* Time Spent Badge (LMS) */
+.time-spent-badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  padding: 4px 10px;
+  border-radius: 20px;
+  background: #F3F4F6;
+  color: #6B7280;
 }
 
 .enrollment-footer {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
-  padding-top: 16px;
-  border-top: 1px solid #E5E7EB;
+  padding-top: 12px;
 }
 
 .payment-badge {
@@ -548,7 +641,7 @@
 
 @media (max-width: 1024px) {
   .dashboard-stats {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(3, 1fr);
   }
 
   .dashboard-grid {
@@ -584,23 +677,27 @@
   }
 
   .dashboard-stats {
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
   }
 
   .stat-card {
-    padding: 16px;
+    padding: 12px;
     flex-direction: column;
     text-align: center;
   }
 
   .stat-card-icon {
-    width: 48px;
-    height: 48px;
+    width: 40px;
+    height: 40px;
   }
 
   .stat-card-value {
-    font-size: 24px;
+    font-size: 20px;
+  }
+
+  .stat-card-label {
+    font-size: 11px;
   }
 
   .help-actions {

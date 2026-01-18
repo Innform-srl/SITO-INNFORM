@@ -15,12 +15,14 @@ interface AuthContextType {
   student: AuthenticatedStudent | null;
   isAuthenticated: boolean;
   isLoading: boolean;
+  isRefreshing: boolean;
   error: string | null;
 
   // Azioni
   login: (credentials: LoginCredentials) => Promise<StudentApiResponse>;
   logout: () => void;
   clearError: () => void;
+  refreshEnrollments: () => Promise<void>;
 }
 
 // ============================================
@@ -40,18 +42,27 @@ interface AuthProviderProps {
 export function AuthProvider({ children }: AuthProviderProps) {
   const [student, setStudent] = useState<AuthenticatedStudent | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [isRefreshing, setIsRefreshing] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   // Carica sessione esistente al mount
   useEffect(() => {
-    const loadSession = () => {
+    const loadSession = async () => {
       try {
         const existingSession = StudentAuthService.getSession();
         if (existingSession) {
           setStudent(existingSession);
+          // Refresh automatico dei corsi (inclusi LMS) dopo il caricamento iniziale
+          setIsRefreshing(true);
+          const updatedStudent = await StudentAuthService.refreshEnrollments();
+          if (updatedStudent) {
+            setStudent(updatedStudent);
+          }
+          setIsRefreshing(false);
         }
       } catch (err) {
         console.error('[AuthContext] Error loading session:', err);
+        setIsRefreshing(false);
       } finally {
         setIsLoading(false);
       }
@@ -106,14 +117,33 @@ export function AuthProvider({ children }: AuthProviderProps) {
     setError(null);
   }, []);
 
+  // Refresh enrollments (forza ricaricamento corsi da EDU + LMS)
+  const refreshEnrollments = useCallback(async () => {
+    if (!student) return;
+
+    setIsRefreshing(true);
+    try {
+      const updatedStudent = await StudentAuthService.refreshEnrollments();
+      if (updatedStudent) {
+        setStudent(updatedStudent);
+      }
+    } catch (err) {
+      console.error('[AuthContext] Error refreshing enrollments:', err);
+    } finally {
+      setIsRefreshing(false);
+    }
+  }, [student]);
+
   const value: AuthContextType = {
     student,
     isAuthenticated: !!student,
     isLoading,
+    isRefreshing,
     error,
     login,
     logout,
     clearError,
+    refreshEnrollments,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

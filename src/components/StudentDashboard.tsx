@@ -24,6 +24,7 @@ import {
 } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import { StudentEnrollment } from '../services/student-auth-api';
+import { RefreshCw } from 'lucide-react';
 import '../styles/dashboard.css';
 
 // ============================================
@@ -73,15 +74,6 @@ function EnrollmentCard({ enrollment }: EnrollmentCardProps) {
     return statusConfig[status] || { label: status, className: 'badge-default' };
   };
 
-  const getPaymentBadge = (status: string) => {
-    const paymentConfig: Record<string, { label: string; className: string }> = {
-      pending: { label: 'Da Pagare', className: 'payment-pending' },
-      paid: { label: 'Pagato', className: 'payment-paid' },
-      partial: { label: 'Parziale', className: 'payment-partial' },
-    };
-    return paymentConfig[status] || { label: status, className: 'payment-default' };
-  };
-
   const formatDate = (dateString?: string) => {
     if (!dateString) return '-';
     return new Date(dateString).toLocaleDateString('it-IT', {
@@ -91,52 +83,60 @@ function EnrollmentCard({ enrollment }: EnrollmentCardProps) {
     });
   };
 
+  const isLms = enrollment._source === 'lms';
+  const progress = enrollment._progress;
   const statusBadge = getStatusBadge(enrollment.status);
-  const paymentBadge = getPaymentBadge(enrollment.payment_status);
 
   return (
-    <div className="enrollment-card">
+    <div className={`enrollment-card ${isLms ? 'enrollment-card-lms' : 'enrollment-card-edu'}`}>
       <div className="enrollment-card-header">
-        <div className="enrollment-category">{enrollment.course_category}</div>
         <span className={`enrollment-badge ${statusBadge.className}`}>
           {statusBadge.label}
         </span>
       </div>
 
       <h3 className="enrollment-title">{enrollment.course_title}</h3>
-      <p className="enrollment-code">Codice: {enrollment.course_code}</p>
 
-      <div className="enrollment-details">
+      {/* Progress bar per corsi LMS */}
+      {isLms && typeof progress === 'number' && (
+        <div className="enrollment-progress">
+          <div className="progress-bar">
+            <div
+              className="progress-fill"
+              style={{ width: `${progress}%` }}
+            />
+          </div>
+          <span className="progress-text">{Math.round(progress)}%</span>
+        </div>
+      )}
+
+      <div className="enrollment-info">
         <div className="enrollment-detail">
-          <Calendar size={16} />
+          <Calendar size={14} />
           <span>Iscrizione: {formatDate(enrollment.enrollment_date)}</span>
         </div>
         {enrollment.start_date && (
           <div className="enrollment-detail">
-            <Clock size={16} />
+            <Clock size={14} />
             <span>Inizio: {formatDate(enrollment.start_date)}</span>
           </div>
         )}
-        {enrollment.end_date && (
+        {isLms && enrollment._timeSpent !== undefined && enrollment._timeSpent > 0 && (
           <div className="enrollment-detail">
-            <CheckCircle size={16} />
-            <span>Fine: {formatDate(enrollment.end_date)}</span>
+            <Clock size={14} />
+            <span>Tempo: {enrollment._timeSpent} min</span>
           </div>
         )}
       </div>
 
-      <div className="enrollment-footer">
-        <span className={`payment-badge ${paymentBadge.className}`}>
-          <CreditCard size={14} />
-          {paymentBadge.label}
-        </span>
-        {enrollment.status === 'completed' && (
+      {enrollment.status === 'completed' && (
+        <div className="enrollment-footer">
           <button className="download-certificate-btn">
             <Download size={16} />
-            Certificato
+            Scarica Certificato
           </button>
-        )}
-      </div>
+        </div>
+      )}
     </div>
   );
 }
@@ -146,7 +146,7 @@ function EnrollmentCard({ enrollment }: EnrollmentCardProps) {
 // ============================================
 
 export function StudentDashboard() {
-  const { student, logout, isLoading } = useAuth();
+  const { student, logout, isLoading, isRefreshing, refreshEnrollments } = useAuth();
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -226,12 +226,6 @@ export function StudentDashboard() {
             value={completedCourses}
             color="green"
           />
-          <StatCard
-            icon={<FileText size={24} />}
-            label="Certificati"
-            value={completedCourses}
-            color="orange"
-          />
         </section>
 
         {/* Two Column Layout */}
@@ -295,7 +289,21 @@ export function StudentDashboard() {
             <div className="section-header">
               <BookOpen size={22} />
               <h2>I Tuoi Corsi</h2>
+              <button
+                className={`refresh-btn ${isRefreshing ? 'refreshing' : ''}`}
+                onClick={refreshEnrollments}
+                disabled={isRefreshing}
+                title="Aggiorna corsi"
+              >
+                <RefreshCw size={18} />
+              </button>
             </div>
+
+            {isRefreshing && (
+              <div className="refreshing-indicator">
+                <span>Aggiornamento corsi in corso...</span>
+              </div>
+            )}
 
             {enrollments.length > 0 ? (
               <div className="enrollments-grid">
