@@ -47,13 +47,19 @@ export const newsItems = [
   },
   {
     id: 1,
-    title: "Corso Gratuito Alfabetizzazione Informatica: iscrizioni aperte per famiglie",
+    title: "Corso Gratuito Alfabetizzazione Informatica: PROROGA al 19 Febbraio!",
     date: "20 Dicembre 2025",
     category: "Corsi",
+    badge: "PROROGA",
     image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxmYW1pbHklMjBjb21wdXRlciUyMGxlYXJuaW5nfGVufDF8fHx8MTc2NTU1MTA0NHww&ixlib=rb-4.1.0&q=80&w=1080",
-    excerpt: "Nuovo bando per il corso gratuito di Alfabetizzazione Informatica e Tecnologie Assistive. 20 ore di formazione per famiglie del Marmo Platano Melandro. Scadenza domande: 16 Gennaio 2026.",
+    excerpt: "📢 PROROGA! Nuovo bando per il corso gratuito di Alfabetizzazione Informatica e Tecnologie Assistive. 20 ore di formazione per famiglie del Marmo Platano Melandro. Nuova scadenza: 19 Febbraio 2026.",
     link: "/progetti/ti-abilito#alfabetizzazione",
     content: `
+      <div style="background-color: #fef3c7; border: 2px solid #f59e0b; border-radius: 12px; padding: 16px; margin-bottom: 24px;">
+        <p style="color: #92400e; font-weight: bold; margin: 0 0 8px 0;">📢 IMPORTANTE: PROROGA TERMINI DEL BANDO</p>
+        <p style="color: #78350f; margin: 0;">I termini per la presentazione della domanda di iscrizione sono stati <strong>prorogati al 19 Febbraio 2026</strong> (anziché il 16 Gennaio 2026). Partecipazione gratuita e possibilità di ricevere un tablet in omaggio per i primi 10 classificati!</p>
+      </div>
+
       <p class="lead">È aperto il nuovo bando per il corso <strong>Alfabetizzazione Informatica e Tecnologie Assistive</strong> nell'ambito del progetto T.I. ABILITO. Un'opportunità formativa completamente <strong>gratuita</strong> per le famiglie residenti nei Comuni del Marmo Platano Melandro.</p>
 
       <h3>Cosa offre il corso</h3>
@@ -71,7 +77,7 @@ export const newsItems = [
         <li style="margin-bottom: 8px;"><strong>Periodo:</strong> Febbraio 2026</li>
         <li style="margin-bottom: 8px;"><strong>Costo:</strong> GRATUITO</li>
         <li style="margin-bottom: 8px;"><strong>Posti disponibili:</strong> Massimo 15 famiglie</li>
-        <li style="margin-bottom: 8px;"><strong>Scadenza domande:</strong> 16 Gennaio 2026</li>
+        <li style="margin-bottom: 8px;"><strong>Scadenza domande:</strong> 19 Febbraio 2026 (PROROGATA)</li>
       </ul>
 
       <h3>Chi può partecipare</h3>
@@ -87,7 +93,7 @@ export const newsItems = [
       <ul style="list-style-type: disc; margin-left: 20px; margin-bottom: 16px;">
         <li style="margin-bottom: 8px;"><strong>Scaricare il bando completo</strong> dalla pagina del progetto</li>
         <li style="margin-bottom: 8px;"><strong>Compilare il modulo domanda</strong> in tutte le sue parti</li>
-        <li style="margin-bottom: 8px;"><strong>Inviare la documentazione</strong> entro il 16 Gennaio 2026 a: <a href="mailto:tiabilito@gmail.com" style="color: #2563eb; font-weight: bold; text-decoration: underline;">tiabilito@gmail.com</a></li>
+        <li style="margin-bottom: 8px;"><strong>Inviare la documentazione</strong> entro il 19 Febbraio 2026 a: <a href="mailto:tiabilito@gmail.com" style="color: #2563eb; font-weight: bold; text-decoration: underline;">tiabilito@gmail.com</a></li>
       </ul>
 
       <h3>Il Progetto T.I. ABILITO</h3>

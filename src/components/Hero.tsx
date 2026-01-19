@@ -36,7 +36,7 @@ export function Hero() {
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % slides.length);
-    }, 10000); // 10 secondi
+    }, 15000); // 15 secondi
     return () => clearInterval(timer);
   }, [slides.length]);
 
@@ -187,17 +187,31 @@ export function Hero() {
                             <div className="inline-block p-4 rounded-2xl bg-gradient-to-br from-red-600 to-red-500 shadow-lg">
                               <Newspaper className="text-white" size={32} />
                             </div>
-                            <span
-                              className="text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wide border"
-                              style={{
-                                animation: 'badge-pulse 2s ease-in-out infinite',
-                                backgroundColor: '#f3f4f6',
-                                color: '#4b5563',
-                                borderColor: '#e5e7eb'
-                              }}
-                            >
-                                NEWS
-                            </span>
+                            <div className="flex flex-col gap-2 items-end">
+                              {(slide as any).badge && (
+                                <span
+                                  className="text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wide animate-pulse"
+                                  style={{
+                                    backgroundColor: '#f59e0b',
+                                    color: '#ffffff',
+                                    boxShadow: '0 0 10px rgba(245, 158, 11, 0.5)'
+                                  }}
+                                >
+                                  {(slide as any).badge}
+                                </span>
+                              )}
+                              <span
+                                className="text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wide border"
+                                style={{
+                                  animation: 'badge-pulse 2s ease-in-out infinite',
+                                  backgroundColor: '#f3f4f6',
+                                  color: '#4b5563',
+                                  borderColor: '#e5e7eb'
+                                }}
+                              >
+                                  NEWS
+                              </span>
+                            </div>
                             <style>{`
                               @keyframes badge-pulse {
                                 0%, 100% { background-color: #f3f4f6; color: #4b5563; border-color: #e5e7eb; }
@@ -216,11 +230,11 @@ export function Hero() {
                             </div>
                             <div className="flex items-center gap-2 text-sm text-gray-700">
                                 <CheckCircle size={16} className="text-purple-600 flex-shrink-0" />
-                                <span>News</span>
+                                <span>{slide.category}</span>
                             </div>
                             <div className="flex items-center gap-2 text-sm text-gray-700">
                                 <CheckCircle size={16} className="text-purple-600 flex-shrink-0" />
-                                <span>Leggi</span>
+                                <span>{(slide as any).badge ? `Scadenza: 19 Feb 2026` : 'Leggi'}</span>
                             </div>
                         </div>
                       </div>

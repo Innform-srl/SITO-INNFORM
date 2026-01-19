@@ -219,15 +219,30 @@ export function ProjectTiAbilito() {
                     <div>
                        <h3 className="text-2xl font-bold mb-6">Candidati Ora</h3>
                        <div className="space-y-6">
+                          {/* Avviso Proroga */}
+                          <div className="bg-yellow-500/20 border border-yellow-400/50 rounded-xl p-4 backdrop-blur-sm">
+                             <p className="text-yellow-300 text-xs font-bold uppercase mb-2 flex items-center gap-2">
+                                <span className="text-base">📢</span> IMPORTANTE: PROROGA TERMINI
+                             </p>
+                             <p className="text-white text-sm leading-relaxed mb-3">
+                                I termini per la presentazione della domanda di iscrizione al Corso di Alfabetizzazione Informatica sono stati prorogati.
+                             </p>
+                             <ul className="text-sm space-y-1 text-purple-100">
+                                <li><strong>Nuova Scadenza:</strong> 19 febbraio 2026 (anziché il 16 gennaio 2026)</li>
+                                <li><strong>Chi può partecipare:</strong> Famiglie con figli con disabilità residenti nei Comuni del Marmo Platano Melandro</li>
+                                <li><strong>Benefit:</strong> Partecipazione gratuita e possibilità di ricevere un tablet in omaggio per i primi 10 classificati</li>
+                             </ul>
+                          </div>
+
                           <div className="bg-white/10 rounded-xl p-4 backdrop-blur-sm">
                              <p className="text-purple-200 text-xs font-bold uppercase mb-1">Scadenza</p>
-                             <p className="text-2xl font-bold">16 Gen 2026</p>
+                             <p className="text-2xl font-bold">19 Feb 2026</p>
                           </div>
 
                           <div className="space-y-3">
                              <p className="font-medium">Documenti necessari:</p>
                              <a
-                               href="https://drive.google.com/open?id=1tyLPZl08PoLo5-tRr_xje8ZekGPxGoid&usp=drive_fs"
+                               href="https://docs.google.com/document/d/18AWT8hENAGIc6grKX5fV7neqJ5r56Utunmncc2ouVEk/edit?usp=sharing"
                                target="_blank"
                                rel="noopener noreferrer"
                                className="flex items-center justify-between bg-white/5 hover:bg-white/10 p-3 rounded-lg transition-colors group cursor-pointer"
