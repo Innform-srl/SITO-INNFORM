@@ -224,10 +224,12 @@ export function Hero() {
                         <p className="text-gray-600 text-sm mb-6 leading-relaxed line-clamp-3">{slide.excerpt}</p>
 
                         <div className="space-y-2">
-                            <div className="flex items-center gap-2 text-sm text-gray-700">
-                                <CheckCircle size={16} className="text-purple-600 flex-shrink-0" />
-                                <span>{slide.date}</span>
-                            </div>
+                            {!(slide as any).badge && (
+                              <div className="flex items-center gap-2 text-sm text-gray-700">
+                                  <CheckCircle size={16} className="text-purple-600 flex-shrink-0" />
+                                  <span>{slide.date}</span>
+                              </div>
+                            )}
                             <div className="flex items-center gap-2 text-sm text-gray-700">
                                 <CheckCircle size={16} className="text-purple-600 flex-shrink-0" />
                                 <span>{slide.category}</span>
