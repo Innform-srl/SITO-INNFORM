@@ -48,7 +48,7 @@ export const newsItems = [
   {
     id: 1,
     title: "Corso Gratuito Alfabetizzazione Informatica: PROROGA al 19 Febbraio!",
-    date: "20 Dicembre 2025",
+    date: "20 Gennaio 2026",
     category: "Corsi",
     badge: "PROROGA",
     image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxmYW1pbHklMjBjb21wdXRlciUyMGxlYXJuaW5nfGVufDF8fHx8MTc2NTU1MTA0NHww&ixlib=rb-4.1.0&q=80&w=1080",
