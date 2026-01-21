@@ -33,6 +33,7 @@ import { ProtectedRoute } from './components/ProtectedRoute';
 import { AuthProvider } from './contexts/AuthContext';
 
 import { ScrollToTop } from './components/ScrollToTop';
+import { CookieConsentBanner } from './components/CookieConsentBanner';
 
 function SkipLinks() {
   return (
@@ -83,6 +84,7 @@ export default function App() {
     <Router>
       <AuthProvider>
         <ScrollToTop />
+        <CookieConsentBanner />
         <div className="min-h-screen bg-white">
           <Routes>
             <Route path="/" element={<HomePage />} />
