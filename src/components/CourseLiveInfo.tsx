@@ -360,15 +360,17 @@ interface EditionsListProps {
 }
 
 export function EditionsList({ editions, selectedEditionId, onSelectEdition, className = '' }: EditionsListProps) {
-  // Ordina edizioni: prima quelle con deadline piu' vicina (non esaurite/iniziate), poi le altre
+  // Filtra e ordina edizioni: escludi quelle già iniziate, ordina per deadline
   const sortedEditions = React.useMemo(() => {
     if (!editions || editions.length === 0) return [];
-    return [...editions].sort((a, b) => {
-      // Le edizioni esaurite o già iniziate vanno alla fine
-      const aUnavailable = a.badges.sold_out || a.badges.already_started;
-      const bUnavailable = b.badges.sold_out || b.badges.already_started;
-      if (aUnavailable && !bUnavailable) return 1;
-      if (!aUnavailable && bUnavailable) return -1;
+
+    // Filtra via le edizioni già iniziate - mostra solo quelle con data futura
+    const availableEditions = editions.filter(ed => !ed.badges.already_started);
+
+    return availableEditions.sort((a, b) => {
+      // Le edizioni esaurite vanno alla fine
+      if (a.badges.sold_out && !b.badges.sold_out) return 1;
+      if (!a.badges.sold_out && b.badges.sold_out) return -1;
 
       // Ordina per deadline (chi scade prima viene prima)
       const deadlineA = a.enrollment_deadline ? new Date(a.enrollment_deadline).getTime() : Infinity;
@@ -385,9 +387,9 @@ export function EditionsList({ editions, selectedEditionId, onSelectEdition, cla
   // Edizione selezionata (default: prima disponibile)
   const [internalSelectedId, setInternalSelectedId] = React.useState<string | null>(null);
 
-  // Determina l'edizione effettivamente selezionata (esclude esaurite e già iniziate)
+  // Determina l'edizione effettivamente selezionata (esclude esaurite)
   const effectiveSelectedId = selectedEditionId || internalSelectedId ||
-    (sortedEditions.find(ed => !ed.badges.sold_out && !ed.badges.already_started && ed.is_enrollments_open)?.id) ||
+    (sortedEditions.find(ed => !ed.badges.sold_out && ed.is_enrollments_open)?.id) ||
     sortedEditions[0]?.id;
 
   const selectedEdition = sortedEditions.find(ed => ed.id === effectiveSelectedId);
@@ -404,8 +406,8 @@ export function EditionsList({ editions, selectedEditionId, onSelectEdition, cla
   }
 
   const handleSelectEdition = (edition: CourseEdition) => {
-    // Non selezionare edizioni esaurite o già iniziate
-    if (edition.badges.sold_out || edition.badges.already_started) return;
+    // Non selezionare edizioni esaurite
+    if (edition.badges.sold_out) return;
     setInternalSelectedId(edition.id);
     onSelectEdition?.(edition);
   };
@@ -422,7 +424,7 @@ export function EditionsList({ editions, selectedEditionId, onSelectEdition, cla
       <div className="flex flex-col gap-2">
         {sortedEditions.map((edition, index) => {
           const isSelected = edition.id === effectiveSelectedId;
-          const isDisabled = edition.badges.sold_out || edition.badges.already_started;
+          const isDisabled = edition.badges.sold_out;
 
           // Colori alternati per le righe non selezionate
           const rowColors = [
@@ -462,14 +464,7 @@ export function EditionsList({ editions, selectedEditionId, onSelectEdition, cla
                 >
                   Esaurito
                 </span>
-              ) : edition.badges.already_started ? (
-                <span
-                  className="ml-2 px-2 py-0.5 text-xs rounded font-semibold text-white flex-shrink-0"
-                  style={{ backgroundColor: '#6b7280' }}
-                >
-                  Già iniziato
-                </span>
-              ) : edition.badges.last_spots && !edition.badges.already_started ? (
+              ) : edition.badges.last_spots ? (
                 <span
                   className="ml-2 px-2.5 py-1 text-xs rounded font-semibold text-white flex-shrink-0"
                   style={{ backgroundColor: '#f97316' }}
@@ -503,7 +498,7 @@ export function EditionsList({ editions, selectedEditionId, onSelectEdition, cla
           <div className="flex justify-between items-start mb-3">
             <div>
               <div className="flex items-center gap-2 flex-wrap mb-1">
-                {sortedEditions.indexOf(selectedEdition) === 0 && !selectedEdition.badges.sold_out && !selectedEdition.badges.already_started && (
+                {sortedEditions.indexOf(selectedEdition) === 0 && !selectedEdition.badges.sold_out && (
                   <span
                     className="px-2 py-0.5 text-xs rounded-full font-semibold text-white"
                     style={{ backgroundColor: '#6366f1' }}

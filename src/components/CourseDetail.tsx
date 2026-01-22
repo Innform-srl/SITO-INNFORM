@@ -959,7 +959,9 @@ export function CourseDetail() {
   const sortedEditions = useMemo(() => {
     console.log('[CourseDetail] useMemo sortedEditions RICALCOLO - liveData.editions:', liveData?.editions?.length || 0, '- liveData.id:', liveData?.id);
     if (!liveData?.editions || liveData.editions.length === 0) return [];
-    const sorted = [...liveData.editions].sort((a, b) => {
+    // Filtra le edizioni già iniziate - mostra solo quelle con data futura
+    const availableEditions = liveData.editions.filter(ed => !ed.badges.already_started);
+    const sorted = [...availableEditions].sort((a, b) => {
       if (a.badges.sold_out && !b.badges.sold_out) return 1;
       if (!a.badges.sold_out && b.badges.sold_out) return -1;
       const deadlineA = a.enrollment_deadline ? new Date(a.enrollment_deadline).getTime() : Infinity;
@@ -1316,13 +1318,13 @@ export function CourseDetail() {
       )}
 
       {/* Sezione Edizioni Disponibili - Visibile nel corpo principale */}
-      {liveData && liveData.editions && liveData.editions.length > 1 && (
+      {sortedEditions.length > 1 && (
         <section className="py-16 bg-white border-b border-gray-100">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-10">
               <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-4" style={{ backgroundColor: '#f3e8ff' }}>
                 <Calendar className="text-purple-600" size={18} />
-                <span className="text-purple-700 font-semibold text-sm">{liveData.editions.length} Edizioni Disponibili</span>
+                <span className="text-purple-700 font-semibold text-sm">{sortedEditions.length} Edizioni Disponibili</span>
               </div>
               <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
                 Scegli la Tua Edizione

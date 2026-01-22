@@ -90,6 +90,15 @@ export function Header() {
             href,
             badge
           };
+        })
+        // Ordina per badge: prima Upskilling, poi Reskilling, poi senza badge
+        .sort((a, b) => {
+          if (a.badge === b.badge) return 0;
+          if (a.badge === 'Upskilling') return -1;
+          if (b.badge === 'Upskilling') return 1;
+          if (a.badge === 'Reskilling') return -1;
+          if (b.badge === 'Reskilling') return 1;
+          return 0;
         });
 
       return {
