@@ -740,6 +740,7 @@ export const LeadService = {
         referrer: typeof document !== 'undefined' ? document.referrer || null : null,
         custom_fields: {
           course_interest: input.corso_interesse || null,
+          edition_id: input.edition_id || null,
           subject: input.oggetto || 'Informazioni sui corsi',
           page_url: typeof window !== 'undefined' ? window.location.href : null,
           submitted_at: getTimestamp(),

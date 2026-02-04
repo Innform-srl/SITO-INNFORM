@@ -1944,6 +1944,8 @@ export function CourseDetail() {
                 <EnrollmentForm
                   courseId={course.id}
                   courseName={course.title}
+                  editionId={selectedEdition?.id}
+                  editionName={selectedEdition ? `Edizione ${selectedEdition.edition_number}` : undefined}
                   onSuccess={(result) => {
                     console.log('[CourseDetail] Iscrizione completata:', result);
                     // Invalida cache per aggiornare posti disponibili
@@ -1953,6 +1955,7 @@ export function CourseDetail() {
                       (window as any).gtag('event', 'enrollment_submitted', {
                         course_id: course.id,
                         course_name: course.title,
+                        edition_id: selectedEdition?.id,
                       });
                     }
                   }}

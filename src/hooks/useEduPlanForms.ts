@@ -61,13 +61,15 @@ export interface EnrollmentFormInput {
   city?: string;
   province?: string;
   zipCode?: string;
-  
+
   // Dati iscrizione
   courseId: string;
   courseName?: string;          // Per riferimento
+  editionId?: string;           // ID edizione selezionata
+  editionName?: string;         // Nome edizione (es. "Edizione 4")
   projectId?: string;
   notes?: string;
-  
+
   // Privacy
   privacyAccepted: boolean;
   marketingAccepted?: boolean;
@@ -106,19 +108,26 @@ export function useEnrollmentForm(): UseFormReturn<EnrollmentFormInput, Enrollme
         ? new URLSearchParams(window.location.search)
         : new URLSearchParams();
 
+      // Costruisci il messaggio con edizione se presente
+      const editionInfo = input.editionId
+        ? ` - ${input.editionName || `Edizione ID: ${input.editionId}`}`
+        : '';
+      const notesInfo = input.notes ? ` - Note: ${input.notes}` : '';
+
       const leadResult = await LeadService.create({
         nome: input.firstName,
         cognome: input.lastName,
         email: input.email,
         telefono: input.phone,
         corso_interesse: input.courseId,
-        messaggio: `Richiesta iscrizione al corso: ${input.courseName || input.courseId}${input.notes ? ` - Note: ${input.notes}` : ''}`,
+        messaggio: `Richiesta iscrizione al corso: ${input.courseName || input.courseId}${editionInfo}${notesInfo}`,
         fonte: 'website',
         landing_page: typeof window !== 'undefined' ? window.location.href : undefined,
         utm_source: urlParams.get('utm_source') || undefined,
         utm_medium: urlParams.get('utm_medium') || undefined,
         utm_campaign: urlParams.get('utm_campaign') || undefined,
         status: 'new', // Status 'new' - sarà la segreteria a gestire l'iscrizione
+        edition_id: input.editionId, // ID edizione per tracciamento
       });
 
       if (!leadResult.success) {

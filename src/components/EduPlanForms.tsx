@@ -57,6 +57,8 @@ const successBoxStyles = `
 interface EnrollmentFormProps {
   courseId: string;
   courseName: string;
+  editionId?: string;
+  editionName?: string;
   projectId?: string;
   onSuccess?: (result: any) => void;
   onError?: (error: string) => void;
@@ -65,15 +67,19 @@ interface EnrollmentFormProps {
 export const EnrollmentForm: React.FC<EnrollmentFormProps> = ({
   courseId,
   courseName,
+  editionId,
+  editionName,
   projectId,
   onSuccess,
   onError,
 }) => {
   const { state, submit, reset } = useEnrollmentForm();
-  
+
   const [formData, setFormData] = useState<Partial<EnrollmentFormInput>>({
     courseId,
     courseName,
+    editionId,
+    editionName,
     projectId,
     privacyAccepted: false,
     marketingAccepted: false,
@@ -142,6 +148,11 @@ export const EnrollmentForm: React.FC<EnrollmentFormProps> = ({
       <div className="bg-blue-50 rounded-lg p-4 mb-6">
         <p className="text-sm text-blue-600 font-medium">Corso selezionato:</p>
         <p className="text-lg font-bold text-blue-800">{courseName}</p>
+        {editionName && (
+          <p className="text-sm text-blue-700 mt-1">
+            <span className="font-medium">{editionName}</span>
+          </p>
+        )}
       </div>
 
       {/* Dati personali */}

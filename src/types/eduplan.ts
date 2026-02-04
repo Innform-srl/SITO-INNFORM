@@ -199,6 +199,7 @@ export interface LeadCreateInput {
   
   // Interesse
   corso_interesse?: string;            // ID o nome del corso
+  edition_id?: string;                 // ID edizione selezionata
   messaggio?: string;                  // Messaggio libero
   fabbisogno_formativo?: string;
   
