@@ -1368,7 +1368,7 @@ export function CourseDetail() {
                         Edizione {edition.edition_number}
                       </h3>
                       {/* Badge stato */}
-                      <div className="flex items-center gap-2 flex-wrap justify-end">
+                      <div className="flex items-center gap-2">
                         {isSelected && (
                           <span className="px-3 py-1 rounded-full text-xs font-bold text-white" style={{ backgroundColor: '#6366f1' }}>
                             Selezionata
