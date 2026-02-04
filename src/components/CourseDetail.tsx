@@ -1362,36 +1362,36 @@ export function CourseDetail() {
                     `}
                     onClick={() => !isUnavailable && setSelectedEdition(edition)}
                   >
-                    {/* Badge selezionato */}
-                    {isSelected && (
-                      <div className="absolute -top-3 right-4 px-3 py-1 rounded-full text-xs font-bold text-white" style={{ backgroundColor: '#6366f1' }}>
-                        Selezionata
-                      </div>
-                    )}
-
                     {/* Header card */}
                     <div className="flex items-center justify-between mb-4">
                       <h3 className="text-xl font-bold text-gray-900">
                         Edizione {edition.edition_number}
                       </h3>
                       {/* Badge stato */}
-                      {isSoldOut ? (
-                        <span className="px-3 py-1 rounded-full text-xs font-bold text-white bg-red-500">
-                          Esaurito
-                        </span>
-                      ) : isAlreadyStarted ? (
-                        <span className="px-3 py-1 rounded-full text-xs font-bold text-white" style={{ backgroundColor: '#6b7280' }}>
-                          Già iniziato
-                        </span>
-                      ) : edition.badges.last_spots ? (
-                        <span className="px-3 py-1 rounded-full text-xs font-bold text-white bg-orange-500 animate-pulse">
-                          Ultimi {edition.available_spots} posti!
-                        </span>
-                      ) : (
-                        <span className="px-3 py-1 rounded-full text-xs font-bold text-white" style={{ backgroundColor: cardColor.accent }}>
-                          {edition.available_spots} posti
-                        </span>
-                      )}
+                      <div className="flex items-center gap-2 flex-wrap justify-end">
+                        {isSelected && (
+                          <span className="px-3 py-1 rounded-full text-xs font-bold text-white" style={{ backgroundColor: '#6366f1' }}>
+                            Selezionata
+                          </span>
+                        )}
+                        {isSoldOut ? (
+                          <span className="px-3 py-1 rounded-full text-xs font-bold text-white bg-red-500">
+                            Esaurito
+                          </span>
+                        ) : isAlreadyStarted ? (
+                          <span className="px-3 py-1 rounded-full text-xs font-bold text-white" style={{ backgroundColor: '#6b7280' }}>
+                            Già iniziato
+                          </span>
+                        ) : edition.badges.last_spots ? (
+                          <span className="px-3 py-1 rounded-full text-xs font-bold text-white bg-orange-500 animate-pulse">
+                            Ultimi {edition.available_spots} posti!
+                          </span>
+                        ) : (
+                          <span className="px-3 py-1 rounded-full text-xs font-bold text-white" style={{ backgroundColor: cardColor.accent }}>
+                            {edition.available_spots} posti
+                          </span>
+                        )}
+                      </div>
                     </div>
 
                     {/* Dettagli edizione */}
