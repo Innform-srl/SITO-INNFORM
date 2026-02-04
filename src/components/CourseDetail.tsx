@@ -1364,7 +1364,7 @@ export function CourseDetail() {
                   >
                     {/* Badge selezionato */}
                     {isSelected && (
-                      <div className="absolute -top-3 left-4 px-3 py-1 rounded-full text-xs font-bold text-white" style={{ backgroundColor: '#6366f1' }}>
+                      <div className="absolute -top-3 right-4 px-3 py-1 rounded-full text-xs font-bold text-white" style={{ backgroundColor: '#6366f1' }}>
                         Selezionata
                       </div>
                     )}
