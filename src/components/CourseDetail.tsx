@@ -1355,7 +1355,7 @@ export function CourseDetail() {
                   <div
                     key={edition.id}
                     className={`
-                      relative rounded-2xl p-6 border-2 transition-all cursor-pointer
+                      relative rounded-2xl p-6 border-2 transition-all cursor-pointer flex flex-col h-full
                       ${isSelected ? 'border-purple-500 ring-2 ring-purple-200 shadow-lg' : cardColor.border}
                       ${cardColor.bg}
                       ${isUnavailable ? 'opacity-60' : 'hover:shadow-md hover:scale-[1.02]'}
@@ -1395,7 +1395,7 @@ export function CourseDetail() {
                     </div>
 
                     {/* Dettagli edizione */}
-                    <div className="space-y-3">
+                    <div className="space-y-3 flex-grow">
                       {/* Data */}
                       <div className="flex items-center gap-3 text-gray-700">
                         <Calendar size={18} style={{ color: cardColor.accent }} />
@@ -1448,7 +1448,7 @@ export function CourseDetail() {
                     </div>
 
                     {/* Barra posti */}
-                    <div className="mt-4">
+                    <div className="mt-auto pt-4">
                       <div className="flex justify-between text-xs text-gray-500 mb-1">
                         <span>Posti occupati</span>
                         <span>{edition.enrolled_count}/{edition.max_participants}</span>
