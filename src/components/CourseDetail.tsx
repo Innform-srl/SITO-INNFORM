@@ -1050,8 +1050,9 @@ export function CourseDetail() {
     : undefined;
 
   // Determina se le iscrizioni sono aperte (per mostrare/nascondere form iscrizione)
+  // Un'edizione è disponibile se non è sold_out e non è già iniziata
   const hasAvailableEdition = liveData?.editions?.some(
-    ed => ed.is_enrollments_open && !ed.badges.sold_out && !ed.badges.already_started
+    ed => !ed.badges.sold_out && !ed.badges.already_started
   ) || false;
   const canEnroll = hasAvailableEdition || (liveData?.is_enrollments_open && !liveData?.badges?.sold_out && !liveData?.badges?.already_started) || false;
 
@@ -1805,65 +1806,46 @@ export function CourseDetail() {
 
                   <hr className="border-gray-100" />
 
-                  <div className="space-y-3">
-                    {/* CTA dinamica in base allo stato iscrizioni */}
-                    {liveData ? (
-                      // Controlla se c'è almeno un'edizione disponibile (non sold_out e non already_started)
-                      (() => {
-                        const hasAvailableEdition = liveData.editions?.some(
-                          ed => ed.is_enrollments_open && !ed.badges.sold_out && !ed.badges.already_started
-                        );
-                        const canEnroll = hasAvailableEdition || (liveData.is_enrollments_open && !liveData.badges.sold_out && !liveData.badges.already_started);
-                        const allStarted = liveData.badges.already_started && !hasAvailableEdition;
-
-                        if (canEnroll) {
-                          return course.type.includes('GOL') ? (
-                            <Link to={`/iscrizione/${course.id}`} className="w-full block text-center bg-green-600 text-white py-3 rounded-xl font-bold hover:bg-green-700 transition-colors">
-                              Pre-iscriviti (Gratuito)
-                            </Link>
-                          ) : (
-                            <a href="#iscrizione" className="w-full block text-center bg-purple-600 text-white py-3 rounded-xl font-bold hover:bg-purple-700 transition-colors">
-                              Iscriviti Ora
-                            </a>
-                          );
-                        } else if (allStarted) {
-                          // Tutte le edizioni già iniziate - mostra "Chiedi info"
-                          return (
-                            <a
-                              href="#contatti"
-                              className="w-full block text-center bg-purple-600 text-white py-3 rounded-xl font-bold hover:bg-purple-700 transition-colors"
-                              onClick={(e) => {
-                                e.preventDefault();
-                                document.getElementById('contatti')?.scrollIntoView({ behavior: 'smooth' });
-                              }}
-                            >
-                              Chiedi informazioni
-                            </a>
-                          );
-                        } else {
-                          return (
-                            <button disabled className="w-full bg-gray-300 text-gray-500 py-3 rounded-xl font-bold cursor-not-allowed">
-                              {liveData.badges.sold_out ? 'Corso Esaurito' : 'Iscrizioni Chiuse'}
-                            </button>
-                          );
-                        }
-                      })()
-                    ) : (
-                      // Fallback se non ci sono dati live
-                      course.type.includes('GOL') ? (
-                        <Link to={`/iscrizione/${course.id}`} className="w-full block text-center bg-green-600 text-white py-3 rounded-xl font-bold hover:bg-green-700 transition-colors">
-                          Pre-iscriviti (Gratuito)
-                        </Link>
-                      ) : (
-                        <a href="#iscrizione" className="w-full block text-center bg-purple-600 text-white py-3 rounded-xl font-bold hover:bg-purple-700 transition-colors">
-                          Iscriviti Ora
-                        </a>
-                      )
-                    )}
-                    <div className="text-center">
-                        <p className="text-sm text-gray-500 mb-1">Hai domande?</p>
-                        <p className="font-bold text-gray-900">0971.473968</p>
-                    </div>
+                  {/* CTA - Pulsante iscrizione */}
+                  {canEnroll ? (
+                    <a
+                      href={course.type.includes('GOL') ? `/iscrizione/${course.id}` : '#iscrizione'}
+                      style={{
+                        display: 'block',
+                        width: '100%',
+                        textAlign: 'center' as const,
+                        backgroundColor: course.type.includes('GOL') ? '#16a34a' : '#9333ea',
+                        color: '#ffffff',
+                        padding: '12px 0',
+                        borderRadius: '12px',
+                        fontWeight: 700,
+                        textDecoration: 'none',
+                      }}
+                    >
+                      {course.type.includes('GOL') ? 'Pre-iscriviti (Gratuito)' : 'Iscriviti Ora'}
+                    </a>
+                  ) : (
+                    <button
+                      disabled
+                      style={{
+                        display: 'block',
+                        width: '100%',
+                        textAlign: 'center' as const,
+                        backgroundColor: '#d1d5db',
+                        color: '#6b7280',
+                        padding: '12px 0',
+                        borderRadius: '12px',
+                        fontWeight: 700,
+                        cursor: 'not-allowed',
+                        border: 'none',
+                      }}
+                    >
+                      {liveData?.badges?.sold_out ? 'Corso Esaurito' : 'Iscrizioni Chiuse'}
+                    </button>
+                  )}
+                  <div className="text-center">
+                    <p className="text-sm text-gray-500 mb-1">Hai domande?</p>
+                    <p className="font-bold text-gray-900">0971.473968</p>
                   </div>
                 </div>
               </div>

@@ -306,7 +306,7 @@ export function CourseInfoCard({ course, className = '' }: CourseInfoCardProps) 
 
       {/* CTA */}
       <div className="px-6 pb-6">
-        {course.is_enrollments_open ? (
+        {(course.is_enrollments_open || course.editions?.some(ed => !ed.badges.sold_out && !ed.badges.already_started)) ? (
           <button className="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white py-3 rounded-xl font-bold hover:shadow-lg transition-all">
             Iscriviti Ora
           </button>
