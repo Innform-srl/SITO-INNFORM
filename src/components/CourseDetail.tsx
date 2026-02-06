@@ -1809,7 +1809,11 @@ export function CourseDetail() {
                   {/* CTA - Pulsante iscrizione */}
                   {canEnroll ? (
                     <a
-                      href={course.type.includes('GOL') ? `/iscrizione/${course.id}` : '#iscrizione'}
+                      href="#iscrizione"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        document.getElementById('iscrizione')?.scrollIntoView({ behavior: 'smooth' });
+                      }}
                       style={{
                         display: 'block',
                         width: '100%',
