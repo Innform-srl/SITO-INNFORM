@@ -24,6 +24,7 @@ export interface PathCourse {
   id: string;
   code: string;
   title: string;
+  website_slug?: string;
   duration_hours: number;
   status: string;
   order: number;

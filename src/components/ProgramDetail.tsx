@@ -7,7 +7,6 @@ import {
   Shield, Zap, Heart, Globe, Clock, Euro, Eye, Accessibility
 } from 'lucide-react';
 import { ImageWithFallback } from './figma/ImageWithFallback';
-import { InfiniteCarousel } from './InfiniteCarousel';
 import { useRealtimePaths } from '../hooks/useRealtimePaths';
 import { PathCourse } from '../services/public-paths-api';
 import { SEOHead, CourseSchema } from './SEOHead';
@@ -158,21 +157,21 @@ const programsData: Record<string, Program> = {
     },
     testimonials: [
       {
-        name: 'Sofia Martini',
-        role: 'Operatore Amministrativo',
-        text: 'Grazie a TL Abilito ho trovato lavoro in soli 2 mesi dal diploma. Il percorso è stato completo e lo stage mi ha permesso di entrare in azienda.',
+        name: 'Rosa Botta',
+        role: 'Master Tecnico Analisi Alimentari',
+        text: 'Ho avuto modo di conoscere docenti, professionisti che hanno presentato e svelato i segreti del loro lavoro con una passione tale da trasmettertela. Il master \u00e8 stato oltre che un impegno, anche un piacere.',
         rating: 5
       },
       {
-        name: 'Marco Ferri',
-        role: 'Addetto Logistica',
-        text: 'Corso molto pratico e docenti preparati. Ho acquisito competenze subito spendibili e ora lavoro in una multinazionale della logistica.',
+        name: 'Elvira Ciufo',
+        role: 'Master Editoria e Comunicazione',
+        text: 'Con i miei colleghi ho viaggiato tra le pagine dell\'editoria e volato tra visite didattiche e fiere. Ed \u00e8 stato proprio nella fiera di Roma che sono stata messa in contatto con "La Corte Editore" per uno stage a Torino.',
         rating: 5
       },
       {
-        name: 'Giulia Rossi',
-        role: 'Operatore Ristorazione',
-        text: 'Esperienza fantastica! Ho imparato tantissimo e il supporto del tutor è stato fondamentale per la mia crescita professionale.',
+        name: 'Marco Cardilli',
+        role: 'Master Safety Manager',
+        text: 'La cosa che mi ha incuriosito di questo master \u00e8 il taglio pratico con tante visite in azienda e numerose ore di tirocinio aziendale. Dopo una prima parte d\'aula ci siamo confrontati con la realt\u00e0 locale.',
         rating: 5
       }
     ]
@@ -279,21 +278,21 @@ const programsData: Record<string, Program> = {
     },
     testimonials: [
       {
-        name: 'Alessandro Bianchi',
-        role: 'Social Media Manager',
-        text: 'Il corso ha superato le mie aspettative. Ho acquisito competenze pratiche immediatamente applicabili e ho espanso la mia rete professionale.',
+        name: 'Nicola Patrissi',
+        role: 'Master Editoria e Comunicazione',
+        text: 'Il master, caratterizzato dalla perfetta commistione tra le varie, eccezionali competenze dei docenti. La ciliegina sulla torta \u00e8 stata la creazione di gruppo del romanzo giallo "Non sar\u00e0 un\'avventura".',
         rating: 5
       },
       {
-        name: 'Laura Conti',
-        role: 'UX/UI Designer',
-        text: 'Docenti eccezionali e contenuti sempre aggiornati. Ho cambiato lavoro grazie alle competenze acquisite nel corso.',
+        name: 'Barbara Cecchi',
+        role: 'Master Tecnico Analisi Alimentari',
+        text: 'Il master \u00e8 stato il percorso giusto da intraprendere subito dopo la laurea. Le mie conoscenze astratte della chimica hanno avuto finalmente riscontro pratico grazie ad attivit\u00e0 di laboratorio.',
         rating: 5
       },
       {
-        name: 'Davide Romano',
-        role: 'Digital Marketer',
-        text: 'Investimento che è valso ogni euro. La qualità della formazione e il networking mi hanno aperto nuove opportunità professionali.',
+        name: 'Giuseppe Canio Matteo',
+        role: 'Master Safety Manager',
+        text: 'Al termine del percorso sono stato ricontattato dall\'azienda presso la quale avevo svolto lo stage formativo, mi \u00e8 stato proposto di proseguire come Addetto al Servizio di Prevenzione e Protezione.',
         rating: 5
       }
     ]
@@ -397,21 +396,21 @@ const programsData: Record<string, Program> = {
     },
     testimonials: [
       {
-        name: 'Francesca Ricci',
-        role: 'Tecnico Analisi Alimentari',
-        text: 'Master eccellente! Laboratori professionali e docenti di altissimo livello. Ho trovato lavoro in un laboratorio certificato.',
+        name: 'Maria Salinardi',
+        role: 'Master Tecnico Analisi Alimentari',
+        text: 'Gli argomenti come Certificazioni ISO, Sicurezza Alimentare, Gestione Qualit\u00e0 e Sviluppo di un Manuale HACCP, proprio quelli richiesti nei tanti annunci a cui mi ero candidata. Felice della scelta fatta e che rifarei ad occhi chiusi.',
         rating: 5
       },
       {
-        name: 'Matteo Galli',
-        role: 'Safety Manager',
-        text: 'Formazione completa e approfondita. Ora gestisco la sicurezza in un\'azienda industriale grazie alle competenze acquisite.',
+        name: 'Donato Galasso',
+        role: 'Master Safety Manager',
+        text: 'Grazie ad Innform, alle certificazioni che il master mi ha rilasciato e ai contatti che Innform ha con Aziende su tutto il territorio nazionale oggi lavoro presso RINA Services SpA.',
         rating: 5
       },
       {
-        name: 'Chiara Fontana',
-        role: 'Interior Designer',
-        text: 'Il master mi ha dato le competenze per aprire il mio studio. Qualità della formazione eccezionale e grande supporto pratico.',
+        name: 'Tiziana Figliuolo',
+        role: 'Master Editoria e Comunicazione',
+        text: 'Master bellissimo, perfetta prosecuzione del mio percorso di studi. Ho fatto cose nuove, con piccole e grandi soddisfazioni e con incredibili possibilit\u00e0, come realizzare un inserto digitale per Il Mattino.',
         rating: 5
       }
     ]
@@ -498,21 +497,21 @@ const programsData: Record<string, Program> = {
     },
     testimonials: [
       {
-        name: 'Maria Lucia',
-        role: 'Guida Turistica',
-        text: 'Un\'esperienza trasformativa. I laboratori bendati mi hanno permesso di comprendere davvero cosa significa "vedere" con gli altri sensi.',
+        name: 'Michela Di Melfi',
+        role: 'Master Editoria e Comunicazione',
+        text: 'Questo master apre realmente le porte dell\'editoria e della comunicazione, facendoti toccare con mano la realt\u00e0 di questi due mondi. L\'approccio pratico ti spinge a metterti alla prova.',
         rating: 5
       },
       {
-        name: 'Giuseppe Ferrara',
-        role: 'Operatore Museale',
-        text: 'Formazione di altissimo livello. Ora posso offrire visite inclusive ai nostri visitatori con disabilità visive.',
+        name: 'Giovanni Lavaia',
+        role: 'Master Tecnico Analisi Alimentari',
+        text: 'Il master mi ha dato la possibilit\u00e0 di creare un rapporto con i docenti e professionisti del settore. Quello che inizialmente era uno stage si \u00e8 trasformato in un contratto di lavoro.',
         rating: 5
       },
       {
-        name: 'Anna Santoro',
-        role: 'Guida Turistica',
-        text: 'Il corso ha aperto un mondo nuovo. La combinazione di teoria online e laboratori in presenza è perfetta.',
+        name: 'Marco Cardilli',
+        role: 'Master Safety Manager',
+        text: 'La cosa che mi ha incuriosito di questo master \u00e8 il taglio pratico con tante visite in azienda e numerose ore di tirocinio aziendale. Esperienza che consiglio di fare.',
         rating: 5
       }
     ]
@@ -651,21 +650,21 @@ const programsData: Record<string, Program> = {
     },
     testimonials: [
       {
-        name: 'Roberto Neri',
-        role: 'Operatore Tornitura',
-        text: 'Grazie al programma GOL ho potuto riqualificarmi e trovare un lavoro stabile in un\'azienda metalmeccanica. Supporto eccezionale!',
+        name: 'Giovanni Lavaia',
+        role: 'Master Tecnico Analisi Alimentari',
+        text: 'Il master mi ha dato la possibilit\u00e0 di creare un rapporto con i docenti e professionisti del settore. Quello che inizialmente era uno stage si \u00e8 trasformato in un contratto di lavoro.',
         rating: 5
       },
       {
-        name: 'Silvia Moretti',
-        role: 'Educatrice Prima Infanzia',
-        text: 'Percorso completo e gratuito che mi ha permesso di realizzare il mio sogno di lavorare con i bambini. Tutor sempre disponibile.',
+        name: 'Donato Galasso',
+        role: 'Master Safety Manager',
+        text: 'Grazie ad Innform, alle certificazioni che il master mi ha rilasciato e ai contatti che Innform ha con Aziende su tutto il territorio nazionale oggi lavoro presso RINA Services SpA.',
         rating: 5
       },
       {
-        name: 'Andrea Colombo',
-        role: 'Tecnico Sviluppo Turistico',
-        text: 'Ho acquisito competenze moderne nel marketing turistico e ora lavoro per la promozione del territorio. Opportunità straordinaria!',
+        name: 'Stefania Ianniello',
+        role: 'Master Editoria e Comunicazione',
+        text: 'Ben articolato il piano di studi, tra aula, sviluppo di progetti e visite. Ha fatto la differenza il modulo di personal branding e orientamento. Innform \u00e8 stato attento alle nostre esigenze.',
         rating: 5
       }
     ]
@@ -707,48 +706,55 @@ export function ProgramDetail() {
   }, [pathCode, paths]);
 
   // Mappa codici corso -> dati statici completi per GOL
-  const golCourseDataByCode: Record<string, { duration: string; description: string; skills: string[]; category: 'Upskilling' | 'Reskilling' }> = {
+  const golCourseDataByCode: Record<string, { duration: string; description: string; skills: string[]; category: 'Upskilling' | 'Reskilling'; slug?: string }> = {
     'GOL-COMDIG': {
       duration: '60 ore',
       description: 'Competenze digitali essenziali per il mondo del lavoro: utilizzo computer, navigazione internet, gestione strumenti di produttività e comunicazione digitale.',
       skills: ['Utilizzo PC', 'Navigazione Web', 'Suite Office', 'Email e PEC'],
-      category: 'Upskilling'
+      category: 'Upskilling',
+      slug: 'competenze-digitali'
     },
     'Upskilling-CDP1': {
       duration: '100 ore',
       description: 'Competenze teorico-pratiche nella comunicazione d\'impresa e pubblicità, dai fondamenti di marketing alla gestione di campagne social media e content creation.',
       skills: ['Social Media Marketing', 'Digital Advertising', 'Content Creation', 'Analisi Dati'],
-      category: 'Upskilling'
+      category: 'Upskilling',
+      slug: 'pubblicita-comunicazione'
     },
     'GOL-TEPL': {
       duration: '500 ore',
       description: 'Elaborazione e progettazione di piani di sviluppo del territorio, definizione dell\'offerta turistica, ideazione itinerari e pacchetti, strategie di valorizzazione e promozione.',
       skills: ['Marketing Territoriale', 'Pianificazione Turistica', 'Valorizzazione risorse', 'Promozione'],
-      category: 'Reskilling'
+      category: 'Reskilling',
+      slug: 'tecnico-esperto-per-lo-sviluppo-turistico-territoriale'
     },
     'OTDS': {
       duration: '600 ore',
       description: 'Progettazione di attività educative e ludiche, monitoraggio della salute e del benessere, applicazione delle procedure di cura e gestione dei rapporti con i genitori.',
       skills: ['Pedagogia', 'Cura infanzia', 'Progettazione educativa', 'Laboratori creativi'],
-      category: 'Reskilling'
+      category: 'Reskilling',
+      slug: 'sistema-educativo-infanzia'
     },
     'Tor': {
       duration: '600 ore',
       description: 'Lavorazione dei metalli utilizzando il tornio, sia tradizionale che a controllo numerico computerizzato (CNC). Lettura disegno meccanico, lavorazioni complesse, regolazioni.',
       skills: ['Tornitura tradizionale', 'Tornitura CNC', 'Disegno meccanico', 'Controllo qualità'],
-      category: 'Reskilling'
+      category: 'Reskilling',
+      slug: 'operatore-tornitura'
     },
     'GOL-OHES': {
       duration: '600 ore',
       description: 'Sicurezza industriale con focus sulla gestione dei rischi connessi all\'esposizione all\'idrogeno solforato (H2S). Misure preventive, apparecchiature rilevamento, gestione DPI.',
       skills: ['Gestione rischio H2S', 'Rilevamento gas', 'DPI e APVR', 'Gestione emergenze'],
-      category: 'Reskilling'
+      category: 'Reskilling',
+      slug: 'operatore-h2s-e-sicurezza'
     },
     'GOL-ODPE': {
       duration: '600 ore',
       description: 'Preparazione di vari tipi di impasti, lievitazione, cottura e confezionamento dei prodotti nell\'ambito della produzione di pasta e prodotti da forno.',
       skills: ['Lavorazione Impasti', 'Gestione Lievitazione', 'Cottura Prodotti', 'Confezionamento'],
-      category: 'Reskilling'
+      category: 'Reskilling',
+      slug: 'operatore-della-panificazione-e-della-produzione-di-paste'
     },
   };
 
@@ -789,7 +795,7 @@ export function ProgramDetail() {
     if (!apiPath?.courses) return [];
 
     return apiPath.courses.map((course: PathCourse) => {
-      const slug = generateSlug(course.title);
+      const slug = course.website_slug || generateSlug(course.title);
       const staticData = staticCoursesMap[slug];
       // Per i corsi GOL, usa lookup per codice corso
       const codeData = pathCode === 'GOL' ? getGolCourseData(course) : null;
@@ -801,7 +807,7 @@ export function ProgramDetail() {
         duration: codeData?.duration || staticData?.duration || `${course.duration_hours} ore`,
         description: codeData?.description || staticData?.description || '',
         skills: codeData?.skills || staticData?.skills || [] as string[],
-        id: slug,
+        id: codeData?.slug || slug,
         code: course.code,
         category: codeData?.category || staticData?.category || (pathCode === 'GOL'
           ? getGolCourseCategory(course)
@@ -995,50 +1001,6 @@ export function ProgramDetail() {
               );
             })}
           </div>
-        </div>
-      </section>
-
-      {/* Image Gallery Carousel */}
-      <section className="py-16 bg-gray-50 overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-12">
-          <div className="text-center animate-slide-in-down">
-            <div className={`inline-block bg-gradient-to-r ${program.gradient} text-white px-6 py-2 rounded-full mb-4`}>
-              La Nostra Formazione in Immagini
-            </div>
-            <h2 className="text-4xl md:text-5xl mb-4">
-              Vivi l'Esperienza Innform
-            </h2>
-          </div>
-        </div>
-
-        {/* First Carousel - Left to Right */}
-        <div className="mb-6">
-          <InfiniteCarousel 
-            images={[
-              'https://images.unsplash.com/photo-1758270704113-9fb2ac81788f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzdHVkZW50cyUyMGxlYXJuaW5nJTIwZ3JvdXB8ZW58MXx8fHwxNzY1NTUxNzM3fDA&ixlib=rb-4.1.0&q=80&w=1080',
-              'https://images.unsplash.com/photo-1761250246894-ee2314939662?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxwcm9mZXNzaW9uYWwlMjB0cmFpbmluZyUyMHdvcmtzaG9wfGVufDF8fHx8MTc2NTUyNzcyMHww&ixlib=rb-4.1.0&q=80&w=1080',
-              'https://images.unsplash.com/photo-1758413350815-7b06dbbfb9a7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjbGFzc3Jvb20lMjBlZHVjYXRpb24lMjBtb2Rlcm58ZW58MXx8fHwxNzY1NTUxNzM4fDA&ixlib=rb-4.1.0&q=80&w=1080',
-              'https://images.unsplash.com/photo-1614935151651-0bea6508db6b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxsYWJvcmF0b3J5JTIwd29yayUyMHNjaWVuY2V8ZW58MXx8fHwxNzY1NTUxNzM5fDA&ixlib=rb-4.1.0&q=80&w=1080',
-              'https://images.unsplash.com/photo-1709715357520-5e1047a2b691?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxidXNpbmVzcyUyMHByZXNlbnRhdGlvbiUyMG1lZXRpbmd8ZW58MXx8fHwxNzY1NTQ2OTIxfDA&ixlib=rb-4.1.0&q=80&w=1080',
-            ]}
-            speed={30}
-            direction="left"
-          />
-        </div>
-
-        {/* Second Carousel - Right to Left */}
-        <div>
-          <InfiniteCarousel 
-            images={[
-              'https://images.unsplash.com/photo-1515879218367-8466d910aaa4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjb21wdXRlciUyMGNvZGluZyUyMHByb2dyYW1taW5nfGVufDF8fHx8MTc2NTU1MTczOXww&ixlib=rb-4.1.0&q=80&w=1080',
-              'https://images.unsplash.com/photo-1739298061740-5ed03045b280?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx0ZWFtd29yayUyMG9mZmljZSUyMGNvbGxhYm9yYXRpb258ZW58MXx8fHwxNzY1NTUxNzQwfDA&ixlib=rb-4.1.0&q=80&w=1080',
-              'https://images.unsplash.com/photo-1758518731027-78a22c8852ec?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzdWNjZXNzJTIwY2VsZWJyYXRpb24lMjBhY2hpZXZlbWVudHxlbnwxfHx8fDE3NjU0NDM4NTR8MA&ixlib=rb-4.1.0&q=80&w=1080',
-              'https://images.unsplash.com/photo-1658235081452-c2ded30b8d9f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjZXJ0aWZpY2F0aW9uJTIwZGlwbG9tYSUyMGdyYWR1YXRlfGVufDF8fHx8MTc2NTU1MTA0Mnww&ixlib=rb-4.1.0&q=80&w=1080',
-              'https://images.unsplash.com/photo-1496180470114-6ef490f3ff22?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxidXNpbmVzcyUyMG1lZXRpbmclMjBwcm9mZXNzaW9uYWx8ZW58MXx8fHwxNzY1NTM5ODkxfDA&ixlib=rb-4.1.0&q=80&w=1080',
-            ]}
-            speed={25}
-            direction="right"
-          />
         </div>
       </section>
 

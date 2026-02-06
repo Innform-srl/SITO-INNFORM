@@ -1,9 +1,10 @@
 export const newsItems = [
   {
     id: 5,
-    title: "Corso Guide Turistiche per Non Vedenti - 23 Febbraio",
-    date: "3 Gennaio 2026",
+    title: "Corso Guide Turistiche per Non Vedenti",
+    date: "6 Febbraio 2026",
     category: "Corsi",
+    heroDetails: ["Inizio: 23 Febbraio 2026", "Aggiornamento obbligatorio"],
     image: "https://images.unsplash.com/photo-1582555172866-f73bb12a2ab3?auto=format&fit=crop&q=80&w=1080",
     excerpt: "Aperte le iscrizioni al corso di specializzazione per guide turistiche sull'accessibilità per non vedenti. Laboratori esperienziali a Matera, inizio corso 23 Febbraio 2026.",
     link: "/corsi/corso-di-specializzazione-alle-guide-turistiche",
