@@ -91,7 +91,6 @@ export function useRealtimeCourses(options: UseRealtimeCoursesOptions = {}): Use
       setError(null);
       if (isInitial) setLoading(true);
 
-      console.log('[useRealtimeCourses] fetchCourses chiamato con forceRefresh:', forceRefresh);
 
       const response = await getCourses({
         category,
@@ -100,17 +99,10 @@ export function useRealtimeCourses(options: UseRealtimeCoursesOptions = {}): Use
         forceRefresh,
       });
 
-      console.log('[useRealtimeCourses] Risposta API ricevuta:', {
-        success: response.success,
-        total: response.meta?.total,
-        fresh: response.meta?.fresh,
-        coursesCount: Array.isArray(response.data) ? response.data.length : 0,
-      });
 
       if (!isMountedRef.current) return;
 
       if (response.success && Array.isArray(response.data)) {
-        console.log('[useRealtimeCourses] Aggiorno state con', response.data.length, 'corsi');
         // Deep clone per forzare React a rilevare il cambiamento
         setCourses(structuredClone(response.data));
         setTotal(response.meta.total);
@@ -119,7 +111,6 @@ export function useRealtimeCourses(options: UseRealtimeCoursesOptions = {}): Use
         setError(response.error || 'Errore nel recupero dei corsi');
       }
     } catch (err) {
-      console.error('[useRealtimeCourses] Errore fetch:', err);
       if (isMountedRef.current) {
         setError(err instanceof Error ? err.message : 'Errore di connessione');
       }
@@ -148,27 +139,17 @@ export function useRealtimeCourses(options: UseRealtimeCoursesOptions = {}): Use
     // Sottoscrivi agli aggiornamenti corsi
     // EduPlan invia: { type: 'courses:updated', id: courseId }
     const unsubscribe = subscribe<CoursePublicData[]>('courses:updated', (payload: BroadcastPayload<CoursePublicData[]>) => {
-      console.log('[useRealtimeCourses] Ricevuto broadcast courses:updated:', payload);
-
-      // Log dell'id del corso aggiornato (se presente)
-      if (payload.id) {
-        console.log('[useRealtimeCourses] Corso aggiornato ID:', payload.id);
-      }
-
       // Se il payload contiene i dati completi, usali direttamente
       if (payload.data && Array.isArray(payload.data) && payload.data.length > 0) {
-        console.log('[useRealtimeCourses] Uso dati dal payload:', payload.data.length, 'corsi');
         // Deep clone per forzare React a rilevare il cambiamento
         setCourses(structuredClone(payload.data));
         setTotal(payload.data.length);
         setLastUpdated(new Date());
       } else {
         // Invalida cache e refetch - il payload contiene solo l'id del corso modificato
-        console.log('[useRealtimeCourses] Invalido cache e refetch (corso modificato:', payload.id || 'non specificato', ')');
         invalidateCache();
         // Delay per dare tempo al database di propagare le modifiche
         setTimeout(() => {
-          console.log('[useRealtimeCourses] Eseguo refetch dopo delay...');
           fetchCourses(true);
         }, 1000);  // 1 secondo di delay
       }
@@ -181,10 +162,8 @@ export function useRealtimeCourses(options: UseRealtimeCoursesOptions = {}): Use
 
       // Se non connesso, attiva polling di fallback
       if (!connected && !pollingIntervalRef.current) {
-        console.log('[useRealtimeCourses] Realtime disconnesso, attivo polling fallback');
         startFallbackPolling();
       } else if (connected && pollingIntervalRef.current) {
-        console.log('[useRealtimeCourses] Realtime riconnesso, disattivo polling');
         stopFallbackPolling();
       }
     }, CONFIG.CONNECTION_CHECK_INTERVAL);
@@ -322,7 +301,6 @@ export function useRealtimeCourse(options: UseRealtimeCourseOptions): UseRealtim
 
     // Evita fetch concorrenti - se già in corso, skippa
     if (isFetchingRef.current && !isInitial) {
-      console.log('[useRealtimeCourse] Fetch già in corso, skippo');
       return;
     }
 
@@ -331,8 +309,6 @@ export function useRealtimeCourse(options: UseRealtimeCourseOptions): UseRealtim
     try {
       setError(null);
       if (isInitial) setLoading(true);
-
-      console.log('[useRealtimeCourse] fetchCourse chiamato con forceRefresh:', forceRefresh, 'slug:', slug);
 
       let result: CoursePublicData | null = null;
 
@@ -344,15 +320,8 @@ export function useRealtimeCourse(options: UseRealtimeCourseOptions): UseRealtim
         result = await getCourseByCode(code, forceRefresh);
       }
 
-      console.log('[useRealtimeCourse] Risposta ricevuta:', {
-        id: result?.id,
-        title: result?.title,
-        editionsCount: result?.editions?.length || 0,
-      });
-
       if (!isMountedRef.current) return;
 
-      console.log('[useRealtimeCourse] Aggiorno state corso con', result?.editions?.length || 0, 'edizioni');
       // IMPORTANTE: deep clone per forzare React a rilevare il cambiamento
       setCourse(result ? structuredClone(result) : null);
       setLastUpdated(new Date());
@@ -361,7 +330,6 @@ export function useRealtimeCourse(options: UseRealtimeCourseOptions): UseRealtim
         setError('Corso non trovato');
       }
     } catch (err) {
-      console.error('[useRealtimeCourse] Errore fetch:', err);
       if (isMountedRef.current) {
         setError(err instanceof Error ? err.message : 'Errore di connessione');
       }
@@ -391,8 +359,6 @@ export function useRealtimeCourse(options: UseRealtimeCourseOptions): UseRealtim
       const matchesSlug = slug && payload.slug === slug;
 
       if (matchesId || matchesSlug) {
-        console.log('[useRealtimeCourse] Aggiornamento per questo corso:', payload);
-
         if (payload.data) {
           // Deep clone per forzare React a rilevare il cambiamento
           setCourse(structuredClone(payload.data));
@@ -409,18 +375,11 @@ export function useRealtimeCourse(options: UseRealtimeCourseOptions): UseRealtim
     // NOTA: Usiamo un debounce per evitare chiamate multiple
     let refetchTimeout: NodeJS.Timeout | null = null;
     const unsubscribeAll = subscribe<CoursePublicData[]>('courses:updated', (payload) => {
-      console.log('[useRealtimeCourse] Ricevuto broadcast courses:updated:', payload);
-
       // Verifica se l'aggiornamento riguarda questo corso specifico
       const isThisCourse = payload.id && (payload.id === id || payload.id === course?.id);
 
-      if (isThisCourse) {
-        console.log('[useRealtimeCourse] Aggiornamento per QUESTO corso, refetch immediato');
-      } else if (payload.id) {
-        console.log('[useRealtimeCourse] Aggiornamento per altro corso:', payload.id, '- ignoro');
+      if (!isThisCourse && payload.id) {
         return; // Non è questo corso, ignora
-      } else {
-        console.log('[useRealtimeCourse] Aggiornamento generico, refetch per sicurezza');
       }
 
       // Cancella eventuali timeout precedenti per evitare chiamate multiple
@@ -432,7 +391,6 @@ export function useRealtimeCourse(options: UseRealtimeCourseOptions): UseRealtim
       // Delay ridotto se è specificamente questo corso
       const delay = isThisCourse ? 1000 : 5000;
       refetchTimeout = setTimeout(() => {
-        console.log(`[useRealtimeCourse] Invalido cache e forzo refetch (dopo ${delay}ms)...`);
         invalidateCache();
         fetchCourseRef.current?.(true);
         refetchTimeout = null;

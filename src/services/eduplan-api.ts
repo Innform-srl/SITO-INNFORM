@@ -29,7 +29,7 @@ const CONFIG = {
   SUPABASE_ANON_KEY: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlranFibWp5anVoa3d0ZHZ4amFpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjEwMzc4MDksImV4cCI6MjA3NjYxMzgwOX0.6MqvODmDE27UtnTXgI7ZiZF1th5q4QVVxwVu_2czBcs',
   SOURCE: 'website',
   SOURCE_DETAIL: 'www.innform.eu',
-  DEBUG: true
+  DEBUG: false
 };
 
 interface EduPlanConfig {
@@ -49,9 +49,6 @@ let config: EduPlanConfig = {
 
 export const configureEduPlan = (newConfig: Partial<EduPlanConfig>) => {
   // Ignora le configurazioni esterne, usa sempre CONFIG fissa
-  if (config.debug) {
-    console.log('[EduPlan] Inizializzato con Supabase:', CONFIG.SUPABASE_URL);
-  }
 };
 
 // ============================================
@@ -109,7 +106,7 @@ class SupabaseClient {
 
       if (!response.ok) {
         const errorText = await response.text();
-        console.error(`[EduPlan] Errore Supabase ${response.status}:`, errorText);
+        // Supabase error logged silently
         throw new Error(`Supabase error: ${response.status} - ${errorText}`);
       }
 
@@ -117,7 +114,6 @@ class SupabaseClient {
       log(`Risposta Supabase:`, result);
       return Array.isArray(result) ? result[0] : result;
     } catch (error) {
-      console.error('[EduPlan] Errore insert:', error);
       throw error;
     }
   }
@@ -134,13 +130,12 @@ class SupabaseClient {
 
       if (!response.ok) {
         const errorText = await response.text();
-        console.error(`[EduPlan] Errore Supabase ${response.status}:`, errorText);
+        // Supabase error logged silently
         throw new Error(`Supabase error: ${response.status}`);
       }
 
       return await response.json();
     } catch (error) {
-      console.error('[EduPlan] Errore select:', error);
       throw error;
     }
   }
@@ -158,14 +153,13 @@ class SupabaseClient {
 
       if (!response.ok) {
         const errorText = await response.text();
-        console.error(`[EduPlan] Errore Supabase ${response.status}:`, errorText);
+        // Supabase error logged silently
         throw new Error(`Supabase error: ${response.status}`);
       }
 
       const result = await response.json();
       return Array.isArray(result) ? result[0] : result;
     } catch (error) {
-      console.error('[EduPlan] Errore update:', error);
       throw error;
     }
   }
@@ -220,7 +214,7 @@ class WorkflowEventEmitter {
       try {
         await handler(payload);
       } catch (error) {
-        console.error(`[EduPlan] Errore handler evento ${event}:`, error);
+        // Handler error silently ignored
       }
     }
 
@@ -236,7 +230,7 @@ class WorkflowEventEmitter {
       const trimmed = events.slice(-1000);
       localStorage.setItem('eduplan_workflow_events', JSON.stringify(trimmed));
     } catch (error) {
-      console.error('[EduPlan] Errore log evento:', error);
+      // Log event error silently ignored
     }
   }
 }
@@ -322,7 +316,6 @@ export const StudentService = {
         meta: { timestamp: getTimestamp(), request_id: generateId() },
       };
     } catch (error) {
-      console.error('[EduPlan] Errore creazione studente:', error);
       return {
         success: false,
         error: {
@@ -507,7 +500,6 @@ export const EnrollmentService = {
         meta: { timestamp: getTimestamp(), request_id: generateId() },
       };
     } catch (error) {
-      console.error('[EduPlan] Errore creazione iscrizione:', error);
       return {
         success: false,
         error: {
@@ -798,7 +790,6 @@ export const LeadService = {
         meta: { timestamp: getTimestamp(), request_id: generateId() },
       };
     } catch (error) {
-      console.error('[EduPlan] Errore creazione lead:', error);
       return {
         success: false,
         error: {
@@ -1019,7 +1010,6 @@ export const ContactService = {
         meta: { timestamp: getTimestamp(), request_id: generateId() },
       };
     } catch (error) {
-      console.error('[EduPlan] Errore creazione contatto:', error);
       return {
         success: false,
         error: {

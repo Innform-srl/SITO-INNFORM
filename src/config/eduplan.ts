@@ -15,8 +15,6 @@ export const initEduPlan = () => {
     supabaseAnonKey: import.meta.env.VITE_SUPABASE_ANON_KEY,
     debug: import.meta.env.VITE_DEBUG === 'true',
   });
-
-  console.log(`[EduPlan] Inizializzato in modalità: ${mode}`);
 };
 
 export default initEduPlan;

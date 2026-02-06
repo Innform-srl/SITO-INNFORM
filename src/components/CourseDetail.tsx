@@ -869,16 +869,6 @@ export function CourseDetail() {
     enabled: !!courseId,
   });
 
-  // DEBUG: log quando liveData cambia
-  useEffect(() => {
-    console.log('[CourseDetail] liveData CAMBIATO:', {
-      id: liveData?.id,
-      editionsCount: liveData?.editions?.length || 0,
-      editionIds: liveData?.editions?.map(e => e.id) || [],
-      lastUpdated: lastUpdated?.toISOString(),
-    });
-  }, [liveData, lastUpdated]);
-
   // Dati statici del corso (cerca per CODICE corso - stabile anche se il titolo cambia)
   // Questo permette di rinominare i corsi su EduPlan senza perdere i dati presentazionali
   const staticCourse = liveData?.code ? coursesData[liveData.code] : null;
@@ -957,7 +947,6 @@ export function CourseDetail() {
   // NOTA: usiamo liveData come dipendenza (non solo editions) per forzare ricalcolo
   // quando il corso viene aggiornato via Realtime (structuredClone crea nuovo riferimento)
   const sortedEditions = useMemo(() => {
-    console.log('[CourseDetail] useMemo sortedEditions RICALCOLO - liveData.editions:', liveData?.editions?.length || 0, '- liveData.id:', liveData?.id);
     if (!liveData?.editions || liveData.editions.length === 0) return [];
     // Filtra le edizioni già iniziate - mostra solo quelle con data futura
     const availableEditions = liveData.editions.filter(ed => !ed.badges.already_started);
@@ -969,20 +958,16 @@ export function CourseDetail() {
       if (deadlineA !== deadlineB) return deadlineA - deadlineB;
       return new Date(a.start_date).getTime() - new Date(b.start_date).getTime();
     });
-    console.log('[CourseDetail] useMemo sortedEditions RISULTATO:', sorted.length, 'ids:', sorted.map(e => e.id.slice(0,8)));
     return sorted;
   }, [liveData]);  // Cambiato: usa liveData intero come dipendenza
 
   // Imposta edizione di default quando arrivano i dati
   // E aggiorna l'edizione selezionata quando i dati cambiano (es. via Realtime)
   useEffect(() => {
-    console.log('[CourseDetail] sortedEditions aggiornate:', sortedEditions.length, 'edizioni');
-
     if (sortedEditions.length > 0) {
       if (!selectedEdition) {
         // Prima volta: seleziona l'edizione di default
         const defaultEdition = sortedEditions.find((ed: CourseEdition) => !ed.badges.sold_out && ed.is_enrollments_open) || sortedEditions[0];
-        console.log('[CourseDetail] Seleziono edizione default:', defaultEdition?.id);
         setSelectedEdition(defaultEdition);
       } else {
         // Aggiornamento: sincronizza i dati dell'edizione selezionata con quelli aggiornati
@@ -990,18 +975,15 @@ export function CourseDetail() {
 
         if (!updatedEdition) {
           // L'edizione selezionata è stata ELIMINATA - seleziona un'altra
-          console.log('[CourseDetail] Edizione eliminata! Seleziono nuova default');
           const newDefault = sortedEditions.find((ed: CourseEdition) => !ed.badges.sold_out && ed.is_enrollments_open) || sortedEditions[0];
           setSelectedEdition(newDefault);
         } else if (JSON.stringify(updatedEdition) !== JSON.stringify(selectedEdition)) {
           // L'edizione esiste ma è stata modificata - aggiorna i dati
-          console.log('[CourseDetail] Edizione aggiornata:', updatedEdition.id);
           setSelectedEdition(updatedEdition);
         }
       }
     } else if (selectedEdition) {
       // Non ci sono più edizioni - deseleziona
-      console.log('[CourseDetail] Nessuna edizione disponibile, deseleziono');
       setSelectedEdition(null);
     }
   }, [sortedEditions, selectedEdition]);
@@ -1947,7 +1929,6 @@ export function CourseDetail() {
                   editionId={selectedEdition?.id}
                   editionName={selectedEdition ? `Edizione ${selectedEdition.edition_number}` : undefined}
                   onSuccess={(result) => {
-                    console.log('[CourseDetail] Iscrizione completata:', result);
                     // Invalida cache per aggiornare posti disponibili
                     invalidateCache();
                     // Analytics tracking (opzionale)
@@ -1960,7 +1941,6 @@ export function CourseDetail() {
                     }
                   }}
                   onError={(error) => {
-                    console.error('[CourseDetail] Errore iscrizione:', error);
                   }}
                 />
               </div>

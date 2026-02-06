@@ -84,10 +84,18 @@ const log = (message: string, data?: unknown) => {
 export const LmsApiService = {
   /**
    * Recupera le iscrizioni dello studente dalla piattaforma LMS
+   * @param email Email dello studente
+   * @param eduCourseIds Lista opzionale di ID corsi EDU per filtrare solo i corsi LMS mappati
    */
-  async getEnrollments(email: string): Promise<LmsEnrollmentsResponse> {
+  async getEnrollments(email: string, eduCourseIds?: string[]): Promise<LmsEnrollmentsResponse> {
     try {
-      const url = `${LMS_API_CONFIG.BASE_URL}/eduplan/enrollments?email=${encodeURIComponent(email)}`;
+      let url = `${LMS_API_CONFIG.BASE_URL}/eduplan/enrollments?email=${encodeURIComponent(email)}`;
+
+      // Aggiungi filtro per corsi EDU se specificato
+      if (eduCourseIds && eduCourseIds.length > 0) {
+        url += `&eduCourseIds=${eduCourseIds.join(',')}`;
+      }
+
       log('Fetching LMS enrollments:', url);
 
       const response = await fetch(url, {

@@ -103,8 +103,6 @@ export function useRealtimePaths(options: UseRealtimePathsOptions = {}): UseReal
 
     // Sottoscrivi agli aggiornamenti percorsi
     const unsubscribe = subscribe<LearningPath[]>('paths:updated', (payload: BroadcastPayload<LearningPath[]>) => {
-      console.log('[useRealtimePaths] Ricevuto aggiornamento:', payload);
-
       if (payload.data && Array.isArray(payload.data)) {
         setPaths(payload.data);
         setLastUpdated(new Date());
@@ -120,10 +118,8 @@ export function useRealtimePaths(options: UseRealtimePathsOptions = {}): UseReal
       setIsRealtime(connected);
 
       if (!connected && !pollingIntervalRef.current) {
-        console.log('[useRealtimePaths] Realtime disconnesso, attivo polling fallback');
         startFallbackPolling();
       } else if (connected && pollingIntervalRef.current) {
-        console.log('[useRealtimePaths] Realtime riconnesso, disattivo polling');
         stopFallbackPolling();
       }
     }, CONFIG.CONNECTION_CHECK_INTERVAL);

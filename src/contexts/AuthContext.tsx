@@ -61,7 +61,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
           setIsRefreshing(false);
         }
       } catch (err) {
-        console.error('[AuthContext] Error loading session:', err);
         setIsRefreshing(false);
       } finally {
         setIsLoading(false);
@@ -81,6 +80,19 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
       if (response.success && response.data) {
         setStudent(response.data);
+
+        // Refresh automatico dei corsi LMS subito dopo il login
+        setIsRefreshing(true);
+        try {
+          const updatedStudent = await StudentAuthService.refreshEnrollments();
+          if (updatedStudent) {
+            setStudent(updatedStudent);
+          }
+        } catch (refreshErr) {
+          // Refresh LMS enrollments failed silently
+        } finally {
+          setIsRefreshing(false);
+        }
       } else if (response.error) {
         // Gestisci errore stringa o oggetto
         const errorMsg = typeof response.error === 'string'
@@ -128,7 +140,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
         setStudent(updatedStudent);
       }
     } catch (err) {
-      console.error('[AuthContext] Error refreshing enrollments:', err);
+      // Refresh enrollments failed silently
     } finally {
       setIsRefreshing(false);
     }

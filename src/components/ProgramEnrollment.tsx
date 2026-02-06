@@ -203,9 +203,7 @@ export function ProgramEnrollment() {
     );
   }
 
-  const handleSuccess = (result: any) => {
-    console.log('[ProgramEnrollment] Pre-iscrizione completata:', result);
-
+  const handleSuccess = (_result: any) => {
     // Analytics tracking (opzionale)
     if (typeof window !== 'undefined' && (window as any).gtag) {
       (window as any).gtag('event', 'pre_enrollment_submitted', {
@@ -216,8 +214,8 @@ export function ProgramEnrollment() {
     }
   };
 
-  const handleError = (error: string) => {
-    console.error('[ProgramEnrollment] Errore:', error);
+  const handleError = (_error: string) => {
+    // Error handled by the form component
   };
 
   const getTypeStyles = () => {

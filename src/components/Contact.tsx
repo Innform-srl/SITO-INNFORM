@@ -8,14 +8,13 @@ interface ContactProps {
 }
 
 export function Contact({ courseInterest, courseName }: ContactProps) {
-  const handleSuccess = (lead: any) => {
-    console.log('[Contact] Lead creato con successo:', lead);
+  const handleSuccess = (_lead: any) => {
     // Scroll to top per mostrare il messaggio di successo
     window.scrollTo({ top: document.getElementById('contatti')?.offsetTop || 0, behavior: 'smooth' });
   };
 
-  const handleError = (error: string) => {
-    console.error('[Contact] Errore:', error);
+  const handleError = (_error: string) => {
+    // Error handled by the form component
   };
 
   return (

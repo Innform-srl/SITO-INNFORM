@@ -22,8 +22,8 @@ const EDUPLAN_URL = 'https://ikjqbmjyjuhkwtdvxjai.supabase.co';
 const EDUPLAN_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY || '';
 
 // Nome del canale broadcast (deve corrispondere a quello configurato su EduPlan)
-// EduPlan usa 'public-updates' per inviare notifiche broadcast
-const BROADCAST_CHANNEL = 'public-updates';
+// EduPlan usa 'public-data' per inviare notifiche broadcast
+const BROADCAST_CHANNEL = 'public-data';
 
 // Tipi di eventi broadcast
 export type BroadcastEventType =
@@ -84,7 +84,7 @@ const listeners = new Map<BroadcastEventType, Set<BroadcastListener>>();
 function getSupabaseClient(): SupabaseClient {
   if (!supabaseClient) {
     if (!EDUPLAN_ANON_KEY) {
-      console.warn('[Realtime] VITE_SUPABASE_ANON_KEY non configurata');
+      // VITE_SUPABASE_ANON_KEY not configured
     }
 
     supabaseClient = createClient(EDUPLAN_URL, EDUPLAN_ANON_KEY, {
@@ -128,7 +128,6 @@ export function connectRealtime(): RealtimeChannel {
 
   eventTypes.forEach(eventType => {
     realtimeChannel!.on('broadcast', { event: eventType }, (payload) => {
-      console.log(`[Realtime] Ricevuto evento ${eventType}:`, payload);
       handleBroadcast(eventType, payload.payload);
     });
   });
@@ -137,10 +136,8 @@ export function connectRealtime(): RealtimeChannel {
     if (status === 'SUBSCRIBED') {
       isConnected = true;
       connectionAttempts = 0;
-      console.log('[Realtime] Connesso al canale', BROADCAST_CHANNEL);
     } else if (status === 'CLOSED' || status === 'CHANNEL_ERROR') {
       isConnected = false;
-      console.warn('[Realtime] Disconnesso, stato:', status);
       attemptReconnect();
     }
   });
@@ -162,21 +159,16 @@ function handleBroadcast(eventType: BroadcastEventType, payloadData: unknown) {
     ...(safePayloadData as object),
   };
 
-  console.log('[Realtime] Elaboro broadcast:', eventType, data);
-
   // Notifica tutti i listener per questo tipo di evento
   const eventListeners = listeners.get(eventType);
   if (eventListeners) {
-    console.log(`[Realtime] Notifica ${eventListeners.size} listener per ${eventType}`);
     eventListeners.forEach(listener => {
       try {
         listener(data);
       } catch (error) {
-        console.error('[Realtime] Errore nel listener:', error);
+        // Errore nel listener silenzioso
       }
     });
-  } else {
-    console.log(`[Realtime] Nessun listener registrato per ${eventType}`);
   }
 
   // Notifica anche i listener generici (sync:full)
@@ -187,7 +179,7 @@ function handleBroadcast(eventType: BroadcastEventType, payloadData: unknown) {
         try {
           listener(data);
         } catch (error) {
-          console.error('[Realtime] Errore nel sync listener:', error);
+          // Errore nel sync listener silenzioso
         }
       });
     }
@@ -199,14 +191,11 @@ function handleBroadcast(eventType: BroadcastEventType, payloadData: unknown) {
  */
 function attemptReconnect() {
   if (connectionAttempts >= MAX_RECONNECT_ATTEMPTS) {
-    console.error('[Realtime] Max tentativi di riconnessione raggiunti');
     return;
   }
 
   connectionAttempts++;
   const delay = RECONNECT_DELAY * Math.pow(2, connectionAttempts - 1);
-
-  console.log(`[Realtime] Riconnessione in ${delay}ms (tentativo ${connectionAttempts}/${MAX_RECONNECT_ATTEMPTS})`);
 
   setTimeout(() => {
     if (!isConnected) {
@@ -225,7 +214,6 @@ export function disconnectRealtime(): void {
     realtimeChannel = null;
   }
   isConnected = false;
-  console.log('[Realtime] Disconnesso');
 }
 
 /**

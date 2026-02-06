@@ -469,7 +469,6 @@ export function usePreEnrollmentForm(): UseFormReturn<PreEnrollmentFormInput, Pr
         });
       } catch (leadError) {
         // Non bloccare la pre-iscrizione se la creazione del lead fallisce
-        console.warn('Errore creazione lead CRM (non bloccante):', leadError);
       }
 
       const result: PreEnrollmentResult = {

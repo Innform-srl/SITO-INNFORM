@@ -25,7 +25,6 @@ export function CookieConsentBanner() {
 
   useEffect(() => {
     const savedConsent = localStorage.getItem(COOKIE_CONSENT_KEY);
-    console.log('Cookie consent check:', savedConsent);
     if (!savedConsent) {
       // Mostra subito il banner
       setIsVisible(true);

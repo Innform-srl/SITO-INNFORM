@@ -241,12 +241,10 @@ export async function getCourseBySlug(slug: string, forceRefresh = false): Promi
       log('Corso da cache (slug)');
       const data = cached.data.data;
       const result = Array.isArray(data) ? data[0] || null : data;
-      console.log('[PublicCoursesAPI] getCourseBySlug DA CACHE:', slug, '- edizioni:', result?.editions?.length || 0);
       return result;
     }
   }
 
-  console.log('[PublicCoursesAPI] getCourseBySlug FETCH NETWORK:', slug, '- forceRefresh:', forceRefresh);
   const url = buildUrl({ slug }, forceRefresh);
   const response = await fetchWithRetry(url);
 
@@ -255,12 +253,10 @@ export async function getCourseBySlug(slug: string, forceRefresh = false): Promi
   if (requestVersion === cacheVersion) {
     cache.set(cacheKey, { data: response, timestamp: Date.now(), version: cacheVersion });
   } else {
-    console.log('[PublicCoursesAPI] Skip cache save - versione cambiata durante fetch (', requestVersion, '->', cacheVersion, ')');
   }
 
   const data = response.data;
   const result = Array.isArray(data) ? data[0] || null : data;
-  console.log('[PublicCoursesAPI] getCourseBySlug RISULTATO:', slug, '- edizioni:', result?.editions?.length || 0, '- fresh:', response.meta?.fresh);
   return result;
 }
 
@@ -272,7 +268,6 @@ export async function getCourseBySlug(slug: string, forceRefresh = false): Promi
 export function invalidateCache(): void {
   cacheVersion++;  // Incrementa versione - tutte le entry esistenti diventeranno invalide
   cache.clear();
-  console.log('[PublicCoursesAPI] Cache invalidata, nuova versione:', cacheVersion);
 }
 
 /**

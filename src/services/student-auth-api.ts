@@ -86,6 +86,7 @@ const STORAGE_KEYS = {
   STUDENT_DATA: 'innform_student_data',
   SESSION_EXPIRY: 'innform_session_expiry',
   AUTH_TOKENS: 'innform_auth_tokens',
+  ORIGINAL_EDU_ENROLLMENTS: 'innform_original_edu_enrollments',
 };
 
 // Durata sessione: 24 ore
@@ -205,8 +206,8 @@ export const StudentAuthService = {
           };
         }
 
-        // Salva i dati in sessione
-        this.saveSession(result.data, result.auth);
+        // Salva i dati in sessione (salva anche i corsi EDU originali)
+        this.saveSession(result.data, result.auth, true);
 
         return result;
       }
@@ -237,8 +238,9 @@ export const StudentAuthService = {
 
   /**
    * Salva i dati della sessione in localStorage
+   * @param saveOriginalEdu Se true, salva anche i corsi EDU originali (usato solo al login)
    */
-  saveSession(studentData: AuthenticatedStudent, authTokens?: AuthTokens): void {
+  saveSession(studentData: AuthenticatedStudent, authTokens?: AuthTokens, saveOriginalEdu: boolean = false): void {
     try {
       // Usa expires_at dal token se disponibile, altrimenti 24h default
       const expiry = authTokens?.expires_at
@@ -250,6 +252,15 @@ export const StudentAuthService = {
 
       if (authTokens) {
         localStorage.setItem(STORAGE_KEYS.AUTH_TOKENS, JSON.stringify(authTokens));
+      }
+
+      // Salva i corsi EDU originali solo al primo login
+      if (saveOriginalEdu) {
+        localStorage.setItem(
+          STORAGE_KEYS.ORIGINAL_EDU_ENROLLMENTS,
+          JSON.stringify(studentData.enrollments || [])
+        );
+        log('Original EDU enrollments saved:', (studentData.enrollments || []).length);
       }
 
       log('Session saved for:', studentData.email);
@@ -298,6 +309,7 @@ export const StudentAuthService = {
       localStorage.removeItem(STORAGE_KEYS.STUDENT_DATA);
       localStorage.removeItem(STORAGE_KEYS.SESSION_EXPIRY);
       localStorage.removeItem(STORAGE_KEYS.AUTH_TOKENS);
+      localStorage.removeItem(STORAGE_KEYS.ORIGINAL_EDU_ENROLLMENTS);
       log('Session cleared');
     } catch (error) {
       log('Error clearing session:', error);
@@ -318,6 +330,19 @@ export const StudentAuthService = {
   },
 
   /**
+   * Recupera i corsi EDU originali salvati al login
+   */
+  getOriginalEduEnrollments(): StudentEnrollment[] {
+    try {
+      const str = localStorage.getItem(STORAGE_KEYS.ORIGINAL_EDU_ENROLLMENTS);
+      if (!str) return [];
+      return JSON.parse(str) as StudentEnrollment[];
+    } catch {
+      return [];
+    }
+  },
+
+  /**
    * Recupera i corsi LMS dello studente e li combina con quelli EDU
    * Questa funzione aggiorna i dati in sessione con i corsi da entrambe le piattaforme
    */
@@ -331,11 +356,19 @@ export const StudentAuthService = {
 
       log('Refreshing enrollments for:', student.email);
 
-      // Recupera i corsi LMS
-      const lmsResponse = await LmsApiService.getEnrollments(student.email);
+      // Usa i corsi EDU ORIGINALI (salvati al login), non quelli nella sessione
+      // Questo evita la duplicazione quando si fa refresh multipli
+      const originalEduEnrollments = this.getOriginalEduEnrollments();
+
+      // Estrai gli ID dei corsi EDU per filtrare i corsi LMS
+      const eduCourseIds = originalEduEnrollments.map(e => e.course_id);
+      log('EDU course IDs for LMS filter:', eduCourseIds);
+
+      // Recupera i corsi LMS filtrati per i corsi EDU a cui lo studente è iscritto
+      const lmsResponse = await LmsApiService.getEnrollments(student.email, eduCourseIds);
 
       // Segna i corsi EDU con la source
-      const eduEnrollments = (student.enrollments || []).map(e => ({
+      const eduEnrollments = originalEduEnrollments.map(e => ({
         ...e,
         _source: 'edu' as const,
       }));
@@ -352,7 +385,7 @@ export const StudentAuthService = {
       // Combina i corsi: EDU e LMS sono piattaforme separate, quindi li uniamo tutti
       // I corsi LMS hanno già _source: 'lms' e ID con prefisso 'lms_'
       const combinedEnrollments = [...eduEnrollments, ...lmsEnrollments];
-      log('EDU enrollments:', eduEnrollments.length);
+      log('EDU enrollments (original):', eduEnrollments.length);
       log('LMS enrollments:', lmsEnrollments.length);
 
       // Aggiorna i dati dello studente con i corsi combinati
@@ -361,9 +394,9 @@ export const StudentAuthService = {
         enrollments: combinedEnrollments,
       };
 
-      // Salva in sessione (mantieni i token esistenti)
+      // Salva in sessione (mantieni i token esistenti, NON sovrascrivere i corsi EDU originali)
       const tokens = this.getAuthTokens();
-      this.saveSession(updatedStudent, tokens || undefined);
+      this.saveSession(updatedStudent, tokens || undefined, false);
 
       log('Total enrollments after refresh:', combinedEnrollments.length);
       return updatedStudent;

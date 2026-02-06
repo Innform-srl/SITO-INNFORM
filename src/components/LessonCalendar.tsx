@@ -58,9 +58,6 @@ export function LessonCalendar({
   lessons,
   className = '',
 }: LessonCalendarProps) {
-  // Debug: verifica quante lezioni arrivano al componente
-  console.log('[LessonCalendar] Lezioni ricevute:', lessons?.length, lessons);
-
   if (!lessons || lessons.length === 0) {
     return null;
   }
