@@ -3531,6 +3531,12 @@
   }
 
   @media (width >= 64rem) {
+    .lg\:hidden {
+      display: none;
+    }
+  }
+
+  @media (width >= 64rem) {
     .lg\:max-w-none {
       max-width: none;
     }
