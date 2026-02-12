@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Quote, X } from 'lucide-react';
+import { useScrollReveal } from '../hooks/useScrollReveal';
 
 interface Testimonial {
   excerpt: string;
@@ -103,6 +104,8 @@ function TestimonialModal({
 
 export function Testimonials() {
   const [selectedTestimonial, setSelectedTestimonial] = useState<Testimonial | null>(null);
+  const { ref: headerRef, revealed: headerRevealed } = useScrollReveal();
+  const { ref: cardsRef, revealed: cardsRevealed } = useScrollReveal();
 
   const testimonials: Testimonial[] = [
     {
@@ -147,7 +150,10 @@ Il Regista di tutto cio', colui che ci ha seguiti sin dalle prime chiacchierate 
       <ReviewsSchema testimonials={testimonials} />
       <section className="py-24 bg-white relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="text-center mb-16">
+          <div
+            ref={headerRef}
+            className={`text-center mb-16 reveal-up ${headerRevealed ? 'revealed' : ''}`}
+          >
             <h2 className="text-4xl md:text-5xl font-bold mb-4 text-gray-900">
               Recensioni Studenti Corsi Formazione Potenza
             </h2>
@@ -157,7 +163,10 @@ Il Regista di tutto cio', colui che ci ha seguiti sin dalle prime chiacchierate 
             <div className="h-1.5 w-24 bg-gradient-to-r from-purple-600 to-pink-600 mx-auto rounded-full"></div>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8">
+          <div
+            ref={cardsRef}
+            className={`grid md:grid-cols-3 gap-8 reveal-stagger ${cardsRevealed ? 'revealed' : ''}`}
+          >
             {testimonials.map((testimonial, index) => (
               <div
                 key={index}

@@ -4,7 +4,7 @@ import {
   ArrowLeft, Award, Users, BookOpen, CheckCircle2,
   TrendingUp, Calendar, MapPin, ChevronRight, Star,
   Briefcase, GraduationCap, Target, Sparkles, Rocket,
-  Shield, Zap, Heart, Globe, Clock, Euro, Eye, Accessibility
+  Shield, Zap, Heart, Globe, Clock, Euro, Eye, Accessibility, AlertTriangle
 } from 'lucide-react';
 import { ImageWithFallback } from './figma/ImageWithFallback';
 import { useRealtimePaths } from '../hooks/useRealtimePaths';
@@ -668,6 +668,104 @@ const programsData: Record<string, Program> = {
         rating: 5
       }
     ]
+  },
+  'sicurezza': {
+    id: 'sicurezza',
+    title: 'Sicurezza sul Lavoro',
+    subtitle: 'Formazione Obbligatoria e Specialistica D.Lgs. 81/08',
+    description: 'Corsi di formazione obbligatoria sulla sicurezza nei luoghi di lavoro ai sensi del D.Lgs. 81/08. Formazione generale e specifica per lavoratori a rischio basso, medio e alto, con aggiornamenti periodici e attestati validi su tutto il territorio nazionale.',
+    gradient: 'from-red-600 via-orange-500 to-amber-500',
+    bgGradient: 'from-red-50 to-orange-50',
+    heroImage: 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&q=80&w=1080',
+    galleryImages: [
+      'https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&q=80&w=1080',
+      'https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&q=80&w=1080',
+      'https://images.unsplash.com/photo-1587578855471-59c2eeb19ba5?auto=format&fit=crop&q=80&w=1080'
+    ],
+    features: ['Attestati Validi Nazionalmente', 'D.Lgs. 81/08', 'Formazione Obbligatoria', 'Docenti Qualificati'],
+    benefits: [
+      {
+        icon: Shield,
+        title: 'Conformità Normativa',
+        description: 'Attestati conformi al D.Lgs. 81/08 e Accordi Stato-Regioni, validi su tutto il territorio nazionale.'
+      },
+      {
+        icon: Award,
+        title: 'Docenti Qualificati',
+        description: 'Formatori certificati con esperienza pluriennale nella sicurezza sul lavoro e prevenzione rischi.'
+      },
+      {
+        icon: Users,
+        title: 'Formazione Aziendale',
+        description: 'Corsi personalizzabili per aziende, con possibilità di formazione in sede e orari flessibili.'
+      },
+      {
+        icon: CheckCircle2,
+        title: 'Attestati Immediati',
+        description: 'Rilascio attestati di formazione al termine del corso, con registrazione e archiviazione digitale.'
+      }
+    ],
+    courses: [
+      {
+        title: 'Formazione Specifica Rischio Medio',
+        duration: '8 ore',
+        description: 'Formazione obbligatoria per lavoratori esposti a rischio medio ai sensi del D.Lgs. 81/08 e Accordi Stato-Regioni.',
+        skills: ['Rischi specifici settore', 'DPI', 'Procedure emergenza', 'Prevenzione incendi'],
+        category: 'Sicurezza',
+      }
+    ],
+    timeline: [
+      {
+        phase: 'Fase 1',
+        title: 'Analisi Fabbisogno Formativo',
+        description: 'Valutazione dei rischi aziendali e identificazione della formazione necessaria per ogni lavoratore.',
+        duration: '1 giorno'
+      },
+      {
+        phase: 'Fase 2',
+        title: 'Formazione Generale',
+        description: 'Modulo base di 4 ore su concetti generali di sicurezza, rischi, prevenzione e organizzazione della prevenzione aziendale.',
+        duration: '4 ore'
+      },
+      {
+        phase: 'Fase 3',
+        title: 'Formazione Specifica',
+        description: 'Formazione sui rischi specifici del settore di appartenenza: rischio basso (4h), medio (8h) o alto (12h).',
+        duration: '4-12 ore'
+      },
+      {
+        phase: 'Fase 4',
+        title: 'Verifica e Attestazione',
+        description: 'Test di verifica dell\'apprendimento e rilascio dell\'attestato di formazione con validità quinquennale.',
+        duration: '1 ora'
+      }
+    ],
+    stats: {
+      participants: '1000+',
+      satisfaction: '4.7/5',
+      placement: 'N/A',
+      partners: '200+'
+    },
+    testimonials: [
+      {
+        name: 'Donato Galasso',
+        role: 'Master Safety Manager',
+        text: 'Grazie ad Innform, alle certificazioni che il master mi ha rilasciato e ai contatti che Innform ha con Aziende su tutto il territorio nazionale oggi lavoro presso RINA Services SpA.',
+        rating: 5
+      },
+      {
+        name: 'Giuseppe Canio Matteo',
+        role: 'Master Safety Manager',
+        text: 'Al termine del percorso sono stato ricontattato dall\'azienda presso la quale avevo svolto lo stage formativo, mi è stato proposto di proseguire come Addetto al Servizio di Prevenzione e Protezione.',
+        rating: 5
+      },
+      {
+        name: 'Marco Cardilli',
+        role: 'Master Safety Manager',
+        text: 'La cosa che mi ha incuriosito di questo master è il taglio pratico con tante visite in azienda e numerose ore di tirocinio aziendale. Esperienza che consiglio di fare.',
+        rating: 5
+      }
+    ]
   }
 };
 
@@ -675,7 +773,8 @@ const programsData: Record<string, Program> = {
 const programIdToPathCode: Record<string, string> = {
   'master': 'MS',
   'gol': 'GOL',
-  'specializzazione': 'SPEC',
+  'specializzazione': 'CS',
+  'sicurezza': 'SIC',
 };
 
 // Funzione per generare slug dal titolo del corso (uguale a quella usata in CourseDetail)
@@ -702,7 +801,10 @@ export function ProgramDetail() {
   const pathCode = programId ? programIdToPathCode[programId] : null;
   const apiPath = useMemo(() => {
     if (!pathCode || !paths.length) return null;
-    return paths.find(p => p.code === pathCode) || null;
+    // Cerca corrispondenza esatta, poi fallback per prefisso (utile per SIC/SICUREZZA)
+    return paths.find(p => p.code === pathCode)
+      || paths.find(p => p.code.startsWith(pathCode) || pathCode.startsWith(p.code))
+      || null;
   }, [pathCode, paths]);
 
   // Mappa codici corso -> dati statici completi per GOL
@@ -758,6 +860,25 @@ export function ProgramDetail() {
     },
   };
 
+  // Mappa codici corso -> dati statici per Sicurezza
+  const sicurezzaCourseDataByCode: Record<string, { duration: string; description: string; skills: string[]; category: string; slug?: string }> = {
+    'SICUREZZA--079': {
+      duration: '8 ore',
+      description: 'Formazione obbligatoria per lavoratori esposti a rischio medio ai sensi del D.Lgs. 81/08 e Accordi Stato-Regioni.',
+      skills: ['Rischi specifici settore', 'DPI', 'Procedure emergenza', 'Prevenzione incendi'],
+      category: 'Sicurezza',
+      slug: 'formazione-specifica-rischio-medio'
+    },
+  };
+
+  // Funzione per ottenere dati statici di un corso Sicurezza per codice
+  const getSicurezzaCourseData = (course: PathCourse) => {
+    if (course.code && sicurezzaCourseDataByCode[course.code]) {
+      return sicurezzaCourseDataByCode[course.code];
+    }
+    return null;
+  };
+
   // Funzione per ottenere dati statici di un corso GOL per codice
   const getGolCourseData = (course: PathCourse) => {
     if (course.code && golCourseDataByCode[course.code]) {
@@ -797,8 +918,12 @@ export function ProgramDetail() {
     return apiPath.courses.map((course: PathCourse) => {
       const slug = course.website_slug || generateSlug(course.title);
       const staticData = staticCoursesMap[slug];
-      // Per i corsi GOL, usa lookup per codice corso
-      const codeData = pathCode === 'GOL' ? getGolCourseData(course) : null;
+      // Per i corsi GOL o Sicurezza, usa lookup per codice corso
+      const codeData = pathCode === 'GOL'
+        ? getGolCourseData(course)
+        : pathCode === 'SIC'
+          ? getSicurezzaCourseData(course)
+          : null;
 
       // Usa dati statici come fonte principale se disponibili
       return {
@@ -811,9 +936,11 @@ export function ProgramDetail() {
         code: course.code,
         category: codeData?.category || staticData?.category || (pathCode === 'GOL'
           ? getGolCourseCategory(course)
-          : pathCode === 'SPEC'
+          : pathCode === 'CS'
             ? 'Specializzazione'
-            : undefined),
+            : pathCode === 'SIC'
+              ? 'Sicurezza'
+              : undefined),
       };
     });
   }, [apiPath, pathCode, staticCoursesMap]);
@@ -863,7 +990,8 @@ export function ProgramDetail() {
       'gol': `Corsi gratuiti per disoccupati in Basilicata con Programma GOL finanziato PNRR. Indennità di frequenza, qualifica professionale riconosciuta e supporto al reinserimento lavorativo.`,
       'specializzazione': `Corsi specializzazione turismo accessibile a Matera e Potenza. Formazione Intelligenza Artificiale, guide turistiche per non vedenti. Attestati riconosciuti Regione Basilicata.`,
       'ti-abilito': `Programma TI.ABILITO: corsi qualifica professionale gratuiti in Basilicata con stage garantito in azienda. Operatore amministrativo, logistica, ristorazione. 85% placement lavorativo.`,
-      'progetto-segni': `Progetto Segni: certificazioni professionali digital marketing, UX design, data analytics a Potenza. Formazione pratica con networking e opportunità di carriera.`
+      'progetto-segni': `Progetto Segni: certificazioni professionali digital marketing, UX design, data analytics a Potenza. Formazione pratica con networking e opportunità di carriera.`,
+      'sicurezza': `Corsi sicurezza lavoro D.Lgs. 81/08 a Potenza e Basilicata. Formazione generale e specifica rischio basso, medio, alto. Attestati validi nazionalmente. Docenti qualificati Innform.`
     };
     return seoDescriptions[id] || baseDescription;
   };
@@ -1059,6 +1187,62 @@ export function ProgramDetail() {
 
             return (
               <>
+                {/* Corsi di Sicurezza */}
+                {coursesToShow.some(c => c.category === 'Sicurezza') && (
+            <div className="mb-16">
+              <div className="flex items-center gap-3 mb-8">
+                <div style={{ width: '6px', height: '40px', background: 'linear-gradient(to bottom, #dc2626, #ea580c)', borderRadius: '4px' }}></div>
+                <h2 className="text-3xl font-bold text-gray-900">Corsi di Sicurezza</h2>
+              </div>
+
+              <div className="grid md:grid-cols-2 gap-8">
+                {coursesToShow.filter(c => c.category === 'Sicurezza').map((course, idx) => (
+                  <Link
+                    key={idx}
+                    to={course.id ? `/corsi/${course.id}` : '#'}
+                    className="bg-gradient-to-br from-red-50 to-orange-50 rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border border-red-100"
+                  >
+                    <div className="p-8">
+                      <div className="flex items-center justify-between mb-4">
+                        <div className="bg-gradient-to-r from-red-500 to-orange-500 text-white px-4 py-2 rounded-full text-sm font-medium">
+                          {course.duration}
+                        </div>
+                        <div className="bg-white px-4 py-2 rounded-full text-sm font-medium text-red-600 border border-red-200">
+                          Sicurezza
+                        </div>
+                      </div>
+                      <h3 className="text-2xl font-bold mb-4 text-red-700">{course.title}</h3>
+                      {course.description && (
+                        <p className="text-gray-700 mb-6 leading-relaxed">{course.description}</p>
+                      )}
+
+                      {course.skills && course.skills.length > 0 && (
+                        <div className="space-y-2">
+                          <div className="text-sm uppercase tracking-wide text-gray-500 mb-3">Competenze</div>
+                          <div className="flex flex-wrap gap-2">
+                            {course.skills.map((skill, skillIdx) => (
+                              <span
+                                key={skillIdx}
+                                className="bg-white px-4 py-2 rounded-lg text-sm shadow-md border border-red-100"
+                              >
+                                {skill}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+
+                      <div className="flex items-center gap-2 mt-6 text-red-600 font-semibold">
+                        <span>Scopri il corso</span>
+                        <ChevronRight size={20} />
+                      </div>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          )}
+
                 {/* Corsi di Specializzazione */}
                 {coursesToShow.some(c => c.category === 'Specializzazione') && (
             <div className="mb-16">

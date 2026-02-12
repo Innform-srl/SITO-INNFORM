@@ -1,14 +1,14 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import { Microscope, Droplet, FlaskConical, BookOpen, ChevronLeft, ChevronRight, Clock, Award, TrendingUp, Users, Settings, AlertTriangle, ShoppingBag, Megaphone, Croissant, Eye, Filter, GraduationCap, Target, LayoutGrid, Layers, Monitor, Loader2 } from 'lucide-react';
+import { Microscope, BookOpen, ChevronLeft, ChevronRight, Award, Users, Settings, AlertTriangle, Megaphone, Croissant, Eye, GraduationCap, Target, Monitor, Loader2, Shield, ArrowUpRight, Search } from 'lucide-react';
 import { useRealtimeCourses } from '../hooks/useRealtimeCourses';
+import { useAutoAnimate } from '@formkit/auto-animate/react';
+import { useScrollReveal } from '../hooks/useScrollReveal';
 import type { CoursePublicData } from '../types/courses-public';
 import type { LucideIcon } from 'lucide-react';
 
-type FilterType = 'tutti' | 'master' | 'gol' | 'specializzazione';
-type ViewMode = 'carousel' | 'grid';
+type CategoryType = 'master' | 'gol' | 'specializzazione' | 'sicurezza';
 
-// Stili visivi per i corsi (fallback per il design)
 interface CourseStyle {
   icon: LucideIcon;
   gradient: string;
@@ -18,7 +18,6 @@ interface CourseStyle {
   skills: string[];
 }
 
-// Mappa degli stili per CODICE corso (stabile anche se il titolo cambia)
 const courseStylesMap: Record<string, CourseStyle> = {
   'TAA': {
     icon: Microscope,
@@ -118,7 +117,6 @@ const courseStylesMap: Record<string, CourseStyle> = {
   },
 };
 
-// Stile di default per corsi senza stile specifico
 const defaultStyle: CourseStyle = {
   icon: GraduationCap,
   gradient: 'from-indigo-600 via-indigo-500 to-blue-500',
@@ -128,218 +126,652 @@ const defaultStyle: CourseStyle = {
   skills: ['Formazione professionale', 'Competenze specialistiche', 'Certificazione', 'Pratica'],
 };
 
-// Helper per determinare la categoria di un corso
-function getCourseCategory(course: CoursePublicData): FilterType {
+const sicurezzaDefaultStyle: CourseStyle = {
+  icon: Shield,
+  gradient: 'from-red-600 via-orange-500 to-amber-500',
+  bgGradient: 'from-red-50 to-orange-50',
+  solidColor: '#dc2626',
+  gradientCSS: 'linear-gradient(90deg, #DC2626 0%, #EA580C 50%, #D97706 100%)',
+  skills: ['Sicurezza sul lavoro', 'D.Lgs. 81/08', 'Prevenzione rischi', 'Formazione obbligatoria'],
+};
+
+function getCourseCategory(course: CoursePublicData): CategoryType {
   const code = course.code.toLowerCase();
-  if (code.startsWith('gol') || code.startsWith('tor') || code.startsWith('upskilling')) {
-    return 'gol';
-  }
-  if (code.startsWith('ms') || code === 'taa' || code === 'eec' || code === 'massaf') {
-    return 'master';
-  }
-  if (code.startsWith('cdsa') || code.includes('spec')) {
-    return 'specializzazione';
-  }
-  return 'gol'; // default
+  if (code.startsWith('gol') || code.startsWith('tor') || code.startsWith('upskilling') || code === 'otds') return 'gol';
+  if (code.startsWith('ms') || code === 'taa' || code === 'eec' || code === 'massaf') return 'master';
+  if (code.startsWith('cdsa') || code.includes('spec')) return 'specializzazione';
+  if (code.startsWith('sicurezza')) return 'sicurezza';
+  return 'gol';
 }
 
-// Helper per determinare il tipo visualizzato
 function getCourseType(course: CoursePublicData): string {
   const code = course.code.toLowerCase();
-  if (code.startsWith('upskilling')) return 'GOL Upskilling';
-  if (code === 'gol-comdig') return 'GOL Upskilling';
-  if (code.startsWith('gol') || code.startsWith('tor')) return 'Programma GOL';
+  // GOL: use category from DB to distinguish Reskilling/Upskilling/Riqualificazione
+  if (code.startsWith('upskilling') || code === 'gol-comdig') return 'Upskilling';
+  if (code.startsWith('gol') || code.startsWith('tor') || code === 'otds') {
+    // Try to infer from category field
+    const cat = (course.category || '').toLowerCase();
+    if (cat.includes('reskilling')) return 'Reskilling';
+    if (cat.includes('upskilling')) return 'Upskilling';
+    if (cat.includes('riqualificazione')) return 'Riqualificazione';
+    return 'Reskilling';
+  }
   if (code.startsWith('ms') || code === 'taa' || code === 'eec' || code === 'massaf') return 'Master';
   if (code.startsWith('cdsa') || code.includes('spec')) return 'Specializzazione';
+  if (code.startsWith('sicurezza')) return 'Sicurezza';
   return 'Corso';
 }
 
-// Helper per ottenere lo stile di un corso (cerca per codice)
 function getCourseStyle(code: string): CourseStyle {
-  return courseStylesMap[code] || defaultStyle;
+  if (courseStylesMap[code]) return courseStylesMap[code];
+  if (code.startsWith('SICUREZZA--') || code.startsWith('SICUREZZA-')) return sicurezzaDefaultStyle;
+  return defaultStyle;
+}
+
+// Category slide config
+const categoryConfig: { id: CategoryType; label: string; color: string }[] = [
+  { id: 'master', label: 'Alta Formazione', color: '#FFCCD3' },
+  { id: 'gol', label: 'Programma GOL', color: '#B8E6FE' },
+  { id: 'sicurezza', label: 'Sicurezza', color: '#FFEDD4' },
+  { id: 'specializzazione', label: 'Specializzazione', color: '#A4F4CF' },
+];
+
+// Static Sicurezza course — always shown as fallback when API has no Sicurezza courses
+const staticSicurezzaCourses: CourseCardData[] = [
+  {
+    id: 'formazione-generale-sicurezza',
+    title: 'Formazione Generale Sicurezza',
+    description: 'Formazione base obbligatoria per tutti i lavoratori. Riferimento normativo: Art. 37 D.Lgs. 81/08 — Accordo Stato Regioni 21/12/2011. Concetti di rischio, danno, prevenzione e protezione, organizzazione della sicurezza aziendale. Il corso affronta i diritti e doveri dei lavoratori, la gestione delle emergenze e l\'uso dei dispositivi di protezione individuale. Attestato valido su tutto il territorio nazionale con validità quinquennale.',
+    type: 'Sicurezza',
+    category: 'sicurezza',
+    code: 'SICUREZZA--079',
+    image: 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=600&q=75&auto=format',
+  },
+];
+
+interface CourseCardData {
+  id: string;
+  title: string;
+  description: string;
+  type: string;
+  category: CategoryType;
+  code: string;
+  image?: string;
+}
+
+// Decorative images mapped by course code keyword
+const courseImages: Record<string, string> = {
+  'TAA': 'https://images.unsplash.com/photo-1532094349884-543bc11b234d?w=600&q=75&auto=format',
+  'EEC': 'https://images.unsplash.com/photo-1456324504439-367cee3b3c32?w=600&q=75&auto=format',
+  'MASSAF': 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=600&q=75&auto=format',
+  'Tor': 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=600&q=75&auto=format',
+  'GOL-ODPE': 'https://images.unsplash.com/photo-1509440159596-0249088772ff?w=600&q=75&auto=format',
+  'GOL-COMDIG': 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=600&q=75&auto=format',
+  'Upskilling-CDP1': 'https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?w=600&q=75&auto=format',
+  'OTDS': 'https://images.unsplash.com/photo-1587654780291-39c9404d7dd0?w=600&q=75&auto=format',
+  'CDSA': 'https://images.unsplash.com/photo-1574607383077-47ddc2dc51c4?w=600&q=75&auto=format',
+  'GOL-TEPL': 'https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=600&q=75&auto=format',
+  'GOL-OHES': 'https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=600&q=75&auto=format',
+  'CS-CORAI': 'https://images.unsplash.com/photo-1677442135703-1787eea5ce01?w=600&q=75&auto=format',
+};
+
+const fallbackImages = [
+  'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=600&q=75&auto=format',
+  'https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=600&q=75&auto=format',
+  'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=600&q=75&auto=format',
+  'https://images.unsplash.com/photo-1552664730-d307ca884978?w=600&q=75&auto=format',
+  'https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=600&q=75&auto=format',
+];
+
+function getCourseImage(code: string, index: number): string {
+  if (courseImages[code]) return courseImages[code];
+  return fallbackImages[index % fallbackImages.length];
+}
+
+function BentoCard({
+  course,
+  color,
+  variant = 'standard',
+}: {
+  course: CourseCardData;
+  color: string;
+  variant?: 'standard' | 'featured';
+}) {
+  const isFeatured = variant === 'featured';
+
+  return (
+    <Link
+      to={`/corsi/${course.id}`}
+      className="group relative rounded-2xl overflow-hidden flex flex-col h-full transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5"
+      style={{ background: color }}
+    >
+      {/* Decorative background image */}
+      {course.image && (
+        <div
+          className="absolute inset-0 bg-cover bg-center"
+          style={{
+            backgroundImage: `url(${course.image})`,
+            opacity: 0.12,
+            mixBlendMode: 'overlay',
+          }}
+        />
+      )}
+
+      {/* Content — 32px padding matching Figma */}
+      <div className="relative z-10 flex flex-col justify-between h-full" style={{ padding: 32 }}>
+        {/* Top: badge */}
+        <div>
+          <span
+            className="inline-block rounded-full font-semibold"
+            style={{
+              background: 'rgba(5, 47, 74, 0.08)',
+              color: '#052F4A',
+              fontSize: 13,
+              lineHeight: '18px',
+              padding: '5px 14px',
+            }}
+          >
+            {course.type}
+          </span>
+        </div>
+
+        {/* Bottom: title + description + arrow row */}
+        <div>
+          <h3
+            className="font-bold leading-tight"
+            style={{
+              color: '#052F4A',
+              fontSize: isFeatured ? 28 : 22,
+              lineHeight: isFeatured ? '34px' : '28px',
+            }}
+          >
+            {course.title}
+          </h3>
+          {isFeatured && course.description && (
+            <p
+              className="line-clamp-5"
+              style={{
+                color: '#1B6B93',
+                opacity: 0.7,
+                fontSize: 16,
+                lineHeight: '22px',
+                marginTop: 8,
+              }}
+            >
+              {course.description}
+            </p>
+          )}
+          {/* Arrow bottom-right */}
+          <div className="flex justify-end" style={{ marginTop: 12 }}>
+            <div
+              className="flex-shrink-0 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300"
+              style={{
+                width: 40,
+                height: 40,
+                background: 'rgba(5, 47, 74, 0.08)',
+              }}
+            >
+              <ArrowUpRight size={18} style={{ color: '#052F4A' }} />
+            </div>
+          </div>
+        </div>
+      </div>
+    </Link>
+  );
+}
+
+// Pastel colors for Sicurezza "a breve" cards
+const sicurezzaComingSoonCards = [
+  {
+    label: 'A breve',
+    title: 'Formazione Specifica Rischio Medio',
+    description: 'Corso di 8 ore per lavoratori esposti a rischio medio. Rischi specifici di settore, uso corretto dei DPI, procedure di emergenza e prevenzione incendi. Attestato conforme D.Lgs. 81/08.',
+    color: '#e0e7ff',       // Glicine
+    accentColor: '#4f46e5', // indigo-600
+    link: '/programmi/sicurezza',
+  },
+  {
+    label: 'A breve',
+    title: 'Formazione Specifica Rischio Alto',
+    description: 'Percorso di 12 ore per lavoratori esposti a rischio alto. Gestione emergenze, uso corretto dei DPI, prevenzione incendi, primo soccorso e procedure di evacuazione. Attestato valido nazionale.',
+    color: '#fed7aa',       // Albicocca
+    accentColor: '#ea580c', // orange-600
+    link: '/programmi/sicurezza',
+  },
+];
+
+function BentoGrid({ courses, color, categoryId }: { courses: CourseCardData[]; color: string; categoryId?: CategoryType }) {
+  if (courses.length === 0) return null;
+
+  // Figma gap = 24px
+  const GAP = 24;
+  const ROW_H = 280; // Single row height
+  const SMALL_ROW_H = 240; // Remaining grid row height
+
+  // Cell wrapper: prevents content from overflowing grid cell boundaries
+  const Cell = ({ children, style }: { children: React.ReactNode; style?: React.CSSProperties }) => (
+    <div className="overflow-hidden min-h-0 min-w-0 rounded-2xl" style={style}>
+      {children}
+    </div>
+  );
+
+  // ── SICUREZZA: special layout — featured card left + 2 "coming soon" right ──
+  if (categoryId === 'sicurezza') {
+    // Use the first real course as the big featured card
+    const featuredCourse = courses[0];
+    return (
+      <div className="grid" style={{ gridTemplateColumns: '1.6fr 1fr', gap: GAP, height: ROW_H * 2 + GAP }}>
+        {/* Featured course — left (tall) — Menta chiaro */}
+        <Cell style={{ gridRow: '1 / 3' }}>
+          <BentoCard course={featuredCourse} color="#ccfbf1" variant="featured" />
+        </Cell>
+
+        {/* "A breve" cards — right */}
+        {sicurezzaComingSoonCards.map((card, idx) => (
+          <Cell key={idx}>
+            <Link
+              to={card.link}
+              className="h-full flex flex-col justify-between group transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5"
+              style={{ borderRadius: 28, padding: 32, background: card.color }}
+            >
+              <div>
+                <span
+                  className="inline-block rounded-full font-semibold uppercase"
+                  style={{
+                    fontSize: 11,
+                    letterSpacing: 0.8,
+                    color: card.accentColor,
+                    background: `${card.accentColor}12`,
+                    padding: '4px 12px',
+                    marginBottom: 12,
+                  }}
+                >
+                  {card.label}
+                </span>
+                <h4
+                  className="font-bold"
+                  style={{ fontSize: 22, lineHeight: '28px', color: '#0f172a' }}
+                >
+                  {card.title}
+                </h4>
+                <p className="line-clamp-4" style={{ fontSize: 16, lineHeight: '22px', color: '#475569', marginTop: 8 }}>
+                  {card.description}
+                </p>
+              </div>
+              <div className="flex justify-end">
+                <div
+                  className="rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300"
+                  style={{ width: 40, height: 40, background: `${card.accentColor}15` }}
+                >
+                  <ArrowUpRight size={16} style={{ color: card.accentColor }} />
+                </div>
+              </div>
+            </Link>
+          </Cell>
+        ))}
+      </div>
+    );
+  }
+
+  // 6+ courses: bento top section (tall + wide + 2 small) + uniform grid for remaining
+  if (courses.length >= 6) {
+    const topCourses = courses.slice(0, 4);
+    const remaining = courses.slice(4);
+
+    return (
+      <div style={{ display: 'flex', flexDirection: 'column', gap: GAP }}>
+        {/* Top bento section */}
+        <div className="grid" style={{
+          gridTemplateColumns: '1.2fr 1fr 1fr',
+          gridTemplateRows: `${ROW_H}px ${ROW_H}px`,
+          gap: GAP,
+        }}>
+          <Cell style={{ gridColumn: '1', gridRow: '1 / 3' }}>
+            <BentoCard course={topCourses[0]} color={color} variant="featured" />
+          </Cell>
+          <Cell style={{ gridColumn: '2 / 4', gridRow: '1' }}>
+            <BentoCard course={topCourses[1]} color={color} variant="featured" />
+          </Cell>
+          <Cell style={{ gridColumn: '2', gridRow: '2' }}>
+            <BentoCard course={topCourses[2]} color={color} />
+          </Cell>
+          <Cell style={{ gridColumn: '3', gridRow: '2' }}>
+            <BentoCard course={topCourses[3]} color={color} />
+          </Cell>
+        </div>
+        {/* Remaining courses in uniform 3-col grid */}
+        <div className="grid grid-cols-3" style={{ gap: GAP, gridAutoRows: SMALL_ROW_H }}>
+          {remaining.map((course) => (
+            <Cell key={course.id}>
+              <BentoCard course={course} color={color} />
+            </Cell>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  // 5 courses: bento top + 1 extra
+  if (courses.length === 5) {
+    return (
+      <div style={{ display: 'flex', flexDirection: 'column', gap: GAP }}>
+        <div className="grid" style={{
+          gridTemplateColumns: '1.2fr 1fr 1fr',
+          gridTemplateRows: `${ROW_H}px ${ROW_H}px`,
+          gap: GAP,
+        }}>
+          <Cell style={{ gridColumn: '1', gridRow: '1 / 3' }}>
+            <BentoCard course={courses[0]} color={color} variant="featured" />
+          </Cell>
+          <Cell style={{ gridColumn: '2 / 4', gridRow: '1' }}>
+            <BentoCard course={courses[1]} color={color} variant="featured" />
+          </Cell>
+          <Cell style={{ gridColumn: '2', gridRow: '2' }}>
+            <BentoCard course={courses[2]} color={color} />
+          </Cell>
+          <Cell style={{ gridColumn: '3', gridRow: '2' }}>
+            <BentoCard course={courses[3]} color={color} />
+          </Cell>
+        </div>
+        <div className="grid grid-cols-3" style={{ gap: GAP, gridAutoRows: SMALL_ROW_H }}>
+          <Cell>
+            <BentoCard course={courses[4]} color={color} />
+          </Cell>
+        </div>
+      </div>
+    );
+  }
+
+  // 4 courses: tall left + wide right + 2 small bottom-right
+  if (courses.length === 4) {
+    return (
+      <div className="grid" style={{
+        gridTemplateColumns: '1.2fr 1fr 1fr',
+        gridTemplateRows: `${ROW_H}px ${ROW_H}px`,
+        gap: GAP,
+      }}>
+        <Cell style={{ gridColumn: '1', gridRow: '1 / 3' }}>
+          <BentoCard course={courses[0]} color={color} variant="featured" />
+        </Cell>
+        <Cell style={{ gridColumn: '2 / 4', gridRow: '1' }}>
+          <BentoCard course={courses[1]} color={color} variant="featured" />
+        </Cell>
+        <Cell style={{ gridColumn: '2', gridRow: '2' }}>
+          <BentoCard course={courses[2]} color={color} />
+        </Cell>
+        <Cell style={{ gridColumn: '3', gridRow: '2' }}>
+          <BentoCard course={courses[3]} color={color} />
+        </Cell>
+      </div>
+    );
+  }
+
+  // 3 courses: tall left + 2 stacked right
+  if (courses.length === 3) {
+    return (
+      <div className="grid" style={{
+        gridTemplateColumns: '1.2fr 1fr',
+        gridTemplateRows: `${ROW_H}px ${ROW_H}px`,
+        gap: GAP,
+      }}>
+        <Cell style={{ gridColumn: '1', gridRow: '1 / 3' }}>
+          <BentoCard course={courses[0]} color={color} variant="featured" />
+        </Cell>
+        <Cell style={{ gridColumn: '2', gridRow: '1' }}>
+          <BentoCard course={courses[1]} color={color} variant="featured" />
+        </Cell>
+        <Cell style={{ gridColumn: '2', gridRow: '2' }}>
+          <BentoCard course={courses[2]} color={color} />
+        </Cell>
+      </div>
+    );
+  }
+
+  // 2 courses: side by side
+  if (courses.length === 2) {
+    return (
+      <div className="grid grid-cols-2" style={{ gap: GAP, gridAutoRows: 360 }}>
+        <Cell>
+          <BentoCard course={courses[0]} color={color} variant="featured" />
+        </Cell>
+        <Cell>
+          <BentoCard course={courses[1]} color={color} variant="featured" />
+        </Cell>
+      </div>
+    );
+  }
+
+  // 1 course: dark CTA left + course card + teaser card right
+  return (
+    <div className="grid" style={{ gridTemplateColumns: '1.6fr 1fr', gap: GAP, height: ROW_H * 2 + GAP }}>
+      {/* Dark gradient block — left */}
+      <Cell style={{ gridRow: '1 / 3' }}>
+        <div
+          className="relative h-full overflow-hidden flex flex-col justify-between"
+          style={{
+            borderRadius: 28,
+            padding: 40,
+            background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #1e1b4b 100%)',
+          }}
+        >
+          {/* Decorative purple glow */}
+          <div
+            className="absolute rounded-full"
+            style={{
+              top: -60,
+              right: -60,
+              width: 240,
+              height: 240,
+              background: 'rgba(168, 85, 247, 0.1)',
+              filter: 'blur(64px)',
+            }}
+          />
+          {/* Search icon */}
+          <div
+            className="flex items-center justify-center"
+            style={{
+              width: 48,
+              height: 48,
+              borderRadius: 16,
+              background: 'rgba(255,255,255,0.1)',
+              border: '1px solid rgba(255,255,255,0.1)',
+              backdropFilter: 'blur(4px)',
+              marginBottom: 32,
+            }}
+          >
+            <Search size={20} color="#ffffff" />
+          </div>
+          {/* Title */}
+          <div>
+            <h3
+              className="font-bold"
+              style={{
+                color: '#ffffff',
+                fontSize: 'clamp(30px, 3vw, 40px)',
+                lineHeight: 1.15,
+                letterSpacing: '-0.025em',
+                marginBottom: 16,
+              }}
+            >
+              Non hai trovato quello che cerchi?
+            </h3>
+            <p style={{ color: '#9ca3af', fontSize: 16, lineHeight: 1.625, maxWidth: 448, marginBottom: 24 }}>
+              Abbiamo oltre 50 corsi disponibili nel nostro catalogo completo.
+            </p>
+            <Link
+              to="/programmi/master"
+              className="inline-flex items-center font-bold transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5"
+              style={{
+                padding: '12px 24px',
+                borderRadius: 9999,
+                background: '#ffffff',
+                color: '#0f172a',
+                fontSize: 14,
+                gap: 8,
+                boxShadow: '0 10px 15px -3px rgba(0,0,0,0.1)',
+              }}
+            >
+              Vedi tutto il Catalogo
+              <ArrowUpRight size={16} />
+            </Link>
+          </div>
+        </div>
+      </Cell>
+
+      {/* Course card — top right */}
+      <Cell>
+        <BentoCard course={courses[0]} color={color} variant="featured" />
+      </Cell>
+
+      {/* Teaser card — bottom right */}
+      <Cell>
+        <div
+          className="h-full flex flex-col justify-between"
+          style={{ borderRadius: 28, padding: 24, background: '#ffedd5' }}
+        >
+          <div>
+            <span
+              className="font-bold uppercase"
+              style={{ fontSize: 12, letterSpacing: 0.8, color: '#b45309', marginBottom: 6, display: 'block' }}
+            >
+              Coming Soon
+            </span>
+            <h4
+              className="font-bold"
+              style={{ fontSize: 20, lineHeight: 1.25, color: '#0f172a' }}
+            >
+              Digital Export
+            </h4>
+          </div>
+          <div className="flex justify-end">
+            <div
+              className="rounded-full flex items-center justify-center"
+              style={{ width: 40, height: 40, background: 'rgba(253, 230, 138, 0.7)' }}
+            >
+              <ArrowUpRight size={16} style={{ color: '#b45309' }} />
+            </div>
+          </div>
+        </div>
+      </Cell>
+    </div>
+  );
 }
 
 export function Courses() {
   const [currentSlide, setCurrentSlide] = useState(0);
-  const [isPaused, setIsPaused] = useState(false);
-  const [activeFilter, setActiveFilter] = useState<FilterType>('tutti');
-  const [viewMode, setViewMode] = useState<ViewMode>('carousel');
+  const { courses: apiCourses, loading, error, connectionStatus } = useRealtimeCourses();
+  const [dotsParent] = useAutoAnimate();
+  const { ref: headerRef, revealed: headerRevealed } = useScrollReveal();
 
-  // Fetch corsi dall'API con Realtime
-  const { courses: apiCourses, loading, error, isRealtime, connectionStatus } = useRealtimeCourses();
+  const coursesByCategory = useMemo(() => {
+    const grouped: Record<CategoryType, CourseCardData[]> = {
+      master: [],
+      gol: [],
+      specializzazione: [],
+      sicurezza: [],
+    };
 
-  // Trasforma i corsi API nel formato per il componente
-  const courses = useMemo(() => {
-    if (!apiCourses.length) return [];
-
-    // Prima filtra i corsi con iscrizioni aperte
-    const openCourses = apiCourses.filter(c => c.is_enrollments_open);
-
-    // Poi ordina: metti TAA (Tecnico Analisi Alimentari) al primo posto
-    const sortedCourses = openCourses.sort((a, b) => {
-      if (a.code === 'TAA') return -1;
-      if (b.code === 'TAA') return 1;
-      return 0;
+    apiCourses.forEach((course, idx) => {
+      const category = getCourseCategory(course);
+      const type = getCourseType(course);
+      grouped[category].push({
+        id: course.website_slug,
+        title: course.title,
+        description: course.description || `Corso di formazione professionale: ${course.title}`,
+        type,
+        category,
+        code: course.code,
+        image: getCourseImage(course.code, idx),
+      });
     });
 
-    return sortedCourses
-      .map(course => {
-        const style = getCourseStyle(course.code);  // Usa codice corso (stabile)
-        const category = getCourseCategory(course);
-        const type = getCourseType(course);
-        const duration = course.duration_hours ? `${course.duration_hours} ore` : 'Da definire';
+    // Sicurezza: ensure at least 1 course exists (coming soon cards are in BentoGrid)
+    if (grouped.sicurezza.length === 0) {
+      grouped.sicurezza = [...staticSicurezzaCourses];
+    }
 
-        return {
-          id: course.website_slug,
-          title: course.title,
-          description: course.description || `Corso di formazione professionale: ${course.title}`,
-          duration,
-          type,
-          category,
-          icon: style.icon,
-          skills: style.skills,
-          gradient: style.gradient,
-          bgGradient: style.bgGradient,
-          solidColor: style.solidColor,
-          gradientCSS: style.gradientCSS,
-        };
-      });
+    return grouped;
   }, [apiCourses]);
 
-  // Filtra i corsi in base al filtro attivo
-  const filteredCourses = activeFilter === 'tutti'
-    ? courses
-    : courses.filter(course => course.category === activeFilter);
+  // Show categories that have courses — Sicurezza always shown (has static fallbacks)
+  const activeCategories = categoryConfig.filter(
+    cat => cat.id === 'sicurezza' || (coursesByCategory[cat.id] && coursesByCategory[cat.id].length > 0)
+  );
 
-  // Reset slide quando cambia filtro
-  useEffect(() => {
-    setCurrentSlide(0);
-  }, [activeFilter]);
+  const currentCategory = activeCategories[currentSlide] || activeCategories[0];
+  const currentCourses = currentCategory ? (coursesByCategory[currentCategory.id] || []) : [];
 
-  useEffect(() => {
-    if (isPaused || viewMode === 'grid') return;
-    const timer = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % filteredCourses.length);
-    }, 6000);
-    return () => clearInterval(timer);
-  }, [filteredCourses.length, isPaused, viewMode]);
+  // Progress bar width per slide
+  const progressWidth = activeCategories.length > 0
+    ? ((currentSlide + 1) / activeCategories.length) * 100
+    : 0;
 
   const nextSlide = () => {
-    setCurrentSlide((prev) => (prev + 1) % filteredCourses.length);
+    if (activeCategories.length > 0) {
+      setCurrentSlide((prev) => (prev + 1) % activeCategories.length);
+    }
   };
 
   const prevSlide = () => {
-    setCurrentSlide((prev) => (prev - 1 + filteredCourses.length) % filteredCourses.length);
+    if (activeCategories.length > 0) {
+      setCurrentSlide((prev) => (prev - 1 + activeCategories.length) % activeCategories.length);
+    }
   };
 
-  const goToSlide = (index: number) => {
-    setCurrentSlide(index);
-  };
+  // Reset if currentSlide out of bounds
+  useEffect(() => {
+    if (currentSlide >= activeCategories.length && activeCategories.length > 0) {
+      setCurrentSlide(0);
+    }
+  }, [activeCategories.length, currentSlide]);
 
-  const filters = [
-    { id: 'tutti' as FilterType, label: 'Tutti', shortLabel: 'Tutti', icon: Filter },
-    { id: 'master' as FilterType, label: 'Master & Alta Formazione', shortLabel: 'Master', icon: GraduationCap },
-    { id: 'gol' as FilterType, label: 'Programma GOL', shortLabel: 'GOL', icon: Target },
-    { id: 'specializzazione' as FilterType, label: 'Spec.', shortLabel: 'Spec.', icon: Eye },
-  ];
 
   return (
-    <section id="corsi" className="py-24 bg-gradient-to-b from-white via-gray-50 to-white relative overflow-hidden">
-      {/* Decorative Background Elements */}
-      <div className="absolute inset-0 opacity-30">
-        <div className="absolute top-20 left-10 w-72 h-72 bg-purple-300 rounded-full mix-blend-multiply filter blur-3xl animate-blob"></div>
-        <div className="absolute top-40 right-10 w-72 h-72 bg-pink-300 rounded-full mix-blend-multiply filter blur-3xl animate-blob animation-delay-2000"></div>
-        <div className="absolute bottom-20 left-1/2 w-72 h-72 bg-blue-300 rounded-full mix-blend-multiply filter blur-3xl animate-blob animation-delay-4000"></div>
-      </div>
-
-      <div className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="text-center mb-12">
-          <div className="inline-block bg-gradient-to-r from-purple-600 to-pink-600 text-white px-6 py-2 rounded-full mb-4">
-            I Nostri Corsi
+    <section id="corsi" className="py-24 relative overflow-hidden bg-gray-50">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        {/* Header */}
+        <div
+          ref={headerRef}
+          className={`flex items-end justify-between mb-8 reveal-up ${headerRevealed ? 'revealed' : ''}`}
+        >
+          <div>
+            <span className="text-sm font-bold uppercase tracking-wider block mb-2 text-purple-600">
+              {currentCategory?.label || 'Alta Formazione'}
+            </span>
+            <h2 className="text-4xl md:text-5xl font-bold text-gray-900">
+              Scegli il percorso perfetto<br />per te
+            </h2>
           </div>
-          <h2 className="text-5xl md:text-6xl mb-6 bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
-            Formazione di Eccellenza
-          </h2>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-            Certificazioni riconosciute, docenti esperti e laboratori all&apos;avanguardia
-          </p>
-          {/* Indicatore stato connessione Realtime (discreto) */}
-          {connectionStatus === 'connected' && (
-            <p className="text-xs text-green-500 mt-2 flex items-center justify-center gap-1">
-              <span className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse"></span>
-              Aggiornamenti live attivi
-            </p>
+
+          {/* Navigation Arrows */}
+          {activeCategories.length > 1 && (
+            <div className="flex items-center gap-3">
+              <button
+                onClick={prevSlide}
+                className="w-14 h-14 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-100 transition-colors"
+                aria-label="Categoria precedente"
+              >
+                <ChevronLeft size={24} className="text-gray-600" />
+              </button>
+              <button
+                onClick={nextSlide}
+                className="w-14 h-14 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-100 transition-colors"
+                aria-label="Categoria successiva"
+              >
+                <ChevronRight size={24} className="text-gray-600" />
+              </button>
+            </div>
           )}
         </div>
 
-        {/* Filter Buttons */}
-        <div className="flex flex-wrap justify-center items-center gap-6 mb-12">
-          {/* Filter buttons group */}
-          <div className="flex flex-wrap justify-center items-center gap-4">
-            {filters.map((filter) => {
-              const Icon = filter.icon;
-              const isActive = activeFilter === filter.id;
-              // Gradienti specifici per ogni filtro attivo (da Figma)
-              const activeGradients: Record<FilterType, string> = {
-                tutti: '#1E2939',
-                master: 'linear-gradient(90deg, #9333EA 0%, #EC4899 100%)',
-                gol: 'linear-gradient(90deg, #155DFC 0%, #0092B8 100%)',
-                specializzazione: 'linear-gradient(90deg, #0D9488 0%, #06B6D4 100%)',
-              };
-              return (
-                <button
-                  key={filter.id}
-                  onClick={() => setActiveFilter(filter.id)}
-                  className="flex items-center gap-2 transition-all duration-300"
-                  style={{
-                    padding: '12px 24px',
-                    borderRadius: '9999px',
-                    fontSize: '16px',
-                    lineHeight: '24px',
-                    fontWeight: 400,
-                    background: isActive ? activeGradients[filter.id] : 'white',
-                    color: isActive ? 'white' : '#4A5565',
-                    border: isActive ? 'none' : '1px solid #E5E7EB',
-                    boxShadow: isActive ? '0px 4px 6px -4px rgba(0, 0, 0, 0.10)' : 'none',
-                  }}
-                >
-                  <Icon size={18} />
-                  <span>{filter.label}</span>
-                </button>
-              );
-            })}
+        {/* Progress Bar */}
+        <div className="mb-10">
+          <div className="h-1 rounded-full bg-gray-200">
+            <div
+              className="h-full rounded-full transition-all duration-500 bg-purple-600"
+              style={{ width: `${progressWidth}%` }}
+            />
           </div>
-
-          {/* Divider */}
-          <div style={{ width: '1px', height: '40px', background: '#E5E7EB' }}></div>
-
-          {/* View Toggle Button */}
-          <button
-            onClick={() => setViewMode(viewMode === 'carousel' ? 'grid' : 'carousel')}
-            className="flex items-center gap-2 transition-all duration-300"
-            style={{
-              padding: '12px 24px',
-              borderRadius: '9999px',
-              fontSize: '16px',
-              lineHeight: '24px',
-              fontWeight: 400,
-              background: '#1E2939',
-              color: 'white',
-              boxShadow: '0px 4px 6px -4px rgba(0, 0, 0, 0.10)',
-            }}
-          >
-            {viewMode === 'carousel' ? (
-              <>
-                <LayoutGrid size={18} />
-                <span>Vedi tutti</span>
-              </>
-            ) : (
-              <>
-                <Layers size={18} />
-                <span>Carosello</span>
-              </>
-            )}
-          </button>
         </div>
 
         {/* Loading State */}
@@ -359,401 +791,55 @@ export function Courses() {
         )}
 
         {/* Empty State */}
-        {!loading && !error && courses.length === 0 && (
+        {!loading && !error && activeCategories.length === 0 && (
           <div className="text-center py-20">
             <GraduationCap className="w-16 h-16 text-gray-300 mx-auto mb-4" />
             <p className="text-gray-500">Nessun corso disponibile al momento</p>
           </div>
         )}
 
-        {/* Grid View */}
-        {!loading && !error && courses.length > 0 && viewMode === 'grid' && (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 animate-fadeIn">
-            {filteredCourses.map((course, index) => {
-              const Icon = course.icon;
-              return (
-                <Link
-                  key={course.id}
-                  to={`/corsi/${course.id}`}
-                  className="group bg-white rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 overflow-hidden"
-                  style={{
-                    animationDelay: `${index * 50}ms`,
-                    boxShadow: '0px 8px 10px -6px rgba(0, 0, 0, 0.10)',
-                    outline: '1px solid #F3F4F6',
-                  }}
-                >
-                  {/* Card Header with Gradient - 184px height come Figma */}
-                  <div
-                    className="relative"
-                    style={{
-                      background: course.gradientCSS,
-                      height: '184px',
-                    }}
-                  >
-                    {/* Icona container 64x64 - posizione assoluta top-left */}
-                    <div
-                      className="absolute flex items-center justify-center"
-                      style={{
-                        top: '24px',
-                        left: '24px',
-                        width: '64px',
-                        height: '64px',
-                        background: 'rgba(255, 255, 255, 0.10)',
-                        borderRadius: '16px',
-                      }}
-                    >
-                      <Icon className="text-white" size={32} />
-                    </div>
-
-                    {/* Badge tipo corso - posizione assoluta top-right */}
-                    <div
-                      className="absolute"
-                      style={{
-                        top: '16px',
-                        right: '16px',
-                        background: 'rgba(255, 255, 255, 0.20)',
-                        borderRadius: '9999px',
-                        padding: '4px 12px',
-                      }}
-                    >
-                      <span
-                        style={{
-                          color: 'white',
-                          fontSize: '12px',
-                          fontWeight: 700,
-                          lineHeight: '16px',
-                        }}
-                      >
-                        {course.type}
-                      </span>
-                    </div>
-
-                    {/* Titolo - posizionato in basso nell'header */}
-                    <div
-                      className="absolute flex items-end"
-                      style={{
-                        left: '24px',
-                        right: '24px',
-                        top: '96px',
-                        bottom: '24px',
-                      }}
-                    >
-                      <h3
-                        className="text-white font-bold line-clamp-2"
-                        style={{ fontSize: '20px', lineHeight: '25px' }}
-                      >
-                        {course.title}
-                      </h3>
-                    </div>
-                  </div>
-
-                  {/* Card Body */}
-                  <div style={{ padding: '24px' }}>
-                    {/* Durata */}
-                    <div className="flex items-center gap-2 text-gray-500 mb-4">
-                      <Clock size={16} className="text-gray-400" />
-                      <span style={{ fontSize: '14px', color: '#6A7282' }}>{course.duration}</span>
-                    </div>
-
-                    {/* Descrizione - 3 righe */}
-                    <p
-                      className="text-gray-600 mb-4 line-clamp-3"
-                      style={{ fontSize: '14px', lineHeight: '20px', color: '#4A5565' }}
-                    >
-                      {course.description}
-                    </p>
-
-                    {/* Skills con bullet gradient */}
-                    <div className="space-y-2 mb-4">
-                      {course.skills.slice(0, 3).map((skill, idx) => (
-                        <div key={idx} className="flex items-center gap-2">
-                          <div
-                            className="w-1.5 h-1.5 rounded-full flex-shrink-0"
-                            style={{ background: course.gradientCSS }}
-                          ></div>
-                          <span style={{ fontSize: '12px', lineHeight: '16px', color: '#6A7282' }}>{skill}</span>
-                        </div>
-                      ))}
-                      {course.skills.length > 3 && (
-                        <div className="pl-4">
-                          <span style={{ fontSize: '12px', color: '#99A1AF' }}>+ altre competenze</span>
-                        </div>
-                      )}
-                    </div>
-
-                    {/* CTA Button */}
-                    <button
-                      className="w-full text-white font-bold transition-all duration-300 group-hover:shadow-lg"
-                      style={{
-                        background: course.gradientCSS,
-                        height: '44px',
-                        borderRadius: '14px',
-                        fontSize: '14px',
-                        boxShadow: '0px 2px 4px -2px rgba(0, 0, 0, 0.10)',
-                      }}
-                    >
-                      Scopri il corso
-                    </button>
-                  </div>
-                </Link>
-              );
-            })}
-          </div>
-        )}
-
-        {/* Carousel View */}
-        {!loading && !error && courses.length > 0 && viewMode === 'carousel' && (
-          <div
-            className="relative max-w-6xl mx-auto"
-            onMouseEnter={() => setIsPaused(true)}
-            onMouseLeave={() => setIsPaused(false)}
-          >
-            {/* Main Carousel with peek effect */}
-            <div className="relative overflow-visible">
+        {/* Bento Grid Carousel */}
+        {!loading && !error && activeCategories.length > 0 && (
+          <div className="relative">
+            {activeCategories.map((cat, idx) => (
               <div
-                className="flex transition-all duration-700 ease-out"
-                style={{ transform: `translateX(calc((-100% + 4rem) * ${currentSlide} + 2rem))` }}
+                key={cat.id}
+                className="transition-opacity duration-500"
+                style={{
+                  opacity: currentSlide === idx ? 1 : 0,
+                  pointerEvents: currentSlide === idx ? 'auto' : 'none',
+                  position: currentSlide === idx ? 'relative' : 'absolute',
+                  top: 0,
+                  left: 0,
+                  width: '100%',
+                }}
               >
-                {filteredCourses.map((course, index) => {
-                  const Icon = course.icon;
-                  const isActive = currentSlide === index;
-
-                  return (
-                    <div
-                      key={index}
-                      className="flex-shrink-0 px-4 transition-all duration-700"
-                      style={{
-                        width: 'calc(100% - 4rem)',
-                        opacity: isActive ? 1 : 0.3,
-                        transform: isActive ? 'scale(1)' : 'scale(0.85)',
-                      }}
-                    >
-                      <div className={`bg-gradient-to-br ${course.bgGradient} rounded-3xl shadow-2xl overflow-hidden transform transition-all duration-500`}>
-                        <div className="bg-white/80 backdrop-blur-sm p-8 md:p-12">
-                          <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
-                            {/* Left Side - Icon & Info */}
-                            <div className="text-center md:text-left">
-                              <div
-                                className="inline-block p-10 rounded-3xl shadow-2xl mb-6 transform hover:scale-110 transition-transform duration-300"
-                                style={{ backgroundColor: course.solidColor }}
-                              >
-                                <Icon className="text-white" size={100} />
-                              </div>
-
-                              <div className="flex flex-wrap justify-center md:justify-start gap-3 mb-6">
-                                <div className="flex items-center gap-2 bg-white px-4 py-2 rounded-full shadow-md">
-                                  <Award size={18} className="text-purple-600" />
-                                  <span className="text-sm">{course.type}</span>
-                                </div>
-                                <div className="flex items-center gap-2 bg-white px-4 py-2 rounded-full shadow-md">
-                                  <Clock size={18} className="text-pink-600" />
-                                  <span className="text-sm">{course.duration}</span>
-                                </div>
-                              </div>
-
-                              <div className="hidden md:block">
-                                <div className="flex items-center gap-2 text-purple-600 mb-4">
-                                  <TrendingUp size={20} />
-                                  <span>Alta richiesta nel mercato</span>
-                                </div>
-                                <div className="bg-white rounded-2xl p-6 shadow-lg">
-                                  <h4 className="text-lg mb-3">Competenze acquisite</h4>
-                                  <div className="space-y-2">
-                                    {course.skills.map((skill, idx) => (
-                                      <div
-                                        key={idx}
-                                        className="flex items-center gap-2 text-sm"
-                                      >
-                                        <div
-                                          className="w-2 h-2 rounded-full"
-                                          style={{ backgroundColor: course.solidColor }}
-                                        ></div>
-                                        <span>{skill}</span>
-                                      </div>
-                                    ))}
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-
-                            {/* Right Side - Content */}
-                            <div className="space-y-6">
-                              <div>
-                                <h3 className="text-3xl md:text-4xl lg:text-5xl mb-4 leading-tight">
-                                  {course.title}
-                                </h3>
-                                <div
-                                  className="h-1 w-24 rounded-full mb-6"
-                                  style={{ backgroundColor: course.solidColor }}
-                                ></div>
-                              </div>
-
-                              <p className="text-lg md:text-xl text-gray-700 leading-relaxed">
-                                {course.description}
-                              </p>
-
-                              {/* Mobile Skills */}
-                              <div className="md:hidden">
-                                <h4 className="mb-3">Competenze acquisite:</h4>
-                                <div className="flex flex-wrap gap-2">
-                                  {course.skills.map((skill, idx) => (
-                                    <span
-                                      key={idx}
-                                      className="text-white px-4 py-2 rounded-lg text-sm shadow-lg"
-                                      style={{ backgroundColor: course.solidColor }}
-                                    >
-                                      {skill}
-                                    </span>
-                                  ))}
-                                </div>
-                              </div>
-
-                              <div className="flex flex-col sm:flex-row gap-4 pt-4">
-                                <Link
-                                  to={`/corsi/${course.id}`}
-                                  className="text-white px-8 py-4 rounded-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 shadow-lg text-center"
-                                  style={{ backgroundColor: course.solidColor }}
-                                >
-                                  Iscriviti Ora
-                                </Link>
-                                <Link to={`/corsi/${course.id}`} className="bg-white text-gray-800 border-2 border-gray-300 px-8 py-4 rounded-xl hover:border-gray-400 hover:shadow-lg transition-all duration-300 text-center">
-                                  Info Dettagliate
-                                </Link>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  );
-                })}
+                <BentoGrid
+                  courses={coursesByCategory[cat.id] || []}
+                  color={cat.color}
+                  categoryId={cat.id}
+                />
               </div>
-            </div>
-
-            {/* Navigation Arrows */}
-            <button
-              onClick={prevSlide}
-              className="hidden md:flex absolute left-0 top-1/2 -translate-y-1/2 -translate-x-6 bg-white text-gray-800 p-4 rounded-full shadow-2xl hover:bg-gradient-to-r hover:from-purple-600 hover:to-pink-600 hover:text-white transition-all duration-300 z-20 items-center justify-center group"
-              aria-label="Previous"
-            >
-              <ChevronLeft size={32} className="group-hover:scale-110 transition-transform" />
-            </button>
-
-            <button
-              onClick={nextSlide}
-              className="hidden md:flex absolute right-0 top-1/2 -translate-y-1/2 translate-x-6 bg-white text-gray-800 p-4 rounded-full shadow-2xl hover:bg-gradient-to-r hover:from-purple-600 hover:to-pink-600 hover:text-white transition-all duration-300 z-20 items-center justify-center group"
-              aria-label="Next"
-            >
-              <ChevronRight size={32} className="group-hover:scale-110 transition-transform" />
-            </button>
-
-            {/* Dots Navigation with Preview */}
-            <div className="flex justify-center items-center gap-3 mt-12">
-              {filteredCourses.map((course, index) => (
-                <button
-                  key={index}
-                  onClick={() => goToSlide(index)}
-                  className={`group relative transition-all duration-300 ${
-                    currentSlide === index ? 'scale-110' : 'hover:scale-105'
-                  }`}
-                  aria-label={`Go to slide ${index + 1}`}
-                >
-                  <div
-                    className="rounded-full transition-all duration-300"
-                    style={{
-                      width: currentSlide === index ? '3rem' : '0.75rem',
-                      height: '0.75rem',
-                      backgroundColor: currentSlide === index ? course.solidColor : '#d1d5db',
-                    }}
-                  ></div>
-
-                  {/* Tooltip on hover */}
-                  <div className="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap">
-                    <div className="bg-gray-900 text-white text-xs px-3 py-2 rounded-lg shadow-xl">
-                      {course.type}
-                    </div>
-                  </div>
-                </button>
-              ))}
-            </div>
-
-            {/* Progress Bar */}
-            <div className="mt-8 max-w-md mx-auto">
-              <div className="h-1 bg-gray-200 rounded-full overflow-hidden">
-                <div
-                  className="h-full transition-all duration-300"
-                  style={{
-                    width: `${((currentSlide + 1) / filteredCourses.length) * 100}%`,
-                    backgroundColor: filteredCourses[currentSlide]?.solidColor || '#9333ea',
-                  }}
-                ></div>
-              </div>
-              <div className="text-center text-sm text-gray-500 mt-2">
-                {currentSlide + 1} / {filteredCourses.length}
-              </div>
-            </div>
+            ))}
           </div>
         )}
 
-        <div className="text-center mt-16">
-          <a
-            href="#contatti"
-            className="inline-block bg-gradient-to-r from-pink-500 to-purple-600 text-white px-10 py-5 rounded-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 shadow-lg"
-          >
-            Richiedi Informazioni su Tutti i Corsi
-          </a>
-        </div>
+        {/* Category dots */}
+        {activeCategories.length > 1 && (
+          <div ref={dotsParent} className="flex justify-center gap-2 mt-8">
+            {activeCategories.map((cat, idx) => (
+              <button
+                key={cat.id}
+                onClick={() => setCurrentSlide(idx)}
+                className={`transition-all duration-300 rounded-full h-3 ${
+                  currentSlide === idx ? 'w-12 bg-purple-600' : 'w-3 bg-gray-300'
+                }`}
+                aria-label={cat.label}
+              />
+            ))}
+          </div>
+        )}
       </div>
-
-      <style>{`
-        @keyframes blob {
-          0% { transform: translate(0px, 0px) scale(1); }
-          33% { transform: translate(30px, -50px) scale(1.1); }
-          66% { transform: translate(-20px, 20px) scale(0.9); }
-          100% { transform: translate(0px, 0px) scale(1); }
-        }
-        .animate-blob {
-          animation: blob 7s infinite;
-        }
-        .animation-delay-2000 {
-          animation-delay: 2s;
-        }
-        .animation-delay-4000 {
-          animation-delay: 4s;
-        }
-        @keyframes fadeIn {
-          from {
-            opacity: 0;
-            transform: translateY(20px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-        .animate-fadeIn {
-          animation: fadeIn 0.5s ease-out forwards;
-        }
-        .animate-fadeIn > * {
-          opacity: 0;
-          animation: fadeIn 0.4s ease-out forwards;
-        }
-        .line-clamp-2 {
-          display: -webkit-box;
-          -webkit-line-clamp: 2;
-          -webkit-box-orient: vertical;
-          overflow: hidden;
-        }
-        .line-clamp-3 {
-          display: -webkit-box;
-          -webkit-line-clamp: 3;
-          -webkit-box-orient: vertical;
-          overflow: hidden;
-        }
-        .hover\\:scale-102:hover {
-          transform: scale(1.02);
-        }
-      `}</style>
     </section>
   );
 }

@@ -1,7 +1,13 @@
 import React from 'react';
 import { Users, Award, BookOpen, TrendingUp, CheckCircle, Sparkles } from 'lucide-react';
+import { useScrollReveal } from '../hooks/useScrollReveal';
 
 export function About() {
+  const { ref: headerRef, revealed: headerRevealed } = useScrollReveal();
+  const { ref: statsRef, revealed: statsRevealed } = useScrollReveal();
+  const { ref: leftRef, revealed: leftRevealed } = useScrollReveal();
+  const { ref: rightRef, revealed: rightRevealed } = useScrollReveal();
+
   const stats = [
     { icon: Users, value: '673+', label: 'Studenti Formati', color: 'from-purple-600 to-purple-400' },
     { icon: Award, value: '50+', label: 'Corsi Certificati', color: 'from-pink-600 to-pink-400' },
@@ -31,7 +37,10 @@ export function About() {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Header */}
-        <div className="text-center mb-16">
+        <div
+          ref={headerRef}
+          className={`text-center mb-16 reveal-up ${headerRevealed ? 'revealed' : ''}`}
+        >
           <div className="inline-flex items-center gap-2 bg-gradient-to-r from-purple-600 to-pink-600 text-white px-6 py-2 rounded-full mb-4">
             <Sparkles size={18} />
             <span>Chi Siamo</span>
@@ -42,16 +51,19 @@ export function About() {
         </div>
 
         {/* Stats Grid */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+        <div
+          ref={statsRef}
+          className={`grid grid-cols-2 lg:grid-cols-4 gap-6 mb-16 reveal-stagger ${statsRevealed ? 'revealed' : ''}`}
+        >
           {stats.map((stat, index) => {
             const Icon = stat.icon;
             return (
-              <div 
-                key={index} 
+              <div
+                key={index}
                 className="group relative bg-white rounded-3xl p-8 shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2"
               >
                 <div className={`absolute inset-0 bg-gradient-to-br ${stat.color} opacity-0 group-hover:opacity-100 rounded-3xl transition-opacity duration-500`}></div>
-                
+
                 <div className="relative text-center space-y-3">
                   <div className={`inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-br ${stat.color} group-hover:bg-white transition-all duration-500`}>
                     <Icon className="text-white group-hover:text-purple-600 transition-colors" size={28} />
@@ -71,7 +83,10 @@ export function About() {
         {/* Content Grid */}
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           {/* Left - Text Content */}
-          <div className="space-y-6">
+          <div
+            ref={leftRef}
+            className={`space-y-6 reveal-left ${leftRevealed ? 'revealed' : ''}`}
+          >
             <div className="space-y-4">
               <h3 className="text-3xl md:text-4xl">
                 La Tua Crescita Professionale è la Nostra Missione
@@ -123,17 +138,20 @@ export function About() {
           </div>
 
           {/* Right - Visual Element */}
-          <div className="relative">
+          <div
+            ref={rightRef}
+            className={`relative reveal-right ${rightRevealed ? 'revealed' : ''}`}
+          >
             <div className="relative bg-gradient-to-br from-purple-100 to-pink-100 rounded-3xl p-12">
               {/* Decorative circles */}
               <div className="absolute top-4 right-4 w-24 h-24 bg-gradient-to-br from-purple-400 to-pink-400 rounded-full opacity-20"></div>
               <div className="absolute bottom-4 left-4 w-32 h-32 bg-gradient-to-br from-blue-400 to-purple-400 rounded-full opacity-20"></div>
-              
+
               <div className="relative space-y-6">
                 {/* Quote */}
                 <div className="text-6xl text-purple-600 opacity-20">"</div>
                 <blockquote className="text-2xl text-gray-800 leading-relaxed">
-                  Investire nella formazione significa investire nel futuro. 
+                  Investire nella formazione significa investire nel futuro.
                   Ogni studente è un professionista in crescita.
                 </blockquote>
                 <div className="flex items-center gap-4 pt-4">

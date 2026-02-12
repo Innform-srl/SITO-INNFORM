@@ -1,8 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Linkedin, Facebook, Instagram, Mail, Phone, MapPin, Award } from 'lucide-react';
+import { useScrollReveal } from '../hooks/useScrollReveal';
 
 export function Footer() {
+  const { ref: gridRef, revealed: gridRevealed } = useScrollReveal({ threshold: 0.1 });
+  const { ref: accredRef, revealed: accredRevealed } = useScrollReveal({ threshold: 0.1 });
+
   return (
     <footer className="relative bg-gradient-to-br from-gray-900 via-purple-900 to-gray-900 text-white overflow-hidden">
       {/* Decorative Elements */}
@@ -13,7 +17,10 @@ export function Footer() {
 
       <div className="relative z-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
+          <div
+            ref={gridRef}
+            className={`grid md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12 reveal-stagger ${gridRevealed ? 'revealed' : ''}`}
+          >
             {/* Brand */}
             <div className="space-y-6">
               <div className="text-4xl font-bold">
@@ -25,26 +32,26 @@ export function Footer() {
                 Formazione professionale di eccellenza nel settore
               </p>
               <div className="flex gap-4">
-                <a 
-                  href="https://linkedin.com/company/innform-innovazione-formazione" 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
+                <a
+                  href="https://linkedin.com/company/innform-innovazione-formazione"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="w-10 h-10 rounded-full bg-white/10 hover:bg-gradient-to-r hover:from-purple-600 hover:to-pink-600 flex items-center justify-center transition-all duration-300 hover:scale-110"
                 >
                   <Linkedin size={20} />
                 </a>
-                <a 
-                  href="https://facebook.com/innform.eu" 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
+                <a
+                  href="https://facebook.com/innform.eu"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="w-10 h-10 rounded-full bg-white/10 hover:bg-gradient-to-r hover:from-purple-600 hover:to-pink-600 flex items-center justify-center transition-all duration-300 hover:scale-110"
                 >
                   <Facebook size={20} />
                 </a>
-                <a 
-                  href="https://instagram.com/innform_" 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
+                <a
+                  href="https://instagram.com/innform_"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="w-10 h-10 rounded-full bg-white/10 hover:bg-gradient-to-r hover:from-purple-600 hover:to-pink-600 flex items-center justify-center transition-all duration-300 hover:scale-110"
                 >
                   <Instagram size={20} />
@@ -74,6 +81,7 @@ export function Footer() {
                 <li><Link to="/progetti/ti-abilito" className="hover:text-white hover:translate-x-1 inline-block transition-all">Progetto TI.ABILITO</Link></li>
                 <li><Link to="/progetti/segni" className="hover:text-white hover:translate-x-1 inline-block transition-all">Progetto Segni</Link></li>
                 <li><a href="#programmi" className="hover:text-white hover:translate-x-1 inline-block transition-all">Programma GOL</a></li>
+                <li><Link to="/programmi/sicurezza" className="hover:text-white hover:translate-x-1 inline-block transition-all">Sicurezza sul Lavoro</Link></li>
                 <li><Link to="/faq" className="hover:text-white hover:translate-x-1 inline-block transition-all">FAQ</Link></li>
               </ul>
             </div>
@@ -104,7 +112,10 @@ export function Footer() {
           </div>
 
           {/* Accreditations */}
-          <div className="border-t border-white/10 py-8">
+          <div
+            ref={accredRef}
+            className={`border-t border-white/10 py-8 reveal-up ${accredRevealed ? 'revealed' : ''}`}
+          >
             <h5 className="text-center text-gray-400 text-sm mb-6 uppercase tracking-wider">Certificazioni e Accreditamenti</h5>
             <div className="flex flex-wrap justify-center gap-4 md:gap-8 text-sm text-gray-300">
               <div className="flex items-center gap-2">

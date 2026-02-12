@@ -59,7 +59,7 @@ export function Header() {
     });
 
     // Genera dropdown da paths
-    return paths.map(path => {
+    const dynamicItems = paths.map(path => {
       // Determina il label user-friendly e l'href alla pagina programma
       let label = path.title;
       let programHref = "/#corsi";
@@ -70,9 +70,12 @@ export function Header() {
       } else if (path.code === 'MS') {
         label = 'Master';
         programHref = '/programmi/master';
-      } else if (path.code === 'SPEC' || path.title.toLowerCase().includes('specializzazione')) {
+      } else if (path.code === 'SPEC' || path.code === 'CS' || path.title.toLowerCase().includes('specializzazione')) {
         label = 'Corsi di Specializzazione';
         programHref = '/programmi/specializzazione';
+      } else if (path.code === 'SIC' || path.code === 'SICUREZZA' || path.code.startsWith('SIC')) {
+        label = 'Sicurezza sul Lavoro';
+        programHref = '/programmi/sicurezza';
       }
 
       // Genera i children (corsi nel percorso)
@@ -107,6 +110,29 @@ export function Header() {
         children: children.length > 0 ? children : undefined
       };
     }).filter(item => item.children && item.children.length > 0); // Rimuovi percorsi senza corsi
+
+    // Aggiungi voce "Sicurezza sul Lavoro" con corsi sicurezza dall'API corsi
+    // (il percorso Sicurezza potrebbe non esistere come learning path nell'API)
+    // Mostra se ci sono corsi con codice SICUREZZA (l'API restituisce solo corsi pubblicati)
+    const hasSicurezzaFromPaths = dynamicItems.some(item => item.label === 'Sicurezza sul Lavoro');
+    if (!hasSicurezzaFromPaths) {
+      const sicurezzaCourses = courses
+        .filter(c => c.code.startsWith('SICUREZZA'))
+        .map(c => ({
+          label: c.title,
+          href: `/corsi/${c.website_slug}`,
+        }));
+
+      if (sicurezzaCourses.length > 0) {
+        dynamicItems.push({
+          label: 'Sicurezza sul Lavoro',
+          href: '/programmi/sicurezza',
+          children: sicurezzaCourses,
+        });
+      }
+    }
+
+    return dynamicItems;
   }, [paths, courses, pathsLoading, coursesLoading]);
 
   const menuItems = [
