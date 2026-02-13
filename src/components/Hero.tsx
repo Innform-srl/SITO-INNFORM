@@ -510,114 +510,155 @@ export function Hero() {
           </motion.div>
         </div>
 
-        {/* ─── Mobile/Tablet News Section (below hero on small screens) ─── */}
+        {/* ─── Mobile/Tablet Section (below hero on small screens) ─── */}
         <div className="block lg:hidden">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.4 }}
-          style={{ marginTop: 48 }}
-        >
-          {/* Ultime News Header */}
-          <div className="flex items-center justify-between" style={{ marginBottom: 16 }}>
-            <div className="flex items-center" style={{ gap: 8 }}>
-              <div className="rounded-full" style={{ width: 8, height: 8, background: '#111827' }} />
-              <span className="font-bold" style={{ fontSize: 18, color: '#111827' }}>Ultime News</span>
-            </div>
-            <Link
-              to="/news"
-              className="font-semibold transition-colors hover:text-purple-700"
-              style={{ fontSize: 14, color: '#9333ea' }}
-            >
-              Vedi tutte
-            </Link>
-          </div>
-
-          {/* News Cards - horizontal scroll on mobile, 2-col grid on tablet */}
-          <div className="flex sm:grid sm:grid-cols-2 gap-3 overflow-x-auto pb-3 snap-x snap-mandatory sm:overflow-visible sm:pb-0 -mx-4 px-4 sm:mx-0 sm:px-0">
-            {recentNews.map((news) => (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.4 }}
+            style={{ marginTop: 48 }}
+          >
+            {/* Ultime News Header */}
+            <div className="flex items-center justify-between" style={{ marginBottom: 16 }}>
+              <div className="flex items-center" style={{ gap: 8 }}>
+                <div className="rounded-full" style={{ width: 8, height: 8, background: '#111827' }} />
+                <span className="font-bold" style={{ fontSize: 18, color: '#111827', lineHeight: '20px' }}>
+                  Ultime News
+                </span>
+              </div>
               <Link
-                key={news.id}
-                to={`/news/${news.id}`}
-                className="group flex-shrink-0 w-[280px] sm:w-auto snap-start transition-all duration-300 hover:shadow-xl"
-                style={{
-                  display: 'flex',
-                  gap: 12,
-                  padding: 12,
-                  background: '#ffffff',
-                  borderRadius: 16,
-                  border: '1px solid #f3f4f6',
-                  boxShadow: '0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -2px rgba(0,0,0,0.1)',
-                }}
+                to="/news"
+                className="font-semibold transition-colors hover:text-purple-700"
+                style={{ fontSize: 14, color: '#9333ea' }}
               >
-                <OptimizedImage
-                  src={news.image}
-                  alt={news.title}
-                  className="w-16 h-16 rounded-xl flex-shrink-0 object-cover"
-                  width={64}
-                  height={64}
-                />
-                <div className="flex-1 min-w-0 flex flex-col">
-                  <div className="flex items-center flex-wrap" style={{ gap: 6, marginBottom: 4 }}>
-                    <span
-                      className="font-bold uppercase"
+                Vedi tutte
+              </Link>
+            </div>
+
+            {/* News Cards — vertical stack, Figma card style */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+              {recentNews.map((news) => (
+                <Link
+                  key={news.id}
+                  to={`/news/${news.id}`}
+                  className="group"
+                  style={{
+                    display: 'flex',
+                    gap: 12,
+                    padding: 12,
+                    background: '#ffffff',
+                    borderRadius: 20,
+                    border: '1px solid #f3f4f6',
+                    boxShadow: '0px 1px 3px rgba(0,0,0,0.1), 0px 1px 2px -1px rgba(0,0,0,0.1)',
+                  }}
+                >
+                  <div style={{ width: 56, height: 56, borderRadius: 14, overflow: 'hidden', flexShrink: 0 }}>
+                    <OptimizedImage
+                      src={news.image}
+                      alt={news.title}
+                      className="w-full h-full object-cover"
+                      width={56}
+                      height={56}
+                    />
+                  </div>
+                  <div style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', gap: 2 }}>
+                    <div className="flex items-center" style={{ gap: 6 }}>
+                      <span
+                        className="font-bold uppercase"
+                        style={{
+                          fontSize: 10,
+                          letterSpacing: 0.5,
+                          color: '#9333ea',
+                          background: '#faf5ff',
+                          padding: '1px 6px',
+                          borderRadius: 9999,
+                          lineHeight: '16px',
+                        }}
+                      >
+                        {news.category}
+                      </span>
+                      <span className="flex items-center" style={{ fontSize: 11, color: '#9ca3af', gap: 3 }}>
+                        <Calendar size={9} />
+                        {news.date}
+                      </span>
+                    </div>
+                    <h3
+                      className="font-bold line-clamp-2 group-hover:text-purple-600 transition-colors"
+                      style={{ fontSize: 14, color: '#111827', lineHeight: 1.3 }}
+                    >
+                      {news.title}
+                    </h3>
+                  </div>
+                </Link>
+              ))}
+            </div>
+
+            {/* Interactive Cards — Figma pastello style, vertical stack */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 12, marginTop: 24 }}>
+              {cardsData.map((card) => {
+                const figmaTheme: Record<string, { bg: string; text: string; desc: string; accent: string }> = {
+                  corsi: { bg: '#ffccd3', text: '#4d0218', desc: '#8b0836', accent: 'rgba(77,2,24,0.1)' },
+                  tiabilito: { bg: '#b8e6fe', text: '#052f4a', desc: '#024a70', accent: 'rgba(5,47,74,0.1)' },
+                  gol: { bg: '#a4f4cf', text: '#002c22', desc: '#004f3b', accent: 'rgba(0,44,34,0.1)' },
+                };
+                const theme = figmaTheme[card.id] || figmaTheme.corsi;
+
+                return (
+                  <Link
+                    key={card.id}
+                    to={card.link}
+                    className="group relative overflow-hidden"
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: 16,
+                      padding: 16,
+                      borderRadius: 20,
+                      background: theme.bg,
+                      boxShadow: '0px 1px 3px rgba(0,0,0,0.1), 0px 1px 2px -1px rgba(0,0,0,0.1)',
+                    }}
+                  >
+                    {/* Text content */}
+                    <div style={{ flex: 1, minWidth: 0 }}>
+                      <span
+                        className="font-bold uppercase"
+                        style={{
+                          fontSize: 10,
+                          letterSpacing: 0.5,
+                          lineHeight: '14px',
+                          color: theme.text,
+                          background: theme.accent,
+                          borderRadius: 9999,
+                          padding: '2px 8px',
+                        }}
+                      >
+                        {card.category}
+                      </span>
+                      <h4 className="font-bold" style={{ fontSize: 16, lineHeight: '20px', color: theme.text, marginTop: 6 }}>
+                        {card.title}
+                      </h4>
+                      <p className="line-clamp-1" style={{ fontSize: 12, lineHeight: '16px', color: theme.desc, marginTop: 2 }}>
+                        {card.description}
+                      </p>
+                    </div>
+
+                    {/* Arrow circle */}
+                    <div
+                      className="flex-shrink-0 flex items-center justify-center group-hover:scale-110 transition-transform"
                       style={{
-                        fontSize: 9,
-                        letterSpacing: 0.8,
-                        color: '#9333ea',
-                        background: '#faf5ff',
-                        padding: '2px 6px',
+                        width: 36,
+                        height: 36,
                         borderRadius: 9999,
+                        background: theme.accent,
                       }}
                     >
-                      {news.category}
-                    </span>
-                    <span className="flex items-center" style={{ fontSize: 11, color: '#9ca3af', gap: 3 }}>
-                      <Calendar size={9} />
-                      {news.date}
-                    </span>
-                  </div>
-                  <h3
-                    className="font-bold line-clamp-2 group-hover:text-purple-600 transition-colors"
-                    style={{ fontSize: 14, color: '#111827', lineHeight: 1.3 }}
-                  >
-                    {news.title}
-                  </h3>
-                </div>
-              </Link>
-            ))}
-          </div>
-
-          {/* Interactive Cards Row - mobile version */}
-          <div className="grid grid-cols-3 gap-3" style={{ marginTop: 20 }}>
-            {cardsData.map((card) => (
-              <Link
-                key={card.id}
-                to={card.link}
-                className="flex flex-col items-center justify-between text-center transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5"
-                style={{
-                  padding: '16px 8px',
-                  borderRadius: 24,
-                  background: card.color,
-                  minHeight: 110,
-                }}
-              >
-                <span
-                  className="font-bold leading-tight whitespace-pre-line"
-                  style={{ fontSize: 12, color: card.textColor }}
-                >
-                  {card.label}
-                </span>
-                <div
-                  className="rounded-full flex items-center justify-center shadow-sm"
-                  style={{ width: 28, height: 28, background: 'rgba(255,255,255,0.8)', marginTop: 8 }}
-                >
-                  <ArrowRight size={12} style={{ color: card.ctaColor }} strokeWidth={2.5} />
-                </div>
-              </Link>
-            ))}
-          </div>
-        </motion.div>
+                      <ArrowRight size={16} style={{ color: theme.text }} strokeWidth={1.67} />
+                    </div>
+                  </Link>
+                );
+              })}
+            </div>
+          </motion.div>
         </div>
       </div>
     </section>

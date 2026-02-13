@@ -232,10 +232,12 @@ function BentoCard({
   course,
   color,
   variant = 'standard',
+  isMobile = false,
 }: {
   course: CourseCardData;
   color: string;
   variant?: 'standard' | 'featured';
+  isMobile?: boolean;
 }) {
   const isFeatured = variant === 'featured';
 
@@ -257,8 +259,11 @@ function BentoCard({
         />
       )}
 
-      {/* Content — 32px padding matching Figma */}
-      <div className="relative z-10 flex flex-col justify-between h-full" style={{ padding: 32 }}>
+      {/* Content */}
+      <div
+        className="relative z-10 flex flex-col justify-between h-full"
+        style={{ padding: isMobile ? 20 : 32 }}
+      >
         {/* Top: badge */}
         <div>
           <span
@@ -266,9 +271,9 @@ function BentoCard({
             style={{
               background: 'rgba(5, 47, 74, 0.08)',
               color: '#052F4A',
-              fontSize: 13,
-              lineHeight: '18px',
-              padding: '5px 14px',
+              fontSize: isMobile ? 11 : 13,
+              lineHeight: isMobile ? '16px' : '18px',
+              padding: isMobile ? '3px 10px' : '5px 14px',
             }}
           >
             {course.type}
@@ -281,37 +286,37 @@ function BentoCard({
             className="font-bold leading-tight"
             style={{
               color: '#052F4A',
-              fontSize: isFeatured ? 28 : 22,
-              lineHeight: isFeatured ? '34px' : '28px',
+              fontSize: isMobile ? 18 : (isFeatured ? 28 : 22),
+              lineHeight: isMobile ? '22px' : (isFeatured ? '34px' : '28px'),
             }}
           >
             {course.title}
           </h3>
           {isFeatured && course.description && (
             <p
-              className="line-clamp-5"
+              className={isMobile ? 'line-clamp-2' : 'line-clamp-5'}
               style={{
                 color: '#1B6B93',
                 opacity: 0.7,
-                fontSize: 16,
-                lineHeight: '22px',
-                marginTop: 8,
+                fontSize: isMobile ? 13 : 16,
+                lineHeight: isMobile ? '18px' : '22px',
+                marginTop: isMobile ? 4 : 8,
               }}
             >
               {course.description}
             </p>
           )}
           {/* Arrow bottom-right */}
-          <div className="flex justify-end" style={{ marginTop: 12 }}>
+          <div className="flex justify-end" style={{ marginTop: isMobile ? 8 : 12 }}>
             <div
               className="flex-shrink-0 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300"
               style={{
-                width: 40,
-                height: 40,
+                width: isMobile ? 36 : 40,
+                height: isMobile ? 36 : 40,
                 background: 'rgba(5, 47, 74, 0.08)',
               }}
             >
-              <ArrowUpRight size={18} style={{ color: '#052F4A' }} />
+              <ArrowUpRight size={isMobile ? 16 : 18} style={{ color: '#052F4A' }} />
             </div>
           </div>
         </div>
@@ -340,13 +345,29 @@ const sicurezzaComingSoonCards = [
   },
 ];
 
+function useIsMobile(breakpoint = 768) {
+  const [isMobile, setIsMobile] = useState(
+    typeof window !== 'undefined' ? window.innerWidth < breakpoint : false
+  );
+  useEffect(() => {
+    const mq = window.matchMedia(`(max-width: ${breakpoint - 1}px)`);
+    const handler = (e: MediaQueryListEvent | MediaQueryList) => setIsMobile(e.matches);
+    handler(mq);
+    mq.addEventListener('change', handler as (e: MediaQueryListEvent) => void);
+    return () => mq.removeEventListener('change', handler as (e: MediaQueryListEvent) => void);
+  }, [breakpoint]);
+  return isMobile;
+}
+
 function BentoGrid({ courses, color, categoryId }: { courses: CourseCardData[]; color: string; categoryId?: CategoryType }) {
+  const isMobile = useIsMobile();
   if (courses.length === 0) return null;
 
   // Figma gap = 24px
-  const GAP = 24;
-  const ROW_H = 280; // Single row height
-  const SMALL_ROW_H = 240; // Remaining grid row height
+  const GAP = isMobile ? 16 : 24;
+  const ROW_H = 280; // Single row height (desktop only)
+  const SMALL_ROW_H = 240;
+  const MOBILE_H = 200; // Card height on mobile
 
   // Cell wrapper: prevents content from overflowing grid cell boundaries
   const Cell = ({ children, style }: { children: React.ReactNode; style?: React.CSSProperties }) => (
@@ -355,18 +376,109 @@ function BentoGrid({ courses, color, categoryId }: { courses: CourseCardData[]; 
     </div>
   );
 
+  // ── MOBILE: simple vertical stack for all layouts ──
+  if (isMobile) {
+    const allCards = [...courses];
+
+    // Sicurezza: add "coming soon" cards
+    if (categoryId === 'sicurezza') {
+      return (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: GAP }}>
+          {allCards.map((course) => (
+            <Cell key={course.id} style={{ height: MOBILE_H }}>
+              <BentoCard course={course} color={categoryId === 'sicurezza' ? '#ccfbf1' : color} variant="featured" isMobile />
+            </Cell>
+          ))}
+          {sicurezzaComingSoonCards.map((card, idx) => (
+            <Cell key={`soon-${idx}`} style={{ height: MOBILE_H }}>
+              <Link
+                to={card.link}
+                className="h-full flex flex-col justify-between group transition-all duration-300 hover:shadow-lg"
+                style={{ borderRadius: 20, padding: 20, background: card.color }}
+              >
+                <div>
+                  <span
+                    className="inline-block rounded-full font-semibold uppercase"
+                    style={{ fontSize: 10, letterSpacing: 0.6, color: card.accentColor, background: `${card.accentColor}12`, padding: '3px 10px', marginBottom: 8 }}
+                  >
+                    {card.label}
+                  </span>
+                  <h4 className="font-bold" style={{ fontSize: 18, lineHeight: '22px', color: '#0f172a' }}>
+                    {card.title}
+                  </h4>
+                  <p className="line-clamp-2" style={{ fontSize: 13, lineHeight: '18px', color: '#475569', marginTop: 4 }}>
+                    {card.description}
+                  </p>
+                </div>
+                <div className="flex justify-end">
+                  <div className="rounded-full flex items-center justify-center" style={{ width: 36, height: 36, background: `${card.accentColor}15` }}>
+                    <ArrowUpRight size={14} style={{ color: card.accentColor }} />
+                  </div>
+                </div>
+              </Link>
+            </Cell>
+          ))}
+        </div>
+      );
+    }
+
+    // 1 course: add dark CTA block + teaser
+    if (courses.length === 1) {
+      return (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: GAP }}>
+          <Cell style={{ minHeight: MOBILE_H }}>
+            <BentoCard course={courses[0]} color={color} variant="featured" isMobile />
+          </Cell>
+          {/* Dark CTA */}
+          <Cell style={{ minHeight: MOBILE_H }}>
+            <div
+              className="relative h-full overflow-hidden flex flex-col justify-between"
+              style={{ borderRadius: 20, padding: 24, background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #1e1b4b 100%)' }}
+            >
+              <div className="flex items-center justify-center" style={{ width: 40, height: 40, borderRadius: 12, background: 'rgba(255,255,255,0.1)', marginBottom: 16 }}>
+                <Search size={18} color="#ffffff" />
+              </div>
+              <div>
+                <h3 className="font-bold" style={{ color: '#ffffff', fontSize: 22, lineHeight: 1.2, marginBottom: 8 }}>
+                  Non hai trovato quello che cerchi?
+                </h3>
+                <Link
+                  to="/programmi/master"
+                  className="inline-flex items-center font-bold"
+                  style={{ padding: '10px 20px', borderRadius: 9999, background: '#ffffff', color: '#0f172a', fontSize: 13, gap: 6, marginTop: 8 }}
+                >
+                  Vedi tutto il Catalogo
+                  <ArrowUpRight size={14} />
+                </Link>
+              </div>
+            </div>
+          </Cell>
+        </div>
+      );
+    }
+
+    // General mobile: simple stack
+    return (
+      <div style={{ display: 'flex', flexDirection: 'column', gap: GAP }}>
+        {allCards.map((course, idx) => (
+          <Cell key={course.id} style={{ height: MOBILE_H }}>
+            <BentoCard course={course} color={color} variant={idx === 0 ? 'featured' : 'standard'} isMobile />
+          </Cell>
+        ))}
+      </div>
+    );
+  }
+
+  // ── DESKTOP LAYOUTS (unchanged) ──
+
   // ── SICUREZZA: special layout — featured card left + 2 "coming soon" right ──
   if (categoryId === 'sicurezza') {
-    // Use the first real course as the big featured card
     const featuredCourse = courses[0];
     return (
       <div className="grid" style={{ gridTemplateColumns: '1.6fr 1fr', gap: GAP, height: ROW_H * 2 + GAP }}>
-        {/* Featured course — left (tall) — Menta chiaro */}
         <Cell style={{ gridRow: '1 / 3' }}>
           <BentoCard course={featuredCourse} color="#ccfbf1" variant="featured" />
         </Cell>
-
-        {/* "A breve" cards — right */}
         {sicurezzaComingSoonCards.map((card, idx) => (
           <Cell key={idx}>
             <Link
@@ -420,7 +532,6 @@ function BentoGrid({ courses, color, categoryId }: { courses: CourseCardData[]; 
 
     return (
       <div style={{ display: 'flex', flexDirection: 'column', gap: GAP }}>
-        {/* Top bento section */}
         <div className="grid" style={{
           gridTemplateColumns: '1.2fr 1fr 1fr',
           gridTemplateRows: `${ROW_H}px ${ROW_H}px`,
@@ -439,7 +550,6 @@ function BentoGrid({ courses, color, categoryId }: { courses: CourseCardData[]; 
             <BentoCard course={topCourses[3]} color={color} />
           </Cell>
         </div>
-        {/* Remaining courses in uniform 3-col grid */}
         <div className="grid grid-cols-3" style={{ gap: GAP, gridAutoRows: SMALL_ROW_H }}>
           {remaining.map((course) => (
             <Cell key={course.id}>
@@ -451,7 +561,7 @@ function BentoGrid({ courses, color, categoryId }: { courses: CourseCardData[]; 
     );
   }
 
-  // 5 courses: bento top + 1 extra
+  // 5 courses
   if (courses.length === 5) {
     return (
       <div style={{ display: 'flex', flexDirection: 'column', gap: GAP }}>
@@ -482,7 +592,7 @@ function BentoGrid({ courses, color, categoryId }: { courses: CourseCardData[]; 
     );
   }
 
-  // 4 courses: tall left + wide right + 2 small bottom-right
+  // 4 courses
   if (courses.length === 4) {
     return (
       <div className="grid" style={{
@@ -506,7 +616,7 @@ function BentoGrid({ courses, color, categoryId }: { courses: CourseCardData[]; 
     );
   }
 
-  // 3 courses: tall left + 2 stacked right
+  // 3 courses
   if (courses.length === 3) {
     return (
       <div className="grid" style={{
@@ -527,7 +637,7 @@ function BentoGrid({ courses, color, categoryId }: { courses: CourseCardData[]; 
     );
   }
 
-  // 2 courses: side by side
+  // 2 courses
   if (courses.length === 2) {
     return (
       <div className="grid grid-cols-2" style={{ gap: GAP, gridAutoRows: 360 }}>
@@ -541,10 +651,9 @@ function BentoGrid({ courses, color, categoryId }: { courses: CourseCardData[]; 
     );
   }
 
-  // 1 course: dark CTA left + course card + teaser card right
+  // 1 course
   return (
     <div className="grid" style={{ gridTemplateColumns: '1.6fr 1fr', gap: GAP, height: ROW_H * 2 + GAP }}>
-      {/* Dark gradient block — left */}
       <Cell style={{ gridRow: '1 / 3' }}>
         <div
           className="relative h-full overflow-hidden flex flex-col justify-between"
@@ -554,45 +663,18 @@ function BentoGrid({ courses, color, categoryId }: { courses: CourseCardData[]; 
             background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #1e1b4b 100%)',
           }}
         >
-          {/* Decorative purple glow */}
           <div
             className="absolute rounded-full"
-            style={{
-              top: -60,
-              right: -60,
-              width: 240,
-              height: 240,
-              background: 'rgba(168, 85, 247, 0.1)',
-              filter: 'blur(64px)',
-            }}
+            style={{ top: -60, right: -60, width: 240, height: 240, background: 'rgba(168, 85, 247, 0.1)', filter: 'blur(64px)' }}
           />
-          {/* Search icon */}
           <div
             className="flex items-center justify-center"
-            style={{
-              width: 48,
-              height: 48,
-              borderRadius: 16,
-              background: 'rgba(255,255,255,0.1)',
-              border: '1px solid rgba(255,255,255,0.1)',
-              backdropFilter: 'blur(4px)',
-              marginBottom: 32,
-            }}
+            style={{ width: 48, height: 48, borderRadius: 16, background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.1)', backdropFilter: 'blur(4px)', marginBottom: 32 }}
           >
             <Search size={20} color="#ffffff" />
           </div>
-          {/* Title */}
           <div>
-            <h3
-              className="font-bold"
-              style={{
-                color: '#ffffff',
-                fontSize: 'clamp(30px, 3vw, 40px)',
-                lineHeight: 1.15,
-                letterSpacing: '-0.025em',
-                marginBottom: 16,
-              }}
-            >
+            <h3 className="font-bold" style={{ color: '#ffffff', fontSize: 'clamp(30px, 3vw, 40px)', lineHeight: 1.15, letterSpacing: '-0.025em', marginBottom: 16 }}>
               Non hai trovato quello che cerchi?
             </h3>
             <p style={{ color: '#9ca3af', fontSize: 16, lineHeight: 1.625, maxWidth: 448, marginBottom: 24 }}>
@@ -601,15 +683,7 @@ function BentoGrid({ courses, color, categoryId }: { courses: CourseCardData[]; 
             <Link
               to="/programmi/master"
               className="inline-flex items-center font-bold transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5"
-              style={{
-                padding: '12px 24px',
-                borderRadius: 9999,
-                background: '#ffffff',
-                color: '#0f172a',
-                fontSize: 14,
-                gap: 8,
-                boxShadow: '0 10px 15px -3px rgba(0,0,0,0.1)',
-              }}
+              style={{ padding: '12px 24px', borderRadius: 9999, background: '#ffffff', color: '#0f172a', fontSize: 14, gap: 8, boxShadow: '0 10px 15px -3px rgba(0,0,0,0.1)' }}
             >
               Vedi tutto il Catalogo
               <ArrowUpRight size={16} />
@@ -617,37 +691,21 @@ function BentoGrid({ courses, color, categoryId }: { courses: CourseCardData[]; 
           </div>
         </div>
       </Cell>
-
-      {/* Course card — top right */}
       <Cell>
         <BentoCard course={courses[0]} color={color} variant="featured" />
       </Cell>
-
-      {/* Teaser card — bottom right */}
       <Cell>
-        <div
-          className="h-full flex flex-col justify-between"
-          style={{ borderRadius: 28, padding: 24, background: '#ffedd5' }}
-        >
+        <div className="h-full flex flex-col justify-between" style={{ borderRadius: 28, padding: 24, background: '#ffedd5' }}>
           <div>
-            <span
-              className="font-bold uppercase"
-              style={{ fontSize: 12, letterSpacing: 0.8, color: '#b45309', marginBottom: 6, display: 'block' }}
-            >
+            <span className="font-bold uppercase" style={{ fontSize: 12, letterSpacing: 0.8, color: '#b45309', marginBottom: 6, display: 'block' }}>
               Coming Soon
             </span>
-            <h4
-              className="font-bold"
-              style={{ fontSize: 20, lineHeight: 1.25, color: '#0f172a' }}
-            >
+            <h4 className="font-bold" style={{ fontSize: 20, lineHeight: 1.25, color: '#0f172a' }}>
               Digital Export
             </h4>
           </div>
           <div className="flex justify-end">
-            <div
-              className="rounded-full flex items-center justify-center"
-              style={{ width: 40, height: 40, background: 'rgba(253, 230, 138, 0.7)' }}
-            >
+            <div className="rounded-full flex items-center justify-center" style={{ width: 40, height: 40, background: 'rgba(253, 230, 138, 0.7)' }}>
               <ArrowUpRight size={16} style={{ color: '#b45309' }} />
             </div>
           </div>
@@ -732,33 +790,33 @@ export function Courses() {
         {/* Header */}
         <div
           ref={headerRef}
-          className={`flex items-end justify-between mb-8 reveal-up ${headerRevealed ? 'revealed' : ''}`}
+          className={`flex items-end justify-between gap-4 mb-8 reveal-up ${headerRevealed ? 'revealed' : ''}`}
         >
-          <div>
+          <div className="min-w-0">
             <span className="text-sm font-bold uppercase tracking-wider block mb-2 text-purple-600">
               {currentCategory?.label || 'Alta Formazione'}
             </span>
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900">
-              Scegli il percorso perfetto<br />per te
+            <h2 className="text-2xl sm:text-4xl md:text-5xl font-bold text-gray-900 leading-tight">
+              Scegli il percorso<br />perfetto per te
             </h2>
           </div>
 
           {/* Navigation Arrows */}
           {activeCategories.length > 1 && (
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
               <button
                 onClick={prevSlide}
-                className="w-14 h-14 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-100 transition-colors"
+                className="w-10 h-10 sm:w-14 sm:h-14 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-100 transition-colors"
                 aria-label="Categoria precedente"
               >
-                <ChevronLeft size={24} className="text-gray-600" />
+                <ChevronLeft size={20} className="text-gray-600" />
               </button>
               <button
                 onClick={nextSlide}
-                className="w-14 h-14 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-100 transition-colors"
+                className="w-10 h-10 sm:w-14 sm:h-14 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-100 transition-colors"
                 aria-label="Categoria successiva"
               >
-                <ChevronRight size={24} className="text-gray-600" />
+                <ChevronRight size={20} className="text-gray-600" />
               </button>
             </div>
           )}
