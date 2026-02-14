@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import { Microscope, BookOpen, ChevronLeft, ChevronRight, Award, Users, Settings, AlertTriangle, Megaphone, Croissant, Eye, GraduationCap, Target, Monitor, Loader2, Shield, ArrowUpRight, Search } from 'lucide-react';
+import { Microscope, BookOpen, ChevronLeft, ChevronRight, Award, Users, Settings, AlertTriangle, Megaphone, Croissant, Eye, GraduationCap, Monitor, Loader2, Shield, ArrowUpRight } from 'lucide-react';
 import { useRealtimeCourses } from '../hooks/useRealtimeCourses';
 import { useAutoAnimate } from '@formkit/auto-animate/react';
 import { useScrollReveal } from '../hooks/useScrollReveal';
@@ -139,7 +139,7 @@ function getCourseCategory(course: CoursePublicData): CategoryType {
   const code = course.code.toLowerCase();
   if (code.startsWith('gol') || code.startsWith('tor') || code.startsWith('upskilling') || code === 'otds') return 'gol';
   if (code.startsWith('ms') || code === 'taa' || code === 'eec' || code === 'massaf') return 'master';
-  if (code.startsWith('cdsa') || code.includes('spec')) return 'specializzazione';
+  if (code.startsWith('cdsa') || code.includes('spec') || code.startsWith('cs-')) return 'specializzazione';
   if (code.startsWith('sicurezza')) return 'sicurezza';
   return 'gol';
 }
@@ -157,9 +157,20 @@ function getCourseType(course: CoursePublicData): string {
     return 'Reskilling';
   }
   if (code.startsWith('ms') || code === 'taa' || code === 'eec' || code === 'massaf') return 'Master';
-  if (code.startsWith('cdsa') || code.includes('spec')) return 'Specializzazione';
+  if (code.startsWith('cdsa') || code.includes('spec') || code.startsWith('cs-')) return 'Specializzazione';
   if (code.startsWith('sicurezza')) return 'Sicurezza';
   return 'Corso';
+}
+
+function getCourseBadge(course: CourseCardData): string {
+  if (course.type === 'Master') return 'Alta Formazione';
+  return course.type;
+}
+
+
+function isCourseGratis(course: CourseCardData): boolean {
+  const cat = course.category;
+  return cat === 'gol' || cat === 'sicurezza';
 }
 
 function getCourseStyle(code: string): CourseStyle {
@@ -168,12 +179,19 @@ function getCourseStyle(code: string): CourseStyle {
   return defaultStyle;
 }
 
-// Category slide config
+// Category slide config — each category has a palette of pastel shades for card variety
+const categoryPalettes: Record<CategoryType, string[]> = {
+  master: ['#E8F5E9', '#C8E6C9', '#A5D6A7', '#81C784'],        // Mint / green pastels
+  gol: ['#E0F2F1', '#B2DFDB', '#80CBC4', '#4DB6AC'],            // Teal pastels
+  sicurezza: ['#FFF3E0', '#FFE0B2', '#FFCC80', '#FFB74D'],      // Warm peach / amber
+  specializzazione: ['#EDE7F6', '#D1C4E9', '#B39DDB', '#9575CD'], // Lavender pastels
+};
+
 const categoryConfig: { id: CategoryType; label: string; color: string }[] = [
-  { id: 'master', label: 'Alta Formazione', color: '#FFCCD3' },
-  { id: 'gol', label: 'Programma GOL', color: '#B8E6FE' },
-  { id: 'sicurezza', label: 'Sicurezza', color: '#FFEDD4' },
-  { id: 'specializzazione', label: 'Specializzazione', color: '#A4F4CF' },
+  { id: 'master', label: 'Alta Formazione', color: '#E8F5E9' },
+  { id: 'gol', label: 'Programma GOL', color: '#E0F2F1' },
+  { id: 'sicurezza', label: 'Sicurezza', color: '#FFF3E0' },
+  { id: 'specializzazione', label: 'Specializzazione', color: '#EDE7F6' },
 ];
 
 // Static Sicurezza course — always shown as fallback when API has no Sicurezza courses
@@ -231,92 +249,130 @@ function getCourseImage(code: string, index: number): string {
 function BentoCard({
   course,
   color,
-  variant = 'standard',
   isMobile = false,
+  wide = false,
 }: {
   course: CourseCardData;
   color: string;
-  variant?: 'standard' | 'featured';
   isMobile?: boolean;
+  wide?: boolean;
 }) {
-  const isFeatured = variant === 'featured';
+  const style = getCourseStyle(course.code);
+  const CourseIcon = style.icon;
+  const gratis = isCourseGratis(course);
 
   return (
     <Link
       to={`/corsi/${course.id}`}
-      className="group relative rounded-2xl overflow-hidden flex flex-col h-full transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5"
-      style={{ background: color }}
+      className="group relative overflow-hidden flex flex-col h-full transition-all duration-300 hover:shadow-xl hover:-translate-y-1"
+      style={{
+        background: color,
+        borderRadius: isMobile ? 24 : 32,
+        boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.06)',
+      }}
     >
-      {/* Decorative background image */}
-      {course.image && (
-        <div
-          className="absolute inset-0 bg-cover bg-center"
-          style={{
-            backgroundImage: `url(${course.image})`,
-            opacity: 0.12,
-            mixBlendMode: 'overlay',
-          }}
-        />
-      )}
-
       {/* Content */}
       <div
         className="relative z-10 flex flex-col justify-between h-full"
         style={{ padding: isMobile ? 20 : 32 }}
       >
-        {/* Top: badge */}
-        <div>
-          <span
-            className="inline-block rounded-full font-semibold"
-            style={{
-              background: 'rgba(5, 47, 74, 0.08)',
-              color: '#052F4A',
-              fontSize: isMobile ? 11 : 13,
-              lineHeight: isMobile ? '16px' : '18px',
-              padding: isMobile ? '3px 10px' : '5px 14px',
-            }}
-          >
-            {course.type}
-          </span>
+        {/* Top: badges row */}
+        <div className="flex items-center justify-between gap-3">
+          {/* Left: icon + type + program */}
+          <div className="flex items-center min-w-0" style={{ gap: isMobile ? 10 : 12 }}>
+            <div
+              className="flex-shrink-0 flex items-center justify-center"
+              style={{
+                width: isMobile ? 34 : 40,
+                height: isMobile ? 34 : 40,
+                borderRadius: 10,
+                background: 'rgba(0, 44, 34, 0.10)',
+              }}
+            >
+              <CourseIcon size={isMobile ? 16 : 20} style={{ color: '#002C22' }} />
+            </div>
+            <span
+              className="font-bold uppercase truncate"
+              style={{
+                color: '#002C22',
+                fontSize: isMobile ? 12 : 13,
+                lineHeight: isMobile ? '16px' : '18px',
+                letterSpacing: '0.04em',
+              }}
+            >
+              {getCourseBadge(course)}
+            </span>
+          </div>
+
+          {/* Right: GRATIS badge */}
+          {gratis && (
+            <div
+              className="flex-shrink-0 flex items-center rounded-full"
+              style={{
+                background: 'rgba(0, 44, 34, 0.10)',
+                padding: isMobile ? '5px 12px' : '6px 14px',
+                gap: isMobile ? 7 : 8,
+              }}
+            >
+              <div
+                className="rounded-full gratis-dot-glow"
+                style={{
+                  width: isMobile ? 7 : 8,
+                  height: isMobile ? 7 : 8,
+                  background: '#22c55e',
+                  boxShadow: '0 0 6px 2px rgba(34, 197, 94, 0.5)',
+                }}
+              />
+              <span
+                className="font-bold uppercase"
+                style={{
+                  color: '#002C22',
+                  fontSize: isMobile ? 11 : 13,
+                  letterSpacing: '0.04em',
+                }}
+              >
+                Gratis
+              </span>
+            </div>
+          )}
         </div>
 
-        {/* Bottom: title + description + arrow row */}
+        {/* Bottom: title + description + arrow */}
         <div>
           <h3
-            className="font-bold leading-tight"
+            className={`font-bold leading-tight ${wide ? 'line-clamp-4' : 'line-clamp-3'}`}
             style={{
-              color: '#052F4A',
-              fontSize: isMobile ? 18 : (isFeatured ? 28 : 22),
-              lineHeight: isMobile ? '22px' : (isFeatured ? '34px' : '28px'),
+              color: '#002C22',
+              fontSize: isMobile ? 18 : 20,
+              lineHeight: isMobile ? '22px' : '26px',
             }}
           >
             {course.title}
           </h3>
-          {isFeatured && course.description && (
+          {course.description && (
             <p
-              className={isMobile ? 'line-clamp-2' : 'line-clamp-5'}
+              className={wide ? 'line-clamp-4' : 'line-clamp-2'}
               style={{
-                color: '#1B6B93',
-                opacity: 0.7,
-                fontSize: isMobile ? 13 : 16,
-                lineHeight: isMobile ? '18px' : '22px',
-                marginTop: isMobile ? 4 : 8,
+                color: 'rgba(0, 44, 34, 0.6)',
+                fontSize: isMobile ? 12 : 13,
+                lineHeight: isMobile ? '16px' : '18px',
+                marginTop: isMobile ? 4 : 6,
               }}
             >
               {course.description}
             </p>
           )}
           {/* Arrow bottom-right */}
-          <div className="flex justify-end" style={{ marginTop: isMobile ? 8 : 12 }}>
+          <div className="flex justify-end" style={{ marginTop: isMobile ? 10 : 16 }}>
             <div
               className="flex-shrink-0 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300"
               style={{
                 width: isMobile ? 36 : 40,
                 height: isMobile ? 36 : 40,
-                background: 'rgba(5, 47, 74, 0.08)',
+                background: 'rgba(0, 44, 34, 0.10)',
               }}
             >
-              <ArrowUpRight size={isMobile ? 16 : 18} style={{ color: '#052F4A' }} />
+              <ArrowUpRight size={isMobile ? 16 : 20} style={{ color: '#002C22' }} />
             </div>
           </div>
         </div>
@@ -359,359 +415,226 @@ function useIsMobile(breakpoint = 768) {
   return isMobile;
 }
 
-function BentoGrid({ courses, color, categoryId }: { courses: CourseCardData[]; color: string; categoryId?: CategoryType }) {
+function getCardColor(categoryId: CategoryType, index: number): string {
+  const palette = categoryPalettes[categoryId];
+  return palette[index % palette.length];
+}
+
+type CardItem =
+  | { kind: 'course'; course: CourseCardData; idx: number }
+  | { kind: 'soon'; card: typeof sicurezzaComingSoonCards[0]; idx: number };
+
+/** Get text length score for a card item (used to decide which cards get span-2). */
+function getTextScore(item: CardItem): number {
+  if (item.kind === 'course') {
+    return item.course.title.length + (item.course.description?.length || 0);
+  }
+  return item.card.title.length + item.card.description.length;
+}
+
+/**
+ * Build a mixed-size layout where some cards span 2 columns and others span 1.
+ * - Longest-text courses get span-2 (wide)
+ * - Each row must sum to exactly `cols` columns (no empty space)
+ * - Returns array of rows, each row is an array of { item, span }
+ */
+function buildMixedLayout(items: CardItem[], cols: number): { item: CardItem; span: number }[][] {
+  if (items.length === 0) return [];
+
+  // Score all items by text length and sort descending
+  const scored = items.map((item, i) => ({ item, score: getTextScore(item), origIdx: i }));
+  scored.sort((a, b) => b.score - a.score);
+
+  // Decide how many wide cards to have: roughly 1 wide per 3 items, max half
+  const maxWide = Math.min(Math.floor(items.length / 3), Math.floor(items.length / 2));
+  const wideSet = new Set<number>();
+  for (let i = 0; i < maxWide; i++) {
+    wideSet.add(scored[i].origIdx);
+  }
+
+  // Build rows by consuming items in original order, fitting into rows of `cols` columns
+  const rows: { item: CardItem; span: number }[][] = [];
+  let currentRow: { item: CardItem; span: number }[] = [];
+  let currentCols = 0;
+
+  for (let i = 0; i < items.length; i++) {
+    const isWide = wideSet.has(i);
+    const span = isWide ? 2 : 1;
+
+    // Check if this card fits in the current row
+    if (currentCols + span > cols) {
+      // Current row is full — pad or push
+      if (currentCols < cols && currentRow.length > 0) {
+        // Expand the last card to fill remaining space
+        currentRow[currentRow.length - 1].span += (cols - currentCols);
+      }
+      rows.push(currentRow);
+      currentRow = [];
+      currentCols = 0;
+    }
+
+    currentRow.push({ item: items[i], span });
+    currentCols += span;
+
+    if (currentCols === cols) {
+      rows.push(currentRow);
+      currentRow = [];
+      currentCols = 0;
+    }
+  }
+
+  // Handle the last incomplete row
+  if (currentRow.length > 0) {
+    // Distribute remaining columns evenly across cards in the last row
+    const remaining = cols - currentCols;
+    if (remaining > 0) {
+      // Spread extra columns: give 1 extra to each card from the left
+      let extra = remaining;
+      for (let j = 0; j < currentRow.length && extra > 0; j++) {
+        currentRow[j].span += 1;
+        extra--;
+      }
+      // If still extra, keep distributing
+      while (extra > 0) {
+        for (let j = 0; j < currentRow.length && extra > 0; j++) {
+          currentRow[j].span += 1;
+          extra--;
+        }
+      }
+    }
+    rows.push(currentRow);
+  }
+
+  return rows;
+}
+
+function CourseGrid({ courses, color, categoryId }: { courses: CourseCardData[]; color: string; categoryId?: CategoryType }) {
   const isMobile = useIsMobile();
+  const isTablet = useIsMobile(1024);
   if (courses.length === 0) return null;
 
-  // Figma gap = 24px
-  const GAP = isMobile ? 16 : 24;
-  const ROW_H = 280; // Single row height (desktop only)
-  const SMALL_ROW_H = 240;
-  const MOBILE_H = 200; // Card height on mobile
+  const GAP = isMobile ? 16 : 20;
+  const ROW = 300;
+  const catId = categoryId || 'gol';
 
-  // Cell wrapper: prevents content from overflowing grid cell boundaries
-  const Cell = ({ children, style }: { children: React.ReactNode; style?: React.CSSProperties }) => (
-    <div className="overflow-hidden min-h-0 min-w-0 rounded-2xl" style={style}>
-      {children}
-    </div>
-  );
+  // Build unified list
+  const items: CardItem[] = [
+    ...courses.map((c, i) => ({ kind: 'course' as const, course: c, idx: i })),
+    ...(categoryId === 'sicurezza'
+      ? sicurezzaComingSoonCards.map((c, i) => ({ kind: 'soon' as const, card: c, idx: i }))
+      : []),
+  ];
 
-  // ── MOBILE: simple vertical stack for all layouts ──
+  // ── MOBILE: 1 column ──
   if (isMobile) {
-    const allCards = [...courses];
-
-    // Sicurezza: add "coming soon" cards
-    if (categoryId === 'sicurezza') {
-      return (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: GAP }}>
-          {allCards.map((course) => (
-            <Cell key={course.id} style={{ height: MOBILE_H }}>
-              <BentoCard course={course} color={categoryId === 'sicurezza' ? '#ccfbf1' : color} variant="featured" isMobile />
-            </Cell>
-          ))}
-          {sicurezzaComingSoonCards.map((card, idx) => (
-            <Cell key={`soon-${idx}`} style={{ height: MOBILE_H }}>
-              <Link
-                to={card.link}
-                className="h-full flex flex-col justify-between group transition-all duration-300 hover:shadow-lg"
-                style={{ borderRadius: 20, padding: 20, background: card.color }}
-              >
-                <div>
-                  <span
-                    className="inline-block rounded-full font-semibold uppercase"
-                    style={{ fontSize: 10, letterSpacing: 0.6, color: card.accentColor, background: `${card.accentColor}12`, padding: '3px 10px', marginBottom: 8 }}
-                  >
-                    {card.label}
-                  </span>
-                  <h4 className="font-bold" style={{ fontSize: 18, lineHeight: '22px', color: '#0f172a' }}>
-                    {card.title}
-                  </h4>
-                  <p className="line-clamp-2" style={{ fontSize: 13, lineHeight: '18px', color: '#475569', marginTop: 4 }}>
-                    {card.description}
-                  </p>
-                </div>
-                <div className="flex justify-end">
-                  <div className="rounded-full flex items-center justify-center" style={{ width: 36, height: 36, background: `${card.accentColor}15` }}>
-                    <ArrowUpRight size={14} style={{ color: card.accentColor }} />
-                  </div>
-                </div>
-              </Link>
-            </Cell>
-          ))}
-        </div>
-      );
-    }
-
-    // 1 course: add dark CTA block + teaser
-    if (courses.length === 1) {
-      return (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: GAP }}>
-          <Cell style={{ minHeight: MOBILE_H }}>
-            <BentoCard course={courses[0]} color={color} variant="featured" isMobile />
-          </Cell>
-          {/* Dark CTA */}
-          <Cell style={{ minHeight: MOBILE_H }}>
-            <div
-              className="relative h-full overflow-hidden flex flex-col justify-between"
-              style={{ borderRadius: 20, padding: 24, background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #1e1b4b 100%)' }}
-            >
-              <div className="flex items-center justify-center" style={{ width: 40, height: 40, borderRadius: 12, background: 'rgba(255,255,255,0.1)', marginBottom: 16 }}>
-                <Search size={18} color="#ffffff" />
-              </div>
-              <div>
-                <h3 className="font-bold" style={{ color: '#ffffff', fontSize: 22, lineHeight: 1.2, marginBottom: 8 }}>
-                  Non hai trovato quello che cerchi?
-                </h3>
-                <Link
-                  to="/programmi/master"
-                  className="inline-flex items-center font-bold"
-                  style={{ padding: '10px 20px', borderRadius: 9999, background: '#ffffff', color: '#0f172a', fontSize: 13, gap: 6, marginTop: 8 }}
-                >
-                  Vedi tutto il Catalogo
-                  <ArrowUpRight size={14} />
-                </Link>
-              </div>
-            </div>
-          </Cell>
-        </div>
-      );
-    }
-
-    // General mobile: simple stack
     return (
       <div style={{ display: 'flex', flexDirection: 'column', gap: GAP }}>
-        {allCards.map((course, idx) => (
-          <Cell key={course.id} style={{ height: MOBILE_H }}>
-            <BentoCard course={course} color={color} variant={idx === 0 ? 'featured' : 'standard'} isMobile />
-          </Cell>
+        {items.map((item) => (
+          <div key={item.kind === 'course' ? item.course.id : `soon-${item.idx}`} style={{ minHeight: 240 }}>
+            {item.kind === 'course'
+              ? <BentoCard course={item.course} color={getCardColor(catId, item.idx)} isMobile />
+              : <ComingSoonCard card={item.card} isMobile />
+            }
+          </div>
         ))}
       </div>
     );
   }
 
-  // ── DESKTOP LAYOUTS (unchanged) ──
+  const COLS = isTablet ? 2 : 4;
+  const rows = buildMixedLayout(items, COLS);
 
-  // ── SICUREZZA: special layout — featured card left + 2 "coming soon" right ──
-  if (categoryId === 'sicurezza') {
-    const featuredCourse = courses[0];
-    return (
-      <div className="grid" style={{ gridTemplateColumns: '1.6fr 1fr', gap: GAP, height: ROW_H * 2 + GAP }}>
-        <Cell style={{ gridRow: '1 / 3' }}>
-          <BentoCard course={featuredCourse} color="#ccfbf1" variant="featured" />
-        </Cell>
-        {sicurezzaComingSoonCards.map((card, idx) => (
-          <Cell key={idx}>
-            <Link
-              to={card.link}
-              className="h-full flex flex-col justify-between group transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5"
-              style={{ borderRadius: 28, padding: 32, background: card.color }}
-            >
-              <div>
-                <span
-                  className="inline-block rounded-full font-semibold uppercase"
-                  style={{
-                    fontSize: 11,
-                    letterSpacing: 0.8,
-                    color: card.accentColor,
-                    background: `${card.accentColor}12`,
-                    padding: '4px 12px',
-                    marginBottom: 12,
-                  }}
-                >
-                  {card.label}
-                </span>
-                <h4
-                  className="font-bold"
-                  style={{ fontSize: 22, lineHeight: '28px', color: '#0f172a' }}
-                >
-                  {card.title}
-                </h4>
-                <p className="line-clamp-4" style={{ fontSize: 16, lineHeight: '22px', color: '#475569', marginTop: 8 }}>
-                  {card.description}
-                </p>
-              </div>
-              <div className="flex justify-end">
-                <div
-                  className="rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300"
-                  style={{ width: 40, height: 40, background: `${card.accentColor}15` }}
-                >
-                  <ArrowUpRight size={16} style={{ color: card.accentColor }} />
-                </div>
-              </div>
-            </Link>
-          </Cell>
-        ))}
-      </div>
-    );
-  }
-
-  // 6+ courses: bento top section (tall + wide + 2 small) + uniform grid for remaining
-  if (courses.length >= 6) {
-    const topCourses = courses.slice(0, 4);
-    const remaining = courses.slice(4);
-
-    return (
-      <div style={{ display: 'flex', flexDirection: 'column', gap: GAP }}>
-        <div className="grid" style={{
-          gridTemplateColumns: '1.2fr 1fr 1fr',
-          gridTemplateRows: `${ROW_H}px ${ROW_H}px`,
-          gap: GAP,
-        }}>
-          <Cell style={{ gridColumn: '1', gridRow: '1 / 3' }}>
-            <BentoCard course={topCourses[0]} color={color} variant="featured" />
-          </Cell>
-          <Cell style={{ gridColumn: '2 / 4', gridRow: '1' }}>
-            <BentoCard course={topCourses[1]} color={color} variant="featured" />
-          </Cell>
-          <Cell style={{ gridColumn: '2', gridRow: '2' }}>
-            <BentoCard course={topCourses[2]} color={color} />
-          </Cell>
-          <Cell style={{ gridColumn: '3', gridRow: '2' }}>
-            <BentoCard course={topCourses[3]} color={color} />
-          </Cell>
-        </div>
-        <div className="grid grid-cols-3" style={{ gap: GAP, gridAutoRows: SMALL_ROW_H }}>
-          {remaining.map((course) => (
-            <Cell key={course.id}>
-              <BentoCard course={course} color={color} />
-            </Cell>
-          ))}
-        </div>
-      </div>
-    );
-  }
-
-  // 5 courses
-  if (courses.length === 5) {
-    return (
-      <div style={{ display: 'flex', flexDirection: 'column', gap: GAP }}>
-        <div className="grid" style={{
-          gridTemplateColumns: '1.2fr 1fr 1fr',
-          gridTemplateRows: `${ROW_H}px ${ROW_H}px`,
-          gap: GAP,
-        }}>
-          <Cell style={{ gridColumn: '1', gridRow: '1 / 3' }}>
-            <BentoCard course={courses[0]} color={color} variant="featured" />
-          </Cell>
-          <Cell style={{ gridColumn: '2 / 4', gridRow: '1' }}>
-            <BentoCard course={courses[1]} color={color} variant="featured" />
-          </Cell>
-          <Cell style={{ gridColumn: '2', gridRow: '2' }}>
-            <BentoCard course={courses[2]} color={color} />
-          </Cell>
-          <Cell style={{ gridColumn: '3', gridRow: '2' }}>
-            <BentoCard course={courses[3]} color={color} />
-          </Cell>
-        </div>
-        <div className="grid grid-cols-3" style={{ gap: GAP, gridAutoRows: SMALL_ROW_H }}>
-          <Cell>
-            <BentoCard course={courses[4]} color={color} />
-          </Cell>
-        </div>
-      </div>
-    );
-  }
-
-  // 4 courses
-  if (courses.length === 4) {
-    return (
-      <div className="grid" style={{
-        gridTemplateColumns: '1.2fr 1fr 1fr',
-        gridTemplateRows: `${ROW_H}px ${ROW_H}px`,
-        gap: GAP,
-      }}>
-        <Cell style={{ gridColumn: '1', gridRow: '1 / 3' }}>
-          <BentoCard course={courses[0]} color={color} variant="featured" />
-        </Cell>
-        <Cell style={{ gridColumn: '2 / 4', gridRow: '1' }}>
-          <BentoCard course={courses[1]} color={color} variant="featured" />
-        </Cell>
-        <Cell style={{ gridColumn: '2', gridRow: '2' }}>
-          <BentoCard course={courses[2]} color={color} />
-        </Cell>
-        <Cell style={{ gridColumn: '3', gridRow: '2' }}>
-          <BentoCard course={courses[3]} color={color} />
-        </Cell>
-      </div>
-    );
-  }
-
-  // 3 courses
-  if (courses.length === 3) {
-    return (
-      <div className="grid" style={{
-        gridTemplateColumns: '1.2fr 1fr',
-        gridTemplateRows: `${ROW_H}px ${ROW_H}px`,
-        gap: GAP,
-      }}>
-        <Cell style={{ gridColumn: '1', gridRow: '1 / 3' }}>
-          <BentoCard course={courses[0]} color={color} variant="featured" />
-        </Cell>
-        <Cell style={{ gridColumn: '2', gridRow: '1' }}>
-          <BentoCard course={courses[1]} color={color} variant="featured" />
-        </Cell>
-        <Cell style={{ gridColumn: '2', gridRow: '2' }}>
-          <BentoCard course={courses[2]} color={color} />
-        </Cell>
-      </div>
-    );
-  }
-
-  // 2 courses
-  if (courses.length === 2) {
-    return (
-      <div className="grid grid-cols-2" style={{ gap: GAP, gridAutoRows: 360 }}>
-        <Cell>
-          <BentoCard course={courses[0]} color={color} variant="featured" />
-        </Cell>
-        <Cell>
-          <BentoCard course={courses[1]} color={color} variant="featured" />
-        </Cell>
-      </div>
-    );
-  }
-
-  // 1 course
   return (
-    <div className="grid" style={{ gridTemplateColumns: '1.6fr 1fr', gap: GAP, height: ROW_H * 2 + GAP }}>
-      <Cell style={{ gridRow: '1 / 3' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: GAP }}>
+      {rows.map((row, rowIdx) => (
         <div
-          className="relative h-full overflow-hidden flex flex-col justify-between"
+          key={rowIdx}
+          className="grid"
           style={{
-            borderRadius: 28,
-            padding: 40,
-            background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #1e1b4b 100%)',
+            gridTemplateColumns: row.map(cell => `${cell.span}fr`).join(' '),
+            gap: GAP,
+            height: ROW,
           }}
         >
-          <div
-            className="absolute rounded-full"
-            style={{ top: -60, right: -60, width: 240, height: 240, background: 'rgba(168, 85, 247, 0.1)', filter: 'blur(64px)' }}
-          />
-          <div
-            className="flex items-center justify-center"
-            style={{ width: 48, height: 48, borderRadius: 16, background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.1)', backdropFilter: 'blur(4px)', marginBottom: 32 }}
-          >
-            <Search size={20} color="#ffffff" />
-          </div>
-          <div>
-            <h3 className="font-bold" style={{ color: '#ffffff', fontSize: 'clamp(30px, 3vw, 40px)', lineHeight: 1.15, letterSpacing: '-0.025em', marginBottom: 16 }}>
-              Non hai trovato quello che cerchi?
-            </h3>
-            <p style={{ color: '#9ca3af', fontSize: 16, lineHeight: 1.625, maxWidth: 448, marginBottom: 24 }}>
-              Abbiamo oltre 50 corsi disponibili nel nostro catalogo completo.
-            </p>
-            <Link
-              to="/programmi/master"
-              className="inline-flex items-center font-bold transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5"
-              style={{ padding: '12px 24px', borderRadius: 9999, background: '#ffffff', color: '#0f172a', fontSize: 14, gap: 8, boxShadow: '0 10px 15px -3px rgba(0,0,0,0.1)' }}
-            >
-              Vedi tutto il Catalogo
-              <ArrowUpRight size={16} />
-            </Link>
-          </div>
+          {row.map((cell) => {
+            const { item, span } = cell;
+            const isWide = span >= 2;
+            return (
+              <div key={item.kind === 'course' ? item.course.id : `soon-${item.idx}`} style={{ minWidth: 0 }}>
+                {item.kind === 'course'
+                  ? <BentoCard course={item.course} color={getCardColor(catId, item.idx)} wide={isWide} />
+                  : <ComingSoonCard card={item.card} />
+                }
+              </div>
+            );
+          })}
         </div>
-      </Cell>
-      <Cell>
-        <BentoCard course={courses[0]} color={color} variant="featured" />
-      </Cell>
-      <Cell>
-        <div className="h-full flex flex-col justify-between" style={{ borderRadius: 28, padding: 24, background: '#ffedd5' }}>
-          <div>
-            <span className="font-bold uppercase" style={{ fontSize: 12, letterSpacing: 0.8, color: '#b45309', marginBottom: 6, display: 'block' }}>
-              Coming Soon
-            </span>
-            <h4 className="font-bold" style={{ fontSize: 20, lineHeight: 1.25, color: '#0f172a' }}>
-              Digital Export
-            </h4>
-          </div>
-          <div className="flex justify-end">
-            <div className="rounded-full flex items-center justify-center" style={{ width: 40, height: 40, background: 'rgba(253, 230, 138, 0.7)' }}>
-              <ArrowUpRight size={16} style={{ color: '#b45309' }} />
-            </div>
-          </div>
-        </div>
-      </Cell>
+      ))}
     </div>
+  );
+}
+
+function ComingSoonCard({ card, isMobile = false }: { card: typeof sicurezzaComingSoonCards[0]; isMobile?: boolean }) {
+  return (
+    <Link
+      to={card.link}
+      className="h-full flex flex-col justify-between group transition-all duration-300 hover:shadow-xl hover:-translate-y-1"
+      style={{
+        borderRadius: isMobile ? 24 : 32,
+        padding: isMobile ? 20 : 32,
+        background: card.color,
+        boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.06)',
+      }}
+    >
+      <div>
+        <span
+          className="inline-block rounded-full font-bold uppercase"
+          style={{
+            fontSize: isMobile ? 10 : 11,
+            letterSpacing: '0.05em',
+            color: card.accentColor,
+            background: `${card.accentColor}15`,
+            padding: isMobile ? '4px 10px' : '5px 12px',
+            marginBottom: isMobile ? 10 : 16,
+          }}
+        >
+          {card.label}
+        </span>
+        <h4
+          className="font-bold line-clamp-3"
+          style={{
+            fontSize: isMobile ? 18 : 20,
+            lineHeight: isMobile ? '22px' : '26px',
+            color: '#002C22',
+          }}
+        >
+          {card.title}
+        </h4>
+        <p
+          className="line-clamp-2"
+          style={{
+            fontSize: isMobile ? 12 : 13,
+            lineHeight: isMobile ? '16px' : '18px',
+            color: 'rgba(0, 44, 34, 0.6)',
+            marginTop: isMobile ? 4 : 6,
+          }}
+        >
+          {card.description}
+        </p>
+      </div>
+      <div className="flex justify-end" style={{ marginTop: isMobile ? 10 : 16 }}>
+        <div
+          className="rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300"
+          style={{
+            width: isMobile ? 36 : 40,
+            height: isMobile ? 36 : 40,
+            background: `${card.accentColor}15`,
+          }}
+        >
+          <ArrowUpRight size={isMobile ? 16 : 20} style={{ color: card.accentColor }} />
+        </div>
+      </div>
+    </Link>
   );
 }
 
@@ -743,9 +666,14 @@ export function Courses() {
       });
     });
 
-    // Sicurezza: ensure at least 1 course exists (coming soon cards are in BentoGrid)
+    // Sicurezza: ensure at least 1 course exists (coming soon cards are in CourseGrid)
     if (grouped.sicurezza.length === 0) {
       grouped.sicurezza = [...staticSicurezzaCourses];
+    }
+
+    // Sort each category so courses with the same type are grouped together
+    for (const key of Object.keys(grouped) as CategoryType[]) {
+      grouped[key].sort((a, b) => a.type.localeCompare(b.type));
     }
 
     return grouped;
@@ -793,7 +721,7 @@ export function Courses() {
           className={`flex items-end justify-between gap-4 mb-8 reveal-up ${headerRevealed ? 'revealed' : ''}`}
         >
           <div className="min-w-0">
-            <span className="text-sm font-bold uppercase tracking-wider block mb-2 text-purple-600">
+            <span className="text-sm font-bold uppercase tracking-wider block mb-2" style={{ color: '#002C22' }}>
               {currentCategory?.label || 'Alta Formazione'}
             </span>
             <h2 className="text-2xl sm:text-4xl md:text-5xl font-bold text-gray-900 leading-tight">
@@ -826,8 +754,8 @@ export function Courses() {
         <div className="mb-10">
           <div className="h-1 rounded-full bg-gray-200">
             <div
-              className="h-full rounded-full transition-all duration-500 bg-purple-600"
-              style={{ width: `${progressWidth}%` }}
+              className="h-full rounded-full transition-all duration-500"
+              style={{ background: '#002C22', width: `${progressWidth}%` }}
             />
           </div>
         </div>
@@ -835,7 +763,7 @@ export function Courses() {
         {/* Loading State */}
         {loading && (
           <div className="flex flex-col items-center justify-center py-20">
-            <Loader2 className="w-12 h-12 text-purple-600 animate-spin mb-4" />
+            <Loader2 className="w-12 h-12 animate-spin mb-4" style={{ color: '#002C22' }} />
             <p className="text-gray-500">Caricamento corsi...</p>
           </div>
         )}
@@ -872,7 +800,7 @@ export function Courses() {
                   width: '100%',
                 }}
               >
-                <BentoGrid
+                <CourseGrid
                   courses={coursesByCategory[cat.id] || []}
                   color={cat.color}
                   categoryId={cat.id}
@@ -889,9 +817,11 @@ export function Courses() {
               <button
                 key={cat.id}
                 onClick={() => setCurrentSlide(idx)}
-                className={`transition-all duration-300 rounded-full h-3 ${
-                  currentSlide === idx ? 'w-12 bg-purple-600' : 'w-3 bg-gray-300'
-                }`}
+                className="transition-all duration-300 rounded-full h-3"
+                style={{
+                  width: currentSlide === idx ? 48 : 12,
+                  background: currentSlide === idx ? '#002C22' : '#d1d5db',
+                }}
                 aria-label={cat.label}
               />
             ))}

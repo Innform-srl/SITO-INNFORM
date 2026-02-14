@@ -6,6 +6,7 @@ import { Programs } from './components/Programs';
 import { About } from './components/About';
 import { Courses } from './components/Courses';
 import { Contact } from './components/Contact';
+import { ContactSection } from './components/ContactSection';
 import { Footer } from './components/Footer';
 import { Testimonials } from './components/Testimonials';
 import { Services } from './components/Services';
@@ -73,7 +74,7 @@ function HomePage() {
         <Services />
 
         <Testimonials />
-        <Contact />
+        <ContactSection />
       </main>
       <Footer />
     </>
@@ -125,13 +126,13 @@ export default function App() {
           <Route path="/corsi/:courseId" element={
             <Layout>
               <CourseDetail />
-              <Contact />
+              <ContactSection />
             </Layout>
           } />
           <Route path="/programmi/:programId" element={
             <Layout>
               <ProgramDetail />
-              <Contact />
+              <ContactSection />
             </Layout>
           } />
           {/* Route per pre-iscrizione a programmi GOL/Master */}
@@ -145,7 +146,7 @@ export default function App() {
           <Route path="/progetti/ti-abilito" element={
             <Layout>
               <ProjectTiAbilito />
-              <Contact />
+              <ContactSection />
             </Layout>
           } />
           <Route path="/progetti/segni" element={
@@ -168,6 +169,13 @@ export default function App() {
           <Route path="/faq" element={
             <Layout>
               <FAQPage />
+            </Layout>
+          } />
+
+          {/* Contacts Page */}
+          <Route path="/contatti" element={
+            <Layout>
+              <Contact />
             </Layout>
           } />
 

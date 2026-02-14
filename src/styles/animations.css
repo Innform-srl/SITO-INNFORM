@@ -662,3 +662,17 @@
 .reveal-stagger.revealed > *:nth-child(7) { transition-delay: 600ms; opacity: 1; transform: translateY(0); }
 .reveal-stagger.revealed > *:nth-child(8) { transition-delay: 700ms; opacity: 1; transform: translateY(0); }
 
+/* Gratis dot glow pulse */
+@keyframes gratisDotGlow {
+  0%, 100% {
+    box-shadow: 0 0 4px 1px rgba(34, 197, 94, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 8px 3px rgba(34, 197, 94, 0.7);
+  }
+}
+
+.gratis-dot-glow {
+  animation: gratisDotGlow 2s ease-in-out infinite;
+}
+

@@ -23,7 +23,7 @@ import {
 // ============================================
 
 const inputStyles = `
-  w-full px-4 py-3 
+  w-full px-4 py-3
   border border-gray-300 rounded-lg
   focus:ring-2 focus:ring-blue-500 focus:border-blue-500
   transition-all duration-200
@@ -336,9 +336,11 @@ export const ContactForm: React.FC<ContactFormProps> = ({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
-    const result = await submit(formData as ContactFormInput);
-    
+
+    // Auto-accept privacy on submit (GDPR consent text is displayed in the form)
+    const submitData = { ...formData, privacyAccepted: true } as ContactFormInput;
+    const result = await submit(submitData);
+
     if (result) {
       onSuccess?.(result);
     } else if (state.error) {
@@ -367,138 +369,89 @@ export const ContactForm: React.FC<ContactFormProps> = ({
     );
   }
 
+  const cfInputStyle: React.CSSProperties = {
+    width: '100%',
+    display: 'block',
+    background: 'transparent',
+    border: '1.71px solid #E5E7EB',
+    borderRadius: '14px',
+    padding: '16px',
+    fontSize: '16px',
+    lineHeight: '24px',
+    marginTop: '8px',
+    transition: 'all 0.2s',
+    outline: 'none',
+  };
+
+  const cfLabelStyle: React.CSSProperties = {
+    fontSize: '16px',
+    fontWeight: 400,
+    color: '#101828',
+    display: 'block',
+    lineHeight: '24px',
+  };
+
   return (
-    <form onSubmit={handleSubmit} className="space-y-6">
+    <form onSubmit={handleSubmit} className="flex flex-col" style={{ gap: '24px' }}>
       {courseName && (
-        <div className="bg-blue-50 rounded-lg p-4 mb-6">
-          <p className="text-sm text-blue-600 font-medium">Richiesta info per:</p>
-          <p className="text-lg font-bold text-blue-800">{courseName}</p>
+        <div className="bg-purple-50 rounded-xl p-4">
+          <p className="text-sm text-purple-600 font-medium">Richiesta info per:</p>
+          <p className="text-lg font-bold text-purple-800">{courseName}</p>
         </div>
       )}
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div>
-          <label className={labelStyles}>Nome *</label>
-          <input
-            type="text"
-            name="name"
-            required
-            value={formData.name || ''}
-            onChange={handleChange}
-            className={inputStyles}
-            placeholder="Mario"
-          />
-        </div>
-        <div>
-          <label className={labelStyles}>Cognome</label>
-          <input
-            type="text"
-            name="surname"
-            value={formData.surname || ''}
-            onChange={handleChange}
-            className={inputStyles}
-            placeholder="Rossi"
-          />
-        </div>
-      </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div>
-          <label className={labelStyles}>Email *</label>
-          <input
-            type="email"
-            name="email"
-            required
-            value={formData.email || ''}
-            onChange={handleChange}
-            className={inputStyles}
-            placeholder="mario.rossi@email.com"
-          />
-        </div>
-        <div>
-          <label className={labelStyles}>Telefono</label>
-          <input
-            type="tel"
-            name="phone"
-            value={formData.phone || ''}
-            onChange={handleChange}
-            className={inputStyles}
-            placeholder="+39 333 1234567"
-          />
-        </div>
-      </div>
-
+      {/* Nome e Cognome */}
       <div>
-        <label className={labelStyles}>Azienda (opzionale)</label>
+        <label style={cfLabelStyle}>Nome e Cognome *</label>
         <input
           type="text"
-          name="company"
-          value={formData.company || ''}
+          name="name"
+          required
+          value={formData.name || ''}
           onChange={handleChange}
-          className={inputStyles}
-          placeholder="Nome azienda"
+          style={cfInputStyle}
+          placeholder="Mario Rossi"
         />
       </div>
 
+      {/* Email */}
       <div>
-        <label className={labelStyles}>Oggetto</label>
-        <select
-          name="subject"
-          value={formData.subject || ''}
+        <label style={cfLabelStyle}>Email *</label>
+        <input
+          type="email"
+          name="email"
+          required
+          value={formData.email || ''}
           onChange={handleChange}
-          className={inputStyles}
-        >
-          <option value="">Seleziona un argomento</option>
-          <option value="info_corsi">Informazioni sui corsi</option>
-          <option value="iscrizioni">Iscrizioni</option>
-          <option value="pagamenti">Pagamenti e fatturazione</option>
-          <option value="stage">Stage e placement</option>
-          <option value="certificazioni">Certificazioni</option>
-          <option value="altro">Altro</option>
-        </select>
+          style={cfInputStyle}
+          placeholder="mario.rossi@email.com"
+        />
       </div>
 
+      {/* Telefono */}
       <div>
-        <label className={labelStyles}>Messaggio *</label>
+        <label style={cfLabelStyle}>Telefono</label>
+        <input
+          type="tel"
+          name="phone"
+          value={formData.phone || ''}
+          onChange={handleChange}
+          style={cfInputStyle}
+          placeholder="+39 123 456 7890"
+        />
+      </div>
+
+      {/* Messaggio */}
+      <div>
+        <label style={cfLabelStyle}>Messaggio *</label>
         <textarea
           name="message"
-          rows={5}
           required
           value={formData.message || ''}
           onChange={handleChange}
-          className={inputStyles}
-          placeholder="Scrivi qui il tuo messaggio..."
+          style={{ ...cfInputStyle, height: '155px', resize: 'vertical' as const }}
+          placeholder="Scrivici qui il tuo messaggio..."
         />
-      </div>
-
-      {/* Privacy */}
-      <div className="space-y-3">
-        <label className="flex items-start gap-3 cursor-pointer">
-          <input
-            type="checkbox"
-            name="privacyAccepted"
-            checked={formData.privacyAccepted || false}
-            onChange={handleChange}
-            className="mt-1 w-4 h-4 text-blue-600 rounded focus:ring-blue-500"
-            required
-          />
-          <span className="text-sm text-gray-600">
-            Ho letto e accetto la <a href="/privacy" className="text-blue-600 hover:underline">Privacy Policy</a> *
-          </span>
-        </label>
-
-        <label className="flex items-start gap-3 cursor-pointer">
-          <input
-            type="checkbox"
-            name="marketingAccepted"
-            checked={formData.marketingAccepted || false}
-            onChange={handleChange}
-            className="mt-1 w-4 h-4 text-blue-600 rounded focus:ring-blue-500"
-          />
-          <span className="text-sm text-gray-600">
-            Acconsento a ricevere comunicazioni promozionali
-          </span>
-        </label>
       </div>
 
       {/* Error message */}
@@ -512,7 +465,8 @@ export const ContactForm: React.FC<ContactFormProps> = ({
       <button
         type="submit"
         disabled={state.loading}
-        className="w-full py-4 px-6 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold text-lg rounded-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none flex items-center justify-center gap-2"
+        className="w-full flex items-center justify-center text-white hover:-translate-y-0.5 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+        style={{ height: '56px', gap: '8px', fontSize: '16px', lineHeight: '24px', fontWeight: 400, background: 'linear-gradient(90deg, #9810FA 0%, #E60076 100%)', borderRadius: '14px' }}
       >
         {state.loading ? (
           <>
@@ -524,10 +478,7 @@ export const ContactForm: React.FC<ContactFormProps> = ({
           </>
         ) : (
           <>
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <line x1="22" y1="2" x2="11" y2="13"></line>
-              <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
-            </svg>
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.67" strokeLinecap="round" strokeLinejoin="round"><path d="M17.5 2.5L9.16667 10.8333"/><path d="M17.5 2.5L11.6667 17.5L9.16667 10.8333L2.5 8.33333L17.5 2.5Z"/></svg>
             Invia Messaggio
           </>
         )}

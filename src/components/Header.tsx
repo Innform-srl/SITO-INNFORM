@@ -162,7 +162,7 @@ export function Header() {
       ]
     },
     { label: "News", href: "/news" },
-    { label: "Contatti", href: "/#contatti" },
+    { label: "Contatti", href: "/contatti" },
   ];
 
   const handleMobileDropdown = (label: string) => {
